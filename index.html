@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>En la puerta del horno se quema el pan</title>
+    <meta name="description" content="Sube las capturas de tus notas de SEDUCA y calcula tu promedio y lo que necesitas para no quedarte (nota mínima 3.0)." />
+    <meta name="theme-color" content="#0f2426" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <a class="skip" href="#horno">Saltar a subir notas</a>
+
+    <header class="topbar" id="topbar">
+      <a class="brand" href="#inicio" aria-label="Inicio">
+        <span class="brand-bread" data-bread="mini"></span>
+        <span class="brand-text">En la puerta del horno <em>se quema el pan</em></span>
+      </a>
+      <nav class="nav" aria-label="Secciones">
+        <a href="#horno">Horno</a>
+        <a href="#panaderia">Panadería</a>
+        <a href="#revisar">Revisar</a>
+        <a href="#receta">Receta</a>
+      </nav>
+      <div class="menu">
+        <button class="icon-btn" id="menu-btn" aria-haspopup="true" aria-expanded="false" aria-label="Más opciones">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
+        </button>
+        <div class="menu-pop" id="menu-pop" hidden>
+          <button data-action="tour">Ver tutorial de nuevo</button>
+          <button data-action="export">Guardar respaldo (.json)</button>
+          <label class="menu-file">Cargar respaldo<input type="file" accept="application/json" id="import-input" /></label>
+          <button data-action="reset" class="danger">Borrar todo</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="inicio">
+        <canvas id="kitchen" aria-label="Cocina en 3D con Pancracio, un pan medio quemado, junto a un horno"></canvas>
+        <div class="hero-fallback" aria-hidden="true"><span data-bread="hero"></span></div>
+        <div class="hero-shade"></div>
+        <div class="hero-copy">
+          <p class="eyebrow reveal"><span class="dot"></span>Calculadora de notas · 1.0 a 5.0</p>
+          <h1 class="reveal">En la puerta del horno <span class="burn">se quema el pan.</span></h1>
+          <p class="lede reveal">Mete las capturas de tus notas al horno. Pancracio las lee solito, saca tus promedios y te dice cuánto necesitas para no quedarte.</p>
+          <div class="cta reveal">
+            <button class="btn btn-fire" data-action="pick">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c1 3 4 4.5 4 8.5A4 4 0 0 1 8 12c0-1.5.6-2.6 1.4-3.4.2 1.4 1 2.2 1.9 2.4C11 8.6 11 5.5 12 3Z"/><path d="M5 19h14"/></svg>
+              Meter notas al horno
+            </button>
+            <a class="btn btn-ghost" href="#panaderia">Ver mis panes</a>
+          </div>
+        </div>
+        <div class="bubble" id="bubble" role="status" aria-live="polite"><span id="bubble-text">¡Hola! Soy Pancracio. Tócame… si te atreves.</span></div>
+        <div class="hero-stats" id="hero-stats" hidden></div>
+      </section>
+
+      <section class="section oven-section" id="horno">
+        <div class="section-head reveal">
+          <span class="step">1</span>
+          <div>
+            <h2>Mete tus capturas al horno</h2>
+            <p>Captura de pantalla de <b>Notas por materia y periodo</b> en SEDUCA. Puedes subir los 4 bimestres juntos: yo detecto cuál es cuál.</p>
+          </div>
+        </div>
+        <div class="tray reveal" id="dropzone" tabindex="0" role="button" aria-label="Elegir capturas de notas">
+          <input type="file" id="file-input" accept="image/*" multiple hidden />
+          <div class="tray-empty" id="tray-empty">
+            <div class="tray-icon" aria-hidden="true">
+              <svg viewBox="0 0 64 64"><rect x="8" y="14" width="48" height="36" rx="6"/><path d="M8 40l14-12 10 9 8-6 16 13"/><circle cx="42" cy="24" r="4"/></svg>
+            </div>
+            <p class="tray-title">Arrastra tus capturas aquí</p>
+            <p class="tray-sub">o <u>toca para elegirlas</u> · también puedes pegarlas con ⌘V / Ctrl+V</p>
+          </div>
+          <ul class="loaves" id="loaves" aria-live="polite"></ul>
+        </div>
+        <p class="privacy reveal">🔒 Todo se lee aquí mismo en tu dispositivo. Tus capturas no se suben a ningún servidor.</p>
+      </section>
+
+      <section class="section bakery" id="panaderia">
+        <div class="section-head reveal">
+          <span class="step">2</span>
+          <div>
+            <h2>La panadería</h2>
+            <p>Cada materia es un pan. Entre más dorado, mejor; si se quema, te quedas. Toca un pan para simular lo que te falta.</p>
+          </div>
+        </div>
+        <div id="summary" class="summary"></div>
+        <div id="cards" class="cards"></div>
+      </section>
+
+      <section class="section review" id="revisar">
+        <div class="section-head reveal">
+          <span class="step">3</span>
+          <div>
+            <h2>Revisa la masa</h2>
+            <p>Así quedó lo que leí, bimestre por bimestre. Toca cualquier nota para corregirla o agrega las que falten.</p>
+          </div>
+        </div>
+        <div class="tabs" role="tablist" id="bim-tabs"></div>
+        <div id="review-panel" class="review-panel" role="tabpanel"></div>
+      </section>
+
+      <section class="section recipe" id="receta">
+        <div class="section-head reveal">
+          <span class="step">4</span>
+          <div>
+            <h2>La receta</h2>
+            <p>Cómo se calcula, igualito que el portal.</p>
+          </div>
+        </div>
+        <div class="recipe-grid">
+          <article class="recipe-card reveal">
+            <h3>Cada bimestre</h3>
+            <div class="formula">
+              <span class="ing"><b>⅓</b> Notas diarias</span><span class="op">+</span>
+              <span class="ing"><b>⅓</b> Apreciación</span><span class="op">+</span>
+              <span class="ing"><b>⅓</b> Examen bimestral</span>
+            </div>
+            <p>Cada parte vale <b>33.33 %</b>. Primero se promedian las notas de cada parte y luego las tres partes entre sí.</p>
+          </article>
+          <article class="recipe-card reveal">
+            <h3>El año</h3>
+            <div class="formula"><span class="ing">( I + II + III + IV ) ÷ 4</span><span class="op">≥</span><span class="ing pass">3.0</span></div>
+            <p>Si el promedio de los cuatro bimestres llega a <b>3.0</b>, pasas. Si no, el pan se quema.</p>
+          </article>
+          <article class="recipe-card reveal">
+            <h3>Truncado, no redondeo</h3>
+            <div class="formula"><span class="ing">4.75</span><span class="op">→</span><span class="ing">4.7</span></div>
+            <p>El portal corta al primer decimal (no redondea). Lo comprobé con tus notas: así salen exactos los promedios que ves en SEDUCA.</p>
+          </article>
+          <article class="recipe-card reveal">
+            <h3>Las marcas</h3>
+            <ul class="legend">
+              <li><span class="chip chip-pend">-</span> Asignación sin calificar: no cuenta todavía.</li>
+              <li><span class="chip chip-x">X</span> Exonerado: no cuenta en el promedio.</li>
+              <li><span class="chip chip-star">*</span> Hay una nota calificada que aún no te asignan.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span data-bread="mini"></span>
+      <p>Hecho con harina, código y un poquito de miedo al IV bimestre. Los cálculos son una guía: la nota oficial es la de tu colegio.</p>
+    </footer>
+
+    <div class="drawer" id="drawer" hidden>
+      <div class="drawer-scrim" data-action="close-drawer"></div>
+      <aside class="drawer-panel" role="dialog" aria-modal="true" aria-labelledby="drawer-title" id="drawer-panel"></aside>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

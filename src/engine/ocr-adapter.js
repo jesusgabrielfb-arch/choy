@@ -25,7 +25,8 @@ export async function createOcr({ createWorker, PSM, encode, workerOptions = {},
   const use = async (psm, whitelist) => {
     const key = psm + '|' + whitelist;
     if (key === mode) return;
-    await worker.setParameters({ tessedit_pageseg_mode: psm, tessedit_char_whitelist: whitelist });
+    // user_defined_dpi evita que Tesseract adivine la resolución (y el aviso en consola).
+    await worker.setParameters({ tessedit_pageseg_mode: psm, tessedit_char_whitelist: whitelist, user_defined_dpi: '300' });
     mode = key;
   };
   const run = async (img) => {
