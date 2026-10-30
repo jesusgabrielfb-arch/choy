@@ -2,6 +2,7 @@
 import { getState, setGrades, setClosed, renameSubject, addSubject, removeSubject, clearBimester, closedFlags } from '../grades/store.js';
 import { BIM_NAMES, COMPONENTS, COMPONENT_LABEL, bimesterBreakdown, auditAgainstPortal, toTenths, tone, fmt } from '../grades/calc.js';
 import { esc, toast } from './fx.js';
+import { askConfirm, askText } from './dialog.js';
 
 let current = null;
 
@@ -95,18 +96,18 @@ function onPanelChange(e) {
   if (t.dataset.act === 'rename') renameSubject(t.dataset.sid, t.value);
 }
 
-function onPanelClick(e) {
+async function onPanelClick(e) {
   const t = e.target.closest('[data-act]');
   if (!t) return;
   const act = t.dataset.act;
   if (act === 'clear') {
-    if (confirm(`¿Vaciar todas las notas del ${BIM_NAMES[current]}?`)) clearBimester(current);
+    if (await askConfirm(`¿Vaciar el ${BIM_NAMES[current]}?`, 'Se borran todas sus notas en este dispositivo.', 'Vaciar')) clearBimester(current);
   } else if (act === 'add-subject') {
-    const name = prompt('Nombre de la materia');
+    const name = await askText('Nombre de la materia', 'Ej. Contabilidad');
     if (name) addSubject(name);
   } else if (act === 'remove-subject') {
     const subj = getState().subjects.find((x) => x.id === t.dataset.sid);
-    if (subj && confirm(`¿Quitar ${subj.name} de todos los bimestres?`)) removeSubject(subj.id);
+    if (subj && await askConfirm(`¿Quitar ${subj.name}?`, 'Se quita de los cuatro bimestres.', 'Quitar')) removeSubject(subj.id);
   } else if (act === 'edit' || act === 'add') {
     startEdit(t);
   }

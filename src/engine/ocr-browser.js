@@ -21,9 +21,29 @@ function encode({ gray, width, height }) {
 
 let pending = null;
 
+// Algunos hosts (como las vistas previas de Claude) no sirven archivos .gz. En ese caso el build
+// define VITE_LANG_FILE con otro nombre y el idioma se deja en la caché que Tesseract revisa primero.
+const LANG_FILE = import.meta.env.VITE_LANG_FILE;
+
+function primeLanguageCache() {
+  return fetch(`${base}${LANG_FILE}`)
+    .then((r) => { if (!r.ok) throw new Error(`No se pudo bajar el idioma (${r.status})`); return r.arrayBuffer(); })
+    .then((buf) => new Promise((resolve, reject) => {
+      const open = indexedDB.open('keyval-store');
+      open.onupgradeneeded = () => open.result.createObjectStore('keyval');
+      open.onerror = () => reject(open.error);
+      open.onsuccess = () => {
+        const tx = open.result.transaction('keyval', 'readwrite');
+        tx.objectStore('keyval').put(new Uint8Array(buf), './spa.traineddata');
+        tx.oncomplete = () => { open.result.close(); resolve(); };
+        tx.onerror = () => reject(tx.error);
+      };
+    }));
+}
+
 /** Crea (una sola vez) el lector OCR. La primera vez descarga ~6 MB y luego queda en caché. */
 export function getOcr() {
-  pending ??= createOcr({
+  pending ??= (LANG_FILE ? primeLanguageCache() : Promise.resolve()).then(() => createOcr({
     createWorker,
     PSM,
     encode,
@@ -33,7 +53,7 @@ export function getOcr() {
       langPath: base.replace(/\/$/, ''),
       gzip: true,
     },
-  }).catch((err) => {
+  })).catch((err) => {
     pending = null;
     throw err;
   });

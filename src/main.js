@@ -9,6 +9,7 @@ import { initUpload } from './ui/upload.js';
 import { say } from './ui/phrases.js';
 import { startTour, tourSeen } from './ui/tour.js';
 import { fmt } from './grades/calc.js';
+import { askConfirm } from './ui/dialog.js';
 
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 let kitchen = null;
@@ -96,7 +97,7 @@ function initMenu() {
   const toggle = (open = pop.hidden) => { pop.hidden = !open; btn.setAttribute('aria-expanded', String(open)); };
   btn.addEventListener('click', (e) => { e.stopPropagation(); toggle(); });
   document.addEventListener('click', (e) => { if (!pop.hidden && !pop.contains(e.target)) toggle(false); });
-  pop.addEventListener('click', (e) => {
+  pop.addEventListener('click', async (e) => {
     const act = e.target.closest('[data-action]')?.dataset.action;
     if (!act) return;
     toggle(false);
@@ -107,7 +108,11 @@ function initMenu() {
       setTimeout(() => URL.revokeObjectURL(a.href), 1000);
       toast('Respaldo guardado. Con él puedes cargar tus notas en otro dispositivo.');
     } else if (act === 'reset') {
-      if (confirm('¿Borrar todas las notas guardadas en este dispositivo?')) { resetAll(); toast('Horno limpio.'); speak('hello'); }
+      if (await askConfirm('¿Borrar todas tus notas?', 'Se borran de este dispositivo. Si quieres conservarlas, guarda antes un respaldo.', 'Borrar todo')) {
+        resetAll();
+        toast('Horno limpio.');
+        speak('hello');
+      }
     } else if (act === 'tour') {
       runTour();
     }
