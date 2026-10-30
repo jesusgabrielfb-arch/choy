@@ -1,0 +1,6 @@
+node_modules/
+dist/
+public/ocr/
+tests/private/
+.DS_Store
+*.log

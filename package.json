@@ -1,0 +1,24 @@
+{
+  "name": "choy-notas",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "ocr-assets": "node scripts/copy-ocr-assets.mjs",
+    "predev": "npm run ocr-assets",
+    "dev": "vite",
+    "prebuild": "npm run ocr-assets",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "node --test tests/*.test.js"
+  },
+  "dependencies": {
+    "@tesseract.js-data/eng": "1.0.0",
+    "@tesseract.js-data/spa": "1.0.0",
+    "tesseract.js": "7.0.0"
+  },
+  "devDependencies": {
+    "pngjs": "^7.0.0",
+    "vite": "8.3.4"
+  }
+}
