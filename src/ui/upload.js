@@ -81,7 +81,7 @@ export function initUpload({ kitchen, speak, onBaked }) {
       try {
         const img = await fileToImage(item.file);
         const reading = await readScreenshot(img, ocr, (step, p) => paint(item, { step: STEP_TEXT[step] || step, progress: p }));
-        if (!reading.subjects.length || !reading.subjects.some((s) => s.cells.length)) {
+        if (!reading.valid || !reading.subjects.length || !reading.subjects.some((s) => s.cells.length)) {
           fail(item, 'No encontré una tabla de notas en esta imagen.');
           continue;
         }

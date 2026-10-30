@@ -369,10 +369,14 @@ export async function readScreenshot(img, ocr, onStep = () => {}) {
   const bim = detectBimestre(img, lines, header ? header.bbox.y0 : null);
   const hasBimestralColumn = anchors.some((a) => a.key === 'bim');
   if (!bim.value) warnings.push('No pude leer qué bimestre es; elígelo tú.');
-  if (!subjects.length) warnings.push('No encontré una tabla de notas en esta imagen.');
+  // ¿Es de verdad una tabla de notas? Con encabezados basta; sin ellos, exigir varias notas legibles.
+  const numeric = placed.filter((p) => /^\d\.\d$/.test(p.read?.value || '')).length;
+  const valid = !!header || numeric >= 5;
+  if (!valid) warnings.push('No encontré una tabla de notas en esta imagen.');
 
   onStep('listo', 1);
   return {
+    valid,
     bimestre: bim.value,
     bimestreSure: bim.sure,
     hasBimestralColumn,
