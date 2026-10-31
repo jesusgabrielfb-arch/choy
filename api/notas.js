@@ -45,8 +45,15 @@ export async function login() {
     headers: { 'Content-type': 'application/json' },
     body: JSON.stringify({ _username: user, _password: pass, _out_referer: '/2/parent/' }),
   });
-  const data = await res.json().catch(() => ({}));
-  if (!data.path) throw Object.assign(new Error('SEDUCA no aceptó el usuario o la contraseña'), { status: 401 });
+  const raw = await res.text();
+  let data = {};
+  try { data = JSON.parse(raw); } catch { /* no es JSON */ }
+  if (!data.path) {
+    const detail = `HTTP ${res.status}, ${res.headers.get('content-type')}, claves: ${Object.keys(data).join(',') || '-'}, `
+      + `usuario: ${user.length} caracteres${/\s/.test(user) ? ' (tiene espacios)' : ''}, clave: ${pass.length} caracteres${/^\s|\s$/.test(pass) ? ' (espacios al borde)' : ''}, `
+      + `respuesta: ${raw.replace(/\s+/g, ' ').slice(0, 160)}`;
+    throw Object.assign(new Error('SEDUCA no aceptó el usuario o la contraseña · ' + detail), { status: 401 });
+  }
   return { session: s, home: data.path };
 }
 
