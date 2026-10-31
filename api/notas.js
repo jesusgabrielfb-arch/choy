@@ -73,6 +73,15 @@ export default async function handler(req, res) {
   if (!pin || given !== pin) return res.status(200).json({ ok: false, error: pin ? 'PIN incorrecto' : 'Falta NOTAS_PIN en Vercel' });
   try {
     const { session, home } = await login();
+    // Modo datos crudos de un bimestre: JSON del portal tal cual (para ajustar el lector).
+    if (req.query.pi) {
+      const { res: r } = await session.fetch(`/2/aula/grade/json?pi_id=${encodeURIComponent(req.query.pi)}`, {
+        method: 'POST', headers: { 'X-Requested-With': 'XMLHttpRequest', 'Content-Type': 'application/x-www-form-urlencoded' }, body: '',
+      });
+      const text = await r.text();
+      res.setHeader('Cache-Control', 'no-store');
+      return res.status(200).json({ ok: true, status: r.status, raw: text.slice(0, 120000) });
+    }
     // Modo exploración: muestra una página del portal (solo dentro de /2/parent) para ajustar el lector.
     const path = typeof req.query.ver === 'string' && req.query.ver.startsWith('/2/aula') ? req.query.ver : home;
     const { res: page, url } = await session.fetch(path);
