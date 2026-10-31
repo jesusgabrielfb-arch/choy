@@ -40,7 +40,8 @@ export async function login() {
   const user = process.env.SEDUCA_USUARIO, pass = process.env.SEDUCA_CLAVE;
   if (!user || !pass) throw new Error('Faltan SEDUCA_USUARIO o SEDUCA_CLAVE en Vercel');
   const s = new Session();
-  const { res: form } = await s.fetch('/2/aula/login');
+  // Entrar por /2/aula/ primero: ahí se crea la sesión (cookie) a la que queda atado el token.
+  const { res: form } = await s.fetch('/2/aula/');
   const html = await form.text();
   const field = (name) => html.match(new RegExp(`name="${name}"[^>]*value="([^"]*)"`))?.[1]
     ?? html.match(new RegExp(`value="([^"]*)"[^>]*name="${name}"`))?.[1] ?? '';
