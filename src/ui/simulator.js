@@ -5,7 +5,7 @@ import {
   PASS, MIN, MAX, fmt, fmt2, tone, TONE_LABEL,
 } from '../grades/calc.js';
 import { breadSVG, burnFor } from './bread.js';
-import { crumbs, esc } from './fx.js';
+import { crumbs, esc, toast } from './fx.js';
 
 const drawer = () => document.getElementById('drawer');
 let lastFocus = null;
@@ -76,8 +76,9 @@ export function openSimulator(subjectId, { onReact, onClose } = {}) {
     return { finals, year, curEntry };
   }
 
-  function render() {
-    const { finals, year, curEntry } = compute();
+  /** Encabezado, resultado y bimestres: lo que cambia al mover una nota. */
+  function liveHTML() {
+    const { finals, year } = compute();
     const pass = year != null && year >= PASS;
     const gap = year != null && !pass ? (PASS * 4 - finals.reduce((x, y) => x + (y ?? 0), 0)) / 10 : 0;
     const yt = year == null ? null : Math.floor(year + 1e-9);
@@ -85,7 +86,7 @@ export function openSimulator(subjectId, { onReact, onClose } = {}) {
       : pass ? (year >= 40 ? '¡Sale dorado! Pasas holgado.' : '¡Te salvas! El pan no se quema.')
         : `Te quedas: te faltan ${gap.toFixed(1)} puntos entre los bimestres.`;
 
-    panel.innerHTML = `
+    return `
       <div class="drawer-head">
         ${breadSVG({ burn: burnFor(yt), mood: year == null ? 'happy' : pass ? (year >= 40 ? 'proud' : 'happy') : year < 25 ? 'dead' : 'scared', label: 'Pan de ' + esc(subj.name) })}
         <div>
@@ -108,8 +109,14 @@ export function openSimulator(subjectId, { onReact, onClose } = {}) {
 
       <div class="sim-year">
         ${finals.map((f, i) => `<div class="bim tone-${tone(f)} ${a.openIdx.includes(i) ? 'open' : ''}"><small>${ROMAN[i]}</small><b>${fmt(f)}</b></div>`).join('')}
-      </div>
+      </div>`;
+  }
 
+  /** Arma todo el simulador (solo al abrir, al agregar/quitar notas o con los botones rápidos). */
+  function render() {
+    const { curEntry } = compute();
+    panel.innerHTML = `
+      <div id="sim-live">${liveHTML()}</div>
       ${sim.current ? currentBlock(curEntry) : ''}
       ${sim.others.map((o) => `
         <div class="comp">
@@ -125,7 +132,26 @@ export function openSimulator(subjectId, { onReact, onClose } = {}) {
           <button class="btn btn-paper btn-small" data-act="all" data-v="50">Todo en 5.0</button>
         </div>` : ''}
       <p class="sim-note">Cada parte (diarias, apreciación y bimestral) vale 33.33 %. Se trunca a un decimal como en el portal. Las notas que ya tienes no cambian; solo mueves lo que falta.</p>`;
+    react();
+  }
 
+  /** Actualiza solo los números, sin tocar las barritas que estás arrastrando. */
+  function update() {
+    const { curEntry } = compute();
+    panel.querySelector('#sim-live').innerHTML = liveHTML();
+    if (curEntry) {
+      for (const c of COMPONENTS) {
+        const el = panel.querySelector(`[data-avg="${c}"]`);
+        const avg = componentAvg(curEntry[c]);
+        if (el) { el.className = `tone-${tone(avg)}`; el.innerHTML = `<span class="tc">${fmt(avg)}</span>`; }
+      }
+    }
+    react();
+  }
+
+  function react() {
+    const { year } = compute();
+    const pass = year != null && year >= PASS;
     if (lastPass !== null && pass !== lastPass) {
       panel.querySelector('.drawer-head .bread')?.classList.add('hop');
       if (pass) {
@@ -143,7 +169,7 @@ export function openSimulator(subjectId, { onReact, onClose } = {}) {
       const fixed = (entry[c] || []).filter((v) => String(v).trim() !== '-');
       const avg = componentAvg(curEntry[c]);
       return `<div class="comp">
-        <div class="comp-head"><div><h4>${COMPONENT_LONG[c]}</h4><span>33.33 %</span></div><strong class="tone-${tone(avg)}"><span class="tc">${fmt(avg)}</span></strong></div>
+        <div class="comp-head"><div><h4>${COMPONENT_LONG[c]}</h4><span>33.33 %</span></div><strong data-avg="${c}" class="tone-${tone(avg)}"><span class="tc">${fmt(avg)}</span></strong></div>
         <div class="chips">${fixed.map((v) => `<span class="chip ${String(v).toUpperCase() === 'X' ? 'chip-x' : `tone-${tone(Math.round(parseFloat(v) * 10))}`}">${esc(v)}</span>`).join('') || '<span style="font-size:13px;color:var(--ink-3)">Sin notas todavía</span>'}</div>
         ${extra[c].map((s, i) => slider(`${c}:${i}`, s.label, s.v, s.user)).join('')}
         ${c !== 'bim' ? `<button class="btn btn-paper btn-small" style="margin-top:10px" data-act="add" data-comp="${c}">+ Simular otra nota</button>` : ''}
@@ -153,12 +179,39 @@ export function openSimulator(subjectId, { onReact, onClose } = {}) {
 
   function slider(key, label, v, removable) {
     const id = `s-${key.replace(':', '-')}`;
-    return `<div class="slot">
+    return `<div class="slot" data-slot="${key}">
       <label for="${id}">${esc(label)}</label>
+      <button class="step-btn" data-act="step" data-key="${key}" data-d="-1" aria-label="Bajar 0.1">−</button>
       <input type="range" id="${id}" min="${MIN}" max="${MAX}" step="1" value="${v}" data-key="${key}" aria-valuetext="${fmt(v)}"/>
-      <output for="${id}" class="tone-${tone(v)}"><span class="tc">${fmt(v)}</span></output>
+      <button class="step-btn" data-act="step" data-key="${key}" data-d="1" aria-label="Subir 0.1">+</button>
+      <input class="num tone-${tone(v)}" type="text" inputmode="decimal" maxlength="3" value="${fmt(v)}" data-key="${key}" aria-label="Escribe la nota de ${esc(label)}"/>
       ${removable ? `<button class="x" data-act="remove" data-key="${key}" aria-label="Quitar">×</button>` : '<span></span>'}
     </div>`;
+  }
+
+  /** Pone una nota en un espacio y refresca su barrita, su casilla y los resultados. */
+  function setSlot(key, v, { skipNum = false } = {}) {
+    v = clamp(v);
+    setKey(key, v);
+    const slot = panel.querySelector(`[data-slot="${key}"]`);
+    if (slot) {
+      const range = slot.querySelector('input[type=range]');
+      if (Number(range.value) !== v) range.value = v;
+      range.setAttribute('aria-valuetext', fmt(v));
+      const num = slot.querySelector('.num');
+      num.className = `num tone-${tone(v)}`;
+      if (!skipNum) num.value = fmt(v);
+    }
+    update();
+  }
+
+  /** "4", "45", "4.5" o "4,5" → décimas; null si no es una nota válida. */
+  function parseTyped(text) {
+    const t = String(text).trim().replace(',', '.');
+    if (/^[1-5]$/.test(t)) return Number(t) * 10;
+    if (/^[1-5]\d$/.test(t)) return Number(t);
+    if (/^[1-5]\.\d$/.test(t)) return Math.round(Number(t) * 10);
+    return null;
   }
 
   function setKey(key, v) {
@@ -172,21 +225,37 @@ export function openSimulator(subjectId, { onReact, onClose } = {}) {
   }
 
   panel.oninput = (e) => {
-    const r = e.target;
-    if (r.type !== 'range') return;
-    const v = Number(r.value);
-    setKey(r.dataset.key, v);
-    // Actualizar sin perder el foco del deslizador.
-    const keep = r.id;
-    render();
-    const again = document.getElementById(keep);
-    again?.focus({ preventScroll: true });
+    const t = e.target;
+    if (t.type === 'range') setSlot(t.dataset.key, Number(t.value));
+    else if (t.classList.contains('num')) {
+      const v = parseTyped(t.value);
+      if (v != null && v >= MIN && v <= MAX) setSlot(t.dataset.key, v, { skipNum: true });
+    }
   };
+  // Al terminar de escribir: si no es válida, vuelve a la nota anterior; si sí, la deja bonita (4 → 4.0).
+  panel.addEventListener('change', (e) => {
+    const t = e.target;
+    if (!t.classList?.contains('num')) return;
+    const v = parseTyped(t.value);
+    if (v == null || v < MIN || v > MAX) {
+      const range = panel.querySelector(`[data-slot="${t.dataset.key}"] input[type=range]`);
+      t.value = fmt(Number(range.value));
+      toast('Escribe una nota de 1.0 a 5.0');
+    } else setSlot(t.dataset.key, v);
+  });
+  panel.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && e.target.classList?.contains('num')) e.target.blur();
+  });
+  panel.addEventListener('focusin', (e) => { if (e.target.classList?.contains('num')) e.target.select(); });
   panel.onclick = (e) => {
     const t = e.target.closest('[data-act]');
     if (!t) return;
     const act = t.dataset.act;
     if (act === 'close') closeSimulator();
+    else if (act === 'step') {
+      const range = panel.querySelector(`[data-slot="${t.dataset.key}"] input[type=range]`);
+      setSlot(t.dataset.key, Number(range.value) + Number(t.dataset.d));
+    }
     else if (act === 'add') {
       sim.current.extra[t.dataset.comp].push({ v: start, label: `Nota extra de ${t.dataset.comp === 'dig' ? 'diarias' : 'apreciación'}`, user: true });
       render();
