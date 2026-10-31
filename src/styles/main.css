@@ -571,3 +571,9 @@ table.grades .del:hover { background: #fbd5cc; color: #9a2b14; }
 .dialog-input:focus { border-color: var(--fire); outline: none; }
 .dialog-btns { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
 .btn-danger { color: #fff; background: linear-gradient(180deg, #e8644a, #b3321a); box-shadow: 0 1px 0 #fff4 inset, 0 3px 0 #7a1f0c; }
+
+/* Retratos 3D de Pancracio (imágenes) */
+img.bread { display: block; width: 100%; height: auto; user-select: none; -webkit-user-drag: none; filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.25)); }
+img.bread.mood-scared { animation: shiver 0.18s linear infinite; transform-origin: 50% 100%; }
+.card:hover img.bread { animation: squish 0.6s var(--ease-spring); transform-origin: 50% 100%; }
+.brand-bread img.bread { filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.35)); }

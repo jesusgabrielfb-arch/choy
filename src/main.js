@@ -84,6 +84,7 @@ async function initKitchen() {
       onPancracio: (what) => speak(what === 'oven' ? 'oven' : 'poke'),
     });
     updateMood();
+    await kitchen.entered;
   } catch (err) {
     console.error(err);
     document.documentElement.classList.add('no-webgl');
@@ -176,6 +177,7 @@ subscribe(renderAll);
 renderAll();
 
 initKitchen().then(() => {
-  if (!tourSeen()) setTimeout(runTour, reduced ? 200 : 1300);
-  else if (hasData()) setTimeout(speakStatus, 900);
+  if (!tourSeen()) setTimeout(runTour, reduced ? 200 : 600);
+  else if (hasData()) setTimeout(speakStatus, 300);
+  else speak('hello');
 });

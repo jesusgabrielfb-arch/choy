@@ -1,7 +1,6 @@
-// Pancracio en 2D (SVG) para las tarjetas: se tuesta según la nota y cambia de cara según el riesgo.
+// Pancracio en pequeño (logo, tarjetas, tutorial): dibujo SVG de la misma rebanada del modelo 3D. Se tuesta según la nota y cambia de cara según el riesgo.
 
 let uid = 0;
-
 const mix = (a, b, t) => {
   const pa = parseInt(a.slice(1), 16), pb = parseInt(b.slice(1), 16);
   const ch = (s) => Math.round(((pa >> s) & 255) * (1 - t) + ((pb >> s) & 255) * t);
@@ -25,57 +24,67 @@ export function moodFor(kind, risky) {
   return 'happy';
 }
 
+// Silueta de la rebanada (misma forma que el modelo 3D).
+const SLICE = 'M28 104h64q8 0 8-8V52c13-3 15-26-6-32-14-4-24 1-34 2-10-1-20-6-34-2-21 6-19 29-6 32v44q0 8 8 8z';
+
 export function breadSVG({ burn = 0.3, mood = 'happy', smoke = burn > 0.55, label = '' } = {}) {
+  return drawSVG({ burn, mood, smoke, label });
+}
+
+function drawSVG({ burn, mood, smoke, label }) {
   const id = `b${uid++}`;
-  const top = mix('#c9772f', '#24110a', burn);
-  const mid = mix('#e9a94b', '#4a2412', burn);
-  const low = mix('#f4d58d', '#7a3d1c', burn * 0.9);
-  const cut = mix('#fbe7b8', '#a0623a', burn * 0.8);
-  const patch = Math.min(0.85, burn * 1.1);
+  const crust = mix('#b4682b', '#2a1209', Math.min(1, burn * 1.1));
+  const crumbIn = mix('#fbecc6', '#d9a866', burn * 0.5);
+  const crumbOut = mix('#e2b46a', '#7a3d1c', burn * 0.8);
+  const char = Math.min(0.9, 0.2 + burn * 0.8);
 
   const eyes = {
-    happy: `<ellipse cx="44" cy="58" rx="7" ry="8" fill="#fffaf0"/><ellipse cx="76" cy="58" rx="7" ry="8" fill="#fffaf0"/>
-            <circle class="pupil" cx="45" cy="59" r="4" fill="#1b0f0a"/><circle class="pupil" cx="77" cy="59" r="4" fill="#1b0f0a"/>
-            <circle cx="46.5" cy="57" r="1.3" fill="#fff"/><circle cx="78.5" cy="57" r="1.3" fill="#fff"/>`,
-    proud: `<path d="M37 59q7-8 14 0M69 59q7-8 14 0" stroke="#1b0f0a" stroke-width="3.2" fill="none" stroke-linecap="round"/>`,
-    scared: `<ellipse cx="44" cy="57" rx="8.5" ry="10" fill="#fffaf0"/><ellipse cx="76" cy="57" rx="8.5" ry="10" fill="#fffaf0"/>
-             <circle class="pupil" cx="44" cy="58" r="3.4" fill="#1b0f0a"/><circle class="pupil" cx="76" cy="58" r="3.4" fill="#1b0f0a"/>
-             <path d="M34 43l14 4M86 43l-14 4" stroke="#2b140a" stroke-width="3" stroke-linecap="round"/>`,
-    dead: `<path d="M38 52l12 12M50 52L38 64M70 52l12 12M82 52L70 64" stroke="#120804" stroke-width="3.4" stroke-linecap="round"/>`,
-  }[mood];
+    happy: `<ellipse cx="47" cy="60" rx="7.5" ry="8.5" fill="#fffaf0"/><ellipse cx="73" cy="60" rx="7.5" ry="8.5" fill="#fffaf0"/>
+            <circle class="pupil" cx="48" cy="61" r="4.2" fill="#1b0f0a"/><circle class="pupil" cx="74" cy="61" r="4.2" fill="#1b0f0a"/>
+            <circle cx="49.6" cy="59" r="1.4" fill="#fff"/><circle cx="75.6" cy="59" r="1.4" fill="#fff"/>`,
+    proud: `<path d="M40 61q7-8 14 0M66 61q7-8 14 0" stroke="#1b0f0a" stroke-width="3.4" fill="none" stroke-linecap="round"/>`,
+    scared: `<ellipse cx="47" cy="59" rx="9" ry="10.5" fill="#fffaf0"/><ellipse cx="73" cy="59" rx="9" ry="10.5" fill="#fffaf0"/>
+             <circle class="pupil" cx="47" cy="60" r="3.4" fill="#1b0f0a"/><circle class="pupil" cx="73" cy="60" r="3.4" fill="#1b0f0a"/>
+             <path d="M37 45l13 4M83 45l-13 4" stroke="#3b1a0a" stroke-width="3" stroke-linecap="round"/>`,
+    dead: `<path d="M41 54l12 12M53 54L41 66M67 54l12 12M79 54L67 66" stroke="#120804" stroke-width="3.6" stroke-linecap="round"/>`,
+  }[mood] || '';
   const mouth = {
-    happy: `<path d="M53 72q7 7 14 0" stroke="#3a160a" stroke-width="3" fill="none" stroke-linecap="round"/>`,
-    proud: `<path d="M50 70q10 12 20 0z" fill="#5a1f0e"/><path d="M55 74q5 3 10 0" stroke="#e8735a" stroke-width="2.4" fill="none" stroke-linecap="round"/>`,
-    scared: `<ellipse cx="60" cy="76" rx="5" ry="6.5" fill="#3a160a"/>`,
-    dead: `<path d="M51 76q4-4 9 0t9 0" stroke="#120804" stroke-width="3" fill="none" stroke-linecap="round"/>`,
-  }[mood];
+    happy: `<path d="M53 76q7 7 14 0" stroke="#3a160a" stroke-width="3" fill="none" stroke-linecap="round"/>`,
+    proud: `<path d="M50 74q10 13 20 0z" fill="#5a1f0e"/><path d="M55 78q5 3 10 0" stroke="#e8735a" stroke-width="2.4" fill="none" stroke-linecap="round"/>`,
+    scared: `<ellipse cx="60" cy="80" rx="5" ry="6.5" fill="#3a160a"/>`,
+    dead: `<path d="M51 80q4-4 9 0t9 0" stroke="#120804" stroke-width="3" fill="none" stroke-linecap="round"/>`,
+  }[mood] || '';
   const smokeSvg = smoke
     ? `<g class="smoke" fill="none" stroke="rgba(120,104,96,.55)" stroke-width="4" stroke-linecap="round">
-         <path d="M78 22c-6-6 6-10 0-16"/><path d="M90 26c-5-6 5-9 0-15" style="animation-delay:.6s"/><path d="M66 24c-5-5 5-9 0-14" style="animation-delay:1.2s"/>
+         <path d="M86 18c-6-6 6-10 0-16"/><path d="M98 24c-5-6 5-9 0-15" style="animation-delay:.6s"/><path d="M74 16c-5-5 5-9 0-14" style="animation-delay:1.2s"/>
        </g>`
     : '';
 
-  return `<svg class="bread mood-${mood}" viewBox="0 0 120 112" role="img" aria-label="${label || 'Pan'}">
+  return `<svg class="bread mood-${mood}" viewBox="0 0 120 120" role="img" aria-label="${label || 'Pancracio'}">
     <defs>
-      <linearGradient id="${id}g" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="${top}"/><stop offset=".55" stop-color="${mid}"/><stop offset="1" stop-color="${low}"/>
+      <radialGradient id="${id}m" cx=".45" cy=".55" r=".6">
+        <stop offset="0" stop-color="${crumbIn}"/><stop offset=".7" stop-color="${mix('#f2d79f', '#b07a40', burn * 0.6)}"/><stop offset="1" stop-color="${crumbOut}"/>
+      </radialGradient>
+      <linearGradient id="${id}q" x1="0" y1="0" x2="1" y2="0">
+        <stop offset=".45" stop-color="#160904" stop-opacity="0"/><stop offset="1" stop-color="#160904" stop-opacity="${char}"/>
       </linearGradient>
-      <radialGradient id="${id}r" cx=".78" cy=".22" r=".6">
-        <stop offset="0" stop-color="#140904" stop-opacity="${patch}"/><stop offset="1" stop-color="#140904" stop-opacity="0"/>
-      </radialGradient>
-      <radialGradient id="${id}h" cx=".32" cy=".25" r=".5">
-        <stop offset="0" stop-color="#fff6dc" stop-opacity=".55"/><stop offset="1" stop-color="#fff6dc" stop-opacity="0"/>
-      </radialGradient>
+      <pattern id="${id}p" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(20)">
+        <ellipse cx="3" cy="3" rx="1.4" ry="0.9" fill="#9a6028" opacity=".35"/><ellipse cx="7" cy="7" rx="0.9" ry="0.6" fill="#9a6028" opacity=".3"/>
+      </pattern>
+      <clipPath id="${id}c"><path d="${SLICE}"/></clipPath>
     </defs>
     ${smokeSvg}
-    <ellipse cx="60" cy="104" rx="44" ry="5" fill="rgba(0,0,0,.22)"/>
+    <ellipse cx="60" cy="113" rx="40" ry="5" fill="rgba(0,0,0,.22)"/>
     <g class="bread-body">
-      <path d="M10 92c-4-30 14-62 50-62s54 32 50 62c-1 7-6 10-14 10H24c-8 0-13-3-14-10z" fill="url(#${id}g)"/>
-      <path d="M10 92c-4-30 14-62 50-62s54 32 50 62c-1 7-6 10-14 10H24c-8 0-13-3-14-10z" fill="url(#${id}r)"/>
-      <path d="M10 92c-4-30 14-62 50-62s54 32 50 62c-1 7-6 10-14 10H24c-8 0-13-3-14-10z" fill="url(#${id}h)"/>
-      <path d="M33 41l12-9M54 36l12-8M75 38l11-7" stroke="${cut}" stroke-width="5" stroke-linecap="round"/>
+      <path d="${SLICE}" transform="translate(3 3)" fill="${mix('#8a4a1c', '#1a0a05', burn)}"/>
+      <path d="${SLICE}" fill="url(#${id}m)" stroke="${crust}" stroke-width="7" stroke-linejoin="round"/>
+      <g clip-path="url(#${id}c)">
+        <rect width="120" height="120" fill="url(#${id}p)"/>
+        ${burn > 0.15 ? `<path d="M10 116L50 10M38 116L78 10M66 116L106 10" stroke="#8a4a18" stroke-width="7" opacity="${Math.min(0.28, burn * 0.35)}"/>` : ''}
+        <rect width="120" height="120" fill="url(#${id}q)"/>
+      </g>
       <g class="face">${eyes}${mouth}
-        <ellipse cx="31" cy="72" rx="7" ry="4" fill="#ff8a7a" opacity=".35"/><ellipse cx="89" cy="72" rx="7" ry="4" fill="#ff8a7a" opacity=".35"/>
+        <ellipse cx="35" cy="73" rx="7" ry="4" fill="#ff8a7a" opacity=".4"/><ellipse cx="85" cy="73" rx="7" ry="4" fill="#ff8a7a" opacity=".4"/>
       </g>
     </g>
   </svg>`;

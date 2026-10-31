@@ -140,7 +140,7 @@ export function createKitchen(canvas, { onPancracio = () => {}, reducedMotion = 
   oven.add(ovenLight);
 
   // --- Utilería ---
-  const glassJar = new THREE.MeshPhysicalMaterial({ color: '#e8f4f2', transmission: 0.6, roughness: 0.08, thickness: 0.2, transparent: true, opacity: 0.55 });
+  const glassJar = new THREE.MeshStandardMaterial({ color: '#e8f4f2', roughness: 0.08, metalness: 0.1, transparent: true, opacity: 0.32, depthWrite: false });
   const jar = new THREE.Group();
   jar.position.set(-2.55, COUNTER_Y, -0.75);
   const jarBody = new THREE.Mesh(new THREE.CylinderGeometry(0.34, 0.34, 0.86, 40, 1, true), glassJar);
@@ -211,16 +211,45 @@ export function createKitchen(canvas, { onPancracio = () => {}, reducedMotion = 
     scene.add(j);
   });
 
-  // Lámpara colgante.
+  // Lámpara colgante: cuelga de un pivote en el techo y se mece apenas.
+  const lampPivot = new THREE.Group();
+  lampPivot.position.set(0.1, 5.4, -0.2);
+  scene.add(lampPivot);
   const lamp = new THREE.Group();
-  lamp.position.set(0.1, 4.1, -0.2);
+  lamp.position.y = -1.3;
   const cord = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 1.6, 6), dark);
   cord.position.y = 0.8;
   const shade = new THREE.Mesh(new THREE.ConeGeometry(0.42, 0.36, 40, 1, true), new THREE.MeshStandardMaterial({ color: '#e4572e', roughness: 0.5, side: THREE.DoubleSide }));
   const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.1, 16, 12), new THREE.MeshBasicMaterial({ color: '#fff3c4' }));
   bulb.position.y = -0.14;
   lamp.add(cord, shade, bulb);
-  scene.add(lamp);
+  lampPivot.add(lamp);
+
+  // Reloj de pared con la hora real (el año escolar no se detiene).
+  const clockGroup = new THREE.Group();
+  clockGroup.position.set(2.3, 3.4, -1.64);
+  const clockFace = new THREE.Mesh(new THREE.CircleGeometry(0.42, 48), new THREE.MeshStandardMaterial({ color: '#fbf4e4', roughness: 0.5 }));
+  const clockRing = new THREE.Mesh(new THREE.TorusGeometry(0.43, 0.045, 12, 48), new THREE.MeshStandardMaterial({ color: '#c9974d', metalness: 0.8, roughness: 0.3 }));
+  clockGroup.add(clockFace, clockRing);
+  for (let i = 0; i < 12; i++) {
+    const tick = new THREE.Mesh(new THREE.BoxGeometry(0.02, i % 3 ? 0.04 : 0.08, 0.01), dark);
+    const a = (i / 12) * Math.PI * 2;
+    tick.position.set(Math.sin(a) * 0.34, Math.cos(a) * 0.34, 0.01);
+    tick.rotation.z = -a;
+    clockGroup.add(tick);
+  }
+  const hand = (len, w, color) => {
+    const m = new THREE.Mesh(new THREE.BoxGeometry(w, len, 0.012), new THREE.MeshBasicMaterial({ color }));
+    m.geometry.translate(0, len / 2 - 0.03, 0);
+    m.position.z = 0.02;
+    clockGroup.add(m);
+    return m;
+  };
+  const hourHand = hand(0.2, 0.035, '#2a1d18');
+  const minuteHand = hand(0.29, 0.024, '#2a1d18');
+  const secondHand = hand(0.32, 0.01, '#c0391b');
+  scene.add(clockGroup);
+
   const lampLight = new THREE.SpotLight('#ffd9a0', 9, 7, 0.75, 0.6, 1.4);
   lampLight.position.set(0.1, 3.9, -0.2);
   lampLight.target.position.set(0.1, COUNTER_Y, 0);
@@ -228,9 +257,26 @@ export function createKitchen(canvas, { onPancracio = () => {}, reducedMotion = 
 
   // --- Pancracio ---
   const pan = createPancracio();
-  pan.object.position.set(0.05, COUNTER_Y + 0.42, 0.05);
-  pan.object.scale.setScalar(1.05);
+  const panHome = new THREE.Vector3(0.05, COUNTER_Y + 0.08, 0.05);
+  pan.object.position.copy(panHome);
   scene.add(pan.object);
+
+  // --- Polvo de harina flotando en la luz de la lámpara ---
+  const dustCount = 140;
+  const dustGeo = new THREE.BufferGeometry();
+  const dustPos = new Float32Array(dustCount * 3);
+  const dustSeed = new Float32Array(dustCount);
+  for (let i = 0; i < dustCount; i++) {
+    dustPos[i * 3] = (Math.random() - 0.5) * 2.6;
+    dustPos[i * 3 + 1] = COUNTER_Y + 0.3 + Math.random() * 2.6;
+    dustPos[i * 3 + 2] = (Math.random() - 0.5) * 1.6;
+    dustSeed[i] = Math.random() * 100;
+  }
+  dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPos, 3));
+  const dust = new THREE.Points(dustGeo, new THREE.PointsMaterial({
+    map: softDotTexture(), color: '#fff1d0', size: 0.05, transparent: true, opacity: 0.55, depthWrite: false, blending: THREE.AdditiveBlending,
+  }));
+  scene.add(dust);
 
   // --- Vapor del horno ---
   const dot = softDotTexture();
@@ -291,7 +337,7 @@ export function createKitchen(canvas, { onPancracio = () => {}, reducedMotion = 
   let doorOpen = 0, doorTarget = 0;
   let needle01 = 0.3, needleTarget = 0.3;
 
-  let busy = false, frame = 0;
+  let busy = false, frame = 0, intro = reducedMotion ? 1 : 0;
   const timer = new THREE.Timer();
   timer.connect?.(document);
   let visible = true, raf = 0;
@@ -310,13 +356,31 @@ export function createKitchen(canvas, { onPancracio = () => {}, reducedMotion = 
 
     smooth.lerp(pointer, Math.min(1, dt * 3));
     const drift = reducedMotion ? 0 : 1;
-    camera.position.set(lookAt.x + smooth.x * 0.45 * drift + Math.sin(t * 0.3) * 0.08 * drift, 2.15 + smooth.y * 0.25 * drift, baseZ);
+    const dolly = (1 - (1 - Math.pow(1 - intro, 3))) * 2.2 * drift;
+    camera.position.set(lookAt.x + smooth.x * 0.45 * drift + Math.sin(t * 0.3) * 0.08 * drift, 2.15 + smooth.y * 0.25 * drift + dolly * 0.25, baseZ + dolly);
     camera.lookAt(lookAt);
 
     // Los ojos de Pancracio siguen el puntero (proyectado desde su posición en pantalla).
-    const p = pan.object.position.clone().project(camera);
+    const p = pan.object.position.clone().add(new THREE.Vector3(0, 0.75, 0)).project(camera);
     pan.lookAt((pointer.x - p.x) * 1.4, (pointer.y - p.y) * 1.4);
     pan.update(t, dt);
+
+    // Entrada de cámara, lámpara que se mece, polvo y reloj.
+    intro = Math.min(1, intro + dt / 2.4);
+    lampPivot.rotation.z = Math.sin(t * 0.55) * 0.035 * drift;
+    lampPivot.rotation.x = Math.sin(t * 0.43 + 1) * 0.02 * drift;
+    const dp = dustGeo.attributes.position.array;
+    for (let i = 0; i < dustCount; i++) {
+      dp[i * 3 + 1] += dt * 0.05 * Math.sin(t * 0.3 + dustSeed[i]);
+      dp[i * 3] += dt * 0.04 * Math.cos(t * 0.25 + dustSeed[i]);
+      if (dp[i * 3 + 1] > COUNTER_Y + 3) dp[i * 3 + 1] = COUNTER_Y + 0.3;
+    }
+    dustGeo.attributes.position.needsUpdate = true;
+    const now = new Date();
+    const sec = now.getSeconds() + now.getMilliseconds() / 1000;
+    secondHand.rotation.z = -(sec / 60) * Math.PI * 2;
+    minuteHand.rotation.z = -((now.getMinutes() + sec / 60) / 60) * Math.PI * 2;
+    hourHand.rotation.z = -(((now.getHours() % 12) + now.getMinutes() / 60) / 12) * Math.PI * 2;
 
     heat += (heatTarget - heat) * Math.min(1, dt * 2);
     const flicker = 0.85 + Math.sin(t * 9) * 0.05 + Math.sin(t * 23.7) * 0.04;
@@ -344,12 +408,33 @@ export function createKitchen(canvas, { onPancracio = () => {}, reducedMotion = 
     if (!busy || frame++ % 3 === 0) renderer.render(scene, camera);
     raf = requestAnimationFrame(loop);
   }
+  // Pancracio sale del horno al cargar la página.
+  let entered;
+  const enteredPromise = new Promise((res) => { entered = res; });
+  if (reducedMotion) entered();
+  else {
+    doorTarget = 1;
+    // Compilar todos los materiales antes de esconder a Pancracio: así no hay tirón cuando aparece.
+    renderer.compile(scene, camera);
+    pan.object.visible = false;
+    setTimeout(() => {
+      pan.object.visible = true;
+      const from = new THREE.Vector3(oven.position.x - 0.27, COUNTER_Y + 0.45, oven.position.z + 0.85);
+      pan.enter(from, panHome, () => {
+        doorTarget = 0;
+        pan.wave();
+        entered();
+      });
+    }, 700);
+  }
+
   const onVis = () => { if (!document.hidden && visible && !raf) { timer.update(); loop(); } };
   document.addEventListener('visibilitychange', onVis);
   loop();
 
   return {
     pancracio: pan,
+    entered: enteredPromise,
     /** 0 = horno tibio, 1 = horno a todo dar (mientras lee las capturas). */
     setHeat(v) { heatTarget = Math.max(0, Math.min(1, v)); },
     /** 0..1: posición de la aguja del termómetro (riesgo general). */

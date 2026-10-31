@@ -101,47 +101,144 @@ export function cabinetTexture() {
   return texture(c);
 }
 
-/** Corteza del pan: dorado con manchas quemadas según `burn` (0..1). */
-export function crustTexture(burn = 0.5, seed = 5) {
-  const [c, g] = canvas(512, 256);
+/**
+ * Miga de la rebanada: poros, borde de corteza, marcas de tostadora y un lado quemado.
+ * `outline` es la silueta (Vector2) y `box` su caja, para que la textura calce con las UV.
+ * Devuelve { map, bump } (color y relieve de los poros).
+ */
+export function crumbTexture(outline, box, burn = 0.45, seed = 5) {
+  const size = 512;
+  const W = box.maxX - box.minX, H = box.maxY - box.minY;
+  const toC = (p) => [((p.x - box.minX) / W) * size, ((box.maxY - p.y) / H) * size];
+  const path = (g) => {
+    g.beginPath();
+    outline.forEach((p, i) => { const [x, y] = toC(p); if (i) g.lineTo(x, y); else g.moveTo(x, y); });
+    g.closePath();
+  };
+  const [c, g] = canvas(size, size);
+  const [bc, bg] = canvas(size, size);
   const r = rng(seed);
-  // Base: más dorada abajo (el UV de la esfera va de polo a polo en v).
-  const grad = g.createLinearGradient(0, 0, 0, 256);
-  grad.addColorStop(0, '#8a4a1c');
-  grad.addColorStop(0.35, '#c97a34');
-  grad.addColorStop(0.62, '#e7a752');
-  grad.addColorStop(1, '#f2cf8c');
-  g.fillStyle = grad;
-  g.fillRect(0, 0, 512, 256);
-  // Poros y harina.
-  for (let i = 0; i < 900; i++) {
-    g.fillStyle = r() > 0.5 ? 'rgba(90,40,10,0.18)' : 'rgba(255,240,210,0.16)';
-    g.beginPath();
-    g.arc(r() * 512, r() * 256, 0.6 + r() * 1.6, 0, Math.PI * 2);
-    g.fill();
+
+  // Fondo (fuera de la silueta) en tono corteza por si el bisel muestra un borde.
+  g.fillStyle = '#9b5422';
+  g.fillRect(0, 0, size, size);
+  bg.fillStyle = '#808080';
+  bg.fillRect(0, 0, size, size);
+  g.save(); path(g); g.clip();
+  bg.save(); path(bg); bg.clip();
+
+  // Miga: crema al centro, más dorada hacia la corteza.
+  const rad = g.createRadialGradient(size * 0.45, size * 0.52, size * 0.05, size * 0.5, size * 0.5, size * 0.62);
+  rad.addColorStop(0, '#ffe9b8');
+  rad.addColorStop(0.62, '#f6cf86');
+  rad.addColorStop(1, '#e0a24f');
+  g.fillStyle = rad;
+  g.fillRect(0, 0, size, size);
+
+  // Poros: huequitos más oscuros con brillo arriba (y su relieve en el mapa de bump).
+  for (let i = 0; i < 2200; i++) {
+    const x = r() * size, y = r() * size;
+    const rw = 0.8 + r() * r() * 5.5, rh = rw * (0.5 + r() * 0.6);
+    const a = r() * Math.PI;
+    g.fillStyle = `rgba(150,96,40,${0.18 + r() * 0.25})`;
+    g.beginPath(); g.ellipse(x, y, rw, rh, a, 0, Math.PI * 2); g.fill();
+    g.fillStyle = 'rgba(255,248,225,0.35)';
+    g.beginPath(); g.ellipse(x - rw * 0.3, y - rh * 0.5, rw * 0.5, rh * 0.35, a, 0, Math.PI * 2); g.fill();
+    bg.fillStyle = `rgba(0,0,0,${0.35 + r() * 0.4})`;
+    bg.beginPath(); bg.ellipse(x, y, rw, rh, a, 0, Math.PI * 2); bg.fill();
   }
-  // Quemado: un lado (u ≈ 0.55–0.95) y la coronilla.
-  const blobs = Math.round(6 + burn * 26);
+
+  // Tostado: marcas de la parrilla y lado derecho quemado.
+  if (burn > 0.15) {
+    g.save();
+    g.globalAlpha = Math.min(0.3, (burn - 0.1) * 0.45);
+    g.strokeStyle = '#6b3410';
+    g.lineCap = 'round';
+    for (let k = 0; k < 4; k++) {
+      g.lineWidth = 16 + r() * 6;
+      g.beginPath();
+      g.moveTo(size * (0.05 + k * 0.26), size * 0.95);
+      g.lineTo(size * (0.35 + k * 0.26), size * 0.08);
+      g.stroke();
+    }
+    g.restore();
+  }
+  const side = g.createLinearGradient(size * 0.42, 0, size, size * 0.15);
+  side.addColorStop(0, 'rgba(70,30,8,0)');
+  side.addColorStop(0.45, `rgba(70,30,8,${0.35 * burn})`);
+  side.addColorStop(1, `rgba(22,9,3,${Math.min(0.95, 0.35 + burn * 0.7)})`);
+  g.fillStyle = side;
+  g.fillRect(0, 0, size, size);
+  const blobs = Math.round(4 + burn * 22);
   for (let i = 0; i < blobs; i++) {
-    const x = 280 + r() * 220, y = r() * 150;
-    const rad = 18 + r() * 46 * (0.5 + burn);
-    const rg = g.createRadialGradient(x, y, 0, x, y, rad);
-    rg.addColorStop(0, `rgba(25,12,6,${0.55 + burn * 0.4})`);
-    rg.addColorStop(0.6, `rgba(60,24,8,${0.25 + burn * 0.35})`);
-    rg.addColorStop(1, 'rgba(60,24,8,0)');
+    const x = size * (0.62 + r() * 0.42), y = size * (r() * 0.85);
+    const rr = 14 + r() * 42 * (0.4 + burn);
+    const rg = g.createRadialGradient(x, y, 0, x, y, rr);
+    rg.addColorStop(0, `rgba(18,8,3,${0.5 + burn * 0.45})`);
+    rg.addColorStop(1, 'rgba(18,8,3,0)');
     g.fillStyle = rg;
+    g.beginPath(); g.arc(x, y, rr, 0, Math.PI * 2); g.fill();
+  }
+  // Grietas de carbón.
+  if (burn > 0.35) {
+    g.strokeStyle = `rgba(10,4,2,${burn * 0.7})`;
+    g.lineWidth = 2;
+    for (let i = 0; i < Math.round(burn * 9); i++) {
+      let x = size * (0.7 + r() * 0.28), y = size * r() * 0.8;
+      g.beginPath(); g.moveTo(x, y);
+      for (let k = 0; k < 5; k++) { x += (r() - 0.5) * 30; y += 10 + r() * 18; g.lineTo(x, y); }
+      g.stroke();
+    }
+  }
+  g.restore();
+  bg.restore();
+
+  // Corteza: un borde café siguiendo la silueta (más oscuro del lado quemado).
+  const crustW = size * 0.075;
+  g.save(); path(g); g.clip();
+  const cr = g.createLinearGradient(0, 0, size, 0);
+  cr.addColorStop(0, '#b4682b');
+  cr.addColorStop(0.55, '#a35a22');
+  cr.addColorStop(1, burn > 0.5 ? '#2a1209' : '#6e3512');
+  g.strokeStyle = cr;
+  g.lineWidth = crustW * 2;
+  g.lineJoin = 'round';
+  path(g); g.stroke();
+  g.restore();
+  bg.save(); path(bg); bg.clip();
+  bg.strokeStyle = '#c0c0c0';
+  bg.lineWidth = crustW * 2;
+  path(bg); bg.stroke();
+  bg.restore();
+
+  const map = texture(c);
+  map.wrapS = map.wrapT = THREE.ClampToEdgeWrapping;
+  const bump = texture(bc, { srgb: false });
+  bump.wrapS = bump.wrapT = THREE.ClampToEdgeWrapping;
+  return { map, bump };
+}
+
+/** Costado de la rebanada (corteza): café tostado con textura, más oscuro si está quemado. */
+export function crustSideTexture(burn = 0.45, seed = 9) {
+  const [c, g] = canvas(256, 256);
+  const r = rng(seed);
+  const grad = g.createLinearGradient(0, 0, 256, 0);
+  grad.addColorStop(0, '#b0652a');
+  grad.addColorStop(0.5, '#9a521e');
+  grad.addColorStop(1, burn > 0.5 ? '#2c140a' : '#7a3c15');
+  g.fillStyle = grad;
+  g.fillRect(0, 0, 256, 256);
+  for (let i = 0; i < 700; i++) {
+    g.fillStyle = r() > 0.5 ? `rgba(60,25,8,${0.15 + r() * 0.25})` : 'rgba(255,214,150,0.12)';
     g.beginPath();
-    g.arc(x, y, rad, 0, Math.PI * 2);
+    g.arc(r() * 256, r() * 256, 0.6 + r() * 2.2, 0, Math.PI * 2);
     g.fill();
   }
-  const top = g.createLinearGradient(0, 0, 0, 90);
-  top.addColorStop(0, `rgba(20,10,5,${0.25 + burn * 0.6})`);
-  top.addColorStop(1, 'rgba(20,10,5,0)');
-  g.fillStyle = top;
-  g.fillRect(0, 0, 512, 90);
-  const t = texture(c);
-  t.wrapT = THREE.ClampToEdgeWrapping;
-  return t;
+  if (burn > 0.3) {
+    g.fillStyle = `rgba(15,6,2,${(burn - 0.3) * 0.8})`;
+    g.fillRect(0, 0, 256, 256);
+  }
+  return texture(c, { repeat: [4, 4] });
 }
 
 /** Vidrio del horno: resplandor naranja con rejilla. */
@@ -166,6 +263,15 @@ export function ovenGlassTexture() {
   g.moveTo(0, 72);
   g.lineTo(256, 72);
   g.stroke();
+  // Siluetas de panes en la rejilla.
+  g.fillStyle = 'rgba(40,12,3,0.55)';
+  for (const [x, w] of [[52, 58], [128, 64], [204, 54]]) {
+    g.beginPath();
+    g.moveTo(x - w / 2, 70);
+    g.bezierCurveTo(x - w / 2, 36, x + w / 2, 36, x + w / 2, 70);
+    g.closePath();
+    g.fill();
+  }
   // reflejo
   g.fillStyle = 'rgba(255,255,255,0.10)';
   g.beginPath();
