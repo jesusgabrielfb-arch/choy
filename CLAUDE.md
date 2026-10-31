@@ -10,6 +10,8 @@ proyectos para no tener que repetirlos.
 - Antes de un proyecto grande: primero **entender la idea** → lluvia de ideas → especificación →
   plan → ejecución. Pregunta lo que no esté claro antes de programar.
 - Dime con honestidad si algo no se puede hacer o tiene límites (precios, reglas, permisos).
+- **Siempre usar las alternativas gratis.** Si algo solo existe de pago, avísame antes y
+  propón la opción gratis más cercana.
 
 ## Estilo y diseño
 
@@ -45,8 +47,19 @@ Pancracio en una cocina 3D. Detalles en `README.md`.
   los movimientos en Sleeper).
 - Una **mascota propia** (ya tengo la imagen) que es la que me aconseja, animada en **Blender**
   y exportada a `.glb` para la app.
-- **Noticias de la NFL** al día (periodistas de X/Twitter, RSS, Bluesky, lesionados) cruzadas
-  con mis jugadores para avisarme.
+- **Noticias de la NFL** al día cruzadas con mis jugadores para avisarme.
+
+Herramientas gratis elegidas:
+
+| Parte | Opción gratis |
+| --- | --- |
+| Datos de la liga | API pública de Sleeper (sin clave) |
+| Noticias | RSS (ESPN, NFL.com, NBC Sports Edge, CBS, Yahoo), API de Bluesky, lesionados y tendencias de Sleeper |
+| X/Twitter | **No** usar la API de pago ni copiar datos de X; seguir a esos periodistas en Bluesky/RSS |
+| Mascota 3D | Blender + complemento `blender-mcp` (gratis), Rigify o Mixamo, planes gratis de imagen a 3D |
+| Hosting y tareas automáticas | Vercel plan Hobby (incluye cron) |
+| Base de datos | Supabase plan gratis |
+| IA de la mascota | La API de Claude cobra por uso: buscar la opción más barata o gratis y avisar antes de gastar |
 
 ## Ideas y pendientes
 
