@@ -35,26 +35,32 @@ class Session {
   }
 }
 
+/** Entra al portal de estudiantes (aula): formulario con token CSRF ligado a la sesión. */
 export async function login() {
   const user = process.env.SEDUCA_USUARIO, pass = process.env.SEDUCA_CLAVE;
-  if (!user || !pass) throw Object.assign(new Error('Faltan SEDUCA_USUARIO o SEDUCA_CLAVE en Vercel'), { status: 500 });
+  if (!user || !pass) throw new Error('Faltan SEDUCA_USUARIO o SEDUCA_CLAVE en Vercel');
   const s = new Session();
-  await s.fetch('/2/parent/login');
-  const { res } = await s.fetch('/2/parent/login_manual_check', {
-    method: 'POST',
-    headers: { 'Content-type': 'application/json' },
-    body: JSON.stringify({ _username: user, _password: pass, _out_referer: '/2/parent/' }),
+  const { res: form } = await s.fetch('/2/aula/login');
+  const html = await form.text();
+  const field = (name) => html.match(new RegExp(`name="${name}"[^>]*value="([^"]*)"`))?.[1]
+    ?? html.match(new RegExp(`value="([^"]*)"[^>]*name="${name}"`))?.[1] ?? '';
+  const body = new URLSearchParams({
+    _username: user.trim(),
+    _password: pass,
+    _target_path: field('_target_path') || 'gse_template_homepage',
+    _csrf_token: field('_csrf_token'),
   });
-  const raw = await res.text();
-  let data = {};
-  try { data = JSON.parse(raw); } catch { /* no es JSON */ }
-  if (!data.path) {
-    const detail = `HTTP ${res.status}, ${res.headers.get('content-type')}, claves: ${Object.keys(data).join(',') || '-'}, `
-      + `usuario: ${user.length} caracteres${/\s/.test(user) ? ' (tiene espacios)' : ''}, clave: ${pass.length} caracteres${/^\s|\s$/.test(pass) ? ' (espacios al borde)' : ''}, `
-      + `respuesta: ${raw.replace(/\s+/g, ' ').slice(0, 160)}`;
-    throw Object.assign(new Error('SEDUCA no aceptó el usuario o la contraseña · ' + detail), { status: 401 });
+  const { res, url } = await s.fetch('/2/aula/login_check', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body,
+  });
+  const page = await res.text();
+  if (/\/login\b/.test(new URL(url).pathname)) {
+    const msg = page.match(/class="[^"]*(?:alert|error)[^"]*"[^>]*>([\s\S]{0,200}?)</i)?.[1]?.replace(/\s+/g, ' ').trim();
+    throw new Error(`SEDUCA no aceptó el usuario o la contraseña${msg ? ` (${msg})` : ''}`);
   }
-  return { session: s, home: data.path };
+  return { session: s, home: url, homeHtml: page };
 }
 
 export default async function handler(req, res) {
@@ -67,12 +73,12 @@ export default async function handler(req, res) {
   try {
     const { session, home } = await login();
     // Modo exploración: muestra una página del portal (solo dentro de /2/parent) para ajustar el lector.
-    const path = typeof req.query.ver === 'string' && req.query.ver.startsWith('/2/parent') ? req.query.ver : home;
+    const path = typeof req.query.ver === 'string' && req.query.ver.startsWith('/2/aula') ? req.query.ver : home;
     const { res: page, url } = await session.fetch(path);
     const html = await page.text();
     const links = [...html.matchAll(/<a[^>]+href="([^"#][^"]*)"[^>]*>([\s\S]*?)<\/a>/gi)]
       .map((m) => [m[1], m[2].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()])
-      .filter(([h]) => h.includes('/2/parent'));
+      .filter(([h]) => h.includes('/2/aula') || h.startsWith('/'));
     res.setHeader('Cache-Control', 'no-store');
     return res.status(200).json({ ok: true, url, status: page.status, links, html: req.query.html ? html.slice(0, 60000) : undefined });
   } catch (err) {
