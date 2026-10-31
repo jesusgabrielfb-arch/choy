@@ -51,9 +51,12 @@ export async function login() {
 }
 
 export default async function handler(req, res) {
+  const q = Object.fromEntries(new URL(req.url, 'http://x').searchParams);
+  req.query = q;
   const pin = process.env.NOTAS_PIN;
-  const given = req.headers['x-pin'] || req.query.pin;
-  if (!pin || given !== pin) return res.status(401).json({ error: 'PIN incorrecto' });
+  const given = req.headers['x-pin'] || q.pin;
+  // Siempre 200: el estado real va en el JSON (Vercel trata los 401 como "requiere iniciar sesión").
+  if (!pin || given !== pin) return res.status(200).json({ ok: false, error: pin ? 'PIN incorrecto' : 'Falta NOTAS_PIN en Vercel' });
   try {
     const { session, home } = await login();
     // Modo exploración: muestra una página del portal (solo dentro de /2/parent) para ajustar el lector.
@@ -64,8 +67,8 @@ export default async function handler(req, res) {
       .map((m) => [m[1], m[2].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()])
       .filter(([h]) => h.includes('/2/parent'));
     res.setHeader('Cache-Control', 'no-store');
-    return res.status(200).json({ url, status: page.status, links, html: req.query.html ? html.slice(0, 60000) : undefined });
+    return res.status(200).json({ ok: true, url, status: page.status, links, html: req.query.html ? html.slice(0, 60000) : undefined });
   } catch (err) {
-    return res.status(err.status || 502).json({ error: err.message });
+    return res.status(200).json({ ok: false, error: err.message });
   }
 }
