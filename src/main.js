@@ -1,5 +1,6 @@
 import './styles/main.css';
-import { paintStaticBreads, burnFor } from './ui/bread.js';
+import { paintStaticBreads, burnFor, breadSVG } from './ui/bread.js';
+import { toastName } from './grades/toast.js';
 import { observeReveals, toast } from './ui/fx.js';
 import { subscribe, exportState, importState, resetAll, hasData } from './grades/store.js';
 import { renderDashboard, renderHeroStats, overview } from './ui/dashboard.js';
@@ -145,6 +146,11 @@ function runTour() {
 
 // ---------- Arranque ----------
 paintStaticBreads();
+document.getElementById('toast-scale').innerHTML = [50, 45, 40, 35, 30, 25, 20].map((t) => {
+  const b = burnFor(t);
+  return `<figure>${breadSVG({ burn: b, mood: t >= 40 ? 'proud' : t >= 30 ? 'happy' : t > 20 ? 'scared' : 'dead', smoke: b > 0.6, label: toastName(b) })}
+    <figcaption><b>${(t / 10).toFixed(1)}</b>${toastName(b)}</figcaption></figure>`;
+}).join('');
 observeReveals();
 initMenu();
 

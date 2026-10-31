@@ -1,3 +1,4 @@
+import { toastColors } from '../grades/toast.js';
 // Texturas dibujadas en canvas: no se descarga ninguna imagen.
 import * as THREE from 'three';
 
@@ -128,10 +129,10 @@ export function crumbTexture(outline, box, burn = 0.45, seed = 5) {
   bg.save(); path(bg); bg.clip();
 
   // Miga: crema al centro, más dorada hacia la corteza.
+  const tc = toastColors(burn);
   const rad = g.createRadialGradient(size * 0.45, size * 0.52, size * 0.05, size * 0.5, size * 0.5, size * 0.62);
-  rad.addColorStop(0, '#ffe9b8');
-  rad.addColorStop(0.62, '#f6cf86');
-  rad.addColorStop(1, '#e0a24f');
+  rad.addColorStop(0, tc.center);
+  rad.addColorStop(1, tc.edge);
   g.fillStyle = rad;
   g.fillRect(0, 0, size, size);
 
@@ -149,7 +150,7 @@ export function crumbTexture(outline, box, burn = 0.45, seed = 5) {
   }
 
   // Tostado: marcas de la parrilla y lado derecho quemado.
-  if (burn > 0.15) {
+  if (burn > 0.25 && burn < 0.85) {
     g.save();
     g.globalAlpha = Math.min(0.3, (burn - 0.1) * 0.45);
     g.strokeStyle = '#6b3410';
@@ -165,11 +166,12 @@ export function crumbTexture(outline, box, burn = 0.45, seed = 5) {
   }
   const side = g.createLinearGradient(size * 0.42, 0, size, size * 0.15);
   side.addColorStop(0, 'rgba(70,30,8,0)');
-  side.addColorStop(0.45, `rgba(70,30,8,${0.35 * burn})`);
-  side.addColorStop(1, `rgba(22,9,3,${Math.min(0.95, 0.35 + burn * 0.7)})`);
+  const half = Math.max(0, (burn - 0.3) / 0.7); // el lado quemado aparece desde "tostado"
+  side.addColorStop(0.45, `rgba(70,30,8,${0.35 * half})`);
+  side.addColorStop(1, `rgba(22,9,3,${Math.min(0.95, half * 1.05)})`);
   g.fillStyle = side;
   g.fillRect(0, 0, size, size);
-  const blobs = Math.round(4 + burn * 22);
+  const blobs = Math.round(Math.max(0, burn - 0.35) * 40);
   for (let i = 0; i < blobs; i++) {
     const x = size * (0.62 + r() * 0.42), y = size * (r() * 0.85);
     const rr = 14 + r() * 42 * (0.4 + burn);
@@ -197,9 +199,9 @@ export function crumbTexture(outline, box, burn = 0.45, seed = 5) {
   const crustW = size * 0.075;
   g.save(); path(g); g.clip();
   const cr = g.createLinearGradient(0, 0, size, 0);
-  cr.addColorStop(0, '#b4682b');
-  cr.addColorStop(0.55, '#a35a22');
-  cr.addColorStop(1, burn > 0.5 ? '#2a1209' : '#6e3512');
+  cr.addColorStop(0, tc.crust);
+  cr.addColorStop(0.55, tc.crust);
+  cr.addColorStop(1, toastColors(Math.min(1, burn + 0.3)).crust);
   g.strokeStyle = cr;
   g.lineWidth = crustW * 2;
   g.lineJoin = 'round';
@@ -223,9 +225,8 @@ export function crustSideTexture(burn = 0.45, seed = 9) {
   const [c, g] = canvas(256, 256);
   const r = rng(seed);
   const grad = g.createLinearGradient(0, 0, 256, 0);
-  grad.addColorStop(0, '#b0652a');
-  grad.addColorStop(0.5, '#9a521e');
-  grad.addColorStop(1, burn > 0.5 ? '#2c140a' : '#7a3c15');
+  grad.addColorStop(0, toastColors(burn).crust);
+  grad.addColorStop(1, toastColors(Math.min(1, burn + 0.3)).crust);
   g.fillStyle = grad;
   g.fillRect(0, 0, 256, 256);
   for (let i = 0; i < 700; i++) {
@@ -233,10 +234,6 @@ export function crustSideTexture(burn = 0.45, seed = 9) {
     g.beginPath();
     g.arc(r() * 256, r() * 256, 0.6 + r() * 2.2, 0, Math.PI * 2);
     g.fill();
-  }
-  if (burn > 0.3) {
-    g.fillStyle = `rgba(15,6,2,${(burn - 0.3) * 0.8})`;
-    g.fillRect(0, 0, 256, 256);
   }
   return texture(c, { repeat: [4, 4] });
 }

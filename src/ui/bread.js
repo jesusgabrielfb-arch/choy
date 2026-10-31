@@ -1,3 +1,4 @@
+import { toastColors } from '../grades/toast.js';
 // Pancracio en pequeño (logo, tarjetas, tutorial): dibujo SVG de la misma rebanada del modelo 3D. Se tuesta según la nota y cambia de cara según el riesgo.
 
 let uid = 0;
@@ -7,13 +8,15 @@ const mix = (a, b, t) => {
   return `rgb(${ch(16)},${ch(8)},${ch(0)})`;
 };
 
-/** Nivel de quemado 0..1 a partir de una nota en décimas (5.0 = dorado perfecto). */
+/**
+ * Nivel de quemado 0..1 a partir de una nota en décimas:
+ * 5.0 pan blanco · 4.5 doradito · 4.0 tostado · 3.5 muy tostado · 3.0 al borde · 2.0 o menos carbón.
+ */
 export function burnFor(t) {
-  if (t == null) return 0.15;
-  const g = t / 10;
-  if (g >= 4.5) return 0.05;
-  if (g >= 3) return 0.05 + ((4.5 - g) / 1.5) * 0.5;
-  return Math.min(1, 0.6 + ((3 - g) / 2) * 0.4);
+  if (t == null) return 0.4;
+  const g = Math.max(1, Math.min(5, t / 10));
+  if (g >= 3) return ((5 - g) / 2) * 0.66;
+  return Math.min(1, 0.66 + ((3 - g) / 1) * 0.34);
 }
 
 /** Cara según el estado de la materia. */
@@ -33,10 +36,12 @@ export function breadSVG({ burn = 0.3, mood = 'happy', smoke = burn > 0.55, labe
 
 function drawSVG({ burn, mood, smoke, label }) {
   const id = `b${uid++}`;
-  const crust = mix('#b4682b', '#2a1209', Math.min(1, burn * 1.1));
-  const crumbIn = mix('#fbecc6', '#d9a866', burn * 0.5);
-  const crumbOut = mix('#e2b46a', '#7a3d1c', burn * 0.8);
-  const char = Math.min(0.9, 0.2 + burn * 0.8);
+  const tc = toastColors(burn);
+  const crust = tc.crust;
+  const crumbIn = tc.center;
+  const crumbOut = tc.edge;
+  const ink = burn > 0.8 ? '#f3e3c3' : '#120804'; // en el pan negro, la cara se dibuja clara
+  const char = Math.max(0, Math.min(0.9, (burn - 0.35) * 1.4));
 
   const eyes = {
     happy: `<ellipse cx="47" cy="60" rx="7.5" ry="8.5" fill="#fffaf0"/><ellipse cx="73" cy="60" rx="7.5" ry="8.5" fill="#fffaf0"/>
@@ -46,13 +51,13 @@ function drawSVG({ burn, mood, smoke, label }) {
     scared: `<ellipse cx="47" cy="59" rx="9" ry="10.5" fill="#fffaf0"/><ellipse cx="73" cy="59" rx="9" ry="10.5" fill="#fffaf0"/>
              <circle class="pupil" cx="47" cy="60" r="3.4" fill="#1b0f0a"/><circle class="pupil" cx="73" cy="60" r="3.4" fill="#1b0f0a"/>
              <path d="M37 45l13 4M83 45l-13 4" stroke="#3b1a0a" stroke-width="3" stroke-linecap="round"/>`,
-    dead: `<path d="M41 54l12 12M53 54L41 66M67 54l12 12M79 54L67 66" stroke="#120804" stroke-width="3.6" stroke-linecap="round"/>`,
+    dead: `<path d="M41 54l12 12M53 54L41 66M67 54l12 12M79 54L67 66" stroke="${ink}" stroke-width="3.6" stroke-linecap="round"/>`,
   }[mood] || '';
   const mouth = {
     happy: `<path d="M53 76q7 7 14 0" stroke="#3a160a" stroke-width="3" fill="none" stroke-linecap="round"/>`,
     proud: `<path d="M50 74q10 13 20 0z" fill="#5a1f0e"/><path d="M55 78q5 3 10 0" stroke="#e8735a" stroke-width="2.4" fill="none" stroke-linecap="round"/>`,
     scared: `<ellipse cx="60" cy="80" rx="5" ry="6.5" fill="#3a160a"/>`,
-    dead: `<path d="M51 80q4-4 9 0t9 0" stroke="#120804" stroke-width="3" fill="none" stroke-linecap="round"/>`,
+    dead: `<path d="M51 80q4-4 9 0t9 0" stroke="${ink}" stroke-width="3" fill="none" stroke-linecap="round"/>`,
   }[mood] || '';
   const smokeSvg = smoke
     ? `<g class="smoke" fill="none" stroke="rgba(120,104,96,.55)" stroke-width="4" stroke-linecap="round">
@@ -63,7 +68,7 @@ function drawSVG({ burn, mood, smoke, label }) {
   return `<svg class="bread mood-${mood}" viewBox="0 0 120 120" role="img" aria-label="${label || 'Pancracio'}">
     <defs>
       <radialGradient id="${id}m" cx=".45" cy=".55" r=".6">
-        <stop offset="0" stop-color="${crumbIn}"/><stop offset=".7" stop-color="${mix('#f2d79f', '#b07a40', burn * 0.6)}"/><stop offset="1" stop-color="${crumbOut}"/>
+        <stop offset="0" stop-color="${crumbIn}"/><stop offset="1" stop-color="${crumbOut}"/>
       </radialGradient>
       <linearGradient id="${id}q" x1="0" y1="0" x2="1" y2="0">
         <stop offset=".45" stop-color="#160904" stop-opacity="0"/><stop offset="1" stop-color="#160904" stop-opacity="${char}"/>
@@ -76,11 +81,11 @@ function drawSVG({ burn, mood, smoke, label }) {
     ${smokeSvg}
     <ellipse cx="60" cy="113" rx="40" ry="5" fill="rgba(0,0,0,.22)"/>
     <g class="bread-body">
-      <path d="${SLICE}" transform="translate(3 3)" fill="${mix('#8a4a1c', '#1a0a05', burn)}"/>
+      <path d="${SLICE}" transform="translate(3 3)" fill="${mix('#c49a5c', '#0d0603', burn)}"/>
       <path d="${SLICE}" fill="url(#${id}m)" stroke="${crust}" stroke-width="7" stroke-linejoin="round"/>
       <g clip-path="url(#${id}c)">
         <rect width="120" height="120" fill="url(#${id}p)"/>
-        ${burn > 0.15 ? `<path d="M10 116L50 10M38 116L78 10M66 116L106 10" stroke="#8a4a18" stroke-width="7" opacity="${Math.min(0.28, burn * 0.35)}"/>` : ''}
+        ${burn > 0.25 && burn < 0.85 ? `<path d="M10 116L50 10M38 116L78 10M66 116L106 10" stroke="#8a4a18" stroke-width="7" opacity="${Math.min(0.28, burn * 0.35)}"/>` : ''}
         <rect width="120" height="120" fill="url(#${id}q)"/>
       </g>
       <g class="face">${eyes}${mouth}

@@ -503,7 +503,8 @@ input[type='range']::-moz-range-thumb { width: 22px; height: 22px; border-radius
   #kitchen { position: relative; height: 56svh; min-height: 360px; order: 1; }
   .hero-shade { background: linear-gradient(0deg, var(--bg) 0%, rgba(15, 36, 38, 0) 30%); height: 56svh; min-height: 360px; }
   .hero-copy { position: relative; order: 2; width: auto; transform: none; left: auto; top: auto; padding: 0 var(--gutter); margin-top: -40px; }
-  .bubble { top: 76px; left: 16px; max-width: 230px; font-size: 14px; }
+  /* En celular Pancracio queda a la izquierda: la burbuja va arriba a la derecha, sobre el horno. */
+  .bubble { top: 64px; left: auto; right: max(16px, env(safe-area-inset-right, 0px)); max-width: min(220px, 52vw); font-size: 13.5px; padding: 10px 14px; border-radius: 18px 18px 6px 18px; transform-origin: 100% 100%; }
   .hero-stats { position: relative; order: 3; left: auto; right: auto; bottom: auto; padding: 24px var(--gutter) 0; }
   .summary { grid-template-columns: 1fr; }
 }
@@ -577,3 +578,12 @@ img.bread { display: block; width: 100%; height: auto; user-select: none; -webki
 img.bread.mood-scared { animation: shiver 0.18s linear infinite; transform-origin: 50% 100%; }
 .card:hover img.bread { animation: squish 0.6s var(--ease-spring); transform-origin: 50% 100%; }
 .brand-bread img.bread { filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.35)); }
+
+/* Escala de tostado en la receta */
+.recipe-wide { grid-column: 1 / -1; }
+.toast-scale { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 10px; }
+.toast-scale figure { margin: 0; display: grid; justify-items: center; gap: 4px; text-align: center; }
+.toast-scale .bread { width: 100%; max-width: 86px; }
+.toast-scale figcaption { font-size: 12px; font-weight: 700; color: var(--ink-2); line-height: 1.2; }
+.toast-scale figcaption b { display: block; font-family: var(--font-display); font-size: 18px; color: var(--ink); }
+@media (max-width: 560px) { .toast-scale { grid-template-columns: repeat(4, minmax(0, 1fr)); } }

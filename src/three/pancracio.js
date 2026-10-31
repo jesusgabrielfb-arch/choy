@@ -2,6 +2,7 @@
 // Respira, parpadea, gira para mirarte, habla, salta, celebra, se asusta y sale del horno.
 import * as THREE from 'three';
 import { crumbTexture, crustSideTexture, softDotTexture } from './textures.js';
+import { toastColors } from '../grades/toast.js';
 
 export const MOODS = ['happy', 'proud', 'worried', 'scared', 'dead'];
 
@@ -78,7 +79,7 @@ export function createPancracio({ burn: startBurn = 0.45 } = {}) {
   const eyeWhite = new THREE.MeshStandardMaterial({ color: '#fffaf2', roughness: 0.12 });
   const pupilMat = new THREE.MeshStandardMaterial({ color: '#160b06', roughness: 0.1 });
   const glintMat = new THREE.MeshBasicMaterial({ color: '#ffffff' });
-  const lidMat = new THREE.MeshStandardMaterial({ color: '#efd29a', roughness: 0.9 });
+  const lidMat = new THREE.MeshStandardMaterial({ color: toastColors(startBurn).center, roughness: 0.9 });
   const darkMat = new THREE.MeshStandardMaterial({ color: '#3a1a0b', roughness: 0.7 });
 
   const eyes = [-1, 1].map((side) => {
@@ -278,6 +279,7 @@ export function createPancracio({ burn: startBurn = 0.45 } = {}) {
     slice.crumbMat.bumpMap = crumb.bump;
     slice.crustMat.map.dispose();
     slice.crustMat.map = crustSideTexture(burn);
+    lidMat.color.set(toastColors(burn).center);
   }
 
   const play = (name, dur) => { action = { name, t: 0, dur }; };
@@ -427,7 +429,8 @@ export function createPancracio({ burn: startBurn = 0.45 } = {}) {
     }
 
     // Humo según lo quemado.
-    const active = Math.round(burn * smoke.length * (mood === 'dead' ? 1.4 : 1));
+    // Solo echa humo desde "muy tostado" hacia arriba.
+    const active = Math.round(Math.max(0, (burn - 0.5) / 0.5) * smoke.length * (mood === 'dead' ? 1.4 : 1));
     smoke.forEach((s, i) => {
       const u = s.userData;
       u.t += dt * u.speed;
