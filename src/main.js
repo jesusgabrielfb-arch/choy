@@ -10,7 +10,8 @@ import { initUpload } from './ui/upload.js';
 import { say } from './ui/phrases.js';
 import { startTour, tourSeen } from './ui/tour.js';
 import { fmt } from './grades/calc.js';
-import { askConfirm } from './ui/dialog.js';
+import { askConfirm, askText } from './ui/dialog.js';
+import { getPin, setPin, syncNow } from './ui/sync.js';
 
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 let kitchen = null;
@@ -117,6 +118,12 @@ function initMenu() {
       }
     } else if (act === 'tour') {
       runTour();
+    } else if (act === 'seduca') {
+      const pin = await askText('PIN para conectar con SEDUCA', 'El PIN de 6 números');
+      if (pin) { setPin(pin); syncSeduca(true); }
+    } else if (act === 'sync') {
+      if (getPin()) syncSeduca(true);
+      else toast('Primero toca "Conectar con SEDUCA" y escribe tu PIN.');
     }
   });
   document.getElementById('import-input').addEventListener('change', async (e) => {
@@ -142,6 +149,39 @@ function runTour() {
       speak('tourDone');
     },
   });
+}
+
+// ---------- SEDUCA ----------
+let syncing = false;
+async function syncSeduca(manual = false) {
+  if (syncing) return;
+  syncing = true;
+  bubbleText.textContent = 'Revisando tus notas en SEDUCA…';
+  kitchen?.setHeat(0.8);
+  const r = await syncNow();
+  kitchen?.setHeat(0.35);
+  syncing = false;
+  if (!r.ok) {
+    if (manual || !/conectar/.test(r.error)) toast(r.error === 'PIN incorrecto' ? 'Ese PIN no es. Toca "Conectar con SEDUCA" para escribirlo de nuevo.' : r.error);
+    if (r.error === 'PIN incorrecto') setPin(null);
+    speakStatus();
+    return;
+  }
+  if (r.primera) {
+    toast('¡Conectado con SEDUCA! Tus notas se actualizarán solas cada vez que abras la página.');
+    speakStatus();
+  } else if (r.nuevas.length) {
+    const n = r.nuevas[0];
+    bubbleText.textContent = r.nuevas.length === 1
+      ? `¡Nota nueva! ${n.materia}: ${n.nota} en "${n.nombre}".`
+      : `¡${r.nuevas.length} notas nuevas! La más reciente: ${n.materia} ${n.nota}.`;
+    kitchen?.pancracio.talk(3);
+    if (Number(n.nota) >= 3) kitchen?.pancracio.celebrate(); else kitchen?.pancracio.jump();
+    toast(r.nuevas.map((x) => `${x.materia}: ${x.nota}`).join(' · '), 6000);
+  } else {
+    if (manual) toast('Todo al día: no hay notas nuevas en SEDUCA.');
+    speakStatus();
+  }
 }
 
 // ---------- Arranque ----------
@@ -183,6 +223,7 @@ subscribe(renderAll);
 renderAll();
 
 initKitchen().then(() => {
+  if (getPin()) { syncSeduca(); return; }
   if (!tourSeen()) setTimeout(runTour, reduced ? 200 : 600);
   else if (hasData()) setTimeout(speakStatus, 300);
   else speak('hello');

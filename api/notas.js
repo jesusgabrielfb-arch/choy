@@ -1,8 +1,11 @@
-// Función de Vercel: entra a SEDUCA con las claves guardadas en Vercel y trae las calificaciones.
-// Las claves viven en las variables SEDUCA_USUARIO y SEDUCA_CLAVE; nunca llegan al navegador.
-// Protegida con NOTAS_PIN para que solo tú puedas pedir tus notas.
+// Función de Vercel: entra a SEDUCA (portal de estudiantes "aula") con las claves guardadas en Vercel
+// y devuelve las notas de los 4 bimestres como datos. Las claves viven en SEDUCA_USUARIO y
+// SEDUCA_CLAVE y nunca llegan al navegador. NOTAS_PIN evita que otra persona pida tus notas.
 
 const BASE = 'https://csa.gsepty.com';
+// Tipos de nota del portal → componentes de la calculadora.
+const TYPES = { 3: 'dig', 4: 'apr', 6: 'bim' };
+const ROMAN = { I: 1, II: 2, III: 3, IV: 4 };
 
 class Session {
   constructor() { this.cookies = new Map(); }
@@ -35,8 +38,8 @@ class Session {
   }
 }
 
-/** Entra al portal de estudiantes (aula): formulario con token CSRF ligado a la sesión. */
-export async function login() {
+/** Entra al portal de estudiantes: formulario con token CSRF ligado a la sesión. */
+async function login() {
   const user = process.env.SEDUCA_USUARIO, pass = process.env.SEDUCA_CLAVE;
   if (!user || !pass) throw new Error('Faltan SEDUCA_USUARIO o SEDUCA_CLAVE en Vercel');
   const s = new Session();
@@ -45,52 +48,76 @@ export async function login() {
   const html = await form.text();
   const field = (name) => html.match(new RegExp(`name="${name}"[^>]*value="([^"]*)"`))?.[1]
     ?? html.match(new RegExp(`value="([^"]*)"[^>]*name="${name}"`))?.[1] ?? '';
-  const body = new URLSearchParams({
-    _username: user.trim(),
-    _password: pass,
-    _target_path: field('_target_path') || 'gse_template_homepage',
-    _csrf_token: field('_csrf_token'),
-  });
   const { res, url } = await s.fetch('/2/aula/login_check', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body,
+    body: new URLSearchParams({
+      _username: user.trim(),
+      _password: pass,
+      _target_path: field('_target_path') || 'gse_template_homepage',
+      _csrf_token: field('_csrf_token'),
+    }),
   });
   const page = await res.text();
   if (/\/login\b/.test(new URL(url).pathname)) {
     const msg = page.match(/class="[^"]*(?:alert|error)[^"]*"[^>]*>([\s\S]{0,200}?)</i)?.[1]?.replace(/\s+/g, ' ').trim();
     throw new Error(`SEDUCA no aceptó el usuario o la contraseña${msg ? ` (${msg})` : ''}`);
   }
-  return { session: s, home: url, homeHtml: page };
+  return s;
+}
+
+/** Nota del portal → texto de la calculadora: "4.40" → "4.4", sin nota → "X", sin calificar → "-". */
+function cell(a) {
+  if (!a.calificada) return '-';
+  if (a.score === false || a.score == null || a.score === '') return 'X';
+  const n = Number(a.score);
+  return Number.isFinite(n) ? n.toFixed(1) : '-';
+}
+
+async function readPeriods(s) {
+  const { res } = await s.fetch('/2/aula/grade');
+  const html = await res.text();
+  const select = html.match(/<select[^>]*id="piis"[^>]*>([\s\S]*?)<\/select>/i)?.[1] || '';
+  return [...select.matchAll(/value="(\d+)"[^>]*>\s*([IVX]+)\s*Bimestre/gi)]
+    .map((m) => ({ id: m[1], bim: ROMAN[m[2].toUpperCase()] }))
+    .filter((p) => p.bim);
+}
+
+async function readPeriod(s, piId) {
+  const { res } = await s.fetch(`/2/aula/grade/json?pi_id=${piId}`, {
+    method: 'POST',
+    headers: { 'X-Requested-With': 'XMLHttpRequest', 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: '',
+  });
+  const json = await res.json();
+  return (json.subjects || []).map((subj) => {
+    const out = { name: String(subj.name).replace(/^\*\s*/, '').trim(), starred: /^\*/.test(subj.name), dig: [], apr: [], bim: [], items: [] };
+    for (const [typeId, group] of Object.entries(subj.scores || {})) {
+      const comp = TYPES[typeId];
+      if (!comp) continue;
+      for (const a of Object.values(group.scores || {})) {
+        const v = cell(a);
+        out[comp].push(v);
+        out.items.push({ id: a.id, comp, name: String(a.nombre || '').trim(), date: a.fecha, value: v });
+      }
+    }
+    return out;
+  });
 }
 
 export default async function handler(req, res) {
   const q = Object.fromEntries(new URL(req.url, 'http://x').searchParams);
-  req.query = q;
   const pin = process.env.NOTAS_PIN;
   const given = req.headers['x-pin'] || q.pin;
+  res.setHeader('Cache-Control', 'no-store');
   // Siempre 200: el estado real va en el JSON (Vercel trata los 401 como "requiere iniciar sesión").
   if (!pin || given !== pin) return res.status(200).json({ ok: false, error: pin ? 'PIN incorrecto' : 'Falta NOTAS_PIN en Vercel' });
   try {
-    const { session, home } = await login();
-    // Modo datos crudos de un bimestre: JSON del portal tal cual (para ajustar el lector).
-    if (req.query.pi) {
-      const { res: r } = await session.fetch(`/2/aula/grade/json?pi_id=${encodeURIComponent(req.query.pi)}`, {
-        method: 'POST', headers: { 'X-Requested-With': 'XMLHttpRequest', 'Content-Type': 'application/x-www-form-urlencoded' }, body: '',
-      });
-      const text = await r.text();
-      res.setHeader('Cache-Control', 'no-store');
-      return res.status(200).json({ ok: true, status: r.status, raw: text.slice(0, 120000) });
-    }
-    // Modo exploración: muestra una página del portal (solo dentro de /2/parent) para ajustar el lector.
-    const path = typeof req.query.ver === 'string' && req.query.ver.startsWith('/2/aula') ? req.query.ver : home;
-    const { res: page, url } = await session.fetch(path);
-    const html = await page.text();
-    const links = [...html.matchAll(/<a[^>]+href="([^"#][^"]*)"[^>]*>([\s\S]*?)<\/a>/gi)]
-      .map((m) => [m[1], m[2].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()])
-      .filter(([h]) => h.includes('/2/aula') || h.startsWith('/'));
-    res.setHeader('Cache-Control', 'no-store');
-    return res.status(200).json({ ok: true, url, status: page.status, links, html: req.query.html ? html.slice(0, 60000) : undefined });
+    const s = await login();
+    const periods = await readPeriods(s);
+    const bims = [];
+    for (const p of periods) bims.push({ bim: p.bim, subjects: await readPeriod(s, p.id) });
+    return res.status(200).json({ ok: true, at: new Date().toISOString(), bims });
   } catch (err) {
     return res.status(200).json({ ok: false, error: err.message });
   }
