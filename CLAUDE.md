@@ -57,7 +57,8 @@ Herramientas gratis elegidas:
 | Noticias | RSS (ESPN, NFL.com, NBC Sports Edge, CBS, Yahoo), API de Bluesky, lesionados y tendencias de Sleeper |
 | X/Twitter | **No** usar la API de pago ni copiar datos de X; seguir a esos periodistas en Bluesky/RSS |
 | Mascota 3D | Blender + complemento `blender-mcp` (gratis), Rigify o Mixamo, planes gratis de imagen a 3D |
-| Hosting y tareas automáticas | Vercel plan Hobby (incluye cron) |
+| Hosting | Vercel plan Hobby |
+| Revisar noticias seguido | GitHub Actions programado (el cron gratis de Vercel solo corre 1 vez al día) o buscar noticias al abrir la app |
 | Base de datos | Supabase plan gratis |
 | IA de la mascota | La API de Claude cobra por uso: buscar la opción más barata o gratis y avisar antes de gastar |
 
