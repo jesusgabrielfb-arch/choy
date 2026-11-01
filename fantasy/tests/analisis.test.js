@@ -125,6 +125,7 @@ test('lesiones: mías, stash y suplentes', () => {
   assert.deepEqual(r.mios.map((j) => j.id), ['a']);
   assert.deepEqual(r.stash.map((j) => j.id), ['b']);
   assert.equal(r.reemplazos[0].suplente.id, 'd');
+  assert.ok(r.reemplazos[0].libre && r.reemplazos[0].seguro);
   assert.deepEqual(r.liga.map((j) => j.id), ['c']);
 });
 

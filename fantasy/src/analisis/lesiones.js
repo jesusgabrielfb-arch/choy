@@ -65,14 +65,42 @@ export function analizarLesiones({ jugadores, miRoster, rosteados, valor, tieneI
       ? 'Puedes guardarlo en tu IR sin perder lugar en la banca.'
       : 'Si tienes un lugar libre en la banca, guárdalo: vale mucho cuando vuelva.' }));
 
-  // Reemplazos: el suplente directo de un titular lesionado (handcuff) que está libre.
-  const reemplazos = [];
-  for (const j of lesionados) {
-    if (!['Out', 'IR', 'PUP', 'Doubtful'].includes(j.lesion) || (j.profundidad ?? 9) > 1) continue;
-    if (!['RB', 'WR', 'TE', 'QB'].includes(j.pos)) continue;
-    const suplente = Object.values(jugadores).find((s) => s.equipo === j.equipo && s.pos === j.pos &&
-      s.profundidad === 2 && !rosteados.has(s.id) && !ESTADOS[s.lesion]);
-    if (suplente) reemplazos.push({ lesionado: j, suplente });
+  // Suplentes que suben: quién hereda los snaps de un jugador importante lesionado.
+  // Se ordena el depth chart de cada equipo (y si Sleeper no lo trae, por ranking).
+  const porEquipoPos = new Map();
+  for (const s of Object.values(jugadores)) {
+    if (!s.equipo || !['RB', 'WR', 'TE', 'QB'].includes(s.pos)) continue;
+    const k = `${s.equipo}|${s.pos}`;
+    if (!porEquipoPos.has(k)) porEquipoPos.set(k, []);
+    porEquipoPos.get(k).push(s);
   }
-  return { mios, liga, stash, reemplazos: reemplazos.sort((a, b) => valor(b.lesionado.id) - valor(a.lesionado.id)) };
+  for (const lista of porEquipoPos.values()) {
+    lista.sort((a, b) => (a.profundidad ?? 99) - (b.profundidad ?? 99) || (a.rank ?? 9999) - (b.rank ?? 9999));
+  }
+  const cuantos = { QB: 1, TE: 1, RB: 2, WR: 2 };
+  const reemplazos = [];
+  const vistos = new Set();
+  for (const j of lesionados) {
+    if (!['RB', 'WR', 'TE', 'QB'].includes(j.pos)) continue;
+    const grupo = porEquipoPos.get(`${j.equipo}|${j.pos}`) || [];
+    const lugar = grupo.findIndex((x) => x.id === j.id);
+    const importante = (lugar >= 0 && lugar < (j.pos === 'WR' ? 3 : 2)) || valor(j.id) >= minValor * 0.5;
+    if (!importante) continue;
+    const seguro = ['Out', 'IR', 'PUP', 'Sus', 'Doubtful', 'NA'].includes(j.lesion);
+    const sanos = grupo.filter((s) => s.id !== j.id && !['Out', 'IR', 'PUP', 'Sus', 'Doubtful', 'NA'].includes(s.lesion));
+    // los que estaban detrás de él en la profundidad
+    const detras = sanos.filter((s) => grupo.indexOf(s) > lugar).slice(0, cuantos[j.pos]);
+    for (const suplente of detras.length ? detras : sanos.slice(0, 1)) {
+      const k = `${j.id}>${suplente.id}`;
+      if (vistos.has(k)) continue;
+      vistos.add(k);
+      reemplazos.push({
+        lesionado: j, suplente, libre: !rosteados.has(suplente.id), mio: miRoster.includes(suplente.id),
+        seguro, texto: seguro ? 'sube seguro' : 'puede subir',
+      });
+    }
+  }
+  reemplazos.sort((a, b) => (Number(b.libre) - Number(a.libre)) || (Number(b.seguro) - Number(a.seguro)) ||
+    (valor(b.lesionado.id) - valor(a.lesionado.id)));
+  return { mios, liga, stash, reemplazos: reemplazos.slice(0, 40) };
 }

@@ -3,7 +3,7 @@
 import { esc, $, $$, filaJugador, pts, miles, cargando, tarjeta, notaCruce, etiquetaLesion, codyHtml, ponerCody } from './comun.js';
 import { cargarLiga, sesion } from '../estado.js';
 import { NOMBRE_PUESTO } from '../analisis/alineacion.js';
-import { consejoLesion } from '../analisis/lesiones.js';
+import { consejoLesion, ESTADOS } from '../analisis/lesiones.js';
 import { vistaMercado } from './mercado.js';
 import { vistaNoticias } from './noticias.js';
 import * as F from './frases.js';
@@ -303,11 +303,29 @@ function jugadores(el, d, ctx) {
     ${tarjeta('🐿️ Para guardar (stash)', L.stash.length ? `<div class="lista">${L.stash.map((j) => filaJugador(j, {
       derecha: miles(d.valor(j.id)), derechaSub: 'valor', consejo: esc(j.motivo) })).join('')}</div>`
       : '<div class="vacio">No hay lesionados valiosos libres ahora.</div>', { sub: 'Lesionados libres que valen mucho cuando vuelvan', plegable: true })}
-    ${tarjeta('⬆️ Suplentes que suben', L.reemplazos.length ? `<div class="lista">${L.reemplazos.slice(0, 10).map((r) => filaJugador(r.suplente, {
-      sub: `entra por ${esc(r.lesionado.nombre)}`, etiquetas: etiquetaLesion(r.lesionado) })).join('')}</div>`
-      : '<div class="vacio">Nada por ahora.</div>', { sub: 'Libres que heredan el puesto de un titular lesionado', plegable: true })}
+    ${tarjeta('⬆️ Suplentes que suben', L.reemplazos.length ? `<div class="chips" id="chips-sup">
+        <button data-f="libres" class="activo">✅ Libres (${L.reemplazos.filter((r) => r.libre).length})</button>
+        <button data-f="todos">Todos (${L.reemplazos.length})</button></div><div id="lista-sup"></div>`
+      : '<div class="vacio">Nada por ahora.</div>', { sub: 'Heredan el puesto de un titular lesionado o en duda', plegable: true })}
     ${tarjeta('🏥 Lesionados importantes de la liga', L.liga.length ? `<div class="lista">${L.liga.slice(0, 20).map((j) => filaJugador(j, {
       derecha: miles(d.valor(j.id)), derechaSub: 'valor' })).join('')}</div>` : '<div class="vacio">Nadie importante lesionado.</div>', { plegable: true })}`;
+
+  const pintarSup = (filtro) => {
+    const lista = L.reemplazos.filter((r) => filtro === 'todos' || r.libre).slice(0, 25);
+    $('#lista-sup').innerHTML = lista.length ? `<div class="lista">${lista.map((r) => filaJugador(r.suplente, {
+      sub: `entra por ${esc(r.lesionado.nombre)} (${esc(ESTADOS[r.lesionado.lesion]?.texto || r.lesionado.lesion)})`,
+      etiquetas: r.libre ? '<span class="etiqueta verde">✅ Libre</span>' : r.mio ? '<span class="etiqueta acento">Tuyo</span>' : '',
+      derecha: d.proyAjustada(d.semana, r.suplente.id) ? pts(d.proyAjustada(d.semana, r.suplente.id)) : '',
+      derechaSub: r.texto,
+    })).join('')}</div>` : '<div class="vacio">Ninguno libre ahora. Toca "Todos" para ver los demás.</div>';
+  };
+  if ($('#chips-sup')) {
+    $$('#chips-sup button').forEach((b) => b.addEventListener('click', () => {
+      $$('#chips-sup button').forEach((x) => x.classList.toggle('activo', x === b));
+      pintarSup(b.dataset.f);
+    }));
+    pintarSup('libres');
+  }
 
   const pintar = (pos) => {
     const lista = d.libres.filter((id) => J[id].pos === pos)

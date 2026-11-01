@@ -5,38 +5,45 @@ const sinAcentos = (s) => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '
 
 // Funciones de la app: título, palabras para encontrarla y a dónde lleva.
 export const FUNCIONES = [
-  { t: '⚔️ Enfrentamiento de la semana', k: 'duelo matchup enfrentamiento rival puntos casilla', tab: 'inicio', abrir: 'enfrentamiento' },
-  { t: '✅ Lo que tienes que hacer', k: 'plan consejos que hago cambios semana', tab: 'inicio' },
-  { t: '⚔️ Duelos de la liga', k: 'duelos porcentaje probabilidad ganar todos', tab: 'inicio', panel: 'duelos' },
-  { t: '🏆 Tabla de la liga', k: 'tabla posiciones clasificacion record standings', tab: 'inicio', panel: 'tabla' },
-  { t: '🎯 Tu punto débil', k: 'punto debil posicion floja mejorar', tab: 'inicio', panel: 'debil' },
-  { t: '🛡️ Defensa de la semana', k: 'defensa dst def streaming', tab: 'inicio', panel: 'defensa' },
-  { t: '📋 Alineación recomendada', k: 'alineacion titulares lineup sentar poner start sit', tab: 'equipo', abrir: 'Alineación' },
-  { t: '🪑 Banca', k: 'banca bench suplentes', tab: 'equipo', abrir: 'Banca' },
-  { t: '🩹 Lesionados de tu equipo', k: 'lesion lesionados injury duda out', tab: 'equipo', abrir: 'Lesionados de tu equipo' },
-  { t: '🔬 Analizador de defensas', k: 'analizador defensas cruce matchup permite puntos', tab: 'equipo', abrir: 'Analizador' },
-  { t: '🛡️ Mejores defensas de la semana', k: 'mejores defensas dst def semana rival', tab: 'equipo', abrir: 'Mejores defensas' },
-  { t: '🤝 Armador de trades', k: 'trade intercambio cambio justo armar', tab: 'mercado', abrir: 'Armador' },
-  { t: '🛒 Comprar barato', k: 'comprar barato buy low', tab: 'mercado', abrir: 'Comprar barato' },
-  { t: '💰 Vender caro', k: 'vender caro sell high', tab: 'mercado', abrir: 'Vender caro' },
-  { t: '🌎 Lo que hacen miles de ligas', k: 'tendencias trending agregados soltados', tab: 'mercado', abrir: 'miles de ligas' },
-  { t: '➕ Agrega esta semana (waivers)', k: 'waivers agregar libres pickup', tab: 'jugadores', abrir: 'Agrega' },
-  { t: '😴 Byes', k: 'bye byes descanso semana', tab: 'jugadores', abrir: 'Byes' },
-  { t: '🔎 Mejores libres', k: 'libres agentes free agents', tab: 'jugadores', abrir: 'Mejores libres' },
-  { t: '🐿️ Stash (guardar lesionados)', k: 'stash guardar ir lesionado', tab: 'jugadores', abrir: 'stash' },
-  { t: '⬆️ Suplentes que suben', k: 'suplentes handcuff reemplazo', tab: 'jugadores', abrir: 'Suplentes' },
-  { t: '🏥 Lesionados de la liga', k: 'lesionados liga importantes', tab: 'jugadores', abrir: 'Lesionados importantes' },
-  { t: '📰 Noticias', k: 'noticias news nfl', tab: 'noticias' },
-  { t: '🎙️ Analistas', k: 'analistas bluesky expertos', tab: 'noticias', abrir: 'analistas' },
-  { t: '🎨 Equipo favorito y colores', k: 'equipo favorito colores camiseta tema', href: '#/equipo-favorito' },
-  { t: '🔔 Avisos (notificaciones)', k: 'avisos notificaciones alertas push', href: '#/', abrir: 'Avisos' },
-  { t: '📁 Mis ligas', k: 'ligas carpetas cambiar liga', href: '#/' },
+  { t: '⚔️ Enfrentamiento de la semana', desc: 'Tus titulares vs los del rival, puesto por puesto', k: 'duelo matchup enfrentamiento rival puntos casilla', tab: 'inicio', abrir: 'enfrentamiento' },
+  { t: '✅ Lo que tienes que hacer', desc: 'Cambios con los puntos que ganas', k: 'plan consejos que hago cambios semana', tab: 'inicio' },
+  { t: '⚔️ Duelos de la liga', desc: 'Todos los duelos con su % de ganar', k: 'duelos porcentaje probabilidad ganar todos', tab: 'inicio', panel: 'duelos' },
+  { t: '🏆 Tabla de la liga', desc: 'Posiciones, récord y puntos', k: 'tabla posiciones clasificacion record standings', tab: 'inicio', panel: 'tabla' },
+  { t: '🎯 Tu punto débil', desc: 'Tu peor posición y un trade para arreglarla', k: 'punto debil posicion floja mejorar', tab: 'inicio', panel: 'debil' },
+  { t: '🛡️ Defensa de la semana', desc: 'Tu DEF vs la mejor libre', k: 'defensa dst def streaming', tab: 'inicio', panel: 'defensa' },
+  { t: '📋 Alineación recomendada', desc: 'Quién entra y quién sale', k: 'alineacion titulares lineup sentar poner start sit', tab: 'equipo', abrir: 'Alineación' },
+  { t: '🪑 Banca', desc: 'Tus suplentes con su proyección', k: 'banca bench suplentes', tab: 'equipo', abrir: 'Banca' },
+  { t: '🩹 Lesionados de tu equipo', desc: 'Estado y qué hacer con cada uno', k: 'lesion lesionados injury duda out', tab: 'equipo', abrir: 'Lesionados de tu equipo' },
+  { t: '🔬 Analizador de defensas', desc: 'Qué defensa regala más puntos a cada posición', k: 'analizador defensas cruce matchup permite puntos', tab: 'equipo', abrir: 'Analizador' },
+  { t: '🛡️ Mejores defensas de la semana', desc: 'Ranking de DEF por rival (esta y la próxima)', k: 'mejores defensas dst def semana rival', tab: 'equipo', abrir: 'Mejores defensas' },
+  { t: '🤝 Armador de trades', desc: 'Elige jugadores y te doy opciones justas', k: 'trade intercambio cambio justo armar', tab: 'mercado', abrir: 'Armador' },
+  { t: '🛒 Comprar barato', desc: 'Jugadores que rinden menos de lo que valen', k: 'comprar barato buy low', tab: 'mercado', abrir: 'Comprar barato' },
+  { t: '💰 Vender caro', desc: 'Tus jugadores en su punto más alto', k: 'vender caro sell high', tab: 'mercado', abrir: 'Vender caro' },
+  { t: '🌎 Lo que hacen miles de ligas', desc: 'Más agregados y soltados en Sleeper', k: 'tendencias trending agregados soltados', tab: 'mercado', abrir: 'miles de ligas' },
+  { t: '➕ Agrega esta semana (waivers)', desc: 'Lo que más suma a tu alineación', k: 'waivers agregar libres pickup', tab: 'jugadores', abrir: 'Agrega' },
+  { t: '😴 Byes', desc: 'Quién se va de bye esta semana y la próxima', k: 'bye byes descanso semana', tab: 'jugadores', abrir: 'Byes' },
+  { t: '🔎 Mejores libres', desc: 'Libres por posición con su proyección', k: 'libres agentes free agents', tab: 'jugadores', abrir: 'Mejores libres' },
+  { t: '🐿️ Stash (guardar lesionados)', desc: 'Lesionados libres que valen mucho al volver', k: 'stash guardar ir lesionado', tab: 'jugadores', abrir: 'stash' },
+  { t: '⬆️ Suplentes que suben', desc: 'Quién hereda el puesto de un lesionado', k: 'suplentes handcuff reemplazo', tab: 'jugadores', abrir: 'Suplentes' },
+  { t: '🏥 Lesionados de la liga', desc: 'Lesionados importantes de otros equipos', k: 'lesionados liga importantes', tab: 'jugadores', abrir: 'Lesionados importantes' },
+  { t: '📰 Noticias', desc: 'En español, primero las de tus jugadores', k: 'noticias news nfl', tab: 'noticias' },
+  { t: '🎙️ Analistas', desc: 'Sigue analistas en Bluesky', k: 'analistas bluesky expertos', tab: 'noticias', abrir: 'analistas' },
+  { t: '🎨 Equipo favorito y colores', desc: 'Cambia la camiseta de Cody y los colores', k: 'equipo favorito colores camiseta tema', href: '#/equipo-favorito' },
+  { t: '🔔 Avisos (notificaciones)', desc: 'Activa o apaga las notificaciones', k: 'avisos notificaciones alertas push', href: '#/', abrir: 'Avisos' },
+  { t: '📅 Cambiar de semana', desc: 'Ve semanas pasadas (resultados) y futuras', k: 'semana cambiar anterior siguiente week', tab: 'inicio' },
+  { t: '🐛 Hablar con Cody', desc: 'Tócalo y te cuenta algo… pero no lo toques mucho', k: 'cody mascota hablar chiste', tab: 'inicio' },
+  { t: '📁 Mis ligas', desc: 'Cambiar de liga', k: 'ligas carpetas cambiar liga', href: '#/' },
+];
+
+const GRUPOS = [
+  ['inicio', '🐛 Cody (inicio)'], ['equipo', '🏈 Equipo'], ['mercado', '🔁 Mercado'],
+  ['jugadores', '📋 Jugadores'], ['noticias', '📰 Noticias'], ['general', '⚙️ General'],
 ];
 
 /** Busca funciones y jugadores. d puede ser null (fuera de una liga). */
 export function buscar(texto, d) {
   const q = sinAcentos(texto).trim();
-  if (!q) return { funciones: FUNCIONES.slice(0, 8), jugadores: [] };
+  if (!q) return { funciones: FUNCIONES.filter((f) => d || f.href), jugadores: [] };
   const palabras = q.split(/\s+/);
   const funciones = FUNCIONES
     .filter((f) => (d || f.href) && palabras.every((p) => sinAcentos(f.t + ' ' + f.k).includes(p)));
@@ -106,12 +113,17 @@ export function abrirBuscador({ d = null, ligaId = null, ctx } = {}) {
     else location.hash = destino;
   };
 
+  const item = (f, k) => `<button class="res-item" data-fun="${k}"><span class="res-txt"><b>${esc(f.t)}</b>${f.desc ? `<small>${esc(f.desc)}</small>` : ''}</span><span class="nota">›</span></button>`;
   const pintar = () => {
     const { funciones, jugadores } = buscar(input.value, d);
     res.innerHTML = `
       ${jugadores.length ? `<h3 class="seccion-titulo">Jugadores</h3>${jugadores.map((j) => `<button class="res-item" data-jug="${esc(j.id)}">
         <span class="pos ${esc(j.pos)}">${esc(j.pos)}</span><span class="res-txt"><b>${esc(j.nombre)}</b><small>${esc(j.equipo || '')} · ${esc(dueno(d, j.id).texto)}</small></span>${etiquetaLesion(j)}</button>`).join('')}` : ''}
-      ${funciones.length ? `<h3 class="seccion-titulo">${input.value ? 'Funciones' : 'Ir a…'}</h3>${funciones.map((f, k) => `<button class="res-item" data-fun="${k}"><span class="res-txt"><b>${esc(f.t)}</b></span><span class="nota">›</span></button>`).join('')}` : ''}
+      ${funciones.length ? (input.value ? `<h3 class="seccion-titulo">Funciones</h3>${funciones.map((f, k) => item(f, k)).join('')}`
+        : GRUPOS.map(([clave, titulo]) => {
+          const del = funciones.map((f, k) => [f, k]).filter(([f]) => (f.tab || 'general') === clave);
+          return del.length ? `<h3 class="seccion-titulo">${titulo}</h3>${del.map(([f, k]) => item(f, k)).join('')}` : '';
+        }).join('')) : ''}
       ${!funciones.length && !jugadores.length ? '<div class="vacio">No encontré nada con eso. 🐛</div>' : ''}`;
     $$('[data-fun]', res).forEach((b) => (b.onclick = () => irA(funciones[Number(b.dataset.fun)])));
     $$('[data-jug]', res).forEach((b) => (b.onclick = () => {
