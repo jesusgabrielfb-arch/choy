@@ -41,19 +41,40 @@ export function resumirJugador(id, p) {
   };
 }
 
-/** Todos los jugadores de fantasy. Se descarga una vez al día. */
-export async function jugadores() {
-  const c = leerCache('jugadores', 24 * HORA);
-  if (c) return c;
-  const todos = await pedirJSON(`${API}/players/nfl`);
-  const resumen = {};
-  for (const [id, p] of Object.entries(todos)) {
-    if (!POSICIONES.includes(p.position)) continue;
-    if (!p.team && !p.injury_status && (p.search_rank ?? 9999) > 600) continue;
-    resumen[id] = resumirJugador(id, p);
+/** Formato corto que manda /api/datos → el formato que usa la app. */
+export function expandirJugadores(corto) {
+  const res = {};
+  for (const [id, p] of Object.entries(corto)) {
+    res[id] = { id, nombre: p.n, pos: p.p, equipo: p.t, lesion: p.l, parte: p.b, nota: p.o, practica: p.pr,
+      edad: p.e, rank: p.r ?? 9999, activo: p.a !== 0, profundidad: p.d ?? null };
   }
-  guardarCache('jugadores', resumen);
-  return resumen;
+  return res;
+}
+
+let enMemoria = null;
+export async function jugadores() {
+  if (enMemoria && Date.now() - enMemoria.t < 6 * HORA) return enMemoria.v;
+  let corto = leerCache('jugadores2', 12 * HORA);
+  if (!corto) {
+    try {
+      // ~5 MB en Sleeper → unos cientos de KB ya recortados en nuestro servidor
+      corto = await pedirJSON('/api/datos?tipo=jugadores');
+      guardarCache('jugadores2', corto);
+    } catch {
+      const todos = await pedirJSON(`${API}/players/nfl`);
+      const resumen = {};
+      for (const [id, p] of Object.entries(todos)) {
+        if (!POSICIONES.includes(p.position)) continue;
+        if (!p.team && !p.injury_status && (p.search_rank ?? 9999) > 600) continue;
+        resumen[id] = resumirJugador(id, p);
+      }
+      enMemoria = { t: Date.now(), v: resumen };
+      return resumen;
+    }
+  }
+  const v = expandirJugadores(corto);
+  enMemoria = { t: Date.now(), v };
+  return v;
 }
 
 const consultaPos = POSICIONES.map((p) => `position[]=${p}`).join('&');
@@ -70,21 +91,23 @@ export function normalizarSemana(lista) {
 }
 
 /** Proyecciones de Sleeper (no oficiales, las mismas que usa su app). */
-export async function proyecciones(temporada, semana) {
-  const lista = await pedirJSON(
-    `https://api.sleeper.app/projections/nfl/${temporada}/${semana}?season_type=regular&${consultaPos}`,
-    { clave: `proy:${temporada}:${semana}`, ttl: 3 * HORA, proxy: true },
-  );
-  return normalizarSemana(lista);
+async function semana(tipo, temporada, w, ttl, terminada) {
+  const clave = `${tipo}2:${temporada}:${w}`;
+  try {
+    return await pedirJSON(`/api/datos?tipo=${tipo}&temporada=${temporada}&semana=${w}${terminada ? '&terminada=1' : ''}`, { clave, ttl });
+  } catch {
+    const ruta = tipo === 'proy' ? 'projections' : 'stats';
+    return pedirJSON(`https://api.sleeper.app/${ruta}/nfl/${temporada}/${w}?season_type=regular&${consultaPos}`, { proxy: true });
+  }
+}
+
+export async function proyecciones(temporada, w) {
+  return normalizarSemana(await semana('proy', temporada, w, 3 * HORA));
 }
 
 /** Estadísticas reales de una semana ya jugada. */
-export async function estadisticas(temporada, semana, terminada = true) {
-  const lista = await pedirJSON(
-    `https://api.sleeper.app/stats/nfl/${temporada}/${semana}?season_type=regular&${consultaPos}`,
-    { clave: `stats:${temporada}:${semana}`, ttl: terminada ? 7 * 24 * HORA : 20 * MINUTO, proxy: true },
-  );
-  return normalizarSemana(lista);
+export async function estadisticas(temporada, w, terminada = true) {
+  return normalizarSemana(await semana('stats', temporada, w, terminada ? 7 * 24 * HORA : 20 * MINUTO, terminada));
 }
 
 export const avatar = (id, chico = true) =>

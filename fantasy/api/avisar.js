@@ -7,6 +7,7 @@ import { llaves, leerJSON, guardarJSON, listar, borrar, responder } from './_lib
 import { juntarNoticias } from './noticias.js';
 import { generarAvisos } from '../src/analisis/avisos.js';
 import { leerPartidos, equiposEnBye } from '../src/datos/calendario.js';
+import { jugadoresLivianos } from './_lib/sleeper.js';
 
 const SLEEPER = 'https://api.sleeper.app/v1';
 const SITIO = 'https://fantasy-x-cody.vercel.app';
@@ -37,23 +38,21 @@ export default async function handler(req, res) {
   const espn = (w) => json(`https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?seasontype=2&week=${w}&dates=${temporada}`)
     .then(leerPartidos).catch(() => []);
   const [todos, partidos, partidosSig, noticias] = await Promise.all([
-    json(`${SLEEPER}/players/nfl`),
+    jugadoresLivianos(),
     espn(semana), espn(semana + 1),
     juntarNoticias().then((r) => r.noticias).catch(() => []),
   ]);
   const jugadores = {};
-  for (const [id, p] of Object.entries(todos)) {
-    jugadores[id] = { nombre: p.full_name || [p.first_name, p.last_name].filter(Boolean).join(' '), equipo: p.team, lesion: p.injury_status, parte: p.injury_body_part };
-  }
+  for (const [id, p] of Object.entries(todos)) jugadores[id] = { nombre: p.n, equipo: p.t, lesion: p.l, parte: p.b };
   const enRegular = estado.season_type === 'regular';
   const byes = enRegular ? equiposEnBye(partidos) : new Set();
   const byesSig = enRegular ? equiposEnBye(partidosSig) : new Set();
   const rosterCache = new Map();
 
   const resumen = { suscritos: subs.length, enviados: 0, borrados: 0, errores: 0 };
-  for (const b of subs) {
+  const revisar = async (b) => {
     const s = await leerJSON(b.pathname);
-    if (!s?.suscripcion) continue;
+    if (!s?.suscripcion) return;
     try {
       const ligas = [];
       for (const l of s.ligas || []) {
@@ -84,6 +83,8 @@ export default async function handler(req, res) {
         resumen.errores++;
       }
     }
-  }
+  };
+  // De 6 en 6 para no tardar demasiado cuando haya muchas personas
+  for (let i = 0; i < subs.length; i += 6) await Promise.all(subs.slice(i, i + 6).map(revisar));
   return responder(res, 200, { ok: true, semana, ...resumen, ms: Date.now() - inicio });
 }

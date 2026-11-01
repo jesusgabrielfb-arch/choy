@@ -247,7 +247,7 @@ def crear_cuerpo():
     sm.factor = 0.7
     sm.iterations = 14
     dc = o.modifiers.new("reducir", "DECIMATE")
-    dc.ratio = 0.2
+    dc.ratio = 0.1  # suficiente para el celular
     final = malla_evaluada(o)
     borrar(o)
     return final
@@ -458,7 +458,7 @@ def construir():
         R = base_ortonormal(adelante)
         r = 0.125
         bm = bmesh.new()
-        elipsoide(bm, centro, (r, r, r), seg=32, anillos=16)
+        elipsoide(bm, centro, (r, r, r), seg=24, anillos=12)
         c.agregar(bm_a_malla(bm), m_ojo, "cabeza")
         bm.free()
         for rad, prof, mat in ((0.062, 0.004, m_iris), (0.032, 0.009, m_pupila)):
@@ -518,7 +518,7 @@ def construir():
     puntos["boca"] = rayo(bvh, (0, -3, zc - 0.05), (0, 1, 0))[0]
     for lado, s in (("L", 1), ("R", -1)):
         puntos[f"comisura.{lado}"] = rayo(bvh, (w * s, -3, zc + 0.055), (0, 1, 0))[0]
-    nx, ny = 56, 16
+    nx, ny = 40, 12
     bm = bmesh.new()
     rejilla = []
     for j in range(ny + 1):
@@ -657,7 +657,7 @@ def construir():
         sm.factor = 0.5
         sm.iterations = 4
         dc = o.modifiers.new("d", "DECIMATE")
-        dc.ratio = 0.4
+        dc.ratio = 0.22
         me = malla_evaluada(o)
         borrar(o)
         c.agregar(me, m_piel, pesos_brazo)
@@ -1001,7 +1001,7 @@ def crear_animaciones(arm):
 
 # --------------------------------------------------------------------------- texturas
 
-TEX = 2048
+TEX = 1024  # suficiente para el celular y pesa mucho menos
 
 
 def _nodo(nt, tipo, x, y, **props):

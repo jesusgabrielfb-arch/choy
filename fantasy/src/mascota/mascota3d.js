@@ -7,7 +7,8 @@ export async function crearMascota(contenedor, { compacta = false } = {}) {
   const reducido = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  // En celular 1.5 se ve igual de nítido y gasta mucha menos batería que 2 o 3
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   contenedor.appendChild(renderer.domElement);
@@ -75,7 +76,7 @@ export async function crearMascota(contenedor, { compacta = false } = {}) {
   const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting; });
   io.observe(contenedor);
   renderer.setAnimationLoop(() => {
-    if (!visible) return;
+    if (!visible || document.hidden) { reloj.getDelta(); return; }
     mezclador.update(reducido ? 0 : reloj.getDelta());
     renderer.render(escena, camara);
   });
