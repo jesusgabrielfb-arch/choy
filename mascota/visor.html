@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Visor de la mascota</title>
+<style>
+  :root { --fondo: #14161c; --panel: #1f232c; --texto: #e9ecf2; --suave: #9aa3b2; --acento: #0085ca; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--fondo); color: var(--texto);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+  #escena { position: fixed; inset: 0; }
+  .panel { position: fixed; left: 16px; right: 16px; bottom: 16px; display: grid; gap: 10px;
+    background: color-mix(in srgb, var(--panel) 88%, transparent); backdrop-filter: blur(8px);
+    border-radius: 16px; padding: 12px; max-width: 760px; margin: 0 auto; }
+  .fila { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .etiqueta { color: var(--suave); font-size: 12px; width: 100%; }
+  button { background: #2b313d; color: var(--texto); border: 0; border-radius: 999px;
+    padding: 8px 14px; font-size: 14px; cursor: pointer; }
+  button.activo { background: var(--acento); }
+  .color { width: 30px; height: 30px; padding: 0; border-radius: 50%; border: 3px solid #2b313d; }
+  .color.activo { border-color: #fff; }
+  #estado { position: fixed; top: 16px; left: 16px; color: var(--suave); font-size: 13px; }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div id="escena"></div>
+<div id="estado">Cargando mascota…</div>
+<div class="panel">
+  <div class="fila" id="animaciones"><span class="etiqueta">Animación</span></div>
+  <div class="fila" id="equipos"><span class="etiqueta">Camiseta</span></div>
+</div>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+// Solo colores y números, sin logos.
+const EQUIPOS = {
+  Carolina:        { camiseta: '#101820', ribete: '#0085ca', numero: '#ffffff', borde: '#0085ca' },
+  'Kansas City':   { camiseta: '#e31837', ribete: '#ffb81c', numero: '#ffffff', borde: '#ffb81c' },
+  Buffalo:         { camiseta: '#00338d', ribete: '#c60c30', numero: '#ffffff', borde: '#c60c30' },
+  Minnesota:       { camiseta: '#4f2683', ribete: '#ffc62f', numero: '#ffffff', borde: '#ffc62f' },
+  Filadelfia:      { camiseta: '#004c54', ribete: '#a5acaf', numero: '#ffffff', borde: '#000000' },
+  Dallas:          { camiseta: '#041e42', ribete: '#869397', numero: '#ffffff', borde: '#869397' },
+  'San Francisco': { camiseta: '#aa0000', ribete: '#b3995d', numero: '#ffffff', borde: '#b3995d' },
+  'Green Bay':     { camiseta: '#203731', ribete: '#ffb612', numero: '#ffffff', borde: '#ffb612' },
+};
+const NOMBRES = { Reposo: 'Reposo', Hablar: 'Hablar', Feliz: 'Feliz', Triste: 'Triste',
+  Enojado: 'Enojado', Sorpresa: 'Sorpresa', Cool: 'Cool 😎', Arrastrarse: 'Arrastrarse',
+  Celebrar: 'Celebrar' };
+
+const cont = document.getElementById('escena');
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(innerWidth, innerHeight);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.shadowMap.enabled = true;
+cont.appendChild(renderer.domElement);
+
+const escena = new THREE.Scene();
+escena.background = new THREE.Color('#14161c');
+const pmrem = new THREE.PMREMGenerator(renderer);
+escena.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+escena.environmentIntensity = 0.6;
+
+const camara = new THREE.PerspectiveCamera(35, innerWidth / innerHeight, 0.1, 100);
+camara.position.set(1.6, 1.5, 5.6);
+const controles = new OrbitControls(camara, renderer.domElement);
+controles.target.set(0, 1.0, 0);
+controles.enableDamping = true;
+
+const sol = new THREE.DirectionalLight('#fff4e6', 2.2);
+sol.position.set(-3, 5, 4);
+sol.castShadow = true;
+sol.shadow.mapSize.set(1024, 1024);
+escena.add(sol);
+const contra = new THREE.DirectionalLight('#9cc4ff', 1.4);
+contra.position.set(2, 3, -4);
+escena.add(contra);
+const suelo = new THREE.Mesh(new THREE.CircleGeometry(4, 64),
+  new THREE.MeshStandardMaterial({ color: '#1c2028', roughness: 0.9 }));
+suelo.rotation.x = -Math.PI / 2;
+suelo.receiveShadow = true;
+escena.add(suelo);
+
+const reloj = new THREE.Clock();
+let mezclador, acciones = {}, actual;
+const materiales = {};
+
+new GLTFLoader().load('mascota.glb', (gltf) => {
+  const modelo = gltf.scene;
+  modelo.traverse((o) => {
+    if (o.isMesh) {
+      o.castShadow = true;
+      o.frustumCulled = false;
+      const lista = Array.isArray(o.material) ? o.material : [o.material];
+      lista.forEach((m) => (materiales[m.name] = m));
+    }
+  });
+  escena.add(modelo);
+  mezclador = new THREE.AnimationMixer(modelo);
+  const filaAnim = document.getElementById('animaciones');
+  for (const nombre of Object.keys(NOMBRES)) {
+    const clip = gltf.animations.find((c) => c.name === nombre);
+    if (!clip) continue;
+    const accion = mezclador.clipAction(clip);
+    if (nombre === 'Sorpresa' || nombre === 'Celebrar') {
+      accion.setLoop(nombre === 'Celebrar' ? THREE.LoopRepeat : THREE.LoopOnce);
+      accion.clampWhenFinished = true;
+    }
+    acciones[nombre] = accion;
+    const b = document.createElement('button');
+    b.textContent = NOMBRES[nombre];
+    b.onclick = () => reproducir(nombre);
+    b.dataset.nombre = nombre;
+    filaAnim.appendChild(b);
+  }
+  const filaEq = document.getElementById('equipos');
+  for (const [nombre, c] of Object.entries(EQUIPOS)) {
+    const b = document.createElement('button');
+    b.className = 'color';
+    b.title = nombre;
+    b.style.background = `linear-gradient(135deg, ${c.camiseta} 55%, ${c.ribete} 55%)`;
+    b.onclick = () => vestir(nombre);
+    b.dataset.nombre = nombre;
+    filaEq.appendChild(b);
+  }
+  vestir('Carolina');
+  reproducir('Reposo');
+  document.getElementById('estado').textContent = `${gltf.animations.length} animaciones`;
+  window.__listo = true;
+}, undefined, (e) => {
+  document.getElementById('estado').textContent = 'No se pudo cargar mascota.glb';
+  console.error(e);
+});
+
+function reproducir(nombre) {
+  const sig = acciones[nombre];
+  sig.reset().fadeIn(0.25).play();
+  if (actual && actual !== sig) actual.fadeOut(0.25);
+  actual = sig;
+  document.querySelectorAll('#animaciones button').forEach((b) =>
+    b.classList.toggle('activo', b.dataset.nombre === nombre));
+}
+
+function vestir(nombre) {
+  const c = EQUIPOS[nombre];
+  if (materiales.Camiseta) materiales.Camiseta.color.set(c.camiseta);
+  if (materiales.Camiseta_Ribete) materiales.Camiseta_Ribete.color.set(c.ribete);
+  if (materiales.Numero) materiales.Numero.color.set(c.numero);
+  if (materiales.Numero_Borde) materiales.Numero_Borde.color.set(c.borde);
+  document.querySelectorAll('#equipos button').forEach((b) =>
+    b.classList.toggle('activo', b.dataset.nombre === nombre));
+}
+window.reproducir = reproducir;
+window.vestir = vestir;
+
+addEventListener('resize', () => {
+  camara.aspect = innerWidth / innerHeight;
+  camara.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+renderer.setAnimationLoop(() => {
+  const dt = reloj.getDelta();
+  mezclador?.update(dt);
+  controles.update();
+  renderer.render(escena, camara);
+});
+</script>
+</body>
+</html>
