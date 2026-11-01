@@ -31,6 +31,8 @@ arm = bpy.data.objects["Esqueleto"]
 
 
 def apuntar(pos, objetivo=(0, 0, 1.12)):
+    if pos[1] > -4 and pos[1] < -3:
+        objetivo = (0, -0.3, 1.5)
     cam.location = pos
     cam.rotation_euler = (Vector(objetivo) - Vector(pos)).to_track_quat("-Z", "Y").to_euler()
 
@@ -59,6 +61,9 @@ trabajos = [
     ("cara_hablar", "Hablar", 4, FRENTE),
     ("pose_celebrar", "Celebrar", 16, TRES_CUARTOS),
     ("pose_arrastrarse", "Arrastrarse", 8, (7.0, -1.8, 1.2)),
+    ("pose_saludar", "Saludar", 24, TRES_CUARTOS),
+    ("pose_caminar", "Caminar", 6, TRES_CUARTOS),
+    ("cerca_cara", "Hablar", 4, (0.9, -3.2, 1.6)),
 ]
 if vistas:
     trabajos = [t for t in trabajos if t[0] in vistas]

@@ -324,6 +324,9 @@ def crear_esqueleto(puntos):
         hueso(f"antena.{lado}.2", a1, a2, f"antena.{lado}.1")
         ojo = puntos[f"ojo.{lado}"]
         hueso(f"parpado.{lado}", ojo, ojo + Vector((0, -0.15, 0)), "cabeza")
+        hueso(f"parpado_inf.{lado}", ojo, ojo + Vector((0, -0.15, 0)), "cabeza")
+        mej = puntos[f"mejilla.{lado}"]
+        hueso(f"mejilla.{lado}", mej, mej + Vector((0, -0.1, 0)), "cabeza")
         ceja = puntos[f"ceja.{lado}"]
         hueso(f"ceja.{lado}", ceja, ceja + Vector((0, -0.12, 0)), "cabeza")
         hueso(f"comisura.{lado}", puntos[f"comisura.{lado}"],
@@ -352,6 +355,7 @@ def construir():
     m_lengua = material("Lengua", (0.55, 0.09, 0.1), 0.45)
     m_punta = material("Antena_Punta", (0.02, 0.12, 0.42), 0.35)
     m_brillo = material("Brillo_Ojo", (1, 1, 1), 0.0)
+    m_labio = material("Labios", (0.22, 0.2, 0.035), 0.5, sss=0.1)
     m_lentes = material("Lentes", (0.005, 0.005, 0.006), 0.08, brillo=1.0)
 
     c = Constructor()
@@ -361,7 +365,39 @@ def construir():
     cuerpo = crear_cuerpo()
     bvh = BVHTree.FromPolygons([v.co.copy() for v in cuerpo.vertices],
                                [tuple(p.vertices) for p in cuerpo.polygons])
-    c.agregar(cuerpo, m_piel, pesos_cuerpo)
+    zc, w = 1.43, 0.26
+    anclas = {"abajo_boca": rayo(bvh, (0, -3, zc - 0.17), (0, 1, 0))[0]}
+    for lado, s in (("L", 1), ("R", -1)):
+        anclas[f"comisura.{lado}"] = rayo(bvh, (w * s, -3, zc + 0.055), (0, 1, 0))[0]
+        anclas[f"mejilla.{lado}"] = rayo(bvh, (0.28 * s, -3, 1.50), (0, 1, 0))[0]
+        anclas[f"ceja.{lado}"] = rayo(bvh, (0.18 * s, -3, 1.79), (0, 1, 0))[0]
+        puntos[f"mejilla.{lado}"] = anclas[f"mejilla.{lado}"] - Vector((0, -0.05, 0))
+
+    def pesos_piel(co):
+        """La piel de la cara se estira con la boca, los cachetes y las cejas."""
+        base = pesos_cuerpo(co)
+        if co.y > -0.15 or co.z < 1.18:
+            return base
+
+        def g(punto, sigma):
+            d = (co - punto).length
+            return math.exp(-(d * d) / (2 * sigma * sigma))
+
+        cara_w = {"mandibula": 0.65 * g(anclas["abajo_boca"], 0.09)}
+        for lado in ("L", "R"):
+            cara_w[f"comisura.{lado}"] = 0.75 * g(anclas[f"comisura.{lado}"], 0.055)
+            cara_w[f"mejilla.{lado}"] = 0.8 * g(anclas[f"mejilla.{lado}"], 0.09)
+            cara_w[f"ceja.{lado}"] = 0.85 * g(anclas[f"ceja.{lado}"], 0.075)
+        total = sum(cara_w.values())
+        if total > 0.95:
+            cara_w = {k: v * 0.95 / total for k, v in cara_w.items()}
+            total = 0.95
+        res = {k: v * (1 - total) for k, v in base.items()}
+        for k, v in cara_w.items():
+            res[k] = res.get(k, 0) + v
+        return res
+
+    c.agregar(cuerpo, m_piel, pesos_piel)
 
     # Camiseta
     cam = crear_camiseta()
@@ -380,10 +416,17 @@ def construir():
         vs = [bm.verts.new((x, 0, z)) for x, z in puntos2d]
         cara = bm.faces.new(vs)
         bmesh.ops.triangulate(bm, faces=[cara])
+        bmesh.ops.subdivide_edges(bm, edges=bm.edges[:], cuts=5, use_grid_fill=True)
+        bmesh.ops.triangulate(bm, faces=bm.faces[:])
+        bm.transform(Matrix.Translation(p) @ marco.to_4x4())
+        # pegar cada punto a la tela para que siga su curva
+        for v in bm.verts:
+            hit, nn, _, _ = bvh_cam.ray_cast(v.co + n * 0.3, -n)
+            if hit is not None:
+                v.co = hit + n * desplaz
         ext = bmesh.ops.extrude_face_region(bm, geom=bm.faces[:])
-        bmesh.ops.translate(bm, vec=(0, -grosor, 0),
+        bmesh.ops.translate(bm, vec=-n * grosor,
                             verts=[v for v in ext["geom"] if isinstance(v, bmesh.types.BMVert)])
-        bm.transform(Matrix.Translation(p + n * desplaz) @ marco.to_4x4())
         me = bm_a_malla(bm)
         bm.free()
         c.agregar(me, mat, lambda co: pesos_cuerpo(co), liso=False)
@@ -446,6 +489,21 @@ def construir():
         borrar(o)
         c.agregar(me, m_piel, f"parpado.{lado}")
 
+        # Párpado de abajo: sube al sonreír y le da vida a la mirada
+        bm = bmesh.new()
+        bmesh.ops.create_uvsphere(bm, u_segments=32, v_segments=16, radius=r + 0.018)
+        bmesh.ops.delete(bm, geom=[v for v in bm.verts if v.co.z > 0.002], context="VERTS")
+        so = bm_a_malla(bm)
+        bm.free()
+        o = objeto_temporal("parpado_inf", so)
+        mod = o.modifiers.new("g", "SOLIDIFY")
+        mod.thickness = 0.01
+        o.matrix_world = (Matrix.Translation(centro) @ R.to_4x4()
+                          @ Matrix.Rotation(math.radians(58), 4, "X"))
+        me = malla_evaluada(o)
+        borrar(o)
+        c.agregar(me, m_piel, f"parpado_inf.{lado}")
+
         # Ceja (rollito de piel que se mueve con las expresiones)
         p2, n2 = rayo(bvh, (0.18 * s, -3, 1.79), (0, 1, 0))
         puntos[f"ceja.{lado}"] = p2
@@ -457,11 +515,10 @@ def construir():
         bm.free()
 
     # Boca: sonrisa abierta con lengua
-    zc, w = 1.43, 0.26
     puntos["boca"] = rayo(bvh, (0, -3, zc - 0.05), (0, 1, 0))[0]
     for lado, s in (("L", 1), ("R", -1)):
         puntos[f"comisura.{lado}"] = rayo(bvh, (w * s, -3, zc + 0.055), (0, 1, 0))[0]
-    nx, ny = 28, 8
+    nx, ny = 56, 16
     bm = bmesh.new()
     rejilla = []
     for j in range(ny + 1):
@@ -484,7 +541,9 @@ def construir():
     def mat_boca(ce):
         t = ce.x / w
         zl = zc - 0.095 * (1 - t * t) + 0.055 * t * t
-        return m_lengua if (ce.z < zl + 0.045 and abs(t) < 0.7) else m_boca
+        zu = zc + 0.012 + 0.043 * t * t
+        sj = (zu - ce.z) / max(1e-6, zu - zl)
+        return m_lengua if sj > 0.5 + 0.45 * t ** 4 else m_boca
 
     def pesos_boca(co):
         t = max(-1.0, min(1.0, co.x / w))
@@ -498,6 +557,31 @@ def construir():
                 "cabeza": max(0.0, 1 - wm - wl - wr)}
 
     c.agregar(me, mat_boca, pesos_boca)
+
+    # Labios: un borde con volumen alrededor de la boca
+    contorno = []
+    for i in range(0, nx + 1, 2):
+        t = -1 + 2 * i / nx
+        contorno.append(rayo(bvh, (t * w, -3, zc + 0.012 + 0.043 * t * t), (0, 1, 0)))
+    for i in range(nx - 2, 0, -2):
+        t = -1 + 2 * i / nx
+        contorno.append(rayo(bvh, (t * w, -3, zc - 0.095 * (1 - t * t) + 0.055 * t * t),
+                             (0, 1, 0)))
+    cu = bpy.data.curves.new("labios", "CURVE")
+    cu.dimensions = "3D"
+    cu.bevel_depth = 0.012
+    cu.bevel_resolution = 3
+    sp = cu.splines.new("NURBS")
+    sp.points.add(len(contorno) - 1)
+    for k, (pp, nn) in enumerate(contorno):
+        sp.points[k].co = (*(pp + nn * 0.006), 1)
+    sp.use_cyclic_u = True
+    sp.order_u = 3
+    sp.resolution_u = 4
+    o = objeto_temporal("labios", cu)
+    me = malla_evaluada(o)
+    borrar(o)
+    c.agregar(me, m_labio, pesos_boca)
 
     # Antenas con punta azul
     for lado, s in (("L", 1), ("R", -1)):
@@ -662,7 +746,12 @@ def onda(f, periodo, fase=0.0):
 def cara(p, parpado=0.0, ceja=(0.0, 0.0), boca=0.0, sonrisa=0.0, o=0.0, asim=0.0):
     """parpado: + cierra, - abre. ceja: (giro interior abajo +, sube).
     boca: + abre. sonrisa: + comisuras arriba. o: forma de O."""
+    alegria = max(0.0, sonrisa)
     for lado, s in (("L", 1), ("R", -1)):
+        sl0 = sonrisa + (asim if s == 1 else -asim)
+        p[f"mejilla.{lado}"] = {"loc": (0.006 * s * max(0, sl0), -0.012 * max(0, sl0),
+                                        0.022 * max(0, sl0) + 0.012 * min(0, sl0))}
+        p[f"parpado_inf.{lado}"] = {"rot": [(X, -0.32 * min(1.4, alegria) + 0.15 * o)]}
         p[f"parpado.{lado}"] = {"rot": [(X, parpado)]}
         p[f"ceja.{lado}"] = {"rot": [(Y, -ceja[0] * s)], "loc": (0, 0, ceja[1])}
         sl = sonrisa + (asim if s == 1 else -asim)
@@ -675,8 +764,7 @@ def pose_reposo(f, N):
     r = onda(f, N)
     p["cuerpo.2"] = {"scale": (1 + 0.015 * r, 1 + 0.015 * r, 1 + 0.01 * r)}
     p["cabeza"] = {"rot": [(X, 0.03 * onda(f, N, 0.25)), (Y, 0.02 * onda(f, N * 2))]}
-    parp = 1.15 if 30 <= f <= 33 else 0.0
-    cara(p, parpado=parp, boca=-0.3, sonrisa=0.3)
+    cara(p, boca=-0.3, sonrisa=0.3)
     for lado, s in (("L", 1), ("R", -1)):
         p[f"antena.{lado}.1"] = {"rot": [(Y, 0.06 * s * onda(f, N, 0.1))]}
         p[f"antena.{lado}.2"] = {"rot": [(Y, 0.12 * s * onda(f, N, 0.3))]}
@@ -802,6 +890,35 @@ def pose_celebrar(f, N):
     return p
 
 
+def pose_caminar(f, N):
+    p = {}
+    fase = f / N
+    paso = abs(math.sin(2 * math.pi * fase))
+    lado_a_lado = math.sin(2 * math.pi * fase)
+    p["raiz"] = {"loc": (0, 0, 0.07 * paso),
+                 "rot": [(Z, 0.07 * lado_a_lado), (Y, 0.06 * lado_a_lado)],
+                 "scale": (1 + 0.04 * (1 - paso), 1 + 0.04 * (1 - paso), 1 - 0.05 * (1 - paso))}
+    p["cuerpo.3"] = {"rot": [(Y, -0.04 * lado_a_lado)]}
+    p["cabeza"] = {"rot": [(Y, -0.05 * lado_a_lado), (X, -0.03 * paso)]}
+    cara(p, boca=-0.2, sonrisa=0.6)
+    for lado, s in (("L", 1), ("R", -1)):
+        p[f"brazo.{lado}"] = {"rot": [(X, 0.45 * s * lado_a_lado), (Y, -0.15 * s)]}
+        p[f"cola"] = {"rot": [(Z, 0.3 * lado_a_lado)]}
+    return p
+
+
+def pose_saludar(f, N):
+    p = pose_reposo(f % 48, 48)
+    t = suave(0, 6, f) * (1 - suave(N - 6, N, f))
+    ola = math.sin(2 * math.pi * f / 12)
+    p["cabeza"] = {"rot": [(Y, -0.1 * t), (X, -0.06 * t)]}
+    cara(p, boca=0.4 * t, sonrisa=1.2 * t, ceja=(-0.1 * t, 0.02 * t))
+    p["brazo.R"] = {"rot": [(Y, 1.9 * t), (X, 0.25 * t)]}
+    p["mano.R"] = {"rot": [(X, 0.5 * ola * t)]}
+    p["brazo.L"] = {"rot": [(Y, -0.1 * t)]}
+    return p
+
+
 ANIMACIONES = [
     ("Reposo", 48, pose_reposo),
     ("Hablar", 48, pose_hablar),
@@ -812,7 +929,43 @@ ANIMACIONES = [
     ("Cool", 48, pose_cool),
     ("Arrastrarse", 32, pose_arrastrarse),
     ("Celebrar", 36, pose_celebrar),
+    ("Caminar", 24, pose_caminar),
+    ("Saludar", 48, pose_saludar),
 ]
+
+CON_PARPADEO = {"Reposo", "Hablar", "Triste", "Enojado", "Cool", "Caminar", "Saludar",
+                "Arrastrarse"}
+
+
+def _z_raiz(p):
+    return p.get("raiz", {}).get("loc", (0, 0, 0))[2]
+
+
+def pose_completa(nombre, fn, f, N):
+    """Pose con detalles que dan vida: parpadeo y antenas/cuerpo que siguen el movimiento."""
+    p = fn(f, N)
+    z0, z1, z2 = (_z_raiz(fn(k % (N + 1), N)) for k in (f - 1, f, f + 1))
+    vel, acel = z2 - z0, z2 - 2 * z1 + z0
+    for lado in ("L", "R"):
+        for hueso, k in ((f"antena.{lado}.1", 2.5), (f"antena.{lado}.2", 6.0)):
+            p.setdefault(hueso, {}).setdefault("rot", []).append((X, -k * vel))
+    sc = p.setdefault("cuerpo.2", {}).get("scale", (1, 1, 1))
+    p["cuerpo.2"]["scale"] = (sc[0] * (1 - 2 * acel), sc[1] * (1 - 2 * acel), sc[2] * (1 + 4 * acel))
+    if nombre in CON_PARPADEO:
+        for inicio in (int(N * 0.62), int(N * 0.62) + 5 if N >= 48 else -99):
+            k = f - inicio
+            if 0 <= k <= 4:
+                cierre = (0.5, 1.0, 1.0, 0.6, 0.2)[k]
+                for lado in ("L", "R"):
+                    actual = sum(a for eje, a in p.get(f"parpado.{lado}", {}).get("rot", [])
+                                 if eje == X)
+                    extra = max(0.0, 1.15 - actual) * cierre
+                    p.setdefault(f"parpado.{lado}", {}).setdefault("rot", []).append((X, extra))
+                    p.setdefault(f"parpado_inf.{lado}", {}).setdefault("rot", []).append(
+                        (X, -0.2 * cierre))
+            if N < 48:
+                break
+    return p
 
 
 def aplicar_pose(arm, p):
@@ -834,7 +987,7 @@ def crear_animaciones(arm):
         accion.use_fake_user = True
         arm.animation_data.action = accion
         for f in range(N + 1):
-            aplicar_pose(arm, fn(f, N))
+            aplicar_pose(arm, pose_completa(nombre, fn, f, N))
             for pb in arm.pose.bones:
                 for prop in ("location", "rotation_quaternion", "scale"):
                     pb.keyframe_insert(prop, frame=f, group=pb.name)
@@ -844,6 +997,165 @@ def crear_animaciones(arm):
         tira.name = nombre
         track.mute = True
     arm.animation_data.action = bpy.data.actions["Reposo"]
+
+
+# --------------------------------------------------------------------------- texturas
+
+TEX = 2048
+
+
+def _nodo(nt, tipo, x, y, **props):
+    n = nt.nodes.new(tipo)
+    n.location = (x, y)
+    for k, v in props.items():
+        if k in n.inputs:
+            n.inputs[k].default_value = v
+        else:
+            setattr(n, k, v)
+    return n
+
+
+def _mezcla(nt, x, y, fac, a, b):
+    m = _nodo(nt, "ShaderNodeMix", x, y, data_type="RGBA")
+    nt.links.new(fac, m.inputs["Factor"])
+    for entrada, valor in ((m.inputs[6], a), (m.inputs[7], b)):
+        if isinstance(valor, tuple):
+            entrada.default_value = (*valor, 1)
+        else:
+            nt.links.new(valor, entrada)
+    return m.outputs[2]
+
+
+def piel_procedural(m):
+    """Piel con manchitas, tono irregular, panza más clara y poros."""
+    nt = m.node_tree
+    bsdf = nt.nodes["Principled BSDF"]
+    tc = _nodo(nt, "ShaderNodeTexCoord", -1600, 0)
+    xyz = _nodo(nt, "ShaderNodeSeparateXYZ", -1400, -400)
+    nt.links.new(tc.outputs["Object"], xyz.inputs[0])
+    ruido = _nodo(nt, "ShaderNodeTexNoise", -1400, 300, Scale=2.5, Detail=4.0)
+    nt.links.new(tc.outputs["Object"], ruido.inputs["Vector"])
+    rampa = _nodo(nt, "ShaderNodeMapRange", -1200, 300, **{"From Min": 0.35, "From Max": 0.65})
+    nt.links.new(ruido.outputs["Fac"], rampa.inputs["Value"])
+    base = _mezcla(nt, -1000, 300, rampa.outputs[0],
+                   tuple(c * 0.8 for c in PIEL), tuple(min(1, c * 1.12) for c in PIEL))
+    # panza y cara un poco más claras
+    claro = _nodo(nt, "ShaderNodeMapRange", -1200, -400, **{"From Min": 0.2, "From Max": -0.8,
+                                                            "To Min": 0.0, "To Max": 0.35})
+    nt.links.new(xyz.outputs["Y"], claro.inputs["Value"])
+    base = _mezcla(nt, -800, 200, claro.outputs[0], base, (0.42, 0.52, 0.12))
+    # manchitas oscuras, pocas y repartidas
+    vor = _nodo(nt, "ShaderNodeTexVoronoi", -1400, -50, Scale=6.0)
+    nt.links.new(tc.outputs["Object"], vor.inputs["Vector"])
+    mancha = _nodo(nt, "ShaderNodeMapRange", -1200, -50, **{"From Min": 0.09, "From Max": 0.05})
+    nt.links.new(vor.outputs["Distance"], mancha.inputs["Value"])
+    ruido2 = _nodo(nt, "ShaderNodeTexNoise", -1400, -250, Scale=1.6)
+    nt.links.new(tc.outputs["Object"], ruido2.inputs["Vector"])
+    filtro = _nodo(nt, "ShaderNodeMapRange", -1200, -250, **{"From Min": 0.55, "From Max": 0.6})
+    nt.links.new(ruido2.outputs["Fac"], filtro.inputs["Value"])
+    mascara = _nodo(nt, "ShaderNodeMath", -1000, -100, operation="MULTIPLY")
+    nt.links.new(mancha.outputs[0], mascara.inputs[0])
+    nt.links.new(filtro.outputs[0], mascara.inputs[1])
+    color = _mezcla(nt, -600, 100, mascara.outputs[0], base, (0.1, 0.12, 0.02))
+    nt.links.new(color, bsdf.inputs["Base Color"])
+    # relieve: piel suave con poros y manchas apenas hundidas
+    poros = _nodo(nt, "ShaderNodeTexNoise", -1000, -500, Scale=45.0, Detail=8.0)
+    nt.links.new(tc.outputs["Object"], poros.inputs["Vector"])
+    alto = _nodo(nt, "ShaderNodeMath", -800, -450, operation="MULTIPLY_ADD")
+    nt.links.new(mascara.outputs[0], alto.inputs[0])
+    alto.inputs[1].default_value = -0.4
+    nt.links.new(poros.outputs["Fac"], alto.inputs[2])
+    bump = _nodo(nt, "ShaderNodeBump", -600, -450, Strength=0.3, Distance=0.004)
+    nt.links.new(alto.outputs[0], bump.inputs["Height"])
+    nt.links.new(bump.outputs["Normal"], bsdf.inputs["Normal"])
+
+
+def tela_procedural(m):
+    """Arrugas suaves y tejido de camiseta."""
+    nt = m.node_tree
+    bsdf = nt.nodes["Principled BSDF"]
+    tc = _nodo(nt, "ShaderNodeTexCoord", -1200, 0)
+    ondas = _nodo(nt, "ShaderNodeTexWave", -1000, 100, bands_direction="Z", Scale=4.0,
+                  Distortion=6.0, Detail=3.0)
+    nt.links.new(tc.outputs["Object"], ondas.inputs["Vector"])
+    ruido = _nodo(nt, "ShaderNodeTexNoise", -1000, -150, Scale=60.0, Detail=2.0)
+    nt.links.new(tc.outputs["Object"], ruido.inputs["Vector"])
+    suma = _nodo(nt, "ShaderNodeMath", -800, 0, operation="MULTIPLY_ADD")
+    nt.links.new(ondas.outputs["Fac"], suma.inputs[0])
+    suma.inputs[1].default_value = 0.6
+    nt.links.new(ruido.outputs["Fac"], suma.inputs[2])
+    bump = _nodo(nt, "ShaderNodeBump", -600, 0, Strength=0.35, Distance=0.006)
+    nt.links.new(suma.outputs[0], bump.inputs["Height"])
+    nt.links.new(bump.outputs["Normal"], bsdf.inputs["Normal"])
+
+
+def hornear_texturas(mascota, arm):
+    """Pasa la piel y la tela procedurales a imágenes que funcionan en la app (glTF)."""
+    sc = bpy.context.scene
+    sc.render.engine = "CYCLES"
+    sc.cycles.device = "CPU"
+    sc.cycles.samples = 4
+    sc.render.bake.margin = 8
+    arm.data.pose_position = "REST"
+    bpy.ops.object.select_all(action="DESELECT")
+    mascota.select_set(True)
+    bpy.context.view_layer.objects.active = mascota
+    bpy.ops.object.mode_set(mode="EDIT")
+    bpy.ops.mesh.select_all(action="SELECT")
+    bpy.ops.uv.smart_project(angle_limit=math.radians(66), island_margin=0.003)
+    bpy.ops.object.mode_set(mode="OBJECT")
+
+    mats = {m.name: m for m in mascota.data.materials}
+    piel_procedural(mats["Piel"])
+    for nombre in ("Camiseta", "Camiseta_Ribete"):
+        tela_procedural(mats[nombre])
+
+    img_color = bpy.data.images.new("Piel_Color", TEX, TEX)
+    img_normal = bpy.data.images.new("Mascota_Normal", TEX, TEX)
+    img_normal.colorspace_settings.name = "Non-Color"
+    nodos = {}
+    for m in mascota.data.materials:
+        n = m.node_tree.nodes.new("ShaderNodeTexImage")
+        n.location = (-1800, 600)
+        m.node_tree.nodes.active = n
+        nodos[m.name] = n
+
+    for n in nodos.values():
+        n.image = img_color
+    bpy.ops.object.bake(type="DIFFUSE", pass_filter={"COLOR"}, use_clear=True)
+    for n in nodos.values():
+        n.image = img_normal
+    bpy.ops.object.bake(type="NORMAL", use_clear=True)
+
+    for m in mascota.data.materials:
+        m.node_tree.nodes.remove(nodos[m.name])
+    for img in (img_color, img_normal):
+        img.pack()
+
+    # Materiales finales: imágenes en lugar de nodos procedurales
+    def limpiar(m):
+        nt = m.node_tree
+        bsdf = nt.nodes["Principled BSDF"]
+        salida = nt.nodes["Material Output"]
+        for n in list(nt.nodes):
+            if n not in (bsdf, salida):
+                nt.nodes.remove(n)
+        return nt, bsdf
+
+    def mapa_normal(nt, bsdf, fuerza=1.0):
+        img = _nodo(nt, "ShaderNodeTexImage", -700, -300, image=img_normal)
+        nm = _nodo(nt, "ShaderNodeNormalMap", -350, -300, Strength=fuerza)
+        nt.links.new(img.outputs["Color"], nm.inputs["Color"])
+        nt.links.new(nm.outputs["Normal"], bsdf.inputs["Normal"])
+
+    nt, bsdf = limpiar(mats["Piel"])
+    img = _nodo(nt, "ShaderNodeTexImage", -700, 200, image=img_color)
+    nt.links.new(img.outputs["Color"], bsdf.inputs["Base Color"])
+    mapa_normal(nt, bsdf)
+    for nombre in ("Camiseta", "Camiseta_Ribete"):
+        nt, bsdf = limpiar(mats[nombre])
+        mapa_normal(nt, bsdf)
+    arm.data.pose_position = "POSE"
 
 
 # --------------------------------------------------------------------------- escena y guardado
@@ -903,12 +1215,15 @@ def exportar(mascota, arm):
         export_morph=False,
         export_apply=False,
         export_yup=True,
+        export_image_format="JPEG",
+        export_jpeg_quality=85,
     )
 
 
 def main():
     mascota, arm = construir()
     crear_animaciones(arm)
+    hornear_texturas(mascota, arm)
     cam = preparar_escena()
     apuntar(cam, (2.2, -5.2, 1.6))
     exportar(mascota, arm)

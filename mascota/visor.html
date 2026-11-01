@@ -55,7 +55,7 @@ const EQUIPOS = {
 };
 const NOMBRES = { Reposo: 'Reposo', Hablar: 'Hablar', Feliz: 'Feliz', Triste: 'Triste',
   Enojado: 'Enojado', Sorpresa: 'Sorpresa', Cool: 'Cool 😎', Arrastrarse: 'Arrastrarse',
-  Celebrar: 'Celebrar' };
+  Celebrar: 'Celebrar', Caminar: 'Caminar', Saludar: 'Saludar 👋' };
 
 const cont = document.getElementById('escena');
 const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
@@ -92,11 +92,11 @@ suelo.receiveShadow = true;
 escena.add(suelo);
 
 const reloj = new THREE.Clock();
-let mezclador, acciones = {}, actual;
+let mezclador, acciones = {}, actual, modelo, paseando = false, angulo = 0;
 const materiales = {};
 
 new GLTFLoader().load('mascota.glb', (gltf) => {
-  const modelo = gltf.scene;
+  modelo = gltf.scene;
   modelo.traverse((o) => {
     if (o.isMesh) {
       o.castShadow = true;
@@ -112,8 +112,8 @@ new GLTFLoader().load('mascota.glb', (gltf) => {
     const clip = gltf.animations.find((c) => c.name === nombre);
     if (!clip) continue;
     const accion = mezclador.clipAction(clip);
-    if (nombre === 'Sorpresa' || nombre === 'Celebrar') {
-      accion.setLoop(nombre === 'Celebrar' ? THREE.LoopRepeat : THREE.LoopOnce);
+    if (nombre === 'Sorpresa' || nombre === 'Saludar') {
+      accion.setLoop(THREE.LoopOnce);
       accion.clampWhenFinished = true;
     }
     acciones[nombre] = accion;
@@ -123,6 +123,15 @@ new GLTFLoader().load('mascota.glb', (gltf) => {
     b.dataset.nombre = nombre;
     filaAnim.appendChild(b);
   }
+  const pasear = document.createElement('button');
+  pasear.textContent = 'Pasear 🐛';
+  pasear.onclick = () => {
+    paseando = !paseando;
+    pasear.classList.toggle('activo', paseando);
+    reproducir(paseando ? 'Caminar' : 'Reposo');
+    if (!paseando) { modelo.position.set(0, 0, 0); modelo.rotation.y = 0; }
+  };
+  filaAnim.appendChild(pasear);
   const filaEq = document.getElementById('equipos');
   for (const [nombre, c] of Object.entries(EQUIPOS)) {
     const b = document.createElement('button');
@@ -171,6 +180,12 @@ addEventListener('resize', () => {
 renderer.setAnimationLoop(() => {
   const dt = reloj.getDelta();
   mezclador?.update(dt);
+  if (paseando && modelo) {
+    // camina en círculo mirando hacia donde va
+    angulo += dt * 0.35;
+    modelo.position.set(Math.cos(angulo) * 1.4, 0, Math.sin(angulo) * 1.4);
+    modelo.rotation.y = -angulo;
+  }
   controles.update();
   renderer.render(escena, camara);
 });
