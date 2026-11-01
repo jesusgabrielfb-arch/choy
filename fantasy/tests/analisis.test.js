@@ -309,3 +309,11 @@ test('buscador: funciones y jugadores sin importar acentos', () => {
   // Fuera de una liga solo salen funciones generales
   assert.ok(buscar('avisos', null).funciones.every((f) => f.href));
 });
+
+import { PASOS } from '../src/ui/tutorial.js';
+
+test('tutorial: empieza saludando, termina celebrando y explica las pestañas', () => {
+  assert.equal(PASOS[0].sel, undefined);
+  assert.equal(PASOS.at(-1).animo, 'Celebrar');
+  for (const t of ['equipo', 'mercado', 'jugadores', 'noticias']) assert.ok(PASOS.some((p) => p.sel?.includes(t)), t);
+});

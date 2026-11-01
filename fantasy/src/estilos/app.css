@@ -388,3 +388,18 @@ details.accion[open] > summary .tit { color: var(--acento); }
 .resaltar { animation: resaltar 1.5s ease; }
 @keyframes resaltar { 0%, 60% { box-shadow: 0 0 0 3px var(--acento); } 100% { box-shadow: 0 0 0 0 transparent; } }
 .buscador-barra input::-webkit-search-cancel-button { display: none; }
+
+/* ---------- tutorial ---------- */
+.tutorial { position: fixed; inset: 0; z-index: 60; }
+.tut-foco { position: fixed; border-radius: 18px; box-shadow: 0 0 0 9999px rgb(4 6 10 / 0.72), 0 0 0 3px var(--acento); transition: all 0.25s ease; pointer-events: none; }
+.tut-globo { position: fixed; left: 12px; right: 12px; bottom: calc(86px + env(safe-area-inset-bottom)); max-width: 520px; margin: 0 auto;
+  background: var(--tarjeta-2); border: 1px solid rgb(var(--acento-rgb) / 0.5); border-radius: 20px; padding: 14px 16px; box-shadow: 0 16px 40px rgb(0 0 0 / 0.5); }
+.tut-globo.arriba { bottom: auto; top: calc(14px + env(safe-area-inset-top)); }
+.tut-globo.centro { bottom: auto; top: 50%; transform: translateY(-50%); }
+.tut-cab { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.tut-cab b { color: var(--acento); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; }
+.tut-cody { font-size: 22px; }
+.tut-paso { margin-left: auto; color: var(--suave); font-size: 12px; }
+.tut-globo p { font-weight: 600; font-size: 15px; }
+.tut-botones { display: flex; gap: 8px; justify-content: flex-end; margin-top: 12px; flex-wrap: wrap; }
+.tutorial.oscuro { background: rgb(4 6 10 / 0.72); }

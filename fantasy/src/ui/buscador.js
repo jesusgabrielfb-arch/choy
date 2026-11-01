@@ -32,6 +32,7 @@ export const FUNCIONES = [
   { t: '🔔 Avisos (notificaciones)', desc: 'Activa o apaga las notificaciones', k: 'avisos notificaciones alertas push', href: '#/', abrir: 'Avisos' },
   { t: '📅 Cambiar de semana', desc: 'Ve semanas pasadas (resultados) y futuras', k: 'semana cambiar anterior siguiente week', tab: 'inicio' },
   { t: '🐛 Hablar con Cody', desc: 'Tócalo y te cuenta algo… pero no lo toques mucho', k: 'cody mascota hablar chiste', tab: 'inicio' },
+  { t: '🎓 Ver el tutorial', desc: 'Cody te enseña otra vez cómo usar la app', k: 'tutorial ayuda como usar aprender guia', tab: 'inicio', tutorial: true },
   { t: '📁 Mis ligas', desc: 'Cambiar de liga', k: 'ligas carpetas cambiar liga', href: '#/' },
 ];
 
@@ -106,6 +107,7 @@ export function abrirBuscador({ d = null, ligaId = null, ctx } = {}) {
   addEventListener('keydown', function esc_(e) { if (e.key === 'Escape') { cerrar(); removeEventListener('keydown', esc_); } });
 
   const irA = (f) => {
+    if (f.tutorial) sessionStorage.setItem('ver-tutorial', '1');
     sessionStorage.setItem('abrir', JSON.stringify({ texto: f.abrir || null, panel: f.panel || null }));
     cerrar();
     const destino = f.href || `#/liga/${ligaId}/${f.tab}${location.hash.split('/')[4] ? '/' + location.hash.split('/')[4] : ''}`;

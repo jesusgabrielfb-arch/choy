@@ -17,6 +17,8 @@ y toda la app toma sus colores. Cody aparece en cada pantalla y te habla.
 | **Jugadores** | Qué agregar esta semana, byes, mejores libres por posición, tendencias, stash, suplentes que suben, lesionados de la liga |
 | **Noticias** | En español (las de inglés se traducen en el teléfono), primero las de tus jugadores; analistas de Bluesky |
 
+**🎓 Tutorial con Cody**: la primera vez que entras a una liga, Cody te explica cada parte resaltándola (se puede saltar; se vuelve a ver desde el buscador).
+
 **🔍 Buscador** (arriba): encuentra cualquier función o jugador (con su ficha: dueño, valor, proyección, rival y botón para armar un trade).
 
 **Arriba de cada liga** puedes cambiar de semana (◀ ▶): las pasadas muestran resultados y las

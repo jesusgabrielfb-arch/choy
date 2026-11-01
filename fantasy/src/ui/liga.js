@@ -9,6 +9,8 @@ import { vistaNoticias } from './noticias.js';
 import * as F from './frases.js';
 import { enfrentamientoHtml } from './enfrentamiento.js';
 import { abrirBuscador, abrirPendiente } from './buscador.js';
+import { tutorialVisto, iniciarTutorial } from './tutorial.js';
+import { codyDice } from './comun.js';
 
 export const PESTANAS = [
   ['inicio', '🐛', 'Cody'],
@@ -70,6 +72,14 @@ export async function vistaLiga(app, ctx, ligaId, pestana = 'inicio', semanaVist
   $('#buscar').onclick = () => abrirBuscador({ d, ligaId, ctx });
   await vistas[pestana]($('#vista'), d, ctx, ligaId);
   abrirPendiente(app);
+  // Tutorial: solo la primera vez (o si lo pidieron desde el buscador)
+  const pedido = sessionStorage.getItem('ver-tutorial');
+  if (pestana === 'inicio' && (!tutorialVisto() || pedido)) {
+    sessionStorage.removeItem('ver-tutorial');
+    setTimeout(() => iniciarTutorial({
+      hablar: (texto, animo) => codyDice(document, ctx, texto, { animo: animo === 'Hablar' ? 'Reposo' : animo }),
+    }), 600);
+  }
 }
 
 const ir = (ligaId, tab) => () => {
