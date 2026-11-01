@@ -1,0 +1,16 @@
+{
+  "name": "Fantasy x Cody",
+  "short_name": "Fantasy x Cody",
+  "description": "Tu asistente de fantasy football conectado a Sleeper, con Cody el gusano.",
+  "lang": "es",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0a0d13",
+  "theme_color": "#0a0d13",
+  "icons": [
+    { "src": "/icono-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icono-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icono-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

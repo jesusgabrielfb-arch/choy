@@ -6,6 +6,7 @@ import { vistaNoticias } from './ui/noticias.js';
 import { crearMascota } from './mascota/mascota3d.js';
 import { aplicarTema, EQUIPOS } from './datos/equipos.js';
 import { codyHtml } from './ui/comun.js';
+import { registrarServiceWorker } from './notificaciones.js';
 
 const app = document.getElementById('app');
 aplicarTema(sesion.equipo);
@@ -54,7 +55,7 @@ async function ir() {
   window.scrollTo(0, 0);
   if (!sesion.usuario) return vistaBienvenida(app, ctx);
   if (ruta[0] === 'equipo-favorito' || !sesion.equipo) return vistaEquipoFavorito(app, ctx);
-  if (ruta[0] === 'liga' && ruta[1]) return vistaLiga(app, ctx, ruta[1], ruta[2] || 'inicio');
+  if (ruta[0] === 'liga' && ruta[1]) return vistaLiga(app, ctx, ruta[1], ruta[2] || 'inicio', ruta[3] ? Number(ruta[3]) : null);
   if (ruta[0] === 'noticias') {
     app.innerHTML = `<header class="barra"><a class="boton-icono" href="#/" aria-label="Volver">←</a><div class="titulo"><h1>Noticias NFL</h1><small>En español</small></div></header>
       ${codyHtml()}<div id="vista"></div>`;
@@ -64,5 +65,6 @@ async function ir() {
   return vistaCarpetas(app, ctx);
 }
 
+registrarServiceWorker();
 addEventListener('hashchange', ir);
 ir();

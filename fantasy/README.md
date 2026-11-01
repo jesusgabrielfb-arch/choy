@@ -17,6 +17,15 @@ y toda la app toma sus colores. Cody aparece en cada pantalla y te habla.
 | **Jugadores** | Qué agregar esta semana, byes, mejores libres por posición, tendencias, stash, suplentes que suben, lesionados de la liga |
 | **Noticias** | En español (las de inglés se traducen en el teléfono), primero las de tus jugadores; analistas de Bluesky |
 
+**Arriba de cada liga** puedes cambiar de semana (◀ ▶): las pasadas muestran resultados y las
+futuras sus proyecciones. Cada duelo tiene su **porcentaje de victoria**, en vivo durante los partidos.
+
+**🔔 Notificaciones** (Web Push, gratis): titulares lesionados o de bye, puestos vacíos, byes de
+la semana que viene y noticias de tus jugadores. Se activan en la pantalla de tus ligas. En iPhone,
+primero hay que agregar la app a la pantalla de inicio. Las revisa `api/avisar.js`, llamado por
+una tarea diaria de Vercel y cada 30 min por GitHub Actions (`.github/workflows/avisos-fantasy.yml`,
+solo corre desde la rama principal). Las suscripciones y las llaves se guardan en Vercel Blob privado.
+
 ## Fuentes (todas gratis)
 
 - **Sleeper** (API pública, solo lectura): usuario, ligas, rosters, duelos, jugadores, lesiones,

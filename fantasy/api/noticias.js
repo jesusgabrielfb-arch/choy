@@ -11,7 +11,7 @@ export const FEEDS = [
   { nombre: 'Yahoo Sports', url: 'https://sports.yahoo.com/nfl/rss/', idioma: 'en' },
 ];
 
-export default async function handler(req, res) {
+export async function juntarNoticias() {
   const resultados = await Promise.allSettled(
     FEEDS.map(async (f) => {
       const ctrl = AbortSignal.timeout(8000);
@@ -36,6 +36,11 @@ export default async function handler(req, res) {
       return true;
     })
     .slice(0, 150);
+  return { noticias: unicas, fallaron };
+}
+
+export default async function handler(req, res) {
+  const { noticias: unicas, fallaron } = await juntarNoticias();
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
   res.setHeader('Cache-Control', 'public, s-maxage=600, stale-while-revalidate=1800');

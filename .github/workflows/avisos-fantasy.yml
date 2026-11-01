@@ -1,0 +1,14 @@
+# Revisa cada 30 minutos si hay avisos nuevos para Fantasy x Cody (gratis con GitHub Actions).
+# GitHub solo corre tareas programadas desde la rama principal del repositorio.
+name: Avisos de Cody
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+jobs:
+  avisar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Pedirle a Cody que revise
+        run: curl -fsS --max-time 90 https://fantasy-x-cody.vercel.app/api/avisar

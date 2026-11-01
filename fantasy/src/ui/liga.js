@@ -16,24 +16,26 @@ export const PESTANAS = [
   ['noticias', '📰', 'Noticias'],
 ];
 
-export async function vistaLiga(app, ctx, ligaId, pestana = 'inicio') {
+export async function vistaLiga(app, ctx, ligaId, pestana = 'inicio', semanaVista = null) {
   if (!PESTANAS.some(([id]) => id === pestana)) pestana = 'inicio';
   const u = sesion.usuario;
+  const sufijo = semanaVista ? `/${semanaVista}` : '';
   app.innerHTML = `<header class="barra">
       <a class="boton-icono" href="#/" aria-label="Volver a tus ligas">←</a>
       <div class="titulo"><h1 id="nombre-liga">Cargando…</h1><small id="sub-liga"></small></div>
       <button class="boton-icono" id="recargar" aria-label="Actualizar">↻</button>
     </header>
+    <nav class="selector-semana" id="selector-semana" aria-label="Cambiar de semana"></nav>
     ${codyHtml()}
     <div id="cuerpo">${cargando('Cody está revisando tu liga, rivales, lesiones y byes… 🐛')}</div>
     <div class="pestanas"><nav>${PESTANAS.map(([id, ico, txt]) =>
-      `<a href="#/liga/${ligaId}/${id}" class="${id === pestana ? 'activa' : ''}"><span class="ico">${ico}</span>${txt}</a>`).join('')}</nav></div>`;
-  $('#recargar').onclick = () => { cargarLiga(ligaId, u.id, { forzar: true }); ctx.ir(); };
+      `<a href="#/liga/${ligaId}/${id}${sufijo}" class="${id === pestana ? 'activa' : ''}"><span class="ico">${ico}</span>${txt}</a>`).join('')}</nav></div>`;
+  $('#recargar').onclick = () => { cargarLiga(ligaId, u.id, { forzar: true, semana: semanaVista }); ctx.ir(); };
   ponerCody(app, ctx, 'Dame un segundo, estoy revisando tu liga…', { animo: 'Hablar' });
 
   let d;
   try {
-    d = await cargarLiga(ligaId, u.id);
+    d = await cargarLiga(ligaId, u.id, { semana: semanaVista });
   } catch (e) {
     console.error(e);
     $('#cuerpo').innerHTML = '<div class="tarjeta vacio">No pude cargar esta liga. Revisa tu internet e intenta de nuevo.</div>';
@@ -41,7 +43,16 @@ export async function vistaLiga(app, ctx, ligaId, pestana = 'inicio') {
     return;
   }
   $('#nombre-liga').textContent = d.liga.name;
-  $('#sub-liga').textContent = `Semana ${d.semana}${d.mio ? ' · ' + d.mio.nombre : ''}`;
+  $('#sub-liga').textContent = `${d.mio ? d.mio.nombre : ''}`;
+  // Selector de semana: ‹ Semana 9 ›
+  const irSemana = (w) => { location.hash = `#/liga/${ligaId}/${pestana}${w === d.semanaActual ? '' : '/' + w}`; };
+  const etiquetaSemana = d.esPasada ? '📜 ya jugada' : d.esFutura ? '🔮 próxima' : '🟢 en curso';
+  $('#selector-semana').innerHTML = `
+    <button class="chip-boton" ${d.semana <= 1 ? 'disabled' : ''} data-w="${d.semana - 1}" aria-label="Semana anterior">◀</button>
+    <div class="semana-actual"><b>Semana ${d.semana}</b><small>${etiquetaSemana}</small></div>
+    <button class="chip-boton" ${d.semana >= 18 ? 'disabled' : ''} data-w="${d.semana + 1}" aria-label="Semana siguiente">▶</button>
+    ${d.semana !== d.semanaActual ? `<button class="chip-boton principal" data-w="${d.semanaActual}">Hoy</button>` : ''}`;
+  $$('#selector-semana [data-w]').forEach((b) => (b.onclick = () => irSemana(Number(b.dataset.w))));
   const cuerpo = $('#cuerpo');
   if (!d.mio) {
     cuerpo.innerHTML = '<div class="tarjeta vacio">No encontré tu equipo en esta liga.</div>';
@@ -56,13 +67,25 @@ export async function vistaLiga(app, ctx, ligaId, pestana = 'inicio') {
   await vistas[pestana]($('#vista'), d, ctx, ligaId);
 }
 
-const ir = (ligaId, tab) => () => { location.hash = `#/liga/${ligaId}/${tab}`; };
+const ir = (ligaId, tab) => () => {
+  const w = location.hash.split('/')[4];
+  location.hash = `#/liga/${ligaId}/${tab}${w ? '/' + w : ''}`;
+};
+
+function barraDuelo(dd, resaltar = false) {
+  const pa = Math.round(dd.a.prob * 100);
+  return `<div class="duelo-mini ${resaltar ? 'mio' : ''}">
+    <div class="fila-duelo"><span class="eq">${esc(dd.a.equipo.nombre)}</span><b>${pts(dd.a.hechos || dd.a.puntos)}</b><span class="pct ${pa >= 50 ? 'sube' : ''}">${pa}%</span></div>
+    <div class="barra-prob"><span style="width:${pa}%"></span></div>
+    <div class="fila-duelo"><span class="eq">${esc(dd.b.equipo.nombre)}</span><b>${pts(dd.b.hechos || dd.b.puntos)}</b><span class="pct ${100 - pa > 50 ? 'sube' : ''}">${100 - pa}%</span></div>
+  </div>`;
+}
 
 // ---------------------------------------------------------------- Inicio
 function inicio(el, d, ctx, ligaId) {
   const J = d.jugadores;
   const duelo = d.duelo;
-  const prob = duelo ? Math.round(100 * (duelo.misProy + 1) / (duelo.misProy + duelo.suyosProy + 2)) : null;
+  const prob = duelo ? Math.round(duelo.prob * 100) : null;
   const tabPara = (a) => (a.tipo === 'waiver' || a.tipo === 'proxima' ? 'jugadores' : 'equipo');
   const ganancia = d.plan.reduce((s, a) => s + (a.tipo === 'alineacion' || a.tipo === 'waiver' ? Math.max(0, a.ganancia) : 0), 0);
 
@@ -74,9 +97,13 @@ function inicio(el, d, ctx, ligaId) {
         <div class="lado-duelo"><div class="eq">${esc(duelo.rival?.nombre || 'Rival')}</div><div class="pts">${pts(duelo.suyos)}</div><div class="proy">Proy. ${pts(duelo.suyosProy)}</div></div>
       </div>
       <div class="barra-prob"><span style="width:${prob}%"></span></div>
-      <p class="nota" style="margin-top:8px">Tienes ~${prob}% de ganar esta semana${ganancia > 0.5 ? `. Con el plan sumas unos <b class="sube">+${ganancia.toFixed(1)}</b> puntos` : ''}.</p>
+      <div class="pcts"><b class="${prob >= 50 ? 'sube' : 'baja'}">${prob}%</b><span class="nota">${d.esPasada ? (duelo.mis > duelo.suyos ? '🏆 Ganaste' : duelo.mis < duelo.suyos ? '😓 Perdiste' : 'Resultado') : 'probabilidad de ganar'}</span><b>${100 - prob}%</b></div>
+      ${!d.esPasada && ganancia > 0.5 ? `<p class="nota" style="margin-top:6px">Con el plan sumas unos <b class="sube">+${ganancia.toFixed(1)}</b> puntos esperados.</p>` : ''}
     </section>` : ''}
-    <h2 class="seccion-titulo">🗓️ Tu plan de la semana ${d.semana}</h2>
+    ${d.duelos?.length > 1 ? tarjeta('⚔️ Duelos de la liga', d.duelos.map((dd) => barraDuelo(dd, dd.a.equipo.esMio)).join(''),
+      { sub: d.esPasada ? 'Resultados finales' : 'Probabilidad de ganar, en vivo durante los partidos', plegable: true, abierta: d.esPasada }) : ''}
+    ${d.esPasada ? '' : `
+<h2 class="seccion-titulo">🗓️ Tu plan de la semana ${d.semana}</h2>
     <div class="plan">${d.plan.length ? d.plan.map((a, i) => `
       <article class="accion ${a.urgente ? 'urgente' : ''}">
         <div class="num">${i + 1}</div>
@@ -102,7 +129,7 @@ function inicio(el, d, ctx, ligaId) {
           <div class="linea"><span class="que">Recibes</span>${d.debil.sugerencia.recibo.map((id) => `<b>${esc(J[id].nombre)}</b>`).join(' + ')}</div></div>
           <button class="chip-boton principal" data-tab="mercado">🤝 Armar este trade</button>`
           : '<p class="nota" style="margin-top:6px">Estás bien en todas las posiciones comparado con la liga.</p>'}
-      </section>` : ''}
+      </section>` : ''}`}
     ${tarjeta('🏆 Tabla de la liga', `<div class="lista">${[...d.equipos].sort((a, b) => {
       const [wa] = a.record.split('-').map(Number); const [wb] = b.record.split('-').map(Number);
       return (wb - wa) || (b.puntos - a.puntos);
@@ -119,12 +146,17 @@ function inicio(el, d, ctx, ligaId) {
 
   // Cody saluda, resume el plan y luego va dando cada consejo
   const urgentes = d.plan.filter((a) => a.urgente).length;
-  const intro = {
-    texto: `${F.saludo(sesion.usuario?.display || '')} ${d.plan.length ? F.resumenPlan(d.plan.length, urgentes) : F.planVacio()}`,
+  const intro = d.esPasada ? {
+    texto: duelo && (duelo.mis || duelo.suyos) && duelo.mis !== duelo.suyos ? (duelo.prob >= 0.5 ? `🏆 La semana ${d.semana} la ganaste ${pts(duelo.mis)} a ${pts(duelo.suyos)}. ¡Así se juega!`
+      : `😓 La semana ${d.semana} se perdió ${pts(duelo.mis)} a ${pts(duelo.suyos)}. Pasado pisado: vamos por la próxima.`)
+      : `Esta es la semana ${d.semana}, ya jugada.`,
+    animo: duelo && duelo.mis > duelo.suyos ? 'Celebrar' : duelo && duelo.mis < duelo.suyos ? 'Triste' : 'Hablar', tab: 'inicio',
+  } : {
+    texto: `${F.saludo(sesion.usuario?.display || '')} ${d.esFutura ? `Mirando la semana ${d.semana}: ` : ''}${d.plan.length ? F.resumenPlan(d.plan.length, urgentes) : F.planVacio()}`,
     animo: urgentes ? 'Sorpresa' : prob != null && prob >= 60 ? 'Feliz' : prob != null && prob < 40 ? 'Triste' : 'Saludar',
     tab: 'inicio',
   };
-  const consejos = [intro, ...d.consejos];
+  const consejos = d.esPasada ? [intro] : [intro, ...d.consejos];
   let i = 0;
   const decir = () => {
     const c = consejos[i % consejos.length];

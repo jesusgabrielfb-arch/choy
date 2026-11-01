@@ -5,7 +5,7 @@
 const PERMITIDOS = {
   'api.sleeper.app': 600,
   'api.fantasycalc.com': 3600,
-  'site.api.espn.com': 1800,
+  'site.api.espn.com': 120,
   'public.api.bsky.app': 300,
 };
 

@@ -20,17 +20,38 @@ export function leerPartidos(datos) {
     const local = eq.find((c) => c.homeAway === 'home')?.team?.abbreviation;
     const visita = eq.find((c) => c.homeAway === 'away')?.team?.abbreviation;
     if (local && visita) {
-      partidos.push({ local: aSleeper(local), visita: aSleeper(visita), fecha: ev.date || null });
+      partidos.push({ local: aSleeper(local), visita: aSleeper(visita), fecha: ev.date || null, progreso: progreso(ev.status) });
     }
   }
   return partidos;
 }
 
-export async function partidosSemana(temporada, semana) {
+export async function partidosSemana(temporada, semana, { vivo = false } = {}) {
   const url = 'https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard' +
     `?seasontype=2&week=${semana}&dates=${temporada}`;
-  const datos = await pedirJSON(url, { clave: `espn:${temporada}:${semana}`, ttl: 12 * HORA, proxy: true });
+  const datos = await pedirJSON(url, { clave: `espn:${temporada}:${semana}`, ttl: vivo ? 2 * 60_000 : 12 * HORA, proxy: true });
   return leerPartidos(datos);
+}
+
+/** Cuánto del partido ya se jugó: 0 = no empieza, 1 = terminado. */
+export function progreso(status) {
+  const estado = status?.type?.state;
+  if (estado === 'post' || status?.type?.completed) return 1;
+  if (estado !== 'in') return 0;
+  const periodo = Math.min(4, status.period || 1);
+  const [m, s] = String(status.displayClock || '15:00').split(':').map(Number);
+  const quedan = Math.max(0, (m || 0) + (s || 0) / 60);
+  return Math.min(0.99, ((periodo - 1) * 15 + (15 - Math.min(15, quedan))) / 60);
+}
+
+/** { equipo: progreso } para una semana. */
+export function progresoPorEquipo(partidos) {
+  const r = {};
+  for (const p of partidos) {
+    r[p.local] = p.progreso ?? 0;
+    r[p.visita] = p.progreso ?? 0;
+  }
+  return r;
 }
 
 /** Equipos que no juegan esa semana. */

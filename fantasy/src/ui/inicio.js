@@ -3,6 +3,7 @@ import { esc, $, $$, cargando, codyHtml, ponerCody, codyDice } from './comun.js'
 import { cargarInicio, sesion } from '../estado.js';
 import { avatar } from '../datos/sleeper.js';
 import { EQUIPOS, aplicarTema } from '../datos/equipos.js';
+import { soporte, preferencias, activar, desactivar, esIOS } from '../notificaciones.js';
 
 export async function vistaBienvenida(app, ctx) {
   app.innerHTML = `<section class="bienvenida">
@@ -113,9 +114,57 @@ export async function vistaCarpetas(app, ctx) {
         <div class="fila">${img}<div style="min-width:0"><h3>${esc(l.name)}</h3><small class="nota">${l.total_rosters} equipos · ${esc(temporada)}</small></div></div>
         <div class="datos"><span class="etiqueta">${tipo}</span><span class="etiqueta">${ppr}</span>${sf ? `<span class="etiqueta">${sf}</span>` : ''}</div>
       </a>`;
-    }).join('')}</div>`;
+    }).join('')}</div><div id="avisos"></div>`;
+    tarjetaAvisos($('#avisos'), ctx, { usuario: { id: u.id, nombre: u.nombre }, ligas: ligas.map((l) => ({ id: l.league_id, nombre: l.name })) });
   } catch {
     $('#cuerpo').innerHTML = '<div class="tarjeta vacio">No me pude conectar con Sleeper. Revisa tu internet e intenta de nuevo.</div>';
     codyDice(app, ctx, 'No pude hablar con Sleeper. Revisa tu internet.', { animo: 'Triste' });
   }
+}
+
+/** Tarjeta para activar las notificaciones de Cody (tu equipo y noticias). */
+function tarjetaAvisos(el, ctx, datos) {
+  const pintar = () => {
+    const p = preferencias();
+    const s = soporte();
+    el.innerHTML = `<section class="tarjeta"><header><h2>🔔 Avisos de Cody</h2>
+      <small>Te aviso si un titular se lesiona o se va de bye, si tienes un puesto vacío y las noticias de tus jugadores.</small></header>
+      ${s === 'instalar' ? `<p class="nota">📲 En iPhone primero agrega la app a tu pantalla de inicio: toca <b>Compartir</b> → <b>Agregar a pantalla de inicio</b>, ábrela desde ahí y vuelve a esta tarjeta.</p>`
+      : s === 'no' ? '<p class="nota">Este navegador no permite notificaciones. Prueba con Chrome o Safari actualizado.</p>'
+      : `<div class="chips">
+          <button data-op="equipo" class="${p.equipo ? 'activo' : ''}">🏈 Mi equipo</button>
+          <button data-op="noticias" class="${p.noticias ? 'activo' : ''}">📰 Noticias</button>
+        </div>
+        <button class="boton ancho" id="btn-avisos">${p.activo ? '🔕 Apagar avisos' : '🔔 Activar avisos'}</button>
+        <p class="nota" style="margin-top:8px" id="estado-avisos">${p.activo ? '✅ Avisos activados en este teléfono.' : esIOS() ? 'Funciona con la app agregada a tu pantalla de inicio.' : ''}</p>`}
+    </section>`;
+    if (s !== 'si') return;
+    $$('[data-op]', el).forEach((b) => b.addEventListener('click', async () => {
+      const actual = preferencias();
+      const nuevo = { ...actual, [b.dataset.op]: !actual[b.dataset.op] };
+      localStorage.setItem('fg:avisos', JSON.stringify({ t: Date.now(), v: nuevo }));
+      if (actual.activo) await activar({ ...datos, equipo: nuevo.equipo, noticias: nuevo.noticias }).catch(() => {});
+      pintar();
+    }));
+    $('#btn-avisos', el).onclick = async () => {
+      const btn = $('#btn-avisos', el);
+      btn.disabled = true;
+      try {
+        if (preferencias().activo) {
+          await desactivar();
+          codyDice(document, ctx, 'Listo, ya no te molesto. Si me necesitas, aquí estoy. 🐛', { animo: 'Triste' });
+        } else {
+          const p2 = preferencias();
+          await activar({ ...datos, equipo: p2.equipo, noticias: p2.noticias });
+          codyDice(document, ctx, '¡Hecho! 🔔 Te aviso si pasa algo con tu equipo o hay noticias de tus jugadores.', { animo: 'Celebrar' });
+        }
+      } catch (e) {
+        codyDice(document, ctx, e.message === 'permiso'
+          ? 'Necesito tu permiso para mandarte avisos. Revisa los permisos de notificaciones del navegador.'
+          : 'No pude activar los avisos ahora. Intenta en un rato.', { animo: 'Triste' });
+      }
+      pintar();
+    };
+  };
+  pintar();
 }

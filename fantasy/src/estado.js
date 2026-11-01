@@ -10,6 +10,8 @@ import { alertasBye } from './analisis/byes.js';
 import { analizarLesiones } from './analisis/lesiones.js';
 import { puestosTitulares } from './analisis/alineacion.js';
 import { planSemana, puntoDebil } from './analisis/plan.js';
+import { duelosSemana } from './analisis/probabilidad.js';
+import { progresoPorEquipo } from './datos/calendario.js';
 
 export const sesion = {
   get usuario() { return leerCache('sesion'); },
@@ -32,34 +34,36 @@ export async function cargarInicio(nombre) {
 
 const cacheLigas = new Map();
 
-export async function cargarLiga(ligaId, usuarioId, { forzar = false } = {}) {
-  if (!forzar && cacheLigas.has(ligaId)) return cacheLigas.get(ligaId);
-  const p = armarLiga(ligaId, usuarioId);
-  cacheLigas.set(ligaId, p);
-  p.catch(() => cacheLigas.delete(ligaId));
+export async function cargarLiga(ligaId, usuarioId, { forzar = false, semana = null } = {}) {
+  const clave = `${ligaId}:${semana || 'actual'}`;
+  if (!forzar && cacheLigas.has(clave)) return cacheLigas.get(clave);
+  const p = armarLiga(ligaId, usuarioId, semana);
+  cacheLigas.set(clave, p);
+  p.catch(() => cacheLigas.delete(clave));
   return p;
 }
 
-async function armarLiga(ligaId, usuarioId) {
+async function armarLiga(ligaId, usuarioId, semanaVista = null) {
   const [liga, rosters, usuarios, estado, jugadores] = await Promise.all([
     S.liga(ligaId), S.rosters(ligaId), S.usuariosLiga(ligaId), S.estadoNFL(), S.jugadores(),
   ]);
   const temporada = liga.season || estado.season;
   const enCurso = estado.season_type === 'regular' && String(estado.season) === String(temporada);
-  const semana = Math.max(1, Math.min(18, enCurso ? (estado.display_week || estado.week || 1) : 1));
+  const semanaActual = Math.max(1, Math.min(18, enCurso ? (estado.display_week || estado.week || 1) : 1));
+  const semana = semanaVista ? Math.max(1, Math.min(18, Number(semanaVista))) : semanaActual;
   const reglas = liga.scoring_settings || {};
   const puestos = liga.roster_positions || [];
 
   const pasadas = [];
-  for (let w = Math.max(1, semana - 8); w < semana; w++) pasadas.push(w);
-  const futuras = [semana, semana + 1, semana + 2, semana + 3].filter((w) => w <= 18);
+  for (let w = Math.max(1, semanaActual - 8); w < semanaActual; w++) pasadas.push(w);
+  const futuras = [...new Set([semana, semana + 1, semana + 2, semana + 3, semanaActual])].filter((w) => w <= 18 && !pasadas.includes(w));
 
   const [vals, proyAhora, proySig, statsPasadas, partidos, matchAhora, tendAdd, tendDrop] = await Promise.all([
     seguro(pedirValores(liga), {}),
     seguro(S.proyecciones(temporada, semana), {}),
     seguro(S.proyecciones(temporada, semana + 1), {}),
     Promise.all(pasadas.map((w) => seguro(S.estadisticas(temporada, w), {}))),
-    Promise.all([...pasadas, ...futuras].map((w) => seguro(partidosSemana(temporada, w), []))),
+    Promise.all([...pasadas, ...futuras].map((w) => seguro(partidosSemana(temporada, w, { vivo: w === semanaActual }), []))),
     seguro(S.matchups(ligaId, semana), []),
     seguro(S.tendencias('add'), []),
     seguro(S.tendencias('drop'), []),
@@ -115,6 +119,7 @@ async function armarLiga(ligaId, usuarioId) {
   const proySemana = Object.fromEntries(Object.keys(proyAhora).map((id) => [id, proy(semana, id)]));
 
   const res = {
+    semanaActual, esPasada: semana < semanaActual, esFutura: semana > semanaActual,
     liga, temporada, semana, enCurso, reglas, puestos, jugadores, valores: vals, valor, proy, equipos, mio,
     rosteados, libres, permitidos, rivalesPor, byesPor, tendAdd, tendDrop, sinValores: !Object.keys(vals).length,
     sinProyecciones: !Object.keys(proyAhora).length, sinStats: !semanasStats.some((s) => Object.keys(s.stats).length),
@@ -126,14 +131,17 @@ async function armarLiga(ligaId, usuarioId) {
     rivales: rivalesPor[semana] || {}, rosterPositions: puestos, byes: byesPor[semana] || new Set(),
   });
 
-  // Duelo de esta semana
-  const miMatch = matchAhora.find((m) => m.roster_id === mio.rosterId);
-  if (miMatch?.matchup_id) {
-    const suyo = matchAhora.find((m) => m.matchup_id === miMatch.matchup_id && m.roster_id !== mio.rosterId);
-    const proyTit = (m) => (m?.starters || []).reduce((s, id) => s + (proy(semana, id) ?? 0), 0);
+  // Duelos de la semana con probabilidad de ganar (en vivo si hay partidos jugándose)
+  const prog = progresoPorEquipo(partidosPor[semana] || []);
+  const progresoDe = (id) => (semana < semanaActual ? 1 : prog[jugadores[id]?.equipo] ?? (byesPor[semana]?.has(jugadores[id]?.equipo) ? 1 : 0));
+  res.duelos = duelosSemana({ matchups: matchAhora, equipos, proy: (id) => proy(semana, id), progreso: progresoDe })
+    .map((dd) => (dd.b.equipo.esMio ? { a: dd.b, b: dd.a } : dd))
+    .sort((x, y) => Number(!!y.a.equipo.esMio) - Number(!!x.a.equipo.esMio));
+  const mioDuelo = res.duelos.find((dd) => dd.a.equipo.esMio);
+  if (mioDuelo) {
     res.duelo = {
-      mis: miMatch.points ?? 0, suyos: suyo?.points ?? 0, misProy: proyTit(miMatch), suyosProy: proyTit(suyo),
-      rival: equipos.find((e) => e.rosterId === suyo?.roster_id) || null,
+      mis: mioDuelo.a.hechos || mioDuelo.a.puntos, suyos: mioDuelo.b.hechos || mioDuelo.b.puntos,
+      misProy: mioDuelo.a.esperado, suyosProy: mioDuelo.b.esperado, prob: mioDuelo.a.prob, rival: mioDuelo.b.equipo,
     };
   }
 
@@ -233,10 +241,12 @@ export function armarConsejos(d) {
     c.push({ animo: 'Cool', tab: 'mercado', texto: `Vende caro: ${j.nombre} ${j.razones[0]}. Aprovecha ahora.` });
   }
   if (d.duelo) {
-    const gano = d.duelo.misProy >= d.duelo.suyosProy;
+    const pct = Math.round(d.duelo.prob * 100);
+    const rival = d.duelo.rival?.nombre || 'tu rival';
+    const gano = d.duelo.prob >= 0.5;
     c.push({ animo: gano ? 'Feliz' : 'Triste', tab: 'inicio', texto: gano
-      ? `Vas arriba en la proyección contra ${d.duelo.rival?.nombre || 'tu rival'}. ¡No te confíes, que el pan se quema en la puerta del horno!`
-      : `Vas abajo contra ${d.duelo.rival?.nombre || 'tu rival'} por ${(d.duelo.suyosProy - d.duelo.misProy).toFixed(1)} puntos. Haz los cambios del plan.` });
+      ? `Tienes ${pct}% de ganarle a ${rival}. ¡No te confíes, que el pan se quema en la puerta del horno!`
+      : `Solo tienes ${pct}% contra ${rival} (te faltan ${(d.duelo.suyosProy - d.duelo.misProy).toFixed(1)} puntos). Haz los cambios del plan.` });
   }
   if (!c.length) c.push({ animo: 'Feliz', tab: 'inicio', texto: 'Aquí Cody: todo tranquilo. Tu alineación ya es la mejor posible.' });
   return c;

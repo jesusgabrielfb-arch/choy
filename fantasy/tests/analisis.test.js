@@ -132,7 +132,7 @@ test('calendario de ESPN: partidos, byes y rivales', () => {
   const datos = { events: [{ date: '2026-11-08', competitions: [{ competitors: [
     { homeAway: 'home', team: { abbreviation: 'WSH' } }, { homeAway: 'away', team: { abbreviation: 'KC' } }] }] }] };
   const p = leerPartidos(datos);
-  assert.deepEqual(p[0], { local: 'WAS', visita: 'KC', fecha: '2026-11-08' });
+  assert.deepEqual(p[0], { local: 'WAS', visita: 'KC', fecha: '2026-11-08', progreso: 0 });
   assert.equal(rivales(p).KC, 'WAS');
   const byes = equiposEnBye(p);
   assert.equal(byes.size, 30);
@@ -227,4 +227,59 @@ test('mejores defensas de la semana según el rival', () => {
   assert.equal(r[r.length - 1].equipo, 'MIA');
   assert.ok(!r.some((x) => x.equipo === 'KC')); // KC está de bye
   assert.match(r[0].razon, /vs NYJ/);
+});
+
+import { normal, equipoEsperado, probGanar, duelosSemana } from '../src/analisis/probabilidad.js';
+import { progreso } from '../src/datos/calendario.js';
+
+test('probabilidad de ganar', () => {
+  assert.ok(Math.abs(normal(0) - 0.5) < 1e-6);
+  assert.ok(normal(1.96) > 0.97 && normal(1.96) < 0.98);
+  const proy = (id) => ({ a: 20, b: 15, c: 10, d: 10 }[id]);
+  const fuerte = equipoEsperado({ titulares: ['a', 'b'], proy, progreso: () => 0 });
+  const debil = equipoEsperado({ titulares: ['c', 'd'], proy, progreso: () => 0 });
+  const p = probGanar(fuerte, debil);
+  assert.ok(p > 0.6 && p < 0.95, `p=${p}`);
+  // Partido terminado: lo que pasó es lo que cuenta
+  const fin1 = equipoEsperado({ titulares: ['a'], puntosHechos: { a: 5 }, proy, progreso: () => 1 });
+  const fin2 = equipoEsperado({ titulares: ['c'], puntosHechos: { c: 12 }, proy, progreso: () => 1 });
+  assert.equal(probGanar(fin1, fin2), 0);
+});
+
+test('duelos de la semana y progreso del partido', () => {
+  const d = duelosSemana({
+    matchups: [{ roster_id: 1, matchup_id: 1, starters: ['a'], points: 0 }, { roster_id: 2, matchup_id: 1, starters: ['c'], points: 0 }],
+    equipos: [{ rosterId: 1, nombre: 'Yo' }, { rosterId: 2, nombre: 'Rival' }],
+    proy: (id) => ({ a: 20, c: 10 }[id]), progreso: () => 0,
+  });
+  assert.equal(d.length, 1);
+  assert.ok(d[0].a.prob > 0.5 && Math.abs(d[0].a.prob + d[0].b.prob - 1) < 1e-9);
+  assert.equal(progreso({ type: { state: 'pre' } }), 0);
+  assert.equal(progreso({ type: { state: 'post', completed: true } }), 1);
+  assert.ok(Math.abs(progreso({ type: { state: 'in' }, period: 3, displayClock: '7:30' }) - 0.625) < 0.01);
+});
+
+import { generarAvisos } from '../src/analisis/avisos.js';
+
+test('avisos: lesión, bye, puesto vacío, byes de la semana que viene y noticias, sin repetir', () => {
+  const J = {
+    a: { nombre: 'Ana Pérez', equipo: 'KC', lesion: 'Out' },
+    b: { nombre: 'Beto Smith', equipo: 'MIA' },
+    c: { nombre: 'Caro Jones', equipo: 'BUF', lesion: 'Questionable' },
+  };
+  const ligas = [{ id: 'L1', nombre: 'Panas', titulares: ['a', 'b', 'c', '0'], plantel: ['a', 'b', 'c'] }];
+  const noticias = [{ titulo: 'Beto Smith firma extensión', enlace: 'https://x/1', fecha: 2000 }, { titulo: 'Otro tema', enlace: 'https://x/2', fecha: 3000 }];
+  const avisos = generarAvisos({ ligas, jugadores: J, semana: 9, byes: new Set(['MIA']), byesSig: new Set(['BUF']), noticias, desde: 1000 });
+  const claves = avisos.map((a) => a.clave);
+  assert.ok(claves.includes('les:L1:a:Out:9'));
+  assert.ok(claves.includes('bye:L1:b:9'));
+  assert.ok(claves.includes('duda:L1:c:9'));
+  assert.ok(claves.includes('vacio:L1:9'));
+  assert.ok(claves.includes('byesig:L1:10'));
+  assert.ok(claves.includes('not:https://x/1'));
+  assert.equal(claves.length, 6);
+  const otraVez = generarAvisos({ ligas, jugadores: J, semana: 9, byes: new Set(['MIA']), byesSig: new Set(['BUF']), noticias, desde: 1000, enviados: new Set(claves) });
+  assert.equal(otraVez.length, 0);
+  const soloNoticias = generarAvisos({ ligas, jugadores: J, semana: 9, noticias, opciones: { equipo: false, noticias: true } });
+  assert.deepEqual(soloNoticias.map((a) => a.clave), ['not:https://x/1']);
 });
