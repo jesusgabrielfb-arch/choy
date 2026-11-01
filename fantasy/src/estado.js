@@ -4,7 +4,7 @@ import { valores as pedirValores, valorRespaldo } from './datos/valores.js';
 import { partidosSemana, equiposEnBye, rivales as rivalesDe } from './datos/calendario.js';
 import { leerCache, guardarCache } from './datos/http.js';
 import { puntos, promedioReciente } from './analisis/puntos.js';
-import { puntosPermitidos, recomendarTitulares, factorCruce, rankingDefensas } from './analisis/defensas.js';
+import { puntosPermitidos, recomendarTitulares, factorCruce, rankingDefensas, mejoresDefensas } from './analisis/defensas.js';
 import { comprarBarato, venderCaro } from './analisis/compraventa.js';
 import { alertasBye } from './analisis/byes.js';
 import { analizarLesiones } from './analisis/lesiones.js';
@@ -165,13 +165,20 @@ async function armarLiga(ligaId, usuarioId) {
   const tieneIR = (liga.settings?.reserve_slots ?? 0) > 0;
   res.lesiones = analizarLesiones({ jugadores, miRoster: mio.ids, rosteados, valor, tieneIR });
 
-  // Mejores defensas para poner (streaming): DEF libres con el cruce más fácil
-  const rivalesHoy = rivalesPor[semana] || {};
-  res.defensasLibres = libres
-    .filter((id) => jugadores[id].pos === 'DEF' && rivalesHoy[jugadores[id].equipo])
-    .map((id) => ({ id, rival: rivalesHoy[jugadores[id].equipo], factor: factorCruce(permitidos, rivalesHoy[jugadores[id].equipo], 'DEF'), proy: proy(semana, id) }))
-    .sort((a, b) => (b.proy ?? 0) * 0.5 + b.factor * 5 - ((a.proy ?? 0) * 0.5 + a.factor * 5))
-    .slice(0, 5);
+  // Mejores defensas de cada semana según el rival (todas: tuya, libres y de otros equipos)
+  const duenoDe = (id) => (mio.ids.includes(id) ? 'mia' : dueno[id] ? dueno[id].nombre : 'libre');
+  const defensas = {};
+  res.defensasSemana = (w) => (defensas[w] ??= mejoresDefensas({
+    jugadores, rivales: rivalesPor[w] || {}, permitidos, proy: (id) => proy(w, id), dueno: duenoDe, limite: 32,
+  }));
+  const todasHoy = res.defensasSemana(semana);
+  const miDef = todasHoy.find((x) => x.dueno === 'mia') || null;
+  const mejorLibre = todasHoy.find((x) => x.dueno === 'libre') || null;
+  res.defensa = {
+    mia: miDef, mejorLibre,
+    miaEnBye: mio.ids.some((id) => jugadores[id]?.pos === 'DEF') && !miDef,
+    cambiar: !!mejorLibre && (!miDef || mejorLibre.puntaje - miDef.puntaje >= 1.5),
+  };
   const rankings = {};
   res.ranking = (pos) => (rankings[pos] ??= rankingDefensas(permitidos, pos));
   const factor = (rival, pos) => res.ranking(pos).find((f) => f.equipo === rival)?.factor ?? 1;
@@ -206,6 +213,11 @@ export function armarConsejos(d) {
     const mas = a.ganancia > 0.5 ? ` Eso te da +${a.ganancia.toFixed(1)} puntos.` : '';
     c.push({ animo: a.urgente ? 'Sorpresa' : animoDe[a.tipo] || 'Hablar', tab: a.tipo === 'waiver' || a.tipo === 'proxima' ? 'jugadores' : 'equipo',
       texto: `${a.titulo}. ${a.detalle}${mas}` });
+  }
+  if (d.defensa?.cambiar && d.defensa.mejorLibre) {
+    const x = d.defensa.mejorLibre;
+    c.push({ animo: 'Cool', tab: 'equipo', texto: `🛡️ Defensa de la semana: ${J[x.id]?.nombre} está libre (${x.razon}). ` +
+      (d.defensa.mia ? `Es mejor que la tuya (${J[d.defensa.mia.id]?.nombre}, #${d.defensa.mia.rank}).` : 'Tu defensa no juega esta semana.') });
   }
   if (d.debil?.sugerencia) {
     const s = d.debil.sugerencia;

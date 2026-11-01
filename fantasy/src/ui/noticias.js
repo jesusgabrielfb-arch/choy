@@ -16,9 +16,9 @@ export async function vistaNoticias(el, d, ctx) {
 
   el.innerHTML = `
     <div class="chips" id="filtros">
-      ${d ? '<button data-f="mios" class="activo">Mis jugadores</button><button data-f="liga">Mi liga</button>' : ''}
-      <button data-f="todo" class="${d ? '' : 'activo'}">Todo</button>
-      <button data-f="analistas">Analistas</button>
+      ${d ? '<button data-f="mios" class="activo">⭐ Mis jugadores</button><button data-f="liga">🏟️ Mi liga</button>' : ''}
+      <button data-f="todo" class="${d ? '' : 'activo'}">🌎 Todo</button>
+      <button data-f="analistas">🎙️ Analistas</button>
     </div>
     <div id="lista-noticias">${cargando('Buscando noticias…')}</div>`;
 

@@ -294,3 +294,7 @@ select {
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
 }
+
+/* ---------- marca Fantasy x Cody ---------- */
+.marca { font-family: 'Fraunces Variable', serif; font-weight: 800; font-size: 15px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--suave); margin: 4px 0 2px; }
+.marca span, .barra h1 .x { color: var(--acento); font-style: italic; }

@@ -7,12 +7,13 @@ import { EQUIPOS, aplicarTema } from '../datos/equipos.js';
 export async function vistaBienvenida(app, ctx) {
   app.innerHTML = `<section class="bienvenida">
     ${codyHtml({ grande: true })}
-    <h1>¡Hola! Soy Cody</h1>
+    <p class="marca">Fantasy <span>x</span> Cody</p>
+    <h1>¡Hola! Soy Cody 🐛</h1>
     <p>Tu gusano del fantasy. Dame tu usuario de Sleeper y te digo qué hacer cada semana en cada una de tus ligas.</p>
     <form class="campo" id="form">
       <input id="usuario" autocomplete="username" autocapitalize="off" spellcheck="false"
         placeholder="Usuario de Sleeper" aria-label="Usuario de Sleeper" required />
-      <button class="boton" type="submit">Entrar</button>
+      <button class="boton" type="submit">Entrar 🏈</button>
     </form>
     <div class="error" id="error" role="alert"></div>
     <p class="nota" style="margin-top:14px">Solo leo tu liga. No pido contraseña.</p>
@@ -63,7 +64,7 @@ export function vistaEquipoFavorito(app, ctx) {
     ${codyHtml()}
     <div class="equipos-nfl">${orden.map(([abr, e]) => `<button class="equipo-nfl ${abr === elegido ? 'sel' : ''}" data-abr="${abr}" aria-label="${esc(e.nombre)}">
       <span class="bolita" style="background:${e.camiseta};box-shadow:inset 0 0 0 3px ${e.ribete}">${abr}</span>${esc(e.nombre.split(' ').slice(-1)[0])}</button>`).join('')}</div>
-    <div class="pie-fijo"><button class="boton ancho" id="listo" ${elegido ? '' : 'disabled'}>Listo</button></div>`;
+    <div class="pie-fijo"><button class="boton ancho" id="listo" ${elegido ? '' : 'disabled'}>¡Listo, a jugar! ✅</button></div>`;
   ponerCody(app, ctx, '¿De qué equipo eres? Toca uno y me lo pruebo.', { animo: 'Saludar' });
   $$('.equipo-nfl').forEach((b) => b.addEventListener('click', () => {
     elegido = b.dataset.abr;
@@ -84,7 +85,7 @@ export async function vistaCarpetas(app, ctx) {
   const u = sesion.usuario;
   const eq = EQUIPOS[sesion.equipo];
   app.innerHTML = `<header class="barra">
-      <div class="titulo"><h1>Tus ligas</h1><small>@${esc(u.display || u.nombre)}</small></div>
+      <div class="titulo"><h1>Fantasy <span class="x">x</span> Cody</h1><small>@${esc(u.display || u.nombre)} · tus ligas</small></div>
       <a class="punto-equipo" href="#/equipo-favorito" title="Cambiar equipo favorito">${esc(sesion.equipo || 'NFL')}</a>
       <a class="boton-icono" href="#/noticias" aria-label="Noticias">📰</a>
       <button class="boton-icono" id="salir" aria-label="Cambiar de usuario">⎋</button>

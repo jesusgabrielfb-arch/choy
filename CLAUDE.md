@@ -39,7 +39,7 @@ proyectos para no tener que repetirlos.
 Lee capturas del portal SEDUCA, calcula promedios igual que el portal, simula notas y tiene a
 Pancracio en una cocina 3D. Detalles en `README.md`.
 
-### App de fantasy football tipo Sleeper — "Gusano Fantasy" (carpeta `fantasy/`)
+### App de fantasy football tipo Sleeper — "Fantasy x Cody" (carpeta `fantasy/`, en https://gusano-fantasy.vercel.app)
 
 Primera versión hecha (ver `fantasy/README.md`): carpetas por liga, titulares, analizador de
 defensas, trades justos, buy low / sell high, alertas de bye, lesiones y stash, noticias en

@@ -1,4 +1,4 @@
-# Gusano Fantasy 🐛🏈
+# Fantasy x Cody 🐛🏈
 
 Asistente de fantasy football conectado a **Sleeper**, con la mascota en 3D que te aconseja.
 Todo en español y con fuentes **gratis**.
@@ -11,8 +11,8 @@ y toda la app toma sus colores. Cody aparece en cada pantalla y te habla.
 | Pestaña | Qué tiene |
 | --- | --- |
 | **Ligas** | Una carpeta por cada liga de Sleeper que tengas |
-| **Inicio** | Duelo de la semana con probabilidad, **plan de la semana** (acciones concretas con los puntos que ganas: "sienta a X y pon a Y", "agrega a Z de waivers y suelta a W", byes de la semana que viene), **tu punto débil** con un trade justo para arreglarlo, tabla |
-| **Equipo** | Alineación recomendada con "Entra"/"Sale", lesionados con consejo, analizador de defensas (A–F) y defensas libres para rotar |
+| **Cody** (inicio) | Duelo de la semana con probabilidad, **plan de la semana** (acciones concretas con los puntos que ganas: "sienta a X y pon a Y", "agrega a Z de waivers y suelta a W", byes de la semana que viene), **tu punto débil** con un trade justo para arreglarlo, tabla |
+| **Equipo** | Alineación recomendada con "Entra"/"Sale", lesionados con consejo, analizador de defensas (A–F) y **mejores defensas (DST) de la semana** y la siguiente según la ofensiva rival, marcando si es tuya, libre o de otro equipo |
 | **Mercado** | Armador de trades justos (Cody opina si te roban), comprar barato / vender caro, lo que hacen miles de ligas |
 | **Jugadores** | Qué agregar esta semana, byes, mejores libres por posición, tendencias, stash, suplentes que suben, lesionados de la liga |
 | **Noticias** | En español (las de inglés se traducen en el teléfono), primero las de tus jugadores; analistas de Bluesky |

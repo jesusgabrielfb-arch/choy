@@ -25,6 +25,11 @@ const ctx = {
     try {
       ctx._cargando ??= crearMascota(ctx._lienzo).then((m) => {
         ctx.mascota = m;
+        // Si lo tocas, Cody te dice algo
+        ctx._lienzo.addEventListener('click', () => {
+          import('./ui/frases.js').then((F) => import('./ui/comun.js').then(({ codyDice }) =>
+            codyDice(document, ctx, F.alTocar(), { animo: 'Feliz' })));
+        });
         const e = EQUIPOS[sesion.equipo];
         if (e) m.vestir(e);
         return m;

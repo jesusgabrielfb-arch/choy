@@ -209,3 +209,22 @@ test('punto débil y trade sugerido', () => {
   assert.ok(r.sugerencia);
   assert.ok(['x', 'y'].includes(r.sugerencia.recibo[0]));
 });
+
+import { mejoresDefensas } from '../src/analisis/defensas.js';
+
+test('mejores defensas de la semana según el rival', () => {
+  const jug = {
+    BUF: { id: 'BUF', pos: 'DEF', equipo: 'BUF' }, MIA: { id: 'MIA', pos: 'DEF', equipo: 'MIA' },
+    NYJ: { id: 'NYJ', pos: 'DEF', equipo: 'NYJ' }, NE: { id: 'NE', pos: 'DEF', equipo: 'NE' },
+    KC: { id: 'KC', pos: 'DEF', equipo: 'KC' },
+  };
+  // A las defensas que juegan contra NYJ les va muy bien; contra NE, mal.
+  const permitidos = { NYJ: { DEF: 14 }, NE: { DEF: 3 }, BUF: { DEF: 7 }, MIA: { DEF: 7 } };
+  const r = mejoresDefensas({ jugadores: jug, rivales: { BUF: 'NYJ', NYJ: 'BUF', MIA: 'NE', NE: 'MIA' },
+    permitidos, dueno: (id) => (id === 'BUF' ? 'mia' : 'libre') });
+  assert.equal(r[0].equipo, 'BUF');
+  assert.equal(r[0].dueno, 'mia');
+  assert.equal(r[r.length - 1].equipo, 'MIA');
+  assert.ok(!r.some((x) => x.equipo === 'KC')); // KC está de bye
+  assert.match(r[0].razon, /vs NYJ/);
+});

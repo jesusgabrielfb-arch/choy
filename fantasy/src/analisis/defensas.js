@@ -89,3 +89,33 @@ export function recomendarTitulares({ miRoster, titularesActuales, jugadores, pr
   const porId = Object.fromEntries(lista.map((l) => [l.id, l]));
   return { alineacion: mejor, poner, sentar, porId };
 }
+
+/**
+ * Mejores defensas (DST) de una semana según el enfrentamiento.
+ * Mira cuántos puntos les sacan las defensas a la ofensiva rival (permitidos[rival].DEF)
+ * y lo mezcla con la proyección. dueno(id) → 'mia' | 'libre' | nombre del equipo.
+ */
+export function mejoresDefensas({ jugadores, rivales, permitidos, proy = () => null, dueno = () => 'libre', limite = 12 }) {
+  const ranking = rankingDefensas(permitidos, 'DEF');
+  const porEquipo = Object.fromEntries(ranking.map((r) => [r.equipo, r]));
+  const total = ranking.length || 32;
+  const lista = [];
+  for (const j of Object.values(jugadores)) {
+    if (j.pos !== 'DEF' || !j.equipo) continue;
+    const rival = rivales[j.equipo];
+    if (!rival) continue; // bye
+    const r = porEquipo[rival];
+    const factor = r?.factor ?? 1;
+    const p = proy(j.id);
+    const base = p ?? (r?.permite ?? 7);
+    const puntaje = base * (0.6 + 0.4 * Math.min(1.4, Math.max(0.6, factor)));
+    let razon = `vs ${rival}`;
+    if (r) {
+      razon += `: le sacan ${r.permite.toFixed(1)} pts por partido`;
+      if (r.rank <= Math.ceil(total / 4)) razon += ` (de las ofensivas que más regalan, ${r.rank}ª)`;
+      else if (r.rank > total - Math.ceil(total / 4)) razon += ` (ofensiva peligrosa, ${r.rank}ª de ${total})`;
+    }
+    lista.push({ id: j.id, equipo: j.equipo, rival, factor, proy: p, puntaje, razon, dueno: dueno(j.id) });
+  }
+  return lista.sort((a, b) => b.puntaje - a.puntaje).slice(0, limite).map((x, i) => ({ ...x, rank: i + 1 }));
+}

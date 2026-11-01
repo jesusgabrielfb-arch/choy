@@ -21,22 +21,22 @@ export function vistaMercado(el, d, ctx) {
   } catch { /* nada */ }
 
   el.innerHTML = `
-    <section class="tarjeta"><header><h2>Armador de trades</h2><small>1. Elige rival · 2. Toca lo que quieres · 3. (Opcional) lo que das</small></header>
+    <section class="tarjeta"><header><h2>🤝 Armador de trades</h2><small>1. Elige rival · 2. Toca lo que quieres · 3. (Opcional) lo que das</small></header>
       <select id="rival" aria-label="Equipo rival">${rivales.map((r) => `<option value="${r.rosterId}">${esc(r.nombre)} · @${esc(r.usuario)}</option>`).join('')}</select>
       <div class="pasos dos" style="margin-top:10px">
-        <div class="lado"><h3>Recibes</h3><div class="scroll" id="lista-rival"></div></div>
-        <div class="lado"><h3>Das</h3><div class="scroll" id="lista-mia"></div></div>
+        <div class="lado"><h3>📥 Recibes</h3><div class="scroll" id="lista-rival"></div></div>
+        <div class="lado"><h3>📤 Das</h3><div class="scroll" id="lista-mia"></div></div>
       </div>
       <div id="resultado"></div>
     </section>
-    ${tarjeta('Comprar barato', d.comprar.length ? `<div class="lista">${d.comprar.map((j) => `${filaJugador(J[j.id], {
+    ${tarjeta('🛒 Comprar barato', d.comprar.length ? `<div class="lista">${d.comprar.map((j) => `${filaJugador(J[j.id], {
       sub: `de ${esc(j.equipoFantasy?.nombre || '')}`, derecha: miles(j.valor), derechaSub: 'valor',
-      consejo: `${j.razones.map(esc).join(' · ')} <button class="chip-boton" style="margin-left:4px" data-pedir="${j.id}" data-roster="${j.equipoFantasy?.rosterId}">Armar trade</button>` })}`).join('')}</div>`
+      consejo: `${j.razones.map(esc).join(' · ')} <button class="chip-boton" style="margin-left:4px" data-pedir="${j.id}" data-roster="${j.equipoFantasy?.rosterId}">🤝 Armar trade</button>` })}`).join('')}</div>`
       : '<div class="vacio">No encontré gangas claras esta semana.</div>', { sub: 'Rinden menos de lo que valen: buen momento para pedirlos' })}
-    ${tarjeta('Vender caro', d.vender.length ? `<div class="lista">${d.vender.map((j) => filaJugador(J[j.id], {
+    ${tarjeta('💰 Vender caro', d.vender.length ? `<div class="lista">${d.vender.map((j) => filaJugador(J[j.id], {
       derecha: miles(j.valor), derechaSub: 'valor', consejo: j.razones.map(esc).join(' · ') })).join('')}</div>`
       : '<div class="vacio">Nadie de tu equipo está inflado ahora.</div>', { sub: 'Tus jugadores en su punto más alto' })}
-    ${tarjeta('Lo que hacen miles de ligas', `<div class="pasos dos">
+    ${tarjeta('🌎 Lo que hacen miles de ligas', `<div class="pasos dos">
       <div class="lado"><h3>Más agregados</h3>${d.tendAdd.filter((t) => J[t.player_id]).slice(0, 8).map((t) =>
         `<div class="elegible"><span class="pos ${J[t.player_id].pos}">${J[t.player_id].pos}</span><span class="n">${esc(J[t.player_id].nombre)}</span><span class="v sube">+${miles(t.count)}</span></div>`).join('')}</div>
       <div class="lado"><h3>Más soltados</h3>${d.tendDrop.filter((t) => J[t.player_id]).slice(0, 8).map((t) =>
@@ -83,7 +83,7 @@ export function vistaMercado(el, d, ctx) {
     };
     res.innerHTML = `${r.actual ? `<div class="opcion" style="margin-top:8px"><div class="linea"><span class="que">Das</span>${nombres(r.actual.doy)}</div>
         <div class="linea"><span class="que">Recibes</span>${nombres(r.actual.recibo)}</div>${medidor(r.actual)}</div>` : ''}
-      <h3 class="seccion-titulo" style="margin-left:0">Opciones justas</h3>
+      <h3 class="seccion-titulo" style="margin-left:0">⚖️ Opciones justas</h3>
       ${r.opciones.length ? r.opciones.slice(0, 5).map((o) => `<div class="opcion">
         <div class="linea"><span class="que">Das</span>${nombres(o.doy)}</div><div class="linea"><span class="que">Recibes</span>${nombres(o.recibo)}</div>
         <div class="linea"><span class="etiqueta ${o.tipo === 'justo' ? 'verde' : 'amarillo'}">${esc(o.texto)}</span>
