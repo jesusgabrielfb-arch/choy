@@ -12,6 +12,8 @@ proyectos para no tener que repetirlos.
 - Dime con honestidad si algo no se puede hacer o tiene límites (precios, reglas, permisos).
 - **Siempre usar las alternativas gratis.** Si algo solo existe de pago, avísame antes y
   propón la opción gratis más cercana.
+- **Al terminar cada pedido, siempre adjuntar al final el link de la app**:
+  👉 https://fantasy-x-cody.vercel.app (Fantasy x Cody).
 
 ## Estilo y diseño
 
@@ -39,7 +41,7 @@ proyectos para no tener que repetirlos.
 Lee capturas del portal SEDUCA, calcula promedios igual que el portal, simula notas y tiene a
 Pancracio en una cocina 3D. Detalles en `README.md`.
 
-### App de fantasy football tipo Sleeper — "Fantasy x Cody" (carpeta `fantasy/`, en https://gusano-fantasy.vercel.app)
+### App de fantasy football tipo Sleeper — "Fantasy x Cody" (carpeta `fantasy/`, en https://fantasy-x-cody.vercel.app)
 
 Primera versión hecha (ver `fantasy/README.md`): carpetas por liga, titulares, analizador de
 defensas, trades justos, buy low / sell high, alertas de bye, lesiones y stash, noticias en
