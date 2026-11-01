@@ -17,13 +17,25 @@ export async function vistaBienvenida(app, ctx) {
     <div class="error" id="error" role="alert"></div>
     <p class="nota" style="margin-top:14px">Solo leo tu liga. No pido contraseña.</p>
   </section>`;
-  ponerCody(app, ctx, 'Escribe tu usuario y vamos a ganar esta liga. 🏆', { animo: 'Feliz' });
+  ponerCody(app, ctx, 'Escribe tu usuario y vamos a ganar esta liga. 🏆', { animo: 'Feliz' }).then(() => {
+    if (sesion.equipo) return;
+    // Sin equipo elegido todavía: Cody se va probando camisetas y la página cambia con él
+    const lista = Object.keys(EQUIPOS);
+    let k = Math.floor(Math.random() * lista.length);
+    const cambiar = () => {
+      const e = aplicarTema(lista[k++ % lista.length]);
+      ctx.mascota?.vestir(e);
+    };
+    cambiar();
+    ctx.ciclo = setInterval(cambiar, 2200);
+  });
   $('#form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const nombre = $('#usuario').value.trim();
     const btn = e.target.querySelector('button');
     btn.disabled = true;
     $('#error').textContent = '';
+    clearInterval(ctx.ciclo);
     codyDice(app, ctx, 'Buscándote en Sleeper…', { animo: 'Hablar' });
     try {
       const datos = await cargarInicio(nombre);

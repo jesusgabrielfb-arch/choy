@@ -40,6 +40,11 @@ const ctx = {
 };
 
 async function ir() {
+  clearInterval(ctx.ciclo);
+  if (sesion.equipo) {
+    const e = aplicarTema(sesion.equipo);
+    ctx.mascota?.vestir(e);
+  }
   const ruta = location.hash.replace(/^#\/?/, '').split('/');
   window.scrollTo(0, 0);
   if (!sesion.usuario) return vistaBienvenida(app, ctx);
