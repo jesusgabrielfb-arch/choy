@@ -67,7 +67,7 @@ Herramientas gratis elegidas:
 - Computadora **Windows** (`jesus-laptop`), Blender **5.2** instalado.
 - **Blender ya está conectado** a la app de escritorio de Claude con el complemento
   *MCP for Blender* (antes `blender-mcp`, repo `ahujasid/mcp-for-blender`), servidor en el puerto 9876.
-  - Config en `claude_desktop_config.json` → `C:\\Users\\jesus\\.local\\bin\\uvx.exe blender-mcp`.
+  - Config en `claude_desktop_config.json` → `C:\Users\jesus\.local\bin\uvx.exe blender-mcp`.
   - Para usarlo: abrir Blender, panel **N → MCP for Blender** (Start MCP Server) y escribir en un
     chat del modo **Chat** de la app de escritorio. Las sesiones de Code en la **nube** no ven mi Blender.
   - Opciones gratis activadas: Poly Haven. Rigify para el esqueleto de la mascota.
