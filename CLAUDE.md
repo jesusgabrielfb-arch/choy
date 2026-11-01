@@ -39,7 +39,14 @@ proyectos para no tener que repetirlos.
 Lee capturas del portal SEDUCA, calcula promedios igual que el portal, simula notas y tiene a
 Pancracio en una cocina 3D. Detalles en `README.md`.
 
-### Idea: app de fantasy football tipo Sleeper con IA (por empezar)
+### App de fantasy football tipo Sleeper — "Gusano Fantasy" (carpeta `fantasy/`)
+
+Primera versión hecha (ver `fantasy/README.md`): carpetas por liga, titulares, analizador de
+defensas, trades justos, buy low / sell high, alertas de bye, lesiones y stash, noticias en
+español y analistas de Bluesky. Consejos con reglas (gratis), sin IA de pago. La app pide el
+usuario de Sleeper (no está guardado aquí).
+
+Ideas originales:
 
 - Estructura parecida a Sleeper (inspirada, no copiada): ligas, mi equipo, duelo de la semana,
   jugadores/waivers, cambios, draft y chat.
