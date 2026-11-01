@@ -50,6 +50,9 @@ export function duelosSemana({ matchups, equipos, proy, progreso }) {
     const lado = (m) => ({
       equipo: porId[m.roster_id] || { nombre: `Equipo ${m.roster_id}` },
       puntos: m.points ?? 0,
+      titulares: m.starters || [],
+      banca: (m.players || []).filter((id) => !(m.starters || []).includes(id)),
+      puntosJugador: m.players_points || {},
       ...equipoEsperado({ titulares: m.starters || [], puntosHechos: m.players_points || {}, proy, progreso }),
     });
     const a = lado(m1);

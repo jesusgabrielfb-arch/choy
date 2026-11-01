@@ -293,3 +293,18 @@ test('Cody se va enojando si lo tocas mucho', () => {
   assert.match(alTocarSeguido(8)[0], /Mierda|Puñeta|cago|Coño/);
   assert.equal(alTocarSeguido(10)[1], 'Cool');
 });
+
+import { buscar } from '../src/ui/buscador.js';
+
+test('buscador: funciones y jugadores sin importar acentos', () => {
+  const d = {
+    jugadores: { a: { id: 'a', nombre: 'José Pérez', pos: 'WR', rank: 3 }, b: { id: 'b', nombre: 'Ana Smith', pos: 'RB', rank: 1 } },
+    valor: () => 1,
+  };
+  const r = buscar('jose', d);
+  assert.deepEqual(r.jugadores.map((j) => j.id), ['a']);
+  assert.ok(buscar('defensa', d).funciones.some((f) => /Analizador|defensa/i.test(f.t)));
+  assert.ok(buscar('trade', d).funciones.some((f) => /trades/.test(f.t)));
+  // Fuera de una liga solo salen funciones generales
+  assert.ok(buscar('avisos', null).funciones.every((f) => f.href));
+});

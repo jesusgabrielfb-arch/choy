@@ -7,6 +7,8 @@ import { consejoLesion } from '../analisis/lesiones.js';
 import { vistaMercado } from './mercado.js';
 import { vistaNoticias } from './noticias.js';
 import * as F from './frases.js';
+import { enfrentamientoHtml } from './enfrentamiento.js';
+import { abrirBuscador, abrirPendiente } from './buscador.js';
 
 export const PESTANAS = [
   ['inicio', '🐛', 'Cody'],
@@ -23,6 +25,7 @@ export async function vistaLiga(app, ctx, ligaId, pestana = 'inicio', semanaVist
   app.innerHTML = `<header class="barra">
       <a class="boton-icono" href="#/" aria-label="Volver a tus ligas">←</a>
       <div class="titulo"><h1 id="nombre-liga">Cargando…</h1><small id="sub-liga"></small></div>
+      <button class="boton-icono" id="buscar" aria-label="Buscar">🔍</button>
       <button class="boton-icono" id="recargar" aria-label="Actualizar">↻</button>
     </header>
     <nav class="selector-semana" id="selector-semana" aria-label="Cambiar de semana"></nav>
@@ -64,7 +67,9 @@ export async function vistaLiga(app, ctx, ligaId, pestana = 'inicio', semanaVist
   ].filter(Boolean);
   cuerpo.innerHTML = (avisos.length ? `<p class="nota" style="margin:4px 4px 0">ℹ️ ${avisos.join(' ')}</p>` : '') + '<div id="vista"></div>';
   const vistas = { inicio, equipo, mercado: vistaMercado, jugadores, noticias: vistaNoticias };
+  $('#buscar').onclick = () => abrirBuscador({ d, ligaId, ctx });
   await vistas[pestana]($('#vista'), d, ctx, ligaId);
+  abrirPendiente(app);
 }
 
 const ir = (ligaId, tab) => () => {
@@ -72,9 +77,9 @@ const ir = (ligaId, tab) => () => {
   location.hash = `#/liga/${ligaId}/${tab}${w ? '/' + w : ''}`;
 };
 
-function barraDuelo(dd, resaltar = false) {
+function barraDuelo(dd, resaltar = false, k = 0) {
   const pa = Math.round(dd.a.prob * 100);
-  return `<div class="duelo-mini ${resaltar ? 'mio' : ''}">
+  return `<div class="duelo-mini ${resaltar ? 'mio' : ''}" data-duelo="${k}" role="button" tabindex="0">
     <div class="fila-duelo"><span class="eq">${esc(dd.a.equipo.nombre)}</span><b>${pts(dd.a.hechos || dd.a.puntos)}</b><span class="pct ${pa >= 50 ? 'sube' : ''}">${pa}%</span></div>
     <div class="barra-prob"><span style="width:${pa}%"></span></div>
     <div class="fila-duelo"><span class="eq">${esc(dd.b.equipo.nombre)}</span><b>${pts(dd.b.hechos || dd.b.puntos)}</b><span class="pct ${100 - pa > 50 ? 'sube' : ''}">${100 - pa}%</span></div>
@@ -109,15 +114,7 @@ function inicio(el, d, ctx, ligaId) {
   ].filter(Boolean);
 
   el.innerHTML = `
-    ${duelo ? `<section class="tarjeta duelo-tarjeta">
-      <div class="duelo">
-        <div class="lado-duelo"><div class="eq">${esc(d.mio.nombre)}</div><div class="pts">${pts(duelo.mis)}</div></div>
-        <div class="vs">VS</div>
-        <div class="lado-duelo"><div class="eq">${esc(duelo.rival?.nombre || 'Rival')}</div><div class="pts">${pts(duelo.suyos)}</div></div>
-      </div>
-      <div class="barra-prob"><span style="width:${prob}%"></span></div>
-      <div class="pcts"><b class="${prob >= 50 ? 'sube' : 'baja'}">${prob}%</b><span class="nota">${d.esPasada ? (duelo.mis > duelo.suyos ? '🏆 Ganaste' : duelo.mis < duelo.suyos ? '😓 Perdiste' : 'Resultado') : `proy. ${pts(duelo.misProy)} – ${pts(duelo.suyosProy)}`}</span><b>${100 - prob}%</b></div>
-    </section>` : ''}
+    ${duelo?.detalle ? `<div id="ver-enfrentamiento">${enfrentamientoHtml(duelo.detalle, d)}</div>` : ''}
     ${d.esPasada ? '' : `
     <h2 class="seccion-titulo">✅ Lo que tienes que hacer</h2>
     <div class="plan">${d.plan.length ? d.plan.slice(0, 3).map(accionHtml).join('') : `<div class="tarjeta vacio">${esc(F.planVacio())}</div>`}</div>
@@ -129,8 +126,8 @@ function inicio(el, d, ctx, ligaId) {
     <div id="panel"></div>`;
 
   const paneles = {
-    duelos: () => tarjeta('⚔️ Duelos de la liga', d.duelos.map((dd) => barraDuelo(dd, dd.a.equipo.esMio)).join(''),
-      { sub: d.esPasada ? 'Resultados finales' : 'Probabilidad de ganar, en vivo' }),
+    duelos: () => tarjeta('⚔️ Duelos de la liga', d.duelos.map((dd, k) => barraDuelo(dd, dd.a.equipo.esMio, k)).join('') + '<div id="duelo-elegido"></div>',
+      { sub: `${d.esPasada ? 'Resultados finales' : 'Probabilidad de ganar, en vivo'} · toca uno para verlo completo` }),
     defensa: () => tarjeta('🛡️ Defensa de la semana', `<div class="lista">
         ${d.defensa.mia ? filaJugador(J[d.defensa.mia.id], { etiquetas: '<span class="etiqueta acento">Tuya</span>', sub: esc(d.defensa.mia.razon), derecha: `#${d.defensa.mia.rank}` }) : ''}
         ${d.defensa.mejorLibre ? filaJugador(J[d.defensa.mejorLibre.id], { etiquetas: '<span class="etiqueta verde">Libre</span>', sub: esc(d.defensa.mejorLibre.razon), derecha: `#${d.defensa.mejorLibre.rank}` }) : ''}
@@ -159,6 +156,10 @@ function inicio(el, d, ctx, ligaId) {
     if (!abierto) {
       b.classList.add('activo');
       conectarTabs($('#panel', el));
+      $$('[data-duelo]', el).forEach((x) => (x.onclick = () => {
+        $('#duelo-elegido', el).innerHTML = enfrentamientoHtml(d.duelos[Number(x.dataset.duelo)], d);
+        $('#duelo-elegido', el).scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }));
       $('#panel', el).scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
   }));

@@ -142,6 +142,7 @@ async function armarLiga(ligaId, usuarioId, semanaVista = null) {
     res.duelo = {
       mis: mioDuelo.a.hechos || mioDuelo.a.puntos, suyos: mioDuelo.b.hechos || mioDuelo.b.puntos,
       misProy: mioDuelo.a.esperado, suyosProy: mioDuelo.b.esperado, prob: mioDuelo.a.prob, rival: mioDuelo.b.equipo,
+      detalle: mioDuelo,
     };
   }
 

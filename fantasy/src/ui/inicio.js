@@ -4,6 +4,7 @@ import { cargarInicio, sesion } from '../estado.js';
 import { avatar } from '../datos/sleeper.js';
 import { EQUIPOS, aplicarTema } from '../datos/equipos.js';
 import { soporte, preferencias, activar, desactivar, esIOS } from '../notificaciones.js';
+import { abrirBuscador, abrirPendiente } from './buscador.js';
 
 export async function vistaBienvenida(app, ctx) {
   app.innerHTML = `<section class="bienvenida">
@@ -87,6 +88,7 @@ export async function vistaCarpetas(app, ctx) {
   const eq = EQUIPOS[sesion.equipo];
   app.innerHTML = `<header class="barra">
       <div class="titulo"><h1>Fantasy <span class="x">x</span> Cody</h1><small>@${esc(u.display || u.nombre)} · tus ligas</small></div>
+      <button class="boton-icono" id="buscar" aria-label="Buscar">🔍</button>
       <a class="punto-equipo" href="#/equipo-favorito" title="Cambiar equipo favorito">${esc(sesion.equipo || 'NFL')}</a>
       <a class="boton-icono" href="#/noticias" aria-label="Noticias">📰</a>
       <button class="boton-icono" id="salir" aria-label="Cambiar de usuario">⎋</button>
@@ -95,6 +97,7 @@ export async function vistaCarpetas(app, ctx) {
     <div id="cuerpo">${cargando('Un momento…')}</div>`;
   ponerCody(app, ctx, 'Buscando tus ligas…', { animo: 'Hablar' });
   $('#salir').onclick = () => { sesion.salir(); location.hash = '#/'; ctx.ir(); };
+  $('#buscar').onclick = () => abrirBuscador({ ctx });
   try {
     const { ligas, temporada } = await cargarInicio(u.nombre);
     const cuerpo = $('#cuerpo');
@@ -116,6 +119,7 @@ export async function vistaCarpetas(app, ctx) {
       </a>`;
     }).join('')}</div><div id="avisos"></div>`;
     tarjetaAvisos($('#avisos'), ctx, { usuario: { id: u.id, nombre: u.nombre }, ligas: ligas.map((l) => ({ id: l.league_id, nombre: l.name })) });
+    abrirPendiente(app);
   } catch {
     $('#cuerpo').innerHTML = '<div class="tarjeta vacio">No me pude conectar con Sleeper. Revisa tu internet e intenta de nuevo.</div>';
     codyDice(app, ctx, 'No pude hablar con Sleeper. Revisa tu internet.', { animo: 'Triste' });
