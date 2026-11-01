@@ -1,4 +1,4 @@
-# Mascota de la app de fantasy 🐛🏈
+# Cody, la mascota de la app de fantasy 🐛🏈
 
 Gusano gordito con camiseta, hecho en Blender 5.2 a partir de la hoja de diseño.
 

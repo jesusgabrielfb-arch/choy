@@ -213,6 +213,6 @@ export function armarConsejos(d) {
       ? `Vas arriba en la proyección contra ${d.duelo.rival?.nombre || 'tu rival'}. ¡No te confíes!`
       : `Vas abajo en la proyección contra ${d.duelo.rival?.nombre || 'tu rival'}. Revisa tus titulares.` });
   }
-  if (!c.length) c.push({ animo: 'Feliz', tab: 'resumen', texto: 'Todo tranquilo por aquí. Tu equipo está en orden.' });
+  if (!c.length) c.push({ animo: 'Feliz', tab: 'resumen', texto: 'Aquí Cody: todo tranquilo. Tu equipo está en orden.' });
   return c;
 }

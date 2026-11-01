@@ -6,7 +6,7 @@ import { avatar } from '../datos/sleeper.js';
 export async function vistaBienvenida(app, ctx) {
   app.innerHTML = `<section class="bienvenida">
     <div class="escenario" id="escenario"></div>
-    <h1>¡Hola! Soy tu gusano del fantasy</h1>
+    <h1>¡Hola! Soy Cody, tu gusano del fantasy</h1>
     <p>Escribe tu usuario de Sleeper y te armo una carpeta por cada liga: titulares, trades justos,
       waivers, lesiones y noticias en español.</p>
     <form class="campo" id="form">

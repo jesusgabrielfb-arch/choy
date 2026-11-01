@@ -52,7 +52,7 @@ Ideas originales:
   jugadores/waivers, cambios, draft y chat.
 - Conectada a **mi liga de Sleeper** con su API pública (solo lectura: la IA aconseja, yo hago
   los movimientos en Sleeper).
-- Una **mascota propia** que es la que me aconseja: un **gusano gordito verde-amarillo** con
+- Una **mascota propia** que es la que me aconseja: **Cody**, un **gusano gordito verde-amarillo** con
   antenas de punta azul, ojos de párpado caído (cara de "me las sé todas") y camiseta de fútbol
   americano (por defecto negra con azul, número 1). Expresiones: feliz, aburrido, sorprendido,
   enojado y cool con lentes. Primera versión 3D en `mascota/` (`mascota.glb` con 9 animaciones).
