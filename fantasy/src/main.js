@@ -26,10 +26,17 @@ const ctx = {
     try {
       ctx._cargando ??= crearMascota(ctx._lienzo).then((m) => {
         ctx.mascota = m;
-        // Si lo tocas, Cody te dice algo
-        ctx._lienzo.addEventListener('click', () => {
-          import('./ui/frases.js').then((F) => import('./ui/comun.js').then(({ codyDice }) =>
-            codyDice(document, ctx, F.alTocar(), { animo: 'Feliz' })));
+        // Si lo tocas, Cody te dice algo… y si lo tocas mucho seguido, se enoja y suelta palabrotas
+        let toques = 0;
+        let ultimo = 0;
+        ctx._lienzo.addEventListener('click', async () => {
+          const ahora = Date.now();
+          toques = ahora - ultimo < 6000 ? toques + 1 : 1;
+          ultimo = ahora;
+          if (toques > 10) toques = 1;
+          const [F, { codyDice }] = await Promise.all([import('./ui/frases.js'), import('./ui/comun.js')]);
+          const [frase, animo] = F.alTocarSeguido(toques);
+          codyDice(document, ctx, frase, { animo });
         });
         const e = EQUIPOS[sesion.equipo];
         if (e) m.vestir(e);

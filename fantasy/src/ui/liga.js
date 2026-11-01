@@ -89,60 +89,81 @@ function inicio(el, d, ctx, ligaId) {
   const tabPara = (a) => (a.tipo === 'waiver' || a.tipo === 'proxima' ? 'jugadores' : 'equipo');
   const ganancia = d.plan.reduce((s, a) => s + (a.tipo === 'alineacion' || a.tipo === 'waiver' ? Math.max(0, a.ganancia) : 0), 0);
 
+  const accionHtml = (a, k) => `
+      <details class="accion ${a.urgente ? 'urgente' : ''}">
+        <summary><span class="num">${k + 1}</span><span class="tit">${esc(a.titulo)}</span>
+          ${a.ganancia > 0.5 ? `<span class="etiqueta ganancia">+${a.ganancia.toFixed(1)}</span>` : a.urgente ? '<span class="etiqueta rojo">🚨</span>' : ''}</summary>
+        <p>${esc(a.detalle)}</p>
+        <button class="chip-boton" data-tab="${tabPara(a)}">${tabPara(a) === 'equipo' ? '📋 Ir a mi alineación' : '🔎 Ir a waivers'}</button>
+      </details>`;
+  const tabla = [...d.equipos].sort((a, b) => {
+    const [wa] = a.record.split('-').map(Number); const [wb] = b.record.split('-').map(Number);
+    return (wb - wa) || (b.puntos - a.puntos);
+  });
+  const miPuesto = tabla.findIndex((e) => e.esMio) + 1;
+  const accesos = [
+    d.duelos?.length > 1 && ['duelos', '⚔️', 'Duelos', `${d.duelos.length} esta semana`],
+    !d.esPasada && (d.defensa?.mia || d.defensa?.mejorLibre) && ['defensa', '🛡️', 'Defensa', d.defensa.cambiar ? 'hay una mejor libre' : 'todo bien'],
+    !d.esPasada && d.debil && ['debil', '🎯', 'Punto débil', d.debil.pos],
+    ['tabla', '🏆', 'Tabla', `vas ${miPuesto}º`],
+  ].filter(Boolean);
+
   el.innerHTML = `
-    ${duelo ? `<section class="tarjeta">
+    ${duelo ? `<section class="tarjeta duelo-tarjeta">
       <div class="duelo">
-        <div class="lado-duelo"><div class="eq">${esc(d.mio.nombre)}</div><div class="pts">${pts(duelo.mis)}</div><div class="proy">Proy. ${pts(duelo.misProy)}</div></div>
+        <div class="lado-duelo"><div class="eq">${esc(d.mio.nombre)}</div><div class="pts">${pts(duelo.mis)}</div></div>
         <div class="vs">VS</div>
-        <div class="lado-duelo"><div class="eq">${esc(duelo.rival?.nombre || 'Rival')}</div><div class="pts">${pts(duelo.suyos)}</div><div class="proy">Proy. ${pts(duelo.suyosProy)}</div></div>
+        <div class="lado-duelo"><div class="eq">${esc(duelo.rival?.nombre || 'Rival')}</div><div class="pts">${pts(duelo.suyos)}</div></div>
       </div>
       <div class="barra-prob"><span style="width:${prob}%"></span></div>
-      <div class="pcts"><b class="${prob >= 50 ? 'sube' : 'baja'}">${prob}%</b><span class="nota">${d.esPasada ? (duelo.mis > duelo.suyos ? '🏆 Ganaste' : duelo.mis < duelo.suyos ? '😓 Perdiste' : 'Resultado') : 'probabilidad de ganar'}</span><b>${100 - prob}%</b></div>
-      ${!d.esPasada && ganancia > 0.5 ? `<p class="nota" style="margin-top:6px">Con el plan sumas unos <b class="sube">+${ganancia.toFixed(1)}</b> puntos esperados.</p>` : ''}
+      <div class="pcts"><b class="${prob >= 50 ? 'sube' : 'baja'}">${prob}%</b><span class="nota">${d.esPasada ? (duelo.mis > duelo.suyos ? '🏆 Ganaste' : duelo.mis < duelo.suyos ? '😓 Perdiste' : 'Resultado') : `proy. ${pts(duelo.misProy)} – ${pts(duelo.suyosProy)}`}</span><b>${100 - prob}%</b></div>
     </section>` : ''}
-    ${d.duelos?.length > 1 ? tarjeta('⚔️ Duelos de la liga', d.duelos.map((dd) => barraDuelo(dd, dd.a.equipo.esMio)).join(''),
-      { sub: d.esPasada ? 'Resultados finales' : 'Probabilidad de ganar, en vivo durante los partidos', plegable: true, abierta: d.esPasada }) : ''}
     ${d.esPasada ? '' : `
-<h2 class="seccion-titulo">🗓️ Tu plan de la semana ${d.semana}</h2>
-    <div class="plan">${d.plan.length ? d.plan.map((a, i) => `
-      <article class="accion ${a.urgente ? 'urgente' : ''}">
-        <div class="num">${i + 1}</div>
-        <div><h3>${esc(a.titulo)}</h3><p>${esc(a.detalle)}</p>
-          <div class="chips-accion">
-            ${a.urgente ? '<span class="etiqueta rojo">🚨 Urgente</span>' : ''}
-            ${a.ganancia > 0.5 ? `<span class="etiqueta ganancia">📈 +${a.ganancia.toFixed(1)} pts</span>` : ''}
-            <button class="chip-boton" data-tab="${tabPara(a)}">${tabPara(a) === 'equipo' ? '📋 Ver alineación' : '🔎 Ver waivers'}</button>
-          </div></div>
-      </article>`).join('') : `<div class="tarjeta vacio">${esc(F.planVacio())}</div>`}</div>
-    ${d.defensa?.mejorLibre || d.defensa?.mia ? `<h2 class="seccion-titulo">🛡️ Defensa de la semana</h2>
-      <section class="tarjeta"><div class="lista">
-        ${d.defensa.mia ? filaJugador(J[d.defensa.mia.id], { etiquetas: '<span class="etiqueta acento">Tuya</span>', sub: esc(d.defensa.mia.razon), derecha: `#${d.defensa.mia.rank}`, derechaSub: 'de la semana' }) : ''}
-        ${d.defensa.mejorLibre ? filaJugador(J[d.defensa.mejorLibre.id], { etiquetas: '<span class="etiqueta verde">Libre</span>', sub: esc(d.defensa.mejorLibre.razon), derecha: `#${d.defensa.mejorLibre.rank}`, derechaSub: 'de la semana' }) : ''}
-      </div>
-      <p class="nota" style="margin-top:8px">${esc(F.defensa(d.defensa, J) || '')}</p>
-      <button class="chip-boton" data-tab="equipo" style="margin-top:10px">🛡️ Ver todas las defensas</button></section>` : ''}
-    ${d.debil ? `<h2 class="seccion-titulo">🎯 Tu punto débil</h2>
-      <section class="tarjeta">
-        <p><b>${esc(d.debil.pos)}</b> · puesto ${d.debil.rank} de ${d.debil.total} en la liga</p>
-        ${d.debil.sugerencia ? `<p class="nota" style="margin-top:6px">Trade justo para mejorarlo con <b>${esc(d.debil.sugerencia.equipo.nombre)}</b>:</p>
-          <div class="opcion"><div class="linea"><span class="que">Das</span>${d.debil.sugerencia.doy.map((id) => `<b>${esc(J[id].nombre)}</b>`).join(' + ')}</div>
-          <div class="linea"><span class="que">Recibes</span>${d.debil.sugerencia.recibo.map((id) => `<b>${esc(J[id].nombre)}</b>`).join(' + ')}</div></div>
-          <button class="chip-boton principal" data-tab="mercado">🤝 Armar este trade</button>`
-          : '<p class="nota" style="margin-top:6px">Estás bien en todas las posiciones comparado con la liga.</p>'}
-      </section>` : ''}`}
-    ${tarjeta('🏆 Tabla de la liga', `<div class="lista">${[...d.equipos].sort((a, b) => {
-      const [wa] = a.record.split('-').map(Number); const [wb] = b.record.split('-').map(Number);
-      return (wb - wa) || (b.puntos - a.puntos);
-    }).map((e, i) => `<div class="jugador"><span class="pos">${i + 1}</span>
-      <div style="min-width:0"><div class="nombre"><span class="txt">${esc(e.nombre)}</span>${e.esMio ? '<span class="etiqueta acento">Tú</span>' : ''}</div><div class="sub">@${esc(e.usuario)}</div></div>
-      <div class="der">${esc(e.record)}<small>${pts(e.puntos)} pts</small></div></div>`).join('')}</div>`, { plegable: true })}`;
+    <h2 class="seccion-titulo">✅ Lo que tienes que hacer</h2>
+    <div class="plan">${d.plan.length ? d.plan.slice(0, 3).map(accionHtml).join('') : `<div class="tarjeta vacio">${esc(F.planVacio())}</div>`}</div>
+    ${d.plan.length > 3 ? `<details class="mas-acciones"><summary class="chip-boton">Ver ${d.plan.length - 3} más</summary>
+      <div class="plan">${d.plan.slice(3).map((a, k) => accionHtml(a, k + 3)).join('')}</div></details>` : ''}
+    ${ganancia > 0.5 ? `<p class="nota" style="margin:8px 4px 0">Si haces todo sumas unos <b class="sube">+${ganancia.toFixed(1)}</b> puntos.</p>` : ''}`}
+    <h2 class="seccion-titulo">Más</h2>
+    <div class="accesos">${accesos.map(([id, ico, txt, sub]) => `<button class="acceso" data-panel="${id}"><span class="ico">${ico}</span><b>${txt}</b><small>${esc(sub)}</small></button>`).join('')}</div>
+    <div id="panel"></div>`;
 
-  $$('[data-tab]', el).forEach((b) => (b.onclick = () => {
+  const paneles = {
+    duelos: () => tarjeta('⚔️ Duelos de la liga', d.duelos.map((dd) => barraDuelo(dd, dd.a.equipo.esMio)).join(''),
+      { sub: d.esPasada ? 'Resultados finales' : 'Probabilidad de ganar, en vivo' }),
+    defensa: () => tarjeta('🛡️ Defensa de la semana', `<div class="lista">
+        ${d.defensa.mia ? filaJugador(J[d.defensa.mia.id], { etiquetas: '<span class="etiqueta acento">Tuya</span>', sub: esc(d.defensa.mia.razon), derecha: `#${d.defensa.mia.rank}` }) : ''}
+        ${d.defensa.mejorLibre ? filaJugador(J[d.defensa.mejorLibre.id], { etiquetas: '<span class="etiqueta verde">Libre</span>', sub: esc(d.defensa.mejorLibre.razon), derecha: `#${d.defensa.mejorLibre.rank}` }) : ''}
+      </div><p class="nota" style="margin-top:8px">${esc(F.defensa(d.defensa, J) || '')}</p>
+      <button class="chip-boton" data-tab="equipo" style="margin-top:10px">🛡️ Ver todas</button>`),
+    debil: () => tarjeta('🎯 Tu punto débil', `<p><b>${esc(d.debil.pos)}</b> · puesto ${d.debil.rank} de ${d.debil.total} en la liga</p>
+      ${d.debil.sugerencia ? `<div class="opcion"><div class="linea"><span class="que">Das</span>${d.debil.sugerencia.doy.map((id) => `<b>${esc(J[id].nombre)}</b>`).join(' + ')}</div>
+        <div class="linea"><span class="que">Recibes</span>${d.debil.sugerencia.recibo.map((id) => `<b>${esc(J[id].nombre)}</b>`).join(' + ')}</div>
+        <p class="nota">Trade justo con ${esc(d.debil.sugerencia.equipo.nombre)}</p></div>
+        <button class="chip-boton principal" data-tab="mercado">🤝 Armar este trade</button>`
+        : '<p class="nota" style="margin-top:6px">Estás bien en todas las posiciones.</p>'}`),
+    tabla: () => tarjeta('🏆 Tabla de la liga', `<div class="lista">${tabla.map((e, k) => `<div class="jugador"><span class="pos">${k + 1}</span>
+      <div style="min-width:0"><div class="nombre"><span class="txt">${esc(e.nombre)}</span>${e.esMio ? '<span class="etiqueta acento">Tú</span>' : ''}</div><div class="sub">@${esc(e.usuario)}</div></div>
+      <div class="der">${esc(e.record)}<small>${pts(e.puntos)} pts</small></div></div>`).join('')}</div>`),
+  };
+  const conectarTabs = (raiz) => $$('[data-tab]', raiz).forEach((b) => (b.onclick = () => {
     if (b.dataset.tab === 'mercado' && d.debil?.sugerencia) {
       sessionStorage.setItem('trade-sugerido', JSON.stringify({ ...d.debil.sugerencia, equipo: d.debil.sugerencia.equipo.rosterId }));
     }
     ir(ligaId, b.dataset.tab)();
   }));
+  $$('.acceso', el).forEach((b) => (b.onclick = () => {
+    const abierto = b.classList.contains('activo');
+    $$('.acceso', el).forEach((x) => x.classList.remove('activo'));
+    $('#panel', el).innerHTML = abierto ? '' : paneles[b.dataset.panel]();
+    if (!abierto) {
+      b.classList.add('activo');
+      conectarTabs($('#panel', el));
+      $('#panel', el).scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }));
+  if (d.esPasada && d.duelos?.length) $('[data-panel="duelos"]', el)?.click();
+  conectarTabs(el);
 
   // Cody saluda, resume el plan y luego va dando cada consejo
   const urgentes = d.plan.filter((a) => a.urgente).length;
@@ -199,7 +220,7 @@ function equipo(el, d, ctx) {
         etiquetas: `${infoFila(s.id).etiquetas || ''}${cambia ? '<span class="etiqueta verde">Entra</span>' : ''}` });
     }).join('')}</div>`, { sub: 'Proyección ajustada por la defensa rival (A = fácil, F = difícil)' })}
     ${tarjeta('🪑 Banca', `<div class="lista">${t.alineacion.banca.map((b) => filaJugador(J[b.id], {
-      ...infoFila(b.id), etiquetas: `${infoFila(b.id).etiquetas || ''}${tit.has(b.id) ? '<span class="etiqueta rojo">Sale</span>' : ''}` })).join('') || '<div class="vacio">Sin banca</div>'}</div>`)}
+      ...infoFila(b.id), etiquetas: `${infoFila(b.id).etiquetas || ''}${tit.has(b.id) ? '<span class="etiqueta rojo">Sale</span>' : ''}` })).join('') || '<div class="vacio">Sin banca</div>'}</div>`, { plegable: true, sub: `${t.alineacion.banca.length} jugadores` })}
     ${d.lesiones.mios.length ? tarjeta('🩹 Lesionados de tu equipo', `<div class="lista">${d.lesiones.mios.map((j) => filaJugador(j, {
       etiquetas: tit.has(j.id) ? '<span class="etiqueta">Titular</span>' : '',
       consejo: esc(consejoLesion(j, { titular: tit.has(j.id), suplente: J[suplenteDe(j)]?.nombre })) })).join('')}</div>`) : ''}
@@ -207,11 +228,11 @@ function equipo(el, d, ctx) {
       <div class="chips" id="chips-pos">${posiciones.map((p, k) => `<button data-pos="${p}" class="${k === 0 ? 'activo' : ''}">${p}</button>`).join('')}</div>
       <div id="ranking"></div>
     </details>
-    <section class="tarjeta" id="defensas-semana"><header><h2>🛡️ Mejores defensas de la semana</h2><small>Según la ofensiva rival que enfrentan</small></header>
+    <details class="tarjeta" id="defensas-semana"><summary><div><h2>🛡️ Mejores defensas de la semana</h2><small class="nota">Según la ofensiva rival que enfrentan</small></div></summary>
       <div class="chips" id="chips-sem">${[d.semana, d.semana + 1].filter((w) => w <= 18).map((w, k) => `<button data-sem="${w}" class="${k === 0 ? 'activo' : ''}">${k === 0 ? '📅 Esta semana' : '⏭️ Semana ' + w}</button>`).join('')}</div>
       <div id="lista-def"></div>
       <p class="nota" style="margin-top:8px">${esc(F.defensa(d.defensa, J) || '')}</p>
-    </section>`;
+    </details>`;
 
   const misPorRival = {};
   for (const id of d.mio.ids) {
@@ -273,9 +294,9 @@ function jugadores(el, d, ctx) {
     ${d.byes.length ? d.byes.map((a) => tarjeta(a.semana === d.semana ? `😴 Byes de esta semana` : `😴 Byes de la semana ${a.semana}`,
       `<div class="lista">${a.enBye.map((id) => filaJugador(J[id], { etiquetas: a.titularesAfectados.includes(id) ? '<span class="etiqueta naranja">Titular</span>' : '' })).join('')}</div>`,
       { plegable: true, abierta: a.semana === d.semana })).join('') : ''}
-    <section class="tarjeta"><header><h2>🔎 Mejores libres</h2><small>Por proyección de esta semana</small></header>
+    <details class="tarjeta"><summary><div><h2>🔎 Mejores libres</h2><small class="nota">Por proyección de esta semana</small></div></summary>
       <div class="chips" id="chips-libres">${posMias.map((p, k) => `<button data-pos="${p}" class="${k === 0 ? 'activo' : ''}">${p}</button>`).join('')}</div>
-      <div id="libres"></div></section>
+      <div id="libres"></div></details>
     ${tarjeta('🔥 Lo que más agregan en Sleeper', `<div class="lista">${tendencia.map((t) => filaJugador(J[t.player_id], {
       derecha: `+${miles(t.count)}`, derechaSub: 'ligas (24 h)' })).join('') || '<div class="vacio">Ninguno de los más agregados está libre en tu liga.</div>'}</div>`, { plegable: true })}
     ${tarjeta('🐿️ Para guardar (stash)', L.stash.length ? `<div class="lista">${L.stash.map((j) => filaJugador(j, {

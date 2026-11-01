@@ -24,6 +24,35 @@ export const resumenPlan = (n, urgentes) => (urgentes
 export const ganando = () => al(['¡Vamos arriba! 🔥 Pero no te confíes: el pan se quema en la puerta del horno.', 'Vas ganando. Yo ya estoy practicando el baile de la victoria. 💃']);
 export const perdiendo = () => al(['Vamos abajo, pero esto no se acaba hasta el último snap. 💪', 'Hay que remontar. Haz los cambios del plan y crúzale los dedos conmigo. 🤞']);
 
+// Si lo tocas mucho seguido, Cody se va calentando… y se le sale lo malhablado.
+const MOLESTO = [
+  '¿Otra vez? Ya te oí, ya te oí. 🙄',
+  'Oye, que no soy un botón, soy un gusano con sentimientos. 😒',
+  'Me vas a despeinar las antenas. Para ya. 😤',
+];
+const ENOJADO = [
+  '¡Qué vaina contigo! Deja de tocarme. 😠',
+  '¡Ya, carajo! ¿No tienes una alineación que arreglar? 😡',
+  '¡Coño, que me arrugas la camiseta! 🤬',
+  '¡Me tienes hasta las antenas, caramba! 😤',
+];
+const FURIOSO = [
+  '¡Mierda, que me vas a desarmar! Ve a pedir un waiver y déjame tranquilo. 🤬',
+  '¡Puñeta! Tócame otra vez y te siento al QB titular. 💢',
+  '¡Me cago en los waivers! ¡Ya basta! 🤬',
+  '¡Coño ya! Con ese dedo podrías estar armando un trade. 👉',
+];
+
+/** n = cuántas veces seguidas lo tocaste. Devuelve [frase, ánimo]. */
+export function alTocarSeguido(n) {
+  if (n <= 2) return [alTocar(), 'Feliz'];
+  if (n <= 4) return [al(MOLESTO), 'Hablar'];
+  if (n <= 7) return [al(ENOJADO), 'Enojado'];
+  if (n === 8) return [al(FURIOSO), 'Enojado'];
+  if (n === 9) return ['…', 'Triste'];
+  return ['Ok, ya se me pasó. Pero no lo vuelvas a hacer. 😑 (mentira, sí lo vas a hacer)', 'Cool'];
+}
+
 export const alTocar = () => al([
   '¡Ey, eso hace cosquillas! 🐛',
   'Dato gusano: los kickers ganan más ligas de las que crees. 🦶',

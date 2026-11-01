@@ -283,3 +283,13 @@ test('avisos: lesión, bye, puesto vacío, byes de la semana que viene y noticia
   const soloNoticias = generarAvisos({ ligas, jugadores: J, semana: 9, noticias, opciones: { equipo: false, noticias: true } });
   assert.deepEqual(soloNoticias.map((a) => a.clave), ['not:https://x/1']);
 });
+
+import { alTocarSeguido } from '../src/ui/frases.js';
+
+test('Cody se va enojando si lo tocas mucho', () => {
+  assert.equal(alTocarSeguido(1)[1], 'Feliz');
+  assert.equal(alTocarSeguido(3)[1], 'Hablar');
+  assert.equal(alTocarSeguido(6)[1], 'Enojado');
+  assert.match(alTocarSeguido(8)[0], /Mierda|Puñeta|cago|Coño/);
+  assert.equal(alTocarSeguido(10)[1], 'Cool');
+});

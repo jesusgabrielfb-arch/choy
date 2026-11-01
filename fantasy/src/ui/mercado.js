@@ -32,10 +32,10 @@ export function vistaMercado(el, d, ctx) {
     ${tarjeta('🛒 Comprar barato', d.comprar.length ? `<div class="lista">${d.comprar.map((j) => `${filaJugador(J[j.id], {
       sub: `de ${esc(j.equipoFantasy?.nombre || '')}`, derecha: miles(j.valor), derechaSub: 'valor',
       consejo: `${j.razones.map(esc).join(' · ')} <button class="chip-boton" style="margin-left:4px" data-pedir="${j.id}" data-roster="${j.equipoFantasy?.rosterId}">🤝 Armar trade</button>` })}`).join('')}</div>`
-      : '<div class="vacio">No encontré gangas claras esta semana.</div>', { sub: 'Rinden menos de lo que valen: buen momento para pedirlos' })}
+      : '<div class="vacio">No encontré gangas claras esta semana.</div>', { sub: `${d.comprar.length} oportunidades`, plegable: true })}
     ${tarjeta('💰 Vender caro', d.vender.length ? `<div class="lista">${d.vender.map((j) => filaJugador(J[j.id], {
       derecha: miles(j.valor), derechaSub: 'valor', consejo: j.razones.map(esc).join(' · ') })).join('')}</div>`
-      : '<div class="vacio">Nadie de tu equipo está inflado ahora.</div>', { sub: 'Tus jugadores en su punto más alto' })}
+      : '<div class="vacio">Nadie de tu equipo está inflado ahora.</div>', { sub: `${d.vender.length} de tus jugadores`, plegable: true })}
     ${tarjeta('🌎 Lo que hacen miles de ligas', `<div class="pasos dos">
       <div class="lado"><h3>Más agregados</h3>${d.tendAdd.filter((t) => J[t.player_id]).slice(0, 8).map((t) =>
         `<div class="elegible"><span class="pos ${J[t.player_id].pos}">${J[t.player_id].pos}</span><span class="n">${esc(J[t.player_id].nombre)}</span><span class="v sube">+${miles(t.count)}</span></div>`).join('')}</div>
