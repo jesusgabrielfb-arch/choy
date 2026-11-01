@@ -21,15 +21,18 @@ export function notaCruce(factor) {
   return `<span class="nota-cruce ${c.nota}" title="${c.texto}">${c.nota}</span>`;
 }
 
-/** Fila de jugador. extra: { sub, derecha, derechaSub, puesto } */
+/** Fila de jugador. extra: { sub, derecha, derechaSub, puesto, etiquetas, consejo } */
 export function filaJugador(j, extra = {}) {
-  if (!j) return `<div class="jugador"><span class="pos ${esc(extra.puesto || '')}">${esc(extra.puesto || '?')}</span><div class="sub">Puesto vacío</div><div></div></div>`;
+  if (!j) {
+    return `<div class="jugador"><span class="pos">${esc(extra.puesto || '?')}</span><div class="sub">Puesto vacío</div><div></div></div>`;
+  }
   const puesto = extra.puesto || j.pos;
   return `<div class="jugador" data-id="${esc(j.id)}">
-    <span class="pos ${esc(puesto)}">${esc(puesto)}</span>
-    <div><div class="nombre">${esc(j.nombre)} ${etiquetaLesion(j)} ${extra.etiquetas || ''}</div>
-      <div class="sub">${esc(j.pos)} · ${esc(j.equipo || 'Libre')}${extra.sub ? ' · ' + extra.sub : ''}</div></div>
+    <span class="pos ${esc(j.pos)}">${esc(puesto)}</span>
+    <div style="min-width:0"><div class="nombre"><span class="txt">${esc(j.nombre)}</span>${extra.etiquetas || ''}${etiquetaLesion(j)}</div>
+      <div class="sub">${esc(j.equipo || 'Libre')}${extra.sub ? ' · ' + extra.sub : ''}</div></div>
     <div class="der">${extra.derecha ?? ''}${extra.derechaSub ? `<small>${extra.derechaSub}</small>` : ''}</div>
+    ${extra.consejo ? `<div class="consejo">${extra.consejo}</div>` : ''}
   </div>`;
 }
 
@@ -50,6 +53,48 @@ export function hace(ms) {
   return `hace ${Math.round(h / 24)} d`;
 }
 
-export function tarjeta(titulo, cuerpo, { sub = '', clase = '' } = {}) {
+export function tarjeta(titulo, cuerpo, { sub = '', clase = '', plegable = false, abierta = false } = {}) {
+  if (plegable) {
+    return `<details class="tarjeta ${clase}" ${abierta ? 'open' : ''}><summary><div><h2>${titulo}</h2>${sub ? `<small class="nota">${sub}</small>` : ''}</div></summary>${cuerpo}</details>`;
+  }
   return `<section class="tarjeta ${clase}"><header><h2>${titulo}</h2>${sub ? `<small>${sub}</small>` : ''}</header>${cuerpo}</section>`;
+}
+
+/**
+ * Franja de Cody con su globito. Devuelve un control para cambiar lo que dice.
+ * acciones: [{ texto, principal, alHacer }]
+ */
+export function codyHtml({ texto = '', grande = false } = {}) {
+  return `<section class="cody ${grande ? 'grande' : ''}">
+    <div class="escenario" data-cody></div>
+    <div class="globo" aria-live="polite"><div class="quien">Cody</div><div class="dice">${esc(texto)}</div><div class="acciones"></div></div>
+  </section>`;
+}
+
+export function codyDice(raiz, ctx, texto, { animo = 'Reposo', acciones = [] } = {}) {
+  const zona = $('.cody', raiz);
+  if (!zona) return;
+  $('.dice', zona).textContent = texto;
+  const cont = $('.acciones', zona);
+  cont.innerHTML = '';
+  for (const a of acciones) {
+    const b = document.createElement('button');
+    b.className = `chip-boton ${a.principal ? 'principal' : ''}`;
+    b.textContent = a.texto;
+    b.onclick = a.alHacer;
+    cont.appendChild(b);
+  }
+  ctx.mascota?.hablar(texto, animo === 'Hablar' ? 'Reposo' : animo);
+}
+
+export async function ponerCody(raiz, ctx, texto, opciones = {}) {
+  codyDice(raiz, ctx, texto, opciones);
+  const yaEstaba = !!ctx.mascota;
+  await ctx.ponerMascota($('[data-cody]', raiz));
+  // Si Cody acaba de aparecer y nadie cambió el mensaje mientras cargaba, que lo diga
+  const dice = $('.cody .dice', raiz);
+  if (!yaEstaba && dice?.textContent === texto) {
+    const animo = opciones.animo || 'Reposo';
+    ctx.mascota?.hablar(texto, animo === 'Hablar' ? 'Reposo' : animo);
+  }
 }

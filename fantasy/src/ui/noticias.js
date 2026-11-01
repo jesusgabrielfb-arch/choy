@@ -1,12 +1,12 @@
 // Noticias en español + analistas que sigas en Bluesky.
-import { esc, $, $$, hace, cargando, tarjeta } from './comun.js';
+import { esc, $, $$, hace, cargando, tarjeta, ponerCody } from './comun.js';
 import {
   noticias, traducir, puedeTraducir, enlaceTraductor, marcarJugadores,
   analistasGuardados, guardarAnalistas, buscarAnalistas, publicacionesAnalista,
 } from '../datos/noticias.js';
 import { jugadores as pedirJugadores } from '../datos/sleeper.js';
 
-export async function vistaNoticias(el, d) {
+export async function vistaNoticias(el, d, ctx) {
   const J = d?.jugadores || (await pedirJugadores().catch(() => ({})));
   const misIds = new Set(d?.mio?.ids || []);
   const ligaIds = d?.rosteados || new Set();
@@ -30,6 +30,16 @@ export async function vistaNoticias(el, d) {
   } catch {
     todas = [];
   }
+  const mias = todas.filter((n) => n.jugadores.some((id) => misIds.has(id)));
+  if (ctx) {
+    const texto = !todas.length ? 'No pude leer las noticias ahora. Prueba en un rato.'
+      : d && mias.length ? `Hay ${mias.length} noticia${mias.length > 1 ? 's' : ''} de tus jugadores. La más nueva: "${mias[0].titulo}"`
+        : d ? 'Nada nuevo sobre tus jugadores. Te dejo lo último de la NFL.'
+          : 'Te traigo lo último de la NFL. Las que vienen en inglés te las traduzco.';
+    ponerCody(document, ctx, texto, { animo: d && mias.length ? 'Sorpresa' : 'Hablar' });
+  }
+  if (d && !mias.length) filtro = 'todo';
+  $$('#filtros button').forEach((b) => b.classList.toggle('activo', b.dataset.f === filtro));
 
   async function pintar() {
     const cont = $('#lista-noticias');

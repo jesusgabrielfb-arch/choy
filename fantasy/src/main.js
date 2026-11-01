@@ -1,31 +1,38 @@
 import './estilos/app.css';
 import { sesion } from './estado.js';
-import { vistaBienvenida, vistaCarpetas } from './ui/inicio.js';
+import { vistaBienvenida, vistaCarpetas, vistaEquipoFavorito } from './ui/inicio.js';
 import { vistaLiga } from './ui/liga.js';
 import { vistaNoticias } from './ui/noticias.js';
 import { crearMascota } from './mascota/mascota3d.js';
+import { aplicarTema, EQUIPOS } from './datos/equipos.js';
+import { codyHtml } from './ui/comun.js';
 
 const app = document.getElementById('app');
+aplicarTema(sesion.equipo);
 
-// Una sola mascota que se muda al lugar donde se necesite.
+// Un solo Cody en 3D que se muda a la pantalla donde se necesite.
 const ctx = {
   mascota: null,
   _cargando: null,
+  _lienzo: null,
   async ponerMascota(contenedor) {
     if (!contenedor) return null;
+    if (!ctx._lienzo) {
+      ctx._lienzo = document.createElement('div');
+      ctx._lienzo.style.cssText = 'width:100%;height:100%';
+    }
+    contenedor.appendChild(ctx._lienzo);
     try {
-      if (!ctx._cargando) {
-        ctx._lienzo = document.createElement('div');
-        ctx._lienzo.style.cssText = 'width:100%;height:100%';
-        contenedor.appendChild(ctx._lienzo);
-        ctx._cargando = crearMascota(ctx._lienzo).then((m) => (ctx.mascota = m));
-      } else {
-        contenedor.appendChild(ctx._lienzo);
-      }
+      ctx._cargando ??= crearMascota(ctx._lienzo).then((m) => {
+        ctx.mascota = m;
+        const e = EQUIPOS[sesion.equipo];
+        if (e) m.vestir(e);
+        return m;
+      });
       return await ctx._cargando;
     } catch (e) {
       console.warn('Sin 3D:', e);
-      contenedor.innerHTML = '<div style="font-size:72px;text-align:center;line-height:1.6">🐛</div>';
+      ctx._lienzo.innerHTML = '<div style="font-size:64px;display:grid;place-items:center;height:100%">🐛</div>';
       return null;
     }
   },
@@ -36,10 +43,13 @@ async function ir() {
   const ruta = location.hash.replace(/^#\/?/, '').split('/');
   window.scrollTo(0, 0);
   if (!sesion.usuario) return vistaBienvenida(app, ctx);
-  if (ruta[0] === 'liga' && ruta[1]) return vistaLiga(app, ctx, ruta[1], ruta[2] || 'resumen');
+  if (ruta[0] === 'equipo-favorito' || !sesion.equipo) return vistaEquipoFavorito(app, ctx);
+  if (ruta[0] === 'liga' && ruta[1]) return vistaLiga(app, ctx, ruta[1], ruta[2] || 'inicio');
   if (ruta[0] === 'noticias') {
-    app.innerHTML = `<header class="barra"><a class="boton-icono" href="#/">←</a><div class="titulo"><h1>Noticias NFL</h1><small>En español</small></div></header><div id="vista"></div>`;
-    return vistaNoticias(document.getElementById('vista'), null);
+    app.innerHTML = `<header class="barra"><a class="boton-icono" href="#/" aria-label="Volver">←</a><div class="titulo"><h1>Noticias NFL</h1><small>En español</small></div></header>
+      ${codyHtml()}<div id="vista"></div>`;
+    ctx.ponerMascota(document.querySelector('[data-cody]'));
+    return vistaNoticias(document.getElementById('vista'), null, ctx);
   }
   return vistaCarpetas(app, ctx);
 }

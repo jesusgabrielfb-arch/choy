@@ -9,10 +9,13 @@ import { comprarBarato, venderCaro } from './analisis/compraventa.js';
 import { alertasBye } from './analisis/byes.js';
 import { analizarLesiones } from './analisis/lesiones.js';
 import { puestosTitulares } from './analisis/alineacion.js';
+import { planSemana, puntoDebil } from './analisis/plan.js';
 
 export const sesion = {
   get usuario() { return leerCache('sesion'); },
   set usuario(u) { guardarCache('sesion', u); },
+  get equipo() { return leerCache('equipoFavorito'); },
+  set equipo(abr) { guardarCache('equipoFavorito', abr); },
   salir() { localStorage.removeItem('fg:sesion'); },
 };
 
@@ -169,50 +172,60 @@ async function armarLiga(ligaId, usuarioId) {
     .map((id) => ({ id, rival: rivalesHoy[jugadores[id].equipo], factor: factorCruce(permitidos, rivalesHoy[jugadores[id].equipo], 'DEF'), proy: proy(semana, id) }))
     .sort((a, b) => (b.proy ?? 0) * 0.5 + b.factor * 5 - ((a.proy ?? 0) * 0.5 + a.factor * 5))
     .slice(0, 5);
-  res.ranking = (pos) => rankingDefensas(permitidos, pos);
+  const rankings = {};
+  res.ranking = (pos) => (rankings[pos] ??= rankingDefensas(permitidos, pos));
+  const factor = (rival, pos) => res.ranking(pos).find((f) => f.equipo === rival)?.factor ?? 1;
+  const enBye = (w, id) => !!byesPor[w]?.has(jugadores[id]?.equipo);
+  const proyAjustada = (w, id) => {
+    const j = jugadores[id];
+    if (!j || enBye(w, id) || ['Out', 'IR', 'PUP', 'Sus'].includes(j.lesion)) return 0;
+    const base = proy(w, id);
+    if (base == null) return 0;
+    const rival = rivalesPor[w]?.[j.equipo];
+    const f = rival ? factor(rival, j.pos) : 1;
+    return base * (0.6 + 0.4 * Math.min(1.35, Math.max(0.7, f)));
+  };
+  res.proyAjustada = proyAjustada;
+  const ocupadoIR = (mio.reserva || []).length;
+  res.plan = planSemana({
+    semana, miRoster: mio.ids.filter((id) => !(mio.reserva || []).includes(id)), titularesActuales: mio.titulares,
+    jugadores, rosterPositions: puestos, proyAjustada, enBye, libres, valor,
+    tieneIRLibre: (liga.settings?.reserve_slots ?? 0) > ocupadoIR, rosterIR: mio.reserva,
+  });
+  res.debil = puntoDebil({ equipos, jugadores, rosterPositions: puestos, proyAjustada, semana, valor });
   res.consejos = armarConsejos(res);
   return res;
 }
 
-/** Lo que la mascota te dice, en orden de importancia. */
+/** Lo que Cody te dice, en orden de importancia (sale del plan de la semana). */
 export function armarConsejos(d) {
   const J = d.jugadores;
-  const n = (id) => J[id]?.nombre || id;
   const c = [];
-  const tit = new Set(d.mio.titulares);
-  for (const j of d.lesiones.mios) {
-    if (tit.has(j.id) && ['Out', 'IR', 'Doubtful', 'PUP', 'Sus'].includes(j.lesion)) {
-      c.push({ animo: 'Sorpresa', tab: 'lesiones', texto: `¡Ojo! ${j.nombre} está de titular y viene ${j.lesion === 'Doubtful' ? 'muy en duda' : 'fuera'}. Cámbialo ya.` });
-    }
+  const animoDe = { alineacion: 'Sorpresa', waiver: 'Cool', duda: 'Hablar', ir: 'Hablar', proxima: 'Hablar' };
+  for (const a of d.plan.slice(0, 5)) {
+    const mas = a.ganancia > 0.5 ? ` Eso te da +${a.ganancia.toFixed(1)} puntos.` : '';
+    c.push({ animo: a.urgente ? 'Sorpresa' : animoDe[a.tipo] || 'Hablar', tab: a.tipo === 'waiver' || a.tipo === 'proxima' ? 'jugadores' : 'equipo',
+      texto: `${a.titulo}. ${a.detalle}${mas}` });
   }
-  for (const a of d.byes) {
-    if (a.semana === d.semana && a.titularesAfectados.length) {
-      c.push({ animo: 'Sorpresa', tab: 'waivers', texto: `Esta semana se te van de bye ${a.titularesAfectados.map(n).join(', ')}.${a.sugerencias[0] ? ` En waivers está ${n(a.sugerencias[0].id)}.` : ''}` });
-    } else if (a.semana === d.semana + 1 && a.enBye.length) {
-      c.push({ animo: 'Hablar', tab: 'waivers', texto: `Aviso: la semana que viene se van de bye ${a.enBye.map(n).join(', ')}. Ve preparando el cambio.` });
-    }
-  }
-  if (d.titulares?.poner.length) {
-    c.push({ animo: 'Hablar', tab: 'equipo', texto: `Pon de titular a ${d.titulares.poner.map(n).join(', ')} y sienta a ${d.titulares.sentar.map(n).join(', ') || 'quien está en la banca'}.` });
+  if (d.debil?.sugerencia) {
+    const s = d.debil.sugerencia;
+    c.push({ animo: 'Cool', tab: 'mercado', texto: `Tu punto débil es ${d.debil.pos} (puesto ${d.debil.rank} de ${d.debil.total}). ` +
+      `Pídele a ${s.equipo.nombre} a ${s.recibo.map((id) => J[id].nombre).join(' + ')} y ofrece ${s.doy.map((id) => J[id].nombre).join(' + ')}: es un trade justo.` });
   }
   if (d.comprar[0]) {
     const j = d.comprar[0];
-    c.push({ animo: 'Cool', tab: 'mercado', texto: `Compra barato: ${j.nombre} (${j.equipoFantasy?.nombre}) ${j.razones[0]}. Es buen momento para pedirlo.` });
+    c.push({ animo: 'Cool', tab: 'mercado', texto: `Compra barato: ${j.nombre} (${j.equipoFantasy?.nombre}) ${j.razones[0]}.` });
   }
   if (d.vender[0]) {
     const j = d.vender[0];
     c.push({ animo: 'Cool', tab: 'mercado', texto: `Vende caro: ${j.nombre} ${j.razones[0]}. Aprovecha ahora.` });
   }
-  if (d.lesiones.stash[0]) {
-    const j = d.lesiones.stash[0];
-    c.push({ animo: 'Hablar', tab: 'lesiones', texto: `Para guardar: ${j.nombre} está libre y lesionado, pero vale mucho cuando vuelva.` });
-  }
   if (d.duelo) {
     const gano = d.duelo.misProy >= d.duelo.suyosProy;
-    c.push({ animo: gano ? 'Feliz' : 'Triste', tab: 'resumen', texto: gano
-      ? `Vas arriba en la proyección contra ${d.duelo.rival?.nombre || 'tu rival'}. ¡No te confíes!`
-      : `Vas abajo en la proyección contra ${d.duelo.rival?.nombre || 'tu rival'}. Revisa tus titulares.` });
+    c.push({ animo: gano ? 'Feliz' : 'Triste', tab: 'inicio', texto: gano
+      ? `Vas arriba en la proyección contra ${d.duelo.rival?.nombre || 'tu rival'}. ¡No te confíes, que el pan se quema en la puerta del horno!`
+      : `Vas abajo contra ${d.duelo.rival?.nombre || 'tu rival'} por ${(d.duelo.suyosProy - d.duelo.misProy).toFixed(1)} puntos. Haz los cambios del plan.` });
   }
-  if (!c.length) c.push({ animo: 'Feliz', tab: 'resumen', texto: 'Aquí Cody: todo tranquilo. Tu equipo está en orden.' });
+  if (!c.length) c.push({ animo: 'Feliz', tab: 'inicio', texto: 'Aquí Cody: todo tranquilo. Tu alineación ya es la mejor posible.' });
   return c;
 }

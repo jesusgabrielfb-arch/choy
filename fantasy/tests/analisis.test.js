@@ -157,3 +157,55 @@ test('lector de RSS y Atom', () => {
   const atom = '<feed><entry><title>Hola</title><link href="https://y.com/2"/><updated>2026-11-01T00:00:00Z</updated></entry></feed>';
   assert.equal(leerFeed(atom)[0].enlace, 'https://y.com/2');
 });
+
+import { planSemana, puntoDebil } from '../src/analisis/plan.js';
+
+test('plan: bye sin reemplazo en banca → busca en waivers y dice a quién soltar', () => {
+  const J2 = { ...J, wrL: { id: 'wrL', pos: 'WR', equipo: 'DAL' }, rbB: { id: 'rbB', pos: 'RB', equipo: 'KC' } };
+  const proy = { qb1: 20, rb1: 15, rb2: 12, rb3: 9, wr1: 14, wr2: 11, wr3: 8, te1: 7, k1: 8, KC: 7, wrL: 13, rbB: 2 };
+  const byes = { 9: new Set(['CAR']), 10: new Set() };
+  const enBye = (w, id) => byes[w]?.has(J2[id]?.equipo);
+  const acciones = planSemana({
+    semana: 9, miRoster: [...Object.keys(J), 'rbB'],
+    titularesActuales: ['qb1', 'rb1', 'rb2', 'wr1', 'wr2', 'te1', 'rb3', 'k1', 'KC'],
+    jugadores: J2, rosterPositions: PUESTOS, libres: ['wrL'], valor: (id) => proy[id] * 100,
+    proyAjustada: (w, id) => (enBye(w, id) ? 0 : proy[id] ?? 0), enBye,
+  });
+  // te1 y wr3 (CAR) están de bye: el TE queda vacío y wrL (13) mejora el FLEX (rb3, 9)
+  const w = acciones.find((a) => a.tipo === 'waiver');
+  assert.ok(w, 'propone un waiver');
+  assert.equal(w.entra, 'wrL');
+  assert.equal(w.soltar, 'rbB'); // el que menos vale en la banca
+  assert.ok(acciones.some((a) => a.urgente));
+});
+
+test('plan: cambia a un titular en bye por uno de la banca con la ganancia', () => {
+  const proy = { qb1: 20, rb1: 15, rb2: 12, rb3: 9, wr1: 14, wr2: 11, wr3: 8, te1: 7, k1: 8, KC: 7 };
+  const byes = { 9: new Set(['MIA']) };
+  const enBye = (w, id) => byes[w]?.has(J[id]?.equipo);
+  const acciones = planSemana({
+    semana: 9, miRoster: Object.keys(J), titularesActuales: ['qb1', 'rb1', 'rb2', 'wr1', 'wr2', 'te1', 'rb3', 'k1', 'KC'],
+    jugadores: J, rosterPositions: PUESTOS, libres: [], valor: () => 1000,
+    proyAjustada: (w, id) => (enBye(w, id) ? 0 : proy[id]), enBye,
+  });
+  const cambio = acciones.find((a) => a.tipo === 'alineacion');
+  assert.equal(cambio.entra, 'wr3');
+  assert.ok(['wr2', 'rb3'].includes(cambio.sale));
+  assert.ok(cambio.urgente);
+  assert.ok(cambio.ganancia >= 8);
+});
+
+test('punto débil y trade sugerido', () => {
+  const jug = {
+    a: { pos: 'RB' }, b: { pos: 'WR' }, c: { pos: 'WR' }, d: { pos: 'WR' },
+    x: { pos: 'RB' }, y: { pos: 'RB' }, z: { pos: 'WR' },
+  };
+  const V = { a: 500, b: 6000, c: 5500, d: 5000, x: 7000, y: 6800, z: 900 };
+  const r = puntoDebil({
+    equipos: [{ rosterId: 1, esMio: true, ids: ['a', 'b', 'c', 'd'] }, { rosterId: 2, nombre: 'Rival', ids: ['x', 'y', 'z'] }],
+    jugadores: jug, rosterPositions: ['RB', 'WR'], valor: (id) => V[id],
+  });
+  assert.equal(r.pos, 'RB');
+  assert.ok(r.sugerencia);
+  assert.ok(['x', 'y'].includes(r.sugerencia.recibo[0]));
+});

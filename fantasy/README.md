@@ -5,15 +5,17 @@ Todo en español y con fuentes **gratis**.
 
 ## Qué hace
 
+Al entrar pide tu usuario de Sleeper y **tu equipo favorito de la NFL**: Cody se pone su camiseta
+y toda la app toma sus colores. Cody aparece en cada pantalla y te habla.
+
 | Pestaña | Qué tiene |
 | --- | --- |
-| **Carpetas** | Una carpeta por cada liga de Sleeper que tengas |
-| **Resumen** | La mascota te dice lo más importante, duelo de la semana con probabilidad, tabla |
-| **Equipo** | Alineación recomendada, a quién poner y a quién sentar, **analizador de defensas** (A–F por posición) y defensas libres para rotar |
-| **Mercado** | **Armador de trades**: eliges jugador(es) del rival y tuyos y salen opciones justas; **comprar barato / vender caro**; lo que más agregan y sueltan miles de ligas |
-| **Waivers** | **Alerta de bye** de esta semana y la siguiente con jugadores libres para cubrir y a quién soltar |
-| **Lesiones** | Tus lesionados con consejo, **stash** (lesionados valiosos libres), suplentes que suben, lesionados importantes de la liga |
-| **Noticias** | Noticias de la NFL en español (las que vienen en inglés se traducen en el teléfono), filtradas por tus jugadores; analistas que sigas en Bluesky |
+| **Ligas** | Una carpeta por cada liga de Sleeper que tengas |
+| **Inicio** | Duelo de la semana con probabilidad, **plan de la semana** (acciones concretas con los puntos que ganas: "sienta a X y pon a Y", "agrega a Z de waivers y suelta a W", byes de la semana que viene), **tu punto débil** con un trade justo para arreglarlo, tabla |
+| **Equipo** | Alineación recomendada con "Entra"/"Sale", lesionados con consejo, analizador de defensas (A–F) y defensas libres para rotar |
+| **Mercado** | Armador de trades justos (Cody opina si te roban), comprar barato / vender caro, lo que hacen miles de ligas |
+| **Jugadores** | Qué agregar esta semana, byes, mejores libres por posición, tendencias, stash, suplentes que suben, lesionados de la liga |
+| **Noticias** | En español (las de inglés se traducen en el teléfono), primero las de tus jugadores; analistas de Bluesky |
 
 ## Fuentes (todas gratis)
 
@@ -48,7 +50,8 @@ Detecta Vite solo. No necesita claves.
 ```
 api/          funciones de Vercel: proxy (fuentes sin CORS) y noticias (RSS)
 src/datos/    Sleeper, FantasyCalc, ESPN, noticias, caché
-src/analisis/ puntos, alineación, defensas, trades, compra/venta, byes, lesiones (con pruebas)
+src/analisis/ puntos, alineación, defensas, trades, compra/venta, byes, lesiones y plan de la semana (con pruebas)
+src/datos/equipos.js  colores de los 32 equipos para el tema y la camiseta de Cody
 src/ui/       pantallas
 src/mascota/  la mascota 3D (public/mascota.glb, hecha en ../mascota)
 ```
