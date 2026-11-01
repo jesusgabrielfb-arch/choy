@@ -67,7 +67,11 @@ async function armarLiga(ligaId, usuarioId) {
   const rivalesPor = Object.fromEntries(Object.entries(partidosPor).map(([w, p]) => [w, rivalesDe(p)]));
   const byesPor = Object.fromEntries(Object.entries(partidosPor).map(([w, p]) => [w, equiposEnBye(p)]));
 
-  const valor = (id) => vals[id]?.valor ?? valorRespaldo(jugadores[id]);
+  // FantasyCalc solo valora a ~200 jugadores; al resto le doy un valor aproximado que nunca
+  // supera al último que sí tiene valor.
+  const minimoFC = Math.min(...Object.values(vals).map((v) => v.valor).filter((v) => v > 0), Infinity);
+  const tope = Number.isFinite(minimoFC) ? minimoFC * 0.95 : Infinity;
+  const valor = (id) => vals[id]?.valor ?? Math.min(tope, valorRespaldo(jugadores[id]));
   const proyecciones = { [semana]: proyAhora, [semana + 1]: proySig };
   const proy = (w, id) => {
     const f = proyecciones[w]?.[id];
