@@ -54,6 +54,7 @@ const ctx = {
 
 async function ir() {
   clearInterval(ctx.ciclo);
+  ctx.liga = null;
   if (sesion.equipo) {
     const e = aplicarTema(sesion.equipo);
     ctx.mascota?.vestir(e);
@@ -63,6 +64,17 @@ async function ir() {
   if (!sesion.usuario) return vistaBienvenida(app, ctx);
   if (ruta[0] === 'equipo-favorito' || !sesion.equipo) return vistaEquipoFavorito(app, ctx);
   if (ruta[0] === 'liga' && ruta[1]) return vistaLiga(app, ctx, ruta[1], ruta[2] || 'inicio', ruta[3] ? Number(ruta[3]) : null);
+  if (ruta[0] === 'nfl') {
+    app.innerHTML = `<header class="barra"><a class="boton-icono" href="#/" aria-label="Volver">←</a><div class="titulo"><h1>NFL 🏟️</h1><small>Calendario y los 32 equipos</small></div></header>
+      ${codyHtml()}<div id="vista">${'<div class="cargando"><div class="gusanito"></div></div>'}</div>`;
+    const { ponerCody } = await import('./ui/comun.js');
+    ponerCody(app, ctx, 'Aquí está toda la NFL: el calendario con las horas y la plantilla de cada equipo. Toca a un jugador para ver su registro.', { animo: 'Hablar' });
+    const [{ vistaNFL }, S] = await Promise.all([import('./ui/nfl.js'), import('./datos/sleeper.js')]);
+    const [jugadores, est] = await Promise.all([S.jugadores(), S.estadoNFL()]);
+    const semana = Math.max(1, Math.min(18, est.display_week || est.week || 1));
+    ctx.nfl = { jugadores, temporada: est.season, semana };
+    return vistaNFL(document.getElementById('vista'), ctx.nfl, ctx);
+  }
   if (ruta[0] === 'noticias') {
     app.innerHTML = `<header class="barra"><a class="boton-icono" href="#/" aria-label="Volver">←</a><div class="titulo"><h1>Noticias NFL</h1><small>En español</small></div></header>
       ${codyHtml()}<div id="vista"></div>`;
@@ -71,6 +83,17 @@ async function ir() {
   }
   return vistaCarpetas(app, ctx);
 }
+
+// Tocar a cualquier jugador (en listas, el enfrentamiento, equipos…) abre su ficha con el registro de juego
+document.addEventListener('click', async (e) => {
+  const fila = e.target.closest('.jugador[data-id], .ef-j[data-id]');
+  if (!fila || e.target.closest('button, a, input, select, summary')) return;
+  if (fila.closest('.ficha-capa, .buscador, .tutorial')) return;
+  const { abrirFicha } = await import('./ui/ficha.js');
+  const d = ctx.liga;
+  const jugador = d?.jugadores?.[fila.dataset.id] || ctx.nfl?.jugadores?.[fila.dataset.id];
+  abrirFicha({ id: fila.dataset.id, jugador, d, temporada: d?.temporada || ctx.nfl?.temporada, semanaActual: d?.semanaActual || ctx.nfl?.semana, ctx });
+});
 
 registrarServiceWorker();
 addEventListener('hashchange', ir);

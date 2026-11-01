@@ -10,6 +10,7 @@ import * as F from './frases.js';
 import { enfrentamientoHtml } from './enfrentamiento.js';
 import { abrirBuscador, abrirPendiente } from './buscador.js';
 import { tutorialVisto, iniciarTutorial } from './tutorial.js';
+import { vistaNFL } from './nfl.js';
 import { codyDice } from './comun.js';
 
 export const PESTANAS = [
@@ -18,6 +19,7 @@ export const PESTANAS = [
   ['mercado', '🔁', 'Mercado'],
   ['jugadores', '📋', 'Jugadores'],
   ['noticias', '📰', 'Noticias'],
+  ['nfl', '🏟️', 'NFL'],
 ];
 
 export async function vistaLiga(app, ctx, ligaId, pestana = 'inicio', semanaVista = null) {
@@ -68,7 +70,12 @@ export async function vistaLiga(app, ctx, ligaId, pestana = 'inicio', semanaVist
     d.sinProyecciones && 'Todavía no hay proyecciones para esta semana.',
   ].filter(Boolean);
   cuerpo.innerHTML = (avisos.length ? `<p class="nota" style="margin:4px 4px 0">ℹ️ ${avisos.join(' ')}</p>` : '') + '<div id="vista"></div>';
-  const vistas = { inicio, equipo, mercado: vistaMercado, jugadores, noticias: vistaNoticias };
+  ctx.liga = d;
+  const nfl = (el2) => {
+    ponerCody(document, ctx, 'Aquí está toda la NFL: el calendario con las horas y la plantilla de los 32 equipos. Toca a cualquier jugador para ver su registro de juego. 📊', { animo: 'Hablar' });
+    return vistaNFL(el2, { jugadores: d.jugadores, temporada: d.temporada, semana: d.semana, d }, ctx);
+  };
+  const vistas = { inicio, equipo, mercado: vistaMercado, jugadores, noticias: vistaNoticias, nfl };
   $('#buscar').onclick = () => abrirBuscador({ d, ligaId, ctx });
   await vistas[pestana]($('#vista'), d, ctx, ligaId);
   abrirPendiente(app);
@@ -212,7 +219,7 @@ function equipo(el, d, ctx) {
     const info = t.porId[id];
     if (!info) return {};
     return {
-      sub: info.enBye ? '<b class="baja">BYE</b>' : info.rival ? `vs ${esc(info.rival)}` : '',
+      sub: info.enBye ? '<b class="baja">BYE</b>' : info.rival ? `vs ${esc(info.rival)}${d.bloqueado?.(id) ? ' · 🔒 ya jugó' : d.hora?.(id) ? ` · ⏰ ${esc(d.hora(id))}` : ''}` : '',
       etiquetas: info.rival && !info.enBye ? notaCruce(info.factor) : '',
       derecha: info.enBye || info.fuera ? '0.0' : pts(d.proyAjustada(semana, id)),
       derechaSub: 'proy.',
@@ -299,7 +306,7 @@ function jugadores(el, d, ctx) {
   el.innerHTML = `
     ${waivers.length ? tarjeta('➕ Agrega esta semana', `<div class="lista">${waivers.filter((a) => a.entra).map((a) => filaJugador(J[a.entra], {
       etiquetas: a.ganancia > 0.5 && a.tipo === 'waiver' ? `<span class="etiqueta ganancia">+${a.ganancia.toFixed(1)}</span>` : '<span class="etiqueta acento">Bye</span>',
-      derecha: pts(d.proyAjustada(a.tipo === 'proxima' ? d.semana + 1 : d.semana, a.entra)), derechaSub: 'proy.',
+      derecha: pts(d.proyAjustada(a.semana || (a.tipo === 'proxima' ? d.semana + 1 : d.semana), a.entra)), derechaSub: a.semana && a.semana !== d.semana ? `proy. S${a.semana}` : 'proy.',
       consejo: a.soltar ? `Suelta a <b>${esc(J[a.soltar]?.nombre)}</b>` : esc(a.tipo === 'proxima' ? `Para la semana ${d.semana + 1}` : ''),
     })).join('')}</div>`, { sub: 'Lo que más suma a tu alineación' }) : ''}
     ${d.byes.length ? d.byes.map((a) => tarjeta(a.semana === d.semana ? `😴 Byes de esta semana` : `😴 Byes de la semana ${a.semana}`,

@@ -1,5 +1,5 @@
 // API pública de Sleeper (solo lectura, sin clave). https://docs.sleeper.com
-import { pedirJSON, leerCache, guardarCache, HORA, MINUTO } from './http.js';
+import { pedirJSON, leerCache, guardarCache, HORA, MINUTO, estaFresco } from './http.js';
 
 const API = 'https://api.sleeper.app/v1';
 const POSICIONES = ['QB', 'RB', 'WR', 'TE', 'K', 'DEF'];
@@ -53,8 +53,8 @@ export function expandirJugadores(corto) {
 
 let enMemoria = null;
 export async function jugadores() {
-  if (enMemoria && Date.now() - enMemoria.t < 6 * HORA) return enMemoria.v;
-  let corto = leerCache('jugadores2', 12 * HORA);
+  if (!estaFresco() && enMemoria && Date.now() - enMemoria.t < 6 * HORA) return enMemoria.v;
+  let corto = estaFresco() ? null : leerCache('jugadores2', 12 * HORA);
   if (!corto) {
     try {
       // ~5 MB en Sleeper → unos cientos de KB ya recortados en nuestro servidor

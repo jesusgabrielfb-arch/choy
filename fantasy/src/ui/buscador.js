@@ -28,6 +28,9 @@ export const FUNCIONES = [
   { t: '🏥 Lesionados de la liga', desc: 'Lesionados importantes de otros equipos', k: 'lesionados liga importantes', tab: 'jugadores', abrir: 'Lesionados importantes' },
   { t: '📰 Noticias', desc: 'En español, primero las de tus jugadores', k: 'noticias news nfl', tab: 'noticias' },
   { t: '🎙️ Analistas', desc: 'Sigue analistas en Bluesky', k: 'analistas bluesky expertos', tab: 'noticias', abrir: 'analistas' },
+  { t: '📅 Calendario NFL', desc: 'Todos los partidos de la semana con horas y marcadores', k: 'calendario partidos horario juegos schedule hora', tab: 'nfl' },
+  { t: '🏟️ Los 32 equipos', desc: 'Plantilla de cada equipo dividida por posición', k: 'equipos plantilla roster nfl 32 depth', tab: 'nfl', abrir: '32 equipos' },
+  { t: '📊 Registro de un jugador', desc: 'Toca a cualquier jugador: partidos jugados y próximos', k: 'registro estadisticas stats snaps yardas game log jugador', tab: 'nfl' },
   { t: '🎨 Equipo favorito y colores', desc: 'Cambia la camiseta de Cody y los colores', k: 'equipo favorito colores camiseta tema', href: '#/equipo-favorito' },
   { t: '🔔 Avisos (notificaciones)', desc: 'Activa o apaga las notificaciones', k: 'avisos notificaciones alertas push', href: '#/', abrir: 'Avisos' },
   { t: '📅 Cambiar de semana', desc: 'Ve semanas pasadas (resultados) y futuras', k: 'semana cambiar anterior siguiente week', tab: 'inicio' },
@@ -38,7 +41,7 @@ export const FUNCIONES = [
 
 const GRUPOS = [
   ['inicio', '🐛 Cody (inicio)'], ['equipo', '🏈 Equipo'], ['mercado', '🔁 Mercado'],
-  ['jugadores', '📋 Jugadores'], ['noticias', '📰 Noticias'], ['general', '⚙️ General'],
+  ['jugadores', '📋 Jugadores'], ['noticias', '📰 Noticias'], ['nfl', '🏟️ NFL'], ['general', '⚙️ General'],
 ];
 
 /** Busca funciones y jugadores. d puede ser null (fuera de una liga). */
@@ -83,6 +86,7 @@ function fichaHtml(d, j) {
       ${du.tipo === 'rival' ? `<button class="chip-boton principal" data-trade="${esc(j.id)}" data-roster="${du.equipo.rosterId}">🤝 Armar trade por él</button>` : ''}
       ${du.tipo === 'libre' ? '<span class="etiqueta verde">✅ Está libre: agrégalo en Sleeper</span>' : ''}
       ${du.tipo === 'mio' ? `<span class="etiqueta acento">${titular ? 'Es titular tuyo' : 'Está en tu banca'}</span>` : ''}
+      <button class="chip-boton principal" data-registro>📊 Ver registro de juego</button>
       ${du.tipo === 'mio' ? `<button class="chip-boton" data-vender="${esc(j.id)}">🤝 Ver qué me dan por él</button>` : ''}
     </div>
   </div>`;
@@ -137,6 +141,11 @@ export function abrirBuscador({ d = null, ligaId = null, ctx } = {}) {
         irA({ tab: 'mercado' });
       });
       $('[data-vender]', res)?.addEventListener('click', () => irA({ tab: 'mercado', abrir: 'Armador' }));
+      $('[data-registro]', res)?.addEventListener('click', async () => {
+        cerrar();
+        const { abrirFicha } = await import('./ficha.js');
+        abrirFicha({ id: j.id, d, ctx });
+      });
       ctx?.mascota && import('./comun.js').then(({ codyDice }) => codyDice(document, ctx,
         `${j.nombre}: ${dueno(d, j.id).tipo === 'libre' ? '¡está libre! Si te sirve, agárralo.' : dueno(d, j.id).tipo === 'mio' ? 'es de los tuyos. 💪' : `lo tiene ${dueno(d, j.id).texto}.`}`, { animo: 'Hablar' }));
     }));
@@ -162,6 +171,7 @@ export function abrirPendiente(raiz = document) {
     : [...raiz.querySelectorAll('h2, button')].find((h) => sinAcentos(h.textContent).includes(sinAcentos(pedido.texto)));
   if (!objetivo) return;
   if (objetivo.id === 'ver-enfrentamiento') { objetivo.click(); return; }
+  if (objetivo.tagName === 'BUTTON' && objetivo.closest('.chips')) { objetivo.click(); return; }
   const det = objetivo.closest('details');
   if (det) det.open = true;
   const caja = objetivo.closest('.tarjeta') || objetivo;

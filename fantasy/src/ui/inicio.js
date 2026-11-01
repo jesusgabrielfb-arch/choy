@@ -89,6 +89,7 @@ export async function vistaCarpetas(app, ctx) {
   app.innerHTML = `<header class="barra">
       <div class="titulo"><h1>Fantasy <span class="x">x</span> Cody</h1><small>@${esc(u.display || u.nombre)} · tus ligas</small></div>
       <button class="boton-icono" id="buscar" aria-label="Buscar">🔍</button>
+      <a class="boton-icono" href="#/nfl" aria-label="NFL: calendario y equipos">🏟️</a>
       <a class="punto-equipo" href="#/equipo-favorito" title="Cambiar equipo favorito">${esc(sesion.equipo || 'NFL')}</a>
       <a class="boton-icono" href="#/noticias" aria-label="Noticias">📰</a>
       <button class="boton-icono" id="salir" aria-label="Cambiar de usuario">⎋</button>

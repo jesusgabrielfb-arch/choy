@@ -77,7 +77,7 @@ img { max-width: 100%; }
   background: rgb(10 13 19 / 0.9); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
   border-top: 1px solid var(--linea);
 }
-.pestanas nav { display: grid; grid-template-columns: repeat(5, 1fr); max-width: 680px; margin: 0 auto; gap: 4px; }
+.pestanas nav { display: grid; grid-template-columns: repeat(6, 1fr); max-width: 680px; margin: 0 auto; gap: 4px; }
 .pestanas a {
   display: grid; justify-items: center; gap: 1px; padding: 7px 0 6px; border-radius: 14px;
   color: var(--tenue); font-size: 11px; font-weight: 700; min-height: 48px;
@@ -403,3 +403,48 @@ details.accion[open] > summary .tit { color: var(--acento); }
 .tut-globo p { font-weight: 600; font-size: 15px; }
 .tut-botones { display: flex; gap: 8px; justify-content: flex-end; margin-top: 12px; flex-wrap: wrap; }
 .tutorial.oscuro { background: rgb(4 6 10 / 0.72); }
+
+/* ---------- ficha de jugador ---------- */
+.ficha-capa { position: fixed; inset: 0; z-index: 55; background: rgb(5 7 11 / 0.7); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); display: flex; align-items: flex-end; justify-content: center; }
+.ficha-hoja { width: 100%; max-width: 680px; max-height: 92dvh; overflow-y: auto; background: var(--fondo); border-radius: 24px 24px 0 0; padding-bottom: calc(24px + env(safe-area-inset-bottom)); animation: subir 0.25s ease; }
+@keyframes subir { from { transform: translateY(40px); opacity: 0; } }
+.ficha-top { position: relative; padding: 18px 16px 14px; background: linear-gradient(135deg, var(--eq), color-mix(in srgb, var(--eq) 40%, var(--fondo))); border-bottom: 3px solid var(--eq2); }
+.ficha-top .boton-icono { position: absolute; top: 12px; right: 12px; background: rgb(0 0 0 / 0.35); }
+.ficha-id { display: flex; gap: 12px; align-items: center; padding-right: 48px; }
+.ficha-id h2 { font-size: 22px; }
+.ficha-id small { color: rgb(255 255 255 / 0.8); }
+.ficha-lesion { margin-top: 8px; font-size: 13px; color: rgb(255 255 255 / 0.85); }
+.ficha-cuerpo { padding: 14px 16px 0; }
+.ficha-resumen { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
+.ficha-resumen div { background: var(--tarjeta); border-radius: 14px; padding: 10px 8px; display: grid; text-align: center; }
+.ficha-resumen small { color: var(--suave); font-size: 11px; }
+.ficha-resumen b { font-size: 17px; }
+.tabla-scroll { overflow-x: auto; border-radius: 14px; border: 1px solid var(--linea); }
+table.registro { border-collapse: collapse; width: 100%; font-size: 13px; white-space: nowrap; }
+table.registro th, table.registro td { padding: 9px 8px; text-align: center; border-bottom: 1px solid var(--linea); }
+table.registro thead th { font-size: 11px; color: var(--suave); background: var(--tarjeta); position: sticky; top: 0; }
+table.registro tbody th { color: var(--suave); font-weight: 700; }
+table.registro .rival { font-weight: 700; }
+table.registro .pts-col { font-weight: 900; color: var(--acento); }
+table.registro tr.sin-jugar td { color: var(--tenue); }
+table.registro tfoot th, table.registro tfoot td { font-weight: 800; background: var(--tarjeta); }
+@media (max-width: 380px) { .ficha-resumen { grid-template-columns: repeat(2, 1fr); } }
+
+/* ---------- NFL: calendario y equipos ---------- */
+.bolita-eq { width: 30px; height: 30px; border-radius: 50%; display: inline-grid; place-items: center; font-size: 9.5px; font-weight: 900; color: #fff; flex: none; }
+details.juego { padding: 12px 14px; margin: 8px 0; }
+details.juego > summary { list-style: none; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center; cursor: pointer; }
+details.juego > summary::-webkit-details-marker { display: none; }
+.juego-eqs { display: grid; gap: 6px; min-width: 0; }
+.juego-eq { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.juego-eq b { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.juego-eq .marca { font-weight: 900; font-size: 17px; }
+.juego-info { display: grid; justify-items: end; gap: 4px; text-align: right; }
+.juego-info small { color: var(--suave); font-size: 11.5px; }
+.juego-detalle { margin-top: 10px; }
+.equipos-nfl.grande { grid-template-columns: repeat(4, 1fr); }
+.equipo-cab { display: flex; gap: 12px; align-items: center; margin: 12px 0; padding: 16px; border-radius: var(--radio); background: linear-gradient(135deg, var(--eq), color-mix(in srgb, var(--eq) 35%, var(--fondo))); border: 2px solid var(--eq2); }
+.equipo-cab .bolita-eq { width: 46px; height: 46px; font-size: 12px; }
+.equipo-cab small { color: rgb(255 255 255 / 0.85); font-size: 12.5px; line-height: 1.5; }
+.jugador[data-id], .ef-j[data-id] { cursor: pointer; }
+.jugador[data-id]:active, .ef-j[data-id]:active { opacity: 0.7; }

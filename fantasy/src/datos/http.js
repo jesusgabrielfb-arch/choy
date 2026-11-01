@@ -57,15 +57,28 @@ export const viaProxy = (url) => `/api/proxy?u=${encodeURIComponent(url)}`;
 
 const enCurso = new Map();
 
+// Cuando tocas ↻ Actualizar, todo se pide de nuevo (sin caché del teléfono ni de Vercel).
+let fresco = 0;
+export const estaFresco = () => fresco > 0;
+export async function sinCache(fn) {
+  fresco++;
+  try {
+    return await fn();
+  } finally {
+    fresco--;
+  }
+}
+
 export async function pedirJSON(url, { clave, ttl = 0, proxy = false } = {}) {
-  if (clave && ttl) {
+  if (clave && ttl && !fresco) {
     const c = leerCache(clave, ttl);
     if (c !== null) return c;
   }
-  const destino = proxy ? viaProxy(url) : url;
+  let destino = proxy ? viaProxy(url) : url;
+  if (fresco && destino.startsWith('/api/')) destino += `${destino.includes('?') ? '&' : '?'}_=${Date.now()}`;
   if (enCurso.has(destino)) return enCurso.get(destino);
   const p = (async () => {
-    const r = await fetch(destino);
+    const r = await fetch(destino, fresco ? { cache: 'no-store' } : undefined);
     if (!r.ok) throw new Error(`Error ${r.status} al leer ${url.split('?')[0]}`);
     const datos = await r.json();
     if (clave) guardarCache(clave, datos);

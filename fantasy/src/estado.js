@@ -2,7 +2,7 @@
 import * as S from './datos/sleeper.js';
 import { valores as pedirValores, valorRespaldo } from './datos/valores.js';
 import { partidosSemana, equiposEnBye, rivales as rivalesDe } from './datos/calendario.js';
-import { leerCache, guardarCache } from './datos/http.js';
+import { leerCache, guardarCache, sinCache } from './datos/http.js';
 import { puntos, promedioReciente } from './analisis/puntos.js';
 import { puntosPermitidos, recomendarTitulares, factorCruce, rankingDefensas, mejoresDefensas } from './analisis/defensas.js';
 import { comprarBarato, venderCaro } from './analisis/compraventa.js';
@@ -37,7 +37,8 @@ const cacheLigas = new Map();
 export async function cargarLiga(ligaId, usuarioId, { forzar = false, semana = null } = {}) {
   const clave = `${ligaId}:${semana || 'actual'}`;
   if (!forzar && cacheLigas.has(clave)) return cacheLigas.get(clave);
-  const p = armarLiga(ligaId, usuarioId, semana);
+  if (forzar) for (const k of [...cacheLigas.keys()]) if (k.startsWith(`${ligaId}:`)) cacheLigas.delete(k);
+  const p = forzar ? sinCache(() => armarLiga(ligaId, usuarioId, semana)) : armarLiga(ligaId, usuarioId, semana);
   cacheLigas.set(clave, p);
   p.catch(() => cacheLigas.delete(clave));
   return p;
@@ -134,7 +135,11 @@ async function armarLiga(ligaId, usuarioId, semanaVista = null) {
   // Duelos de la semana con probabilidad de ganar (en vivo si hay partidos jugándose)
   const prog = progresoPorEquipo(partidosPor[semana] || []);
   const progresoDe = (id) => (semana < semanaActual ? 1 : prog[jugadores[id]?.equipo] ?? (byesPor[semana]?.has(jugadores[id]?.equipo) ? 1 : 0));
-  res.duelos = duelosSemana({ matchups: matchAhora, equipos, proy: (id) => proy(semana, id), progreso: progresoDe })
+  res.progresoDe = progresoDe;
+  // Quien todavía no juega cuenta con su proyección PPR (o su promedio si no hay proyección), nunca con 0
+  const proyDuelo = (id) => proy(semana, id) ?? promedioReciente(id, statsPasadas, reglas, 8) ?? 0;
+  res.proyDuelo = proyDuelo;
+  res.duelos = duelosSemana({ matchups: matchAhora, equipos, proy: proyDuelo, progreso: progresoDe })
     .map((dd) => (dd.b.equipo.esMio ? { a: dd.b, b: dd.a } : dd))
     .sort((x, y) => Number(!!y.a.equipo.esMio) - Number(!!x.a.equipo.esMio));
   const mioDuelo = res.duelos.find((dd) => dd.a.equipo.esMio);
@@ -203,10 +208,30 @@ async function armarLiga(ligaId, usuarioId, semanaVista = null) {
   };
   res.proyAjustada = proyAjustada;
   const ocupadoIR = (mio.reserva || []).length;
+  // Horarios y bloqueos: cuándo juega cada equipo esta semana y si su partido ya empezó
+  const partidoDe = {};
+  for (const p of partidosPor[semana] || []) { partidoDe[p.local] = p; partidoDe[p.visita] = p; }
+  const inicio = (id) => {
+    const p = partidoDe[jugadores[id]?.equipo];
+    return p?.fecha ? Date.parse(p.fecha) : null;
+  };
+  const bloqueado = (id) => {
+    if (semana < semanaActual) return true;
+    if (semana > semanaActual) return false;
+    const p = partidoDe[jugadores[id]?.equipo];
+    return !!p && ((p.progreso ?? 0) > 0 || (inicio(id) && inicio(id) <= Date.now()));
+  };
+  const hora = (id) => (inicio(id) ? fmtHora(inicio(id)) : null);
+  // Los waivers de una semana corren antes de su primer partido (el jueves): después ya se piensa en la próxima
+  const primerPartido = Math.min(...(partidosPor[semana] || []).map((p) => Date.parse(p.fecha)).filter(Boolean), Infinity);
+  const semanaWaivers = semana === semanaActual && Number.isFinite(primerPartido) && Date.now() > primerPartido - 30 * 3600_000
+    ? semana + 1 : semana;
+  Object.assign(res, { inicio, bloqueado, hora, semanaWaivers, partidoDe });
   res.plan = planSemana({
     semana, miRoster: mio.ids.filter((id) => !(mio.reserva || []).includes(id)), titularesActuales: mio.titulares,
     jugadores, rosterPositions: puestos, proyAjustada, enBye, libres, valor,
     tieneIRLibre: (liga.settings?.reserve_slots ?? 0) > ocupadoIR, rosterIR: mio.reserva,
+    bloqueado, semanaWaivers, hora, inicio,
   });
   res.debil = puntoDebil({ equipos, jugadores, rosterPositions: puestos, proyAjustada, semana, valor });
   res.consejos = armarConsejos(res);
@@ -251,4 +276,12 @@ export function armarConsejos(d) {
   }
   if (!c.length) c.push({ animo: 'Feliz', tab: 'inicio', texto: 'Aquí Cody: todo tranquilo. Tu alineación ya es la mejor posible.' });
   return c;
+}
+
+/** "dom 1:00 p. m." en la hora del teléfono. */
+export function fmtHora(ms) {
+  const d = new Date(ms);
+  const dia = d.toLocaleDateString('es', { weekday: 'short' }).replace('.', '');
+  const h = d.toLocaleTimeString('es', { hour: 'numeric', minute: '2-digit' });
+  return `${dia} ${h}`;
 }

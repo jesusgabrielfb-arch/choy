@@ -15,7 +15,12 @@ y toda la app toma sus colores. Cody aparece en cada pantalla y te habla.
 | **Equipo** | Alineación recomendada con "Entra"/"Sale", lesionados con consejo, analizador de defensas (A–F) y **mejores defensas (DST) de la semana** y la siguiente según la ofensiva rival, marcando si es tuya, libre o de otro equipo |
 | **Mercado** | Armador de trades justos (Cody opina si te roban), comprar barato / vender caro, lo que hacen miles de ligas |
 | **Jugadores** | Qué agregar esta semana, byes, mejores libres por posición, tendencias, stash, suplentes que suben, lesionados de la liga |
+| **NFL** | **Calendario** de cada semana con horas, marcadores en vivo y TV; los **32 equipos** con su plantilla dividida por posición |
 | **Noticias** | En español (las de inglés se traducen en el teléfono), primero las de tus jugadores; analistas de Bluesky |
+
+**📊 Ficha de jugador**: toca a cualquier jugador en la app y sale su **registro de juego** (snaps, acarreos, yardas por acarreo, recepciones, TD, puntos por partido) y sus **próximos partidos** con día, hora y proyección (`api/jugador.js`).
+
+**⏰ Horarios y cerebro**: cada jugador muestra cuándo juega; Cody avisa de los que juegan antes del domingo, no sugiere mover a quien ya jugó y, cuando ya pasaron los waivers de la semana, piensa en la siguiente. Los que todavía no juegan cuentan con su proyección (no con 0) para el % de ganar. **↻** trae todo fresco.
 
 **🎓 Tutorial con Cody**: la primera vez que entras a una liga, Cody te explica cada parte resaltándola (se puede saltar; se vuelve a ver desde el buscador).
 

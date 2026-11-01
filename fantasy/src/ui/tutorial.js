@@ -19,6 +19,7 @@ export const PASOS = [
   { sel: '.pestanas a[href*="/mercado"]', texto: 'Mercado: arma trades justos (yo te digo si te roban 😠), compra barato y vende caro.', animo: 'Cool' },
   { sel: '.pestanas a[href*="/jugadores"]', texto: 'Jugadores: qué agregar de waivers, byes, stash y los suplentes que suben.', animo: 'Hablar' },
   { sel: '.pestanas a[href*="/noticias"]', texto: 'Noticias en español, primero las de tus jugadores.', animo: 'Hablar' },
+  { sel: '.pestanas a[href*="/nfl"]', texto: 'NFL: el calendario con las horas de cada partido y los 32 equipos con su plantilla. Y ojo: toca a CUALQUIER jugador en la app y te muestro su registro de juego. 📊', animo: 'Cool' },
   { texto: 'Y en la pantalla de tus ligas activas los avisos 🔔 y cambias tu equipo favorito. ¡A ganar esa liga! 🏆', animo: 'Touchdown' },
 ];
 

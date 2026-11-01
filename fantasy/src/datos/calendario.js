@@ -20,7 +20,14 @@ export function leerPartidos(datos) {
     const local = eq.find((c) => c.homeAway === 'home')?.team?.abbreviation;
     const visita = eq.find((c) => c.homeAway === 'away')?.team?.abbreviation;
     if (local && visita) {
-      partidos.push({ local: aSleeper(local), visita: aSleeper(visita), fecha: ev.date || null, progreso: progreso(ev.status) });
+      const cl = eq.find((c) => c.homeAway === 'home');
+      const cv = eq.find((c) => c.homeAway === 'away');
+      partidos.push({
+        local: aSleeper(local), visita: aSleeper(visita), fecha: ev.date || null, progreso: progreso(ev.status),
+        marcador: cl?.score != null && ev.status?.type?.state !== 'pre' ? { local: Number(cl.score), visita: Number(cv?.score) } : null,
+        detalle: ev.status?.type?.shortDetail || null,
+        tv: comp?.broadcasts?.[0]?.names?.[0] || null,
+      });
     }
   }
   return partidos;

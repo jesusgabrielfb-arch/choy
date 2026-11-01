@@ -42,3 +42,37 @@ export async function semanaLiviana(tipo, temporada, semana) {
   }
   return res;
 }
+
+// Estadísticas que sirven para el registro de juego (snaps, pases, carreras, recepciones, pateador y defensa).
+const UTILES = /^(off_snp|tm_off_snp|def_snp|pass_(att|cmp|yd|td|int)|rush_(att|yd|td)|rec(_tgt|_yd|_td)?$|fum_lost|fgm|fga|fgm_lng|xpm|xpa|def_(td|int|fum_rec|sack|safe)|sack|int|fum_rec|pts_allow|yds_allow|bonus_|pass_2pt|rush_2pt|rec_2pt|fgm_|fgmiss|xpmiss|gp$|ff$|safe$|def_st_td|st_td|kr_yd|pr_yd)/;
+
+function recortar(stats = {}) {
+  const r = {};
+  for (const [k, v] of Object.entries(stats)) if (typeof v === 'number' && v !== 0 && UTILES.test(k)) r[k] = v;
+  if (stats.gp === 0) r.gp = 0;
+  return r;
+}
+
+/** Registro de un jugador semana por semana: lo que hizo y lo que se proyecta. */
+export async function registroJugador(id, temporada) {
+  const consulta = `season_type=regular&season=${temporada}&grouping=week`;
+  const [st, pr] = await Promise.all([
+    json(`${SLEEPER}/stats/nfl/player/${encodeURIComponent(id)}?${consulta}`).catch(() => null),
+    json(`${SLEEPER}/projections/nfl/player/${encodeURIComponent(id)}?${consulta}`).catch(() => null),
+  ]);
+  const semanas = {};
+  const leer = (datos, campo) => {
+    if (!datos || typeof datos !== 'object') return;
+    for (const [w, v] of Object.entries(datos)) {
+      if (!v || !/^\d+$/.test(w)) continue;
+      const fila = (semanas[w] ??= { semana: Number(w) });
+      fila[campo] = recortar(v.stats || v);
+      if (v.opponent) fila.rival = v.opponent;
+      if (v.team) fila.equipo = v.team;
+      if (v.date) fila.fecha = v.date;
+    }
+  };
+  leer(st, 'stats');
+  leer(pr, 'proy');
+  return Object.values(semanas).sort((a, b) => a.semana - b.semana);
+}

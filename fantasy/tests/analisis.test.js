@@ -133,7 +133,7 @@ test('calendario de ESPN: partidos, byes y rivales', () => {
   const datos = { events: [{ date: '2026-11-08', competitions: [{ competitors: [
     { homeAway: 'home', team: { abbreviation: 'WSH' } }, { homeAway: 'away', team: { abbreviation: 'KC' } }] }] }] };
   const p = leerPartidos(datos);
-  assert.deepEqual(p[0], { local: 'WAS', visita: 'KC', fecha: '2026-11-08', progreso: 0 });
+  assert.deepEqual(p[0], { local: 'WAS', visita: 'KC', fecha: '2026-11-08', progreso: 0, marcador: null, detalle: null, tv: null });
   assert.equal(rivales(p).KC, 'WAS');
   const byes = equiposEnBye(p);
   assert.equal(byes.size, 30);
@@ -316,4 +316,55 @@ test('tutorial: empieza saludando, termina celebrando y explica las pestañas', 
   assert.equal(PASOS[0].sel, undefined);
   assert.equal(PASOS.at(-1).animo, 'Touchdown');
   for (const t of ['equipo', 'mercado', 'jugadores', 'noticias']) assert.ok(PASOS.some((p) => p.sel?.includes(t)), t);
+});
+
+test('plan inteligente: no mueve jugadores que ya jugaron y los waivers pasan a la próxima semana', () => {
+  const J2 = { ...J, wrL: { id: 'wrL', pos: 'WR', equipo: 'DAL', nombre: 'Libre WR' } };
+  const proy = { qb1: 20, rb1: 15, rb2: 12, rb3: 9, wr1: 14, wr2: 11, wr3: 8, te1: 7, k1: 8, KC: 7, wrL: 16 };
+  const byes = { 9: new Set(['MIA']), 10: new Set() };
+  const enBye = (w, id) => byes[w]?.has(J2[id]?.equipo);
+  const base = {
+    semana: 9, miRoster: Object.keys(J), titularesActuales: ['qb1', 'rb1', 'rb2', 'wr1', 'wr2', 'te1', 'rb3', 'k1', 'KC'],
+    jugadores: J2, rosterPositions: PUESTOS, libres: ['wrL'], valor: (id) => proy[id] * 100,
+    proyAjustada: (w, id) => (enBye(w, id) ? 0 : proy[id] ?? 0), enBye,
+  };
+  // wr3 (el que entraría por el de bye) ya jugó: no se puede mover
+  const conBloqueo = planSemana({ ...base, bloqueado: (id) => id === 'wr3' });
+  assert.ok(!conBloqueo.some((a) => a.tipo === 'alineacion' && a.entra === 'wr3'));
+  // Los waivers de esta semana ya pasaron: la sugerencia es para la semana 10
+  const proxima = planSemana({ ...base, semanaWaivers: 10 });
+  // Esta semana queda un FLEX vacío (2 de bye): se cubre con un agente libre que no ha jugado…
+  const ahora = proxima.find((a) => a.tipo === 'waiver' && a.semana === 9);
+  assert.match(ahora.titulo, /agente libre/);
+  // …y las mejoras de waivers ya piensan en la semana 10
+  assert.ok(proxima.every((a) => a.tipo !== 'waiver' || a.semana === 9 || a.semana === 10));
+});
+
+test('plan avisa de los titulares que juegan fuera del domingo', () => {
+  const jueves = new Date(2026, 10, 5, 20, 15).getTime(); // jueves
+  const domingo = new Date(2026, 10, 8, 13, 0).getTime();
+  const proy = { qb1: 20, rb1: 15, rb2: 12, rb3: 9, wr1: 14, wr2: 11, wr3: 8, te1: 7, k1: 8, KC: 7 };
+  const acciones = planSemana({
+    semana: 9, miRoster: Object.keys(J), titularesActuales: ['qb1', 'rb1', 'rb2', 'wr1', 'wr2', 'te1', 'rb3', 'k1', 'KC'],
+    jugadores: J, rosterPositions: PUESTOS, libres: [], valor: () => 1, enBye: () => false,
+    proyAjustada: (w, id) => proy[id], ahora: new Date(2026, 10, 4, 12).getTime(),
+    inicio: (id) => (J[id].equipo === 'KC' ? jueves : domingo), hora: (id) => (J[id].equipo === 'KC' ? 'jue 8:15 p. m.' : 'dom 1:00 p. m.'),
+  });
+  const h = acciones.find((a) => a.tipo === 'hora');
+  assert.ok(h, 'hay aviso de horario');
+  assert.match(h.detalle, /jue 8:15/);
+});
+
+import { columnas, resumen, REGLAS_PPR } from '../src/datos/registro.js';
+
+test('registro de juego: columnas por posición y resumen de temporada', () => {
+  const rb = columnas('RB');
+  const s = { off_snp: 40, tm_off_snp: 60, rush_att: 10, rush_yd: 55, rush_td: 1, rec_tgt: 4, rec: 3, rec_yd: 20 };
+  const fila = Object.fromEntries(rb.map(([t, f]) => [t, f(s)]));
+  assert.equal(fila.SNAP, '67%');
+  assert.equal(fila['Y/C'], '5.5');
+  assert.equal(fila.TD, 1);
+  const r = resumen([{ semana: 1, stats: s }, { semana: 2, stats: { gp: 0 } }, { semana: 3 }], REGLAS_PPR);
+  assert.equal(r.partidos, 1);
+  assert.equal(Math.round(r.total * 10) / 10, 16.5); // 5.5 carrera + 6 TD + 3 rec + 2 yardas
 });

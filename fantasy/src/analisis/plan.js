@@ -12,9 +12,17 @@ const MARGEN_WAIVER = 1.5;
  *  semana, miRoster, titularesActuales (ids en orden de puestos), jugadores, rosterPositions,
  *  proyAjustada(semana, id) → puntos esperados ya ajustados por el cruce (0 si no juega),
  *  enBye(semana, id) → bool, libres: ids, valor(id), tieneIRLibre, rosterIR: ids en IR
+ *  bloqueado(id) → true si su partido ya empezó (ya no se puede mover)
+ *  semanaWaivers → para qué semana conviene pedir waivers (si ya pasaron los de esta, la próxima)
+ *  hora(id) → texto con el día y la hora de su partido; inicio(id) → fecha del partido en ms
  */
 export function planSemana(ctx) {
   const { semana, miRoster, titularesActuales, jugadores: J, rosterPositions, proyAjustada, enBye, libres, valor } = ctx;
+  const bloqueado = ctx.bloqueado || (() => false);
+  const semanaWaivers = ctx.semanaWaivers || semana;
+  const hora = ctx.hora || (() => null);
+  const inicio = ctx.inicio || (() => null);
+  const conHora = (id) => (hora(id) && !bloqueado(id) ? ` ⏰ ${nombreCorto(J, id)} juega ${hora(id)}.` : '');
   const acciones = [];
   const nombre = (id) => J[id]?.nombre || '—';
   const motivoSalida = (id, w = semana) => {
@@ -39,17 +47,20 @@ export function planSemana(ctx) {
   const entran = [...enOptima].filter((id) => !actualesSet.has(id));
   const vacios = puestosTitulares(rosterPositions).length - actuales.length;
   for (const entra of entran) {
+    if (bloqueado(entra)) continue;
     const pos = J[entra].pos;
     // empareja con quien sale de una posición compatible (o un puesto vacío)
     const k = salen.findIndex((s) => J[s].pos === pos) >= 0 ? salen.findIndex((s) => J[s].pos === pos) : 0;
     const sale = salen.length ? salen.splice(k, 1)[0] : null;
+    if (sale && bloqueado(sale)) continue;
     const gana = proyAjustada(semana, entra) - (sale ? proyAjustada(semana, sale) : 0);
     if (gana <= 0.3 && sale && !enBye(semana, sale) && !NO_JUEGA.includes(J[sale]?.lesion)) continue;
     const urgente = !sale || enBye(semana, sale) || NO_JUEGA.includes(J[sale]?.lesion) || J[sale]?.lesion === 'Doubtful';
     acciones.push({
       tipo: 'alineacion', urgente, ganancia: gana, entra, sale,
       titulo: sale ? `Sienta a ${nombre(sale)} y pon a ${nombre(entra)}` : `Pon a ${nombre(entra)} en el puesto vacío`,
-      detalle: sale ? `${nombre(sale)} ${motivoSalida(sale)}. ${nombre(entra)} proyecta ${fmt(proyAjustada(semana, entra))}.` : `Tienes un puesto sin nadie (${vacios > 0 ? 'vacío' : 'bye'}).`,
+      detalle: (sale ? `${nombre(sale)} ${motivoSalida(sale)}. ${nombre(entra)} proyecta ${fmt(proyAjustada(semana, entra))}.` : `Tienes un puesto sin nadie (${vacios > 0 ? 'vacío' : 'bye'}).`) +
+        conHora(sale && hora(sale) && (!hora(entra) || inicio(sale) < inicio(entra)) ? sale : entra),
     });
   }
 
@@ -63,44 +74,58 @@ export function planSemana(ctx) {
     });
   }
 
-  // 2) Mejoras desde waivers: libres que superan a tu peor titular de su posición
+  // 2) Mejoras desde waivers. Si los waivers de esta semana ya pasaron, se piensa en la próxima;
+  //    solo un puesto vacío de esta semana se cubre con un agente libre que todavía no jugó.
   const usados = new Set();
   const banca = miRoster.filter((id) => J[id] && !enOptima.has(id));
   const prescindibles = () => banca
-    .filter((id) => !usados.has(id))
+    .filter((id) => !usados.has(id) && !bloqueado(id))
     .sort((a, b) => valor(a) - valor(b));
-  for (const t of [...optima.titulares].sort((a, b) => (a.valor ?? 0) - (b.valor ?? 0))) {
-    const elegibles = ELEGIBLES[t.puesto];
-    const actual = t.id ? proyAjustada(semana, t.id) : 0;
-    const mejor = libres
-      .filter((id) => !usados.has(id) && J[id] && elegibles.includes(J[id].pos) && !enBye(semana, id) &&
-        !NO_JUEGA.includes(J[id].lesion))
-      .map((id) => ({ id, p: proyAjustada(semana, id) }))
-      .sort((a, b) => b.p - a.p)[0];
-    if (!mejor || mejor.p - actual < MARGEN_WAIVER) continue;
-    usados.add(mejor.id);
-    const soltar = prescindibles()[0] || null;
-    if (soltar) usados.add(soltar);
-    const sinNadie = !t.id;
-    acciones.push({
-      tipo: 'waiver', urgente: sinNadie, ganancia: mejor.p - actual, entra: mejor.id, sale: t.id, soltar,
-      titulo: `Agrega a ${nombre(mejor.id)} de waivers`,
-      detalle: `${sinNadie ? `No tienes a nadie para ${t.puesto}.` : `Proyecta ${fmt(mejor.p)} vs ${fmt(actual)} de ${nombre(t.id)}.`}` +
-        `${soltar ? ` Para hacerle lugar, suelta a ${nombre(soltar)} (el que menos vale en tu banca).` : ''}`,
-    });
-    if (acciones.filter((a) => a.tipo === 'waiver').length >= 3) break;
+  const buscar = (w, alineacion, { soloVacios = false, maximo = 3 } = {}) => {
+    let n = 0;
+    for (const t of [...alineacion.titulares].sort((a, b) => (a.valor ?? 0) - (b.valor ?? 0))) {
+      if (soloVacios && t.id) continue;
+      const elegibles = ELEGIBLES[t.puesto];
+      const actual = t.id ? proyAjustada(w, t.id) : 0;
+      const mejor = libres
+        .filter((id) => !usados.has(id) && J[id] && elegibles.includes(J[id].pos) && !enBye(w, id) &&
+          !NO_JUEGA.includes(J[id].lesion) && (w !== semana || !bloqueado(id)))
+        .map((id) => ({ id, p: proyAjustada(w, id) }))
+        .sort((a, b) => b.p - a.p)[0];
+      if (!mejor || mejor.p - actual < MARGEN_WAIVER) continue;
+      usados.add(mejor.id);
+      const soltar = prescindibles()[0] || null;
+      if (soltar) usados.add(soltar);
+      const sinNadie = !t.id;
+      const proxima = w !== semana;
+      acciones.push({
+        tipo: 'waiver', urgente: sinNadie && !proxima, ganancia: mejor.p - actual, entra: mejor.id, sale: t.id, soltar, semana: w,
+        titulo: proxima ? `Semana ${w}: pide a ${nombre(mejor.id)} en waivers`
+          : soloVacios || ctx.semanaWaivers > semana ? `Agrega a ${nombre(mejor.id)} como agente libre` : `Agrega a ${nombre(mejor.id)} de waivers`,
+        detalle: `${sinNadie ? `No tienes a nadie para ${t.puesto}${proxima ? ` en la semana ${w}` : ''}.` : `Proyecta ${fmt(mejor.p)} vs ${fmt(actual)} de ${nombre(t.id)}.`}` +
+          `${soltar ? ` Para hacerle lugar, suelta a ${nombre(soltar)} (el que menos vale en tu banca).` : ''}` +
+          (proxima ? ' Los waivers de esta semana ya pasaron: esto es para la que viene.' : conHora(mejor.id)),
+      });
+      if (++n >= maximo) break;
+    }
+  };
+  if (semanaWaivers === semana) {
+    buscar(semana, optima);
+  } else {
+    buscar(semana, optima, { soloVacios: true, maximo: 2 });
+    if (semanaWaivers <= 18) buscar(semanaWaivers, mejorAlineacion(lista(semanaWaivers), rosterPositions));
   }
 
   // 3) Duda: plan B para titulares "Questionable"
   for (const t of optima.titulares) {
-    if (!t.id || J[t.id]?.lesion !== 'Questionable') continue;
+    if (!t.id || J[t.id]?.lesion !== 'Questionable' || bloqueado(t.id)) continue;
     const planB = optima.banca.filter((b) => ELEGIBLES[t.puesto].includes(b.pos) && !enBye(semana, b.id))
       .sort((a, b) => b.valor - a.valor)[0];
     acciones.push({
       tipo: 'duda', urgente: false, ganancia: 0, entra: planB?.id, sale: t.id,
       titulo: `${nombre(t.id)} está en duda`,
-      detalle: planB ? `Revisa el reporte antes del partido. Si no juega, pon a ${nombre(planB.id)} (${fmt(planB.valor)}).`
-        : 'Revisa el reporte antes del partido; no tienes reemplazo en la banca, mira waivers.',
+      detalle: (planB ? `Revisa el reporte antes del partido. Si no juega, pon a ${nombre(planB.id)} (${fmt(planB.valor)}).`
+        : 'Revisa el reporte antes del partido; no tienes reemplazo en la banca, mira waivers.') + conHora(t.id),
     });
   }
 
@@ -136,6 +161,21 @@ export function planSemana(ctx) {
           (candidato ? ` Pide ya a ${nombre(candidato.id)} en waivers, antes que los demás.` : ''),
       });
     }
+  }
+
+  // 6) Horarios: titulares que juegan fuera del domingo (jueves, sábado, lunes…). Hay que decidir antes.
+  const ahora = ctx.ahora ?? Date.now();
+  const temprano = optima.titulares
+    .filter((t) => t.id && !bloqueado(t.id) && inicio(t.id) && inicio(t.id) > ahora && new Date(inicio(t.id)).getDay() !== 0)
+    .sort((a, b) => inicio(a.id) - inicio(b.id));
+  if (temprano.length) {
+    const primero = inicio(temprano[0].id);
+    acciones.push({
+      tipo: 'hora', urgente: primero - ahora < 24 * 3600_000, ganancia: 0, sale: temprano[0].id,
+      titulo: `Ojo con los horarios ⏰`,
+      detalle: `${temprano.slice(0, 3).map((t) => `${nombre(t.id)} juega ${hora(t.id)}`).join('; ')}. ` +
+        'Si lo vas a sacar o meter de tu alineación, hazlo antes de esa hora: después se bloquea.',
+    });
   }
 
   return acciones.sort((a, b) => (Number(b.urgente) - Number(a.urgente)) || (b.ganancia - a.ganancia));
@@ -188,3 +228,9 @@ export function puntoDebil({ equipos, jugadores: J, rosterPositions, proyAjustad
 }
 
 const fmt = (x) => (x == null ? '–' : (Math.round(x * 10) / 10).toFixed(1));
+
+const nombreCorto = (J, id) => {
+  const n = J[id]?.nombre || '';
+  const p = n.split(' ');
+  return p.length > 1 ? `${p[0][0]}. ${p.slice(1).join(' ')}` : n;
+};
