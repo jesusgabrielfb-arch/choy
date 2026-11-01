@@ -1,5 +1,5 @@
 // La mascota en 3D: carga mascota.glb, cambia de ánimo y "habla" con un globito.
-const SOLO_UNA_VEZ = new Set(['Sorpresa', 'Saludar', 'Celebrar']);
+const SOLO_UNA_VEZ = new Set(['Sorpresa', 'Saludar', 'Celebrar', 'PonerLentes', 'Lanzar', 'Touchdown', 'Malabares']);
 
 export async function crearMascota(contenedor, { compacta = false } = {}) {
   const THREE = await import('three');
@@ -40,6 +40,11 @@ export async function crearMascota(contenedor, { compacta = false } = {}) {
   let animoBase = 'Reposo';
 
   function reproducir(nombre, { volver = true } = {}) {
+    // Antes de quedarse "cool", Cody se pone los lentes
+    if (nombre === 'Cool' && acciones.PonerLentes && actual !== acciones.Cool && actual !== acciones.PonerLentes) {
+      animoBase = 'Cool';
+      nombre = 'PonerLentes';
+    }
     const sig = acciones[nombre] || acciones.Reposo;
     if (!sig || sig === actual) return;
     sig.reset();
@@ -81,7 +86,6 @@ export async function crearMascota(contenedor, { compacta = false } = {}) {
     renderer.render(escena, camara);
   });
 
-  renderer.domElement.addEventListener('click', () => reproducir('Saludar'));
   reproducir('Saludar');
 
   let hablando = null;
@@ -93,7 +97,8 @@ export async function crearMascota(contenedor, { compacta = false } = {}) {
     /** Pone a hablar a la mascota el tiempo que dura el texto. */
     hablar(texto, animoFinal = 'Reposo') {
       clearTimeout(hablando);
-      animoBase = animoFinal;
+      // Las animaciones de una sola vez (lanzar, touchdown…) no se quedan como ánimo de fondo
+      animoBase = SOLO_UNA_VEZ.has(animoFinal) ? 'Reposo' : animoFinal;
       reproducir('Hablar');
       hablando = setTimeout(() => reproducir(animoFinal), Math.min(6000, 900 + texto.length * 45));
     },

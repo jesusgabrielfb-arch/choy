@@ -94,7 +94,7 @@ export function vistaMercado(el, d, ctx) {
     // Cody opina
     const a = r.actual;
     if (a) {
-      const opinion = a.tipo === 'justo' ? ['¡Trade justo! Ninguno sale perdiendo. Yo lo mandaría.', 'Feliz']
+      const opinion = a.tipo === 'justo' ? ['¡Trade justo! Ninguno sale perdiendo. Yo lo mandaría. 🏈', 'Lanzar']
         : a.tipo === 'pierdes' ? [`¡Ni se te ocurra! Das ${miles(a.vDoy)} por ${miles(a.vRecibo)}. ${a.equidad < 0.8 ? 'Te están robando.' : 'Pide un poquito más.'}`, 'Enojado']
           : [`Te favorece (${miles(a.vRecibo)} por ${miles(a.vDoy)}). ${a.equidad < 0.8 ? 'Difícil que lo acepten, pero probar no cuesta.' : 'Mándalo antes de que se den cuenta. 😎'}`, 'Cool'];
       codyDice(document, ctx, opinion[0], { animo: opinion[1] });

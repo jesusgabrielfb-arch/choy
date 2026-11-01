@@ -64,6 +64,13 @@ trabajos = [
     ("pose_saludar", "Saludar", 24, TRES_CUARTOS),
     ("pose_caminar", "Caminar", 6, TRES_CUARTOS),
     ("cerca_cara", "Hablar", 4, (0.9, -3.2, 1.6)),
+    ("lentes_cerca", "Cool", 12, (0.9, -3.2, 1.6)),
+    ("poner_lentes", "PonerLentes", 7, FRENTE),
+    ("malabares", "Malabares", 20, TRES_CUARTOS),
+    ("lanzar_carga", "Lanzar", 13, TRES_CUARTOS),
+    ("lanzar_tiro", "Lanzar", 20, TRES_CUARTOS),
+    ("touchdown_salto", "Touchdown", 19, TRES_CUARTOS),
+    ("touchdown_clava", "Touchdown", 33, TRES_CUARTOS),
 ]
 if vistas:
     trabajos = [t for t in trabajos if t[0] in vistas]

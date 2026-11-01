@@ -16,8 +16,9 @@ Gusano gordito con camiseta, hecho en Blender 5.2 a partir de la hoja de diseño
 
 ## Animaciones
 
-`Reposo`, `Hablar`, `Feliz`, `Triste`, `Enojado`, `Sorpresa`, `Cool` (con lentes),
-`Arrastrarse` y `Celebrar`.
+`Reposo`, `Hablar`, `Feliz`, `Triste`, `Enojado`, `Sorpresa`, `PonerLentes` (se baja los lentes
+de la frente), `Cool` (con lentes wayfarer y finger guns), `Arrastrarse`, `Celebrar`, `Caminar`, `Saludar`
+y con **balón de fútbol americano**: `Malabares`, `Lanzar` (pase en espiral) y `Touchdown` (salta y lo clava).
 
 ## Camisetas de equipos
 

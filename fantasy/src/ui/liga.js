@@ -182,10 +182,10 @@ function inicio(el, d, ctx, ligaId) {
     texto: duelo && (duelo.mis || duelo.suyos) && duelo.mis !== duelo.suyos ? (duelo.prob >= 0.5 ? `🏆 La semana ${d.semana} la ganaste ${pts(duelo.mis)} a ${pts(duelo.suyos)}. ¡Así se juega!`
       : `😓 La semana ${d.semana} se perdió ${pts(duelo.mis)} a ${pts(duelo.suyos)}. Pasado pisado: vamos por la próxima.`)
       : `Esta es la semana ${d.semana}, ya jugada.`,
-    animo: duelo && duelo.mis > duelo.suyos ? 'Celebrar' : duelo && duelo.mis < duelo.suyos ? 'Triste' : 'Hablar', tab: 'inicio',
+    animo: duelo && duelo.mis > duelo.suyos ? 'Touchdown' : duelo && duelo.mis < duelo.suyos ? 'Triste' : 'Hablar', tab: 'inicio',
   } : {
     texto: `${F.saludo(sesion.usuario?.display || '')} ${d.esFutura ? `Mirando la semana ${d.semana}: ` : ''}${d.plan.length ? F.resumenPlan(d.plan.length, urgentes) : F.planVacio()}`,
-    animo: urgentes ? 'Sorpresa' : prob != null && prob >= 60 ? 'Feliz' : prob != null && prob < 40 ? 'Triste' : 'Saludar',
+    animo: urgentes ? 'Sorpresa' : prob != null && prob >= 70 ? 'Touchdown' : prob != null && prob >= 55 ? 'Feliz' : prob != null && prob < 40 ? 'Triste' : 'Saludar',
     tab: 'inicio',
   };
   const consejos = d.esPasada ? [intro] : [intro, ...d.consejos];

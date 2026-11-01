@@ -45,7 +45,7 @@ const FURIOSO = [
 
 /** n = cuántas veces seguidas lo tocaste. Devuelve [frase, ánimo]. */
 export function alTocarSeguido(n) {
-  if (n <= 2) return [alTocar(), 'Feliz'];
+  if (n <= 2) return [alTocar(), al(['Lanzar', 'Malabares', 'Feliz'])];
   if (n <= 4) return [al(MOLESTO), 'Hablar'];
   if (n <= 7) return [al(ENOJADO), 'Enojado'];
   if (n === 8) return [al(FURIOSO), 'Enojado'];

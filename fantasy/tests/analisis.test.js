@@ -288,7 +288,7 @@ test('avisos: lesión, bye, puesto vacío, byes de la semana que viene y noticia
 import { alTocarSeguido } from '../src/ui/frases.js';
 
 test('Cody se va enojando si lo tocas mucho', () => {
-  assert.equal(alTocarSeguido(1)[1], 'Feliz');
+  assert.ok(['Lanzar', 'Malabares', 'Feliz'].includes(alTocarSeguido(1)[1]));
   assert.equal(alTocarSeguido(3)[1], 'Hablar');
   assert.equal(alTocarSeguido(6)[1], 'Enojado');
   assert.match(alTocarSeguido(8)[0], /Mierda|Puñeta|cago|Coño/);
@@ -314,6 +314,6 @@ import { PASOS } from '../src/ui/tutorial.js';
 
 test('tutorial: empieza saludando, termina celebrando y explica las pestañas', () => {
   assert.equal(PASOS[0].sel, undefined);
-  assert.equal(PASOS.at(-1).animo, 'Celebrar');
+  assert.equal(PASOS.at(-1).animo, 'Touchdown');
   for (const t of ['equipo', 'mercado', 'jugadores', 'noticias']) assert.ok(PASOS.some((p) => p.sel?.includes(t)), t);
 });

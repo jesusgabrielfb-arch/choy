@@ -334,6 +334,7 @@ def crear_esqueleto(puntos):
     boca = puntos["boca"]
     hueso("mandibula", boca, boca + Vector((0, -0.1, 0)), "cabeza")
     hueso("lentes", puntos["lentes"], puntos["lentes"] + Vector((0, -0.12, 0)), "cabeza")
+    hueso("balon", puntos["balon"], puntos["balon"] + puntos["balon.eje"] * 0.18, "mano.R")
     bpy.ops.object.mode_set(mode="OBJECT")
     return o
 
@@ -455,6 +456,7 @@ def construir():
         adelante = (n.normalized() + Vector((0, -1.6, 0))).normalized()
         centro = p - n * 0.055
         puntos[f"ojo.{lado}"] = centro
+        puntos[f"adelante.{lado}"] = adelante
         R = base_ortonormal(adelante)
         r = 0.125
         bm = bmesh.new()
@@ -681,28 +683,112 @@ def construir():
                       f"brazo.{lado}": suave(-0.05, 0.12, (co - h).dot(d)),
                       "cuerpo.3": 1 - suave(-0.05, 0.12, (co - h).dot(d))})
 
-    # Lentes oscuros (escondidos salvo en la animación "Cool")
-    ojo_l, ojo_r = puntos["ojo.L"], puntos["ojo.R"]
-    medio = (ojo_l + ojo_r) / 2 + Vector((0, -0.14, 0.0))
-    puntos["lentes"] = medio
+    # Lentes oscuros estilo wayfarer (escondidos salvo en "PonerLentes" y "Cool")
+    m_cristal = material("Cristal", (0.012, 0.016, 0.03), 0.38, metal=0.0)
+    centros = {}
+    for lado, s in (("L", 1), ("R", -1)):
+        A = puntos[f"adelante.{lado}"]
+        R = base_ortonormal(A) @ Matrix.Rotation(math.radians(-9 * s), 3, "Z")
+        Lc = puntos[f"ojo.{lado}"] + A * (0.125 + 0.05) + Vector((0, 0, 0.012))
+        centros[lado] = (Lc, R)
+        # contorno: rectángulo redondeado, un poco más ancho arriba (wayfarer)
+        contorno = []
+        for k in range(48):
+            t = 2 * math.pi * k / 48
+            cx, sz = math.cos(t), math.sin(t)
+            x = 0.118 * math.copysign(abs(cx) ** 0.5, cx)
+            z = 0.082 * math.copysign(abs(sz) ** 0.5, sz)
+            x *= 1 + 0.1 * (z / 0.082)
+            contorno.append(Vector((x, 0, z - 0.004)))
+        # cristal curvo (abombado hacia afuera), con varios anillos para que la luz no lo queme
+        bm = bmesh.new()
+        anillos = []
+        for f in (0.0, 0.35, 0.7, 1.0):
+            anillos.append([bm.verts.new(Lc + R @ (v * f + Vector((0, -0.028 * (1 - f * f), 0)))) for v in contorno])
+        for a, b in zip(anillos, anillos[1:]):
+            for k in range(48):
+                k2 = (k + 1) % 48
+                bm.faces.new((a[k], b[k], b[k2], a[k2]))
+        bmesh.ops.remove_doubles(bm, verts=anillos[0], dist=1e-5)
+        bmesh.ops.recalc_face_normals(bm, faces=bm.faces[:])
+        c.agregar(bm_a_malla(bm), m_cristal, "lentes")
+        bm.free()
+        # armazón
+        cu = bpy.data.curves.new("marco", "CURVE")
+        cu.dimensions = "3D"
+        cu.bevel_depth = 0.015
+        cu.bevel_resolution = 3
+        sp = cu.splines.new("POLY")
+        sp.points.add(47)
+        for k, v in enumerate(contorno):
+            sp.points[k].co = (*(Lc + R @ (v * 1.04)), 1)
+        sp.use_cyclic_u = True
+        o = objeto_temporal("marco", cu)
+        c.agregar(malla_evaluada(o), m_lentes, "lentes")
+        borrar(o)
+    # puente y patillas
+    (Ll, Rl), (Lr, Rr) = centros["L"], centros["R"]
+    puntos["lentes"] = (Ll + Lr) / 2
+    def tubo(pts, grosor=0.012):
+        cu = bpy.data.curves.new("tubo", "CURVE")
+        cu.dimensions = "3D"
+        cu.bevel_depth = grosor
+        cu.bevel_resolution = 3
+        cu.use_fill_caps = True
+        sp = cu.splines.new("NURBS")
+        sp.points.add(len(pts) - 1)
+        for k, v in enumerate(pts):
+            sp.points[k].co = (*v, 1)
+        sp.use_endpoint_u = True
+        sp.order_u = min(4, len(pts))
+        sp.resolution_u = 8
+        o = objeto_temporal("tubo", cu)
+        c.agregar(malla_evaluada(o), m_lentes, "lentes")
+        borrar(o)
+    pi = Ll + Rl @ Vector((-0.11, 0, 0.04))
+    pd = Lr + Rr @ Vector((0.11, 0, 0.04))
+    tubo([pi, (pi + pd) / 2 + Vector((0, -0.025, 0.012)), pd], 0.013)
+    for (Lc, R), s in ((centros["L"], 1), (centros["R"], -1)):
+        ini = Lc + R @ Vector((0.122 * s, 0, 0.045))
+        pts = [ini]
+        for k, avance in enumerate((0.08, 0.2, 0.34, 0.46)):
+            y = ini.y + avance
+            z = ini.z + 0.005 - 0.012 * k
+            hit = bvh.ray_cast(Vector((2.0 * s, y, z)), Vector((-s, 0, 0)))
+            if hit[0] is None:
+                break
+            pts.append(hit[0] + hit[1] * 0.022)
+        tubo(pts, 0.011)
+
+    # Balón de fútbol americano en la mano derecha (escondido salvo en sus animaciones)
+    m_cuero = material("Balon", (0.16, 0.05, 0.015), 0.62)
+    m_cordon = material("Balon_Cordon", (0.85, 0.85, 0.82), 0.5)
+    hombro, muneca = puntos["hombro.R"], puntos["muneca.R"]
+    mano = muneca + (muneca - hombro).normalized() * 0.05
+    centro_b = mano + Vector((-0.03, -0.14, 0.1))
+    eje_b = Vector((0.15, -0.55, 0.82)).normalized()
+    puntos["balon"] = centro_b
+    puntos["balon.eje"] = eje_b
+    Rb = eje_b.to_track_quat("Z", "Y").to_matrix()
     bm = bmesh.new()
-    for ojo in (ojo_l, ojo_r):
-        pos = Vector((ojo.x * 1.05, medio.y + abs(ojo.x) * 0.25, ojo.z))
-        elipsoide(bm, pos, (0.155, 0.03, 0.105),
-                  rot=Matrix.Rotation(math.radians(-14 if ojo.x > 0 else 14), 3, "Z"),
-                  seg=32, anillos=12)
-    bmesh.ops.create_cone(bm, cap_ends=True, segments=12, radius1=0.015, radius2=0.015,
-                          depth=0.12, matrix=Matrix.Translation(medio + Vector((0, 0.01, 0.03)))
-                          @ Matrix.Rotation(math.radians(90), 4, "Y"))
-    for ojo in (ojo_l, ojo_r):
-        s = 1 if ojo.x > 0 else -1
-        ini = Vector((ojo.x * 1.05 + 0.12 * s, medio.y + 0.06, ojo.z + 0.02))
-        fin = ini + Vector((0.08 * s, 0.32, 0.0))
-        dd = (fin - ini)
-        bmesh.ops.create_cone(bm, cap_ends=True, segments=8, radius1=0.012, radius2=0.012,
-                              depth=dd.length, matrix=Matrix.Translation((ini + fin) / 2)
-                              @ dd.normalized().to_track_quat("Z", "Y").to_matrix().to_4x4())
-    c.agregar(bm_a_malla(bm), m_lentes, "lentes")
+    bmesh.ops.create_uvsphere(bm, u_segments=28, v_segments=16, radius=1.0,
+                              matrix=Matrix.Translation(centro_b) @ Rb.to_4x4() @ Matrix.Diagonal((0.11, 0.11, 0.18, 1)))
+    # puntas más afiladas
+    for v in bm.verts:
+        loc = Rb.inverted() @ (v.co - centro_b)
+        f = 1 - 0.28 * (abs(loc.z) / 0.18) ** 2
+        loc.x *= f
+        loc.y *= f
+        v.co = centro_b + Rb @ loc
+    c.agregar(bm_a_malla(bm), m_cuero, "balon")
+    bm.free()
+    bm = bmesh.new()
+    sup = Rb @ Vector((0, 0.105, 0))
+    bmesh.ops.create_cube(bm, size=1, matrix=Matrix.Translation(centro_b + sup) @ Rb.to_4x4() @ Matrix.Diagonal((0.011, 0.011, 0.15, 1)))
+    for k in range(-3, 4):
+        bmesh.ops.create_cube(bm, size=1, matrix=Matrix.Translation(centro_b + sup * 1.01 + Rb @ Vector((0, 0, k * 0.02)))
+                              @ Rb.to_4x4() @ Matrix.Diagonal((0.042, 0.011, 0.008, 1)))
+    c.agregar(bm_a_malla(bm), m_cordon, "balon", liso=False)
     bm.free()
 
     mascota = c.terminar("Mascota")
@@ -838,16 +924,112 @@ def pose_sorpresa(f, N):
     return p
 
 
+def pose_poner_lentes(f, N):
+    """Cody saca los lentes de la frente, se los baja con la mano y queda en pose cool."""
+    p = {}
+    t = suave(0, 14, f)           # lentes bajando
+    mano = suave(2, 8, f) * (1 - suave(14, 22, f))
+    fin = suave(16, N, f)
+    p["lentes"] = {"loc": (0, 0.02 * (1 - t), 0.3 * (1 - t)), "rot": [(X, -0.5 * (1 - t))],
+                   "scale": (min(1, f / 2 + 0.01),) * 3}
+    p["brazo.R"] = {"rot": [(Y, 1.75 * mano + 0.25 * fin), (X, -0.55 * mano - 0.2 * fin)]}
+    p["mano.R"] = {"rot": [(X, -0.4 * mano)]}
+    p["brazo.L"] = {"rot": [(Y, -0.25 * fin), (X, -0.2 * fin)]}
+    p["cuerpo.3"] = {"rot": [(X, -0.08 * fin)]}
+    p["cabeza"] = {"rot": [(X, 0.06 * mano - 0.12 * fin), (Y, 0.1 * fin)]}
+    cara(p, parpado=0.2 * fin, ceja=(-0.15 * mano, 0.03 * mano), boca=-1.0 * fin, sonrisa=1.0 * fin, asim=0.8 * fin)
+    return p
+
+
 def pose_cool(f, N):
+    """Con lentes puestos: se inclina, cabecea al ritmo y apunta con el dedo (finger guns)."""
     p = {}
     nod = onda(f, N / 2)
-    p["cuerpo.3"] = {"rot": [(X, -0.08)]}
-    p["cabeza"] = {"rot": [(X, -0.12 + 0.06 * nod), (Y, 0.1)]}
+    apunta = max(0.0, onda(f, N, 0.1)) ** 2
+    p["raiz"] = {"loc": (0, 0, 0.012 * abs(nod))}
+    p["cuerpo.3"] = {"rot": [(X, -0.08), (Z, 0.04 * onda(f, N))]}
+    p["cabeza"] = {"rot": [(X, -0.12 + 0.05 * nod), (Y, 0.1)]}
     p["lentes"] = {"scale": (1, 1, 1)}
-    cara(p, parpado=0.2, boca=-1.0, sonrisa=1.0, asim=0.8)
+    cara(p, parpado=0.2, ceja=(-0.1 * apunta, 0.025 * apunta), boca=-1.0, sonrisa=1.0, asim=0.8 + 0.3 * apunta)
+    p["brazo.R"] = {"rot": [(Y, 0.25 + 0.5 * apunta), (X, -0.2 - 0.85 * apunta)]}
+    p["mano.R"] = {"rot": [(X, -0.3 * apunta)]}
+    p["brazo.L"] = {"rot": [(Y, -0.25), (X, -0.2)]}
     for lado, s in (("L", 1), ("R", -1)):
-        p[f"brazo.{lado}"] = {"rot": [(Y, -0.25 * s), (X, -0.2)]}
         p[f"antena.{lado}.1"] = {"rot": [(Y, 0.1 * s * nod)]}
+    return p
+
+
+EJE_BALON = (0.15 / 0.995, -0.55 / 0.995, 0.82 / 0.995)
+
+
+def pose_malabares(f, N):
+    """Tira el balón hacia arriba girando y lo atrapa."""
+    p = {}
+    t = f / N
+    h = 4 * t * (1 - t) * 0.6
+    p["balon"] = {"loc": (0.04 * t, -0.03, h), "rot": [(EJE_BALON, 2 * math.pi * 2 * t), (X, 0.6 * math.sin(math.pi * t))],
+                  "scale": (1, 1, 1)}
+    golpe = max(0.0, 1 - abs(t - 0.04) * 12) + max(0.0, 1 - abs(t - 0.96) * 12)
+    p["brazo.R"] = {"rot": [(Y, 0.55 + 0.25 * golpe), (X, -0.45 - 0.2 * golpe)]}
+    p["cabeza"] = {"rot": [(X, -0.28 * h / 0.6), (Y, -0.06)]}
+    p["raiz"] = {"loc": (0, 0, 0.02 * golpe), "scale": (1 + 0.02 * golpe, 1 + 0.02 * golpe, 1 - 0.03 * golpe)}
+    cara(p, parpado=-0.25 * h / 0.6, boca=0.3, sonrisa=0.9)
+    for lado, s in (("L", 1), ("R", -1)):
+        p[f"antena.{lado}.2"] = {"rot": [(X, -0.25 * h / 0.6)]}
+    return p
+
+
+def pose_lanzar(f, N):
+    """Pase de quarterback: carga el brazo, lanza el espiral y sigue el balón con la mirada."""
+    p = {}
+    carga = suave(0, 14, f) * (1 - suave(14, 18, f))
+    tiro = suave(14, 18, f) * (1 - suave(28, N, f))
+    p["raiz"] = {"rot": [(Z, 0.28 * carga - 0.2 * tiro)], "loc": (0, 0, 0.02 * tiro)}
+    p["cuerpo.3"] = {"rot": [(X, 0.12 * carga - 0.1 * tiro)]}
+    p["brazo.R"] = {"rot": [(Y, 1.7 * carga + 1.1 * tiro), (X, 0.7 * carga - 0.9 * tiro)]}
+    p["mano.R"] = {"rot": [(X, 0.5 * carga - 0.4 * tiro)]}
+    p["brazo.L"] = {"rot": [(Y, -0.5 * carga), (X, -0.6 * carga + 0.2 * tiro)]}
+    if f < 17:
+        p["balon"] = {"scale": (1, 1, 1)}
+    elif f < 27:
+        k = (f - 17) / 10
+        p["balon"] = {"loc": (0.1 * k, -2.6 * k, 0.9 * k - 0.3 * k * k), "rot": [(EJE_BALON, 6 * math.pi * k)],
+                      "scale": (1 - 0.5 * k,) * 3}
+    p["cabeza"] = {"rot": [(X, -0.1 * tiro), (Z, -0.15 * carga)]}
+    cara(p, parpado=0.25 * carga - 0.2 * tiro, ceja=(0.25 * carga, 0), boca=-0.6 * carga + 0.9 * tiro, sonrisa=1.2 * tiro, o=0.3 * carga)
+    return p
+
+
+def pose_touchdown(f, N):
+    """Touchdown: levanta el balón, salta, lo clava contra el piso y celebra."""
+    p = {}
+    sube = suave(0, 10, f)
+    if f < 10:
+        p["raiz"] = {"scale": (1 + 0.06 * sube, 1 + 0.06 * sube, 1 - 0.1 * sube)}
+    elif f < 28:
+        k = (f - 10) / 18
+        p["raiz"] = {"loc": (0, 0, math.sin(math.pi * k) * 0.42), "scale": (0.96, 0.96, 1.08)}
+    elif f < 32:
+        k = (f - 28) / 4
+        p["raiz"] = {"scale": (1 + 0.1 * math.sin(math.pi * k), 1 + 0.1 * math.sin(math.pi * k), 1 - 0.12 * math.sin(math.pi * k))}
+    else:
+        b = abs(onda(f - 32, 12))
+        p["raiz"] = {"loc": (0, 0, 0.06 * b)}
+    clava = suave(28, 32, f)
+    fiesta = suave(32, 38, f)
+    p["brazo.R"] = {"rot": [(Y, 2.0 * sube * (1 - clava) + 0.3 * clava * (1 - fiesta) + 1.6 * fiesta), (X, -0.3 * clava * (1 - fiesta) + 0.2 * fiesta)]}
+    p["brazo.L"] = {"rot": [(Y, -0.6 * sube * (1 - fiesta) - 1.6 * fiesta), (X, 0.2 * fiesta)]}
+    if f <= 30:
+        p["balon"] = {"scale": (1, 1, 1)}
+    elif f < 46:
+        k = (f - 30) / 16
+        rebote = abs(math.sin(math.pi * 2.2 * k)) * 0.35 * (1 - k)
+        p["balon"] = {"loc": (0.15 * k, -0.25 - 0.3 * k, -1.15 * min(1, k * 4) + rebote), "rot": [(X, 5 * k), (Z, 3 * k)],
+                      "scale": (1,) * 3 if k < 0.85 else ((1 - k) / 0.15 + 1e-3,) * 3}
+    cara(p, parpado=0.85 * fiesta, ceja=(-0.15 * sube, 0.03 * sube), boca=0.4 * sube + 1.0 * fiesta, sonrisa=0.6 * sube + 0.9 * fiesta)
+    for lado, s in (("L", 1), ("R", -1)):
+        p[f"antena.{lado}.1"] = {"rot": [(Y, 0.25 * s * math.sin(f * 0.6) * fiesta)]}
+        p[f"antena.{lado}.2"] = {"rot": [(Y, 0.4 * s * math.sin(f * 0.6 - 1) * fiesta)]}
     return p
 
 
@@ -926,14 +1108,18 @@ ANIMACIONES = [
     ("Triste", 48, pose_triste),
     ("Enojado", 24, pose_enojado),
     ("Sorpresa", 24, pose_sorpresa),
+    ("PonerLentes", 30, pose_poner_lentes),
     ("Cool", 48, pose_cool),
+    ("Malabares", 40, pose_malabares),
+    ("Lanzar", 40, pose_lanzar),
+    ("Touchdown", 56, pose_touchdown),
     ("Arrastrarse", 32, pose_arrastrarse),
     ("Celebrar", 36, pose_celebrar),
     ("Caminar", 24, pose_caminar),
     ("Saludar", 48, pose_saludar),
 ]
 
-CON_PARPADEO = {"Reposo", "Hablar", "Triste", "Enojado", "Cool", "Caminar", "Saludar",
+CON_PARPADEO = {"Reposo", "Hablar", "Triste", "Enojado", "Caminar", "Saludar",
                 "Arrastrarse"}
 
 
@@ -975,7 +1161,7 @@ def aplicar_pose(arm, p):
         pb.location = a_local(pb, datos.get("loc", (0, 0, 0)))
         pb.rotation_quaternion = rot_local(pb, datos.get("rot", []))
         esc = datos.get("scale", (1, 1, 1))
-        if pb.name == "lentes" and "scale" not in datos:
+        if pb.name in ("lentes", "balon") and "scale" not in datos:
             esc = (1e-4, 1e-4, 1e-4)
         pb.scale = escala_local(pb, esc)
 

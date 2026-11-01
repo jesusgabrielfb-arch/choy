@@ -160,7 +160,7 @@ function tarjetaAvisos(el, ctx, datos) {
         } else {
           const p2 = preferencias();
           await activar({ ...datos, equipo: p2.equipo, noticias: p2.noticias });
-          codyDice(document, ctx, '¡Hecho! 🔔 Te aviso si pasa algo con tu equipo o hay noticias de tus jugadores.', { animo: 'Celebrar' });
+          codyDice(document, ctx, '¡Hecho! 🔔 Te aviso si pasa algo con tu equipo o hay noticias de tus jugadores.', { animo: 'Touchdown' });
         }
       } catch (e) {
         codyDice(document, ctx, e.message === 'permiso'

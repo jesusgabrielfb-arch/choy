@@ -55,7 +55,7 @@ const EQUIPOS = {
 };
 const NOMBRES = { Reposo: 'Reposo', Hablar: 'Hablar', Feliz: 'Feliz', Triste: 'Triste',
   Enojado: 'Enojado', Sorpresa: 'Sorpresa', Cool: 'Cool 😎', Arrastrarse: 'Arrastrarse',
-  Celebrar: 'Celebrar', Caminar: 'Caminar', Saludar: 'Saludar 👋' };
+  Celebrar: 'Celebrar', Caminar: 'Caminar', Saludar: 'Saludar 👋', PonerLentes: 'Ponerse lentes', Malabares: 'Malabares 🏈', Lanzar: 'Lanzar pase 🏈', Touchdown: 'Touchdown 🏈' };
 
 const cont = document.getElementById('escena');
 const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
@@ -112,7 +112,7 @@ new GLTFLoader().load('mascota.glb', (gltf) => {
     const clip = gltf.animations.find((c) => c.name === nombre);
     if (!clip) continue;
     const accion = mezclador.clipAction(clip);
-    if (nombre === 'Sorpresa' || nombre === 'Saludar') {
+    if (['Sorpresa', 'Saludar', 'PonerLentes', 'Lanzar', 'Touchdown'].includes(nombre)) {
       accion.setLoop(THREE.LoopOnce);
       accion.clampWhenFinished = true;
     }
