@@ -22,7 +22,7 @@ export function planSemana(ctx) {
   const semanaWaivers = ctx.semanaWaivers || semana;
   const hora = ctx.hora || (() => null);
   const inicio = ctx.inicio || (() => null);
-  const conHora = (id) => (hora(id) && !bloqueado(id) ? ` ⏰ ${nombreCorto(J, id)} juega ${hora(id)}.` : '');
+  const conHora = (id) => (hora(id) && !bloqueado(id) ? ` ⏰ ${nombreCorto(J, id)} juega ${hora(id)}${/\.$/.test(hora(id)) ? '' : '.'}` : '');
   const acciones = [];
   const nombre = (id) => J[id]?.nombre || '—';
   const motivoSalida = (id, w = semana) => {
@@ -173,7 +173,7 @@ export function planSemana(ctx) {
     acciones.push({
       tipo: 'hora', urgente: primero - ahora < 24 * 3600_000, ganancia: 0, sale: temprano[0].id,
       titulo: `Ojo con los horarios ⏰`,
-      detalle: `${temprano.slice(0, 3).map((t) => `${nombre(t.id)} juega ${hora(t.id)}`).join('; ')}. ` +
+      detalle: `${temprano.slice(0, 3).map((t) => `${nombre(t.id)} juega ${hora(t.id)}`).join('; ')}${/\.$/.test(hora(temprano[Math.min(2, temprano.length - 1)].id)) ? ' ' : '. '}` +
         'Si lo vas a sacar o meter de tu alineación, hazlo antes de esa hora: después se bloquea.',
     });
   }
