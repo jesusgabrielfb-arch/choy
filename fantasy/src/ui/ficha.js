@@ -67,7 +67,7 @@ export async function abrirFicha({ id, jugador, d = null, temporada, semanaActua
     calendario[w] = ps.find((p) => p.local === j.equipo || p.visita === j.equipo) || null;
   }));
 
-  // Puntos y proyección de cada semana jugada (las semanas sin partido quedan como hueco: bye)
+  // Puntos y proyección de cada semana jugada
   const ultimaJugada = Math.max(0, ...jugadas.map((w) => w.semana));
   const info = {};
   for (const w of jugadas) {
@@ -75,22 +75,39 @@ export async function abrirFicha({ id, jugador, d = null, temporada, semanaActua
     const proy = w.proy && Object.keys(w.proy).length ? puntos(w.proy, reglas) : null;
     info[w.semana] = { w, hechos, proy, como: comoLeFue(hechos, proy) };
   }
+  // Semanas sin partido suyo: si su equipo sí jugó, se lo perdió (lesión); si no, era su bye.
+  const hasta = Math.max(ultimaJugada, Math.min(18, semanaActual - 1));
+  // Su equipo en esa semana (por si lo cambiaron a mitad de temporada): el del partido jugado más cercano
+  const equipoEn = (k) => {
+    const cerca = semanas.filter((w) => w.equipo).sort((a, b) => Math.abs(a.semana - k) - Math.abs(b.semana - k) || b.semana - a.semana)[0];
+    return cerca?.equipo || j.equipo;
+  };
+  const huecos = Array.from({ length: hasta }, (_, i) => i + 1).filter((k) => !info[k] || info[k].hechos == null);
+  await Promise.all(huecos.map(async (k) => {
+    const ps = await partidosSemana(temporada, k).catch(() => []);
+    if (!ps.length) return; // sin calendario no sabemos: se queda como estaba
+    const eq = equipoEn(k);
+    const p = ps.find((x) => x.local === eq || x.visita === eq);
+    if (!p) { delete info[k]; return; } // bye de verdad
+    const rival = p.local === eq ? p.visita : p.local;
+    info[k] = { ...(info[k] || {}), w: { semana: k, rival, fecha: p.fecha?.slice(0, 10), ...(info[k]?.w || {}) }, hechos: null, proy: info[k]?.proy ?? null, lesion: true };
+  }));
   const fechaCorta = (f) => (f ? new Date(`${f}T12:00:00`).toLocaleDateString('es', { day: 'numeric', month: 'short' }) : '');
   const textoSemana = (k) => {
     const x = info[k];
     if (!x) return `Semana ${k}: 😴 descanso (bye)`;
-    if (x.hechos == null) return `Semana ${k}${x.w.rival ? ` vs ${x.w.rival}` : ''}: no jugó`;
+    if (x.hechos == null) return `Semana ${k}${x.w.rival ? ` vs ${x.w.rival}` : ''}: 🩹 no jugó${x.lesion ? ' por lesión' : ''}`;
     return `Semana ${k}${x.w.rival ? ` vs ${x.w.rival}` : ''}: ${pts(x.hechos)} pts${x.proy != null ? ` (proyectaban ${pts(x.proy)}) ${x.como.icono} ${x.como.texto}` : ''}`;
   };
 
   // Gráfica: una barra por semana, con una rayita en lo que le proyectaban
   const tope = Math.max(1, ...Object.values(info).flatMap((x) => [x.hechos || 0, x.proy || 0]));
-  const barras = Array.from({ length: ultimaJugada }, (_, i) => i + 1).map((k) => {
+  const barras = Array.from({ length: hasta }, (_, i) => i + 1).map((k) => {
     const x = info[k];
     const alto = x?.hechos != null ? Math.max(3, (100 * x.hechos) / tope) : 0;
     const raya = x?.proy != null ? (100 * x.proy) / tope : null;
     return `<button class="barra-sem" data-sem="${k}" aria-label="${esc(textoSemana(k))}">
-      <span class="barra-zona">${x?.hechos != null ? `<span class="barra ${x.como.clase}" style="height:${alto}%"></span>` : `<span class="barra-vacia">${x ? 'DNP' : 'BYE'}</span>`}
+      <span class="barra-zona">${x?.hechos != null ? `<span class="barra ${x.como.clase}" style="height:${alto}%"></span>` : `<span class="barra-vacia${x ? ' les' : ''}">${x ? '🩹' : 'BYE'}</span>`}
         ${raya != null ? `<span class="raya-proy" style="bottom:${raya}%"></span>` : ''}</span>
       <small>${k}</small></button>`;
   }).join('');
@@ -107,7 +124,7 @@ export async function abrirFicha({ id, jugador, d = null, temporada, semanaActua
     if (!x) return `<div class="partido-reg corto" data-sem="${k}"><span class="sem">S${k}</span><span class="nota">😴 Descanso (bye)</span></div>`;
     const er = EQUIPOS[x.w.rival];
     const cab = `<span class="sem">S${k}</span><div class="partido-rival"><b>${x.w.rival ? `vs <span class="rival-eq" style="--c1:${er?.camiseta || '#333'};--c2:${er?.ribete || '#777'}">${esc(x.w.rival)}</span>` : '–'}</b><small>${esc(fechaCorta(x.w.fecha))}</small></div>`;
-    if (x.hechos == null) return `<div class="partido-reg corto" data-sem="${k}">${cab}<span class="nota">No jugó</span></div>`;
+    if (x.hechos == null) return `<div class="partido-reg corto lesion" data-sem="${k}">${cab}<span class="etiqueta rojo">🩹 ${x.lesion ? 'Fuera por lesión' : 'No jugó'}</span></div>`;
     return `<article class="partido-reg res-${x.como.clase.replace('pv-', '')}" data-sem="${k}">
       <header>${cab}
         <div class="partido-pts"><span class="pv ${x.como.clase}"><i>${x.como.icono}</i>${pts(x.hechos)}</span><small>${x.proy != null ? `de ${pts(x.proy)} proy.` : 'pts'}</small></div>
@@ -133,11 +150,11 @@ export async function abrirFicha({ id, jugador, d = null, temporada, semanaActua
       <section class="tarjeta grafica-sem">
         <header><h2>📈 Puntos por semana</h2><small>Toca una barra · la rayita es lo que le proyectaban</small></header>
         <div class="barras-sem" role="group" aria-label="Puntos por semana">${barras}</div>
-        <p class="tip-sem" id="tip-sem">${esc(textoSemana(ultimaJugada))}</p>
+        <p class="tip-sem" id="tip-sem">${esc(textoSemana(hasta))}</p>
         ${LEYENDA_PV}
       </section>
       <h3 class="seccion-titulo">🎮 Partido por partido</h3>
-      <div class="partidos-reg">${Array.from({ length: ultimaJugada }, (_, i) => ultimaJugada - i).map(tarjetaPartido).join('')}</div>
+      <div class="partidos-reg">${Array.from({ length: hasta }, (_, i) => hasta - i).map(tarjetaPartido).join('')}</div>
       <details class="tarjeta totales-reg"><summary><div><h2>🧮 Totales de la temporada</h2><small class="nota">${r.partidos} partidos · ${pts(r.total)} pts</small></div></summary>${cajas(totales, false)}</details>
       <p class="nota" style="margin:8px 4px">${reglas === REGLAS_PPR ? 'Puntos en formato PPR' : 'Puntos con las reglas de tu liga'}</p>`
       : '<div class="vacio">Todavía no ha jugado esta temporada.</div>'}
@@ -162,7 +179,7 @@ export async function abrirFicha({ id, jugador, d = null, temporada, semanaActua
     const t = $(`.partido-reg[data-sem="${b.dataset.sem}"]`, capa);
     $$('.partido-reg', capa).forEach((x) => x.classList.toggle('resaltado', x === t));
   }));
-  $(`.barra-sem[data-sem="${ultimaJugada}"]`, capa)?.classList.add('activa');
+  $(`.barra-sem[data-sem="${hasta}"]`, capa)?.classList.add('activa');
   $$('#ficha-tabs button', capa).forEach((b) => (b.onclick = () => {
     $$('#ficha-tabs button', capa).forEach((x) => x.classList.toggle('activo', x === b));
     $('#ficha-tab-registro', capa).hidden = b.dataset.t !== 'registro';
