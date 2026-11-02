@@ -9,10 +9,10 @@ export const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) =>
 export const $ = (sel, raiz = document) => raiz.querySelector(sel);
 export const $$ = (sel, raiz = document) => [...raiz.querySelectorAll(sel)];
 
-export function etiquetaLesion(j) {
+export function etiquetaLesion(j, { corta = false } = {}) {
   const e = ESTADOS[j?.lesion];
   if (!e) return '';
-  const parte = parteEnEspanol(j.parte);
+  const parte = corta ? '' : parteEnEspanol(j.parte);
   return `<span class="etiqueta ${e.color}" title="${esc(j.nota || '')}">${esc(e.texto)}${parte ? ' · ' + esc(parte) : ''}</span>`;
 }
 

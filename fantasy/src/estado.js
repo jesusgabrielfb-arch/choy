@@ -279,9 +279,11 @@ export function armarConsejos(d) {
 }
 
 /** "dom 1:00 p. m." en la hora del teléfono. */
-export function fmtHora(ms) {
+export function fmtHora(ms, { corto = false } = {}) {
   const d = new Date(ms);
   const dia = d.toLocaleDateString('es', { weekday: 'short' }).replace('.', '');
-  const h = d.toLocaleTimeString('es', { hour: 'numeric', minute: '2-digit' });
+  const h = d.toLocaleTimeString('es', { hour: 'numeric', minute: '2-digit', hour12: true });
+  // corto: "dom 1pm" / "lun 8:15pm" para espacios chicos
+  if (corto) return `${dia} ${h.replace(':00', '').replace(/\s*([ap])\.?\s*m\.?/i, '$1m').replace(/\s+/g, '')}`;
   return `${dia} ${h}`;
 }

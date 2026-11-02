@@ -20,7 +20,8 @@ export function equipoEsperado({ titulares, puntosHechos = {}, proy, progreso })
   for (const id of titulares) {
     if (!id || id === '0') continue;
     const h = puntosHechos[id] ?? 0;
-    const p = progreso(id);
+    // Si ya tiene puntos pero no sabemos cómo va su partido, se asume a medias
+    const p = h && !progreso(id) ? 0.5 : progreso(id);
     const falta = Math.max(0, (proy(id) ?? 0) * (1 - p));
     hechos += h;
     esperado += h + falta;

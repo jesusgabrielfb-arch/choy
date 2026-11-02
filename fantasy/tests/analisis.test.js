@@ -368,3 +368,11 @@ test('registro de juego: columnas por posición y resumen de temporada', () => {
   assert.equal(r.partidos, 1);
   assert.equal(Math.round(r.total * 10) / 10, 16.5); // 5.5 carrera + 6 TD + 3 rec + 2 yardas
 });
+
+test('equipoEsperado: puntos sin marcador cuentan como partido a medias', async () => {
+  const { equipoEsperado } = await import('../src/analisis/probabilidad.js');
+  const r = equipoEsperado({ titulares: ['a', 'b'], puntosHechos: { a: 10 }, proy: () => 20, progreso: () => 0 });
+  // a: 10 hechos + 20*0.5 que le faltan; b: no ha jugado, cuenta su proyección completa
+  assert.equal(r.hechos, 10);
+  assert.equal(r.esperado, 10 + 10 + 20);
+});

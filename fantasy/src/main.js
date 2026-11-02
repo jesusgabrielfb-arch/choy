@@ -12,42 +12,47 @@ const app = document.getElementById('app');
 aplicarTema(sesion.equipo);
 
 // Un solo Cody en 3D que se muda a la pantalla donde se necesite.
+// Mientras carga el 3D se ve una foto idéntica de Cody (public/cody.webp), así nunca sale vacío.
 const ctx = {
   mascota: null,
   _cargando: null,
   _lienzo: null,
-  async ponerMascota(contenedor) {
-    if (!contenedor) return null;
+  cargarMascota() {
     if (!ctx._lienzo) {
       ctx._lienzo = document.createElement('div');
       ctx._lienzo.style.cssText = 'width:100%;height:100%';
     }
-    contenedor.appendChild(ctx._lienzo);
-    try {
-      ctx._cargando ??= crearMascota(ctx._lienzo).then((m) => {
-        ctx.mascota = m;
-        // Si lo tocas, Cody te dice algo… y si lo tocas mucho seguido, se enoja y suelta palabrotas
-        let toques = 0;
-        let ultimo = 0;
-        ctx._lienzo.addEventListener('click', async () => {
-          const ahora = Date.now();
-          toques = ahora - ultimo < 6000 ? toques + 1 : 1;
-          ultimo = ahora;
-          if (toques > 10) toques = 1;
-          const [F, { codyDice }] = await Promise.all([import('./ui/frases.js'), import('./ui/comun.js')]);
-          const [frase, animo] = F.alTocarSeguido(toques);
-          codyDice(document, ctx, frase, { animo });
-        });
-        const e = EQUIPOS[sesion.equipo];
-        if (e) m.vestir(e);
-        return m;
+    ctx._cargando ??= crearMascota(ctx._lienzo).then((m) => {
+      ctx.mascota = m;
+      // Si lo tocas, Cody te dice algo… y si lo tocas mucho seguido, se enoja y suelta palabrotas
+      let toques = 0;
+      let ultimo = 0;
+      ctx._lienzo.addEventListener('click', async () => {
+        const ahora = Date.now();
+        toques = ahora - ultimo < 6000 ? toques + 1 : 1;
+        ultimo = ahora;
+        if (toques > 10) toques = 1;
+        const [F, { codyDice }] = await Promise.all([import('./ui/frases.js'), import('./ui/comun.js')]);
+        const [frase, animo] = F.alTocarSeguido(toques);
+        codyDice(document, ctx, frase, { animo });
       });
-      return await ctx._cargando;
-    } catch (e) {
-      console.warn('Sin 3D:', e);
-      ctx._lienzo.innerHTML = '<div style="font-size:64px;display:grid;place-items:center;height:100%">🐛</div>';
+      const e = EQUIPOS[sesion.equipo];
+      if (e) m.vestir(e);
+      // Quita la foto cuando el 3D ya dibujó su primer cuadro (sin parpadeo)
+      requestAnimationFrame(() => requestAnimationFrame(() => ctx._lienzo.parentElement?.classList.add('con-3d')));
+      return m;
+    }).catch((e) => {
+      console.warn('Sin 3D, se queda la foto de Cody:', e);
       return null;
-    }
+    });
+    return ctx._cargando;
+  },
+  async ponerMascota(contenedor) {
+    if (!contenedor) return null;
+    ctx.cargarMascota();
+    contenedor.appendChild(ctx._lienzo);
+    if (ctx.mascota) contenedor.classList.add('con-3d');
+    return ctx._cargando;
   },
   ir,
 };
@@ -95,6 +100,8 @@ document.addEventListener('click', async (e) => {
   abrirFicha({ id: fila.dataset.id, jugador, d, temporada: d?.temporada || ctx.nfl?.temporada, semanaActual: d?.semanaActual || ctx.nfl?.semana, ctx });
 });
 
+// Cody empieza a cargar desde el primer instante, en paralelo con todo lo demás
+ctx.cargarMascota();
 registrarServiceWorker();
 addEventListener('hashchange', ir);
 ir();

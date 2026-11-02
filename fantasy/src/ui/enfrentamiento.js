@@ -1,5 +1,6 @@
 // Casilla del enfrentamiento (como la de Sleeper): tus titulares contra los del rival, puesto por puesto.
 import { esc, pts, etiquetaLesion } from './comun.js';
+import { fmtHora } from '../estado.js';
 import { puestosTitulares, NOMBRE_PUESTO } from '../analisis/alineacion.js';
 
 export function enfrentamientoHtml(dd, d) {
@@ -12,15 +13,24 @@ export function enfrentamientoHtml(dd, d) {
     const p = d.proyDuelo ? d.proyDuelo(id) : proy(id);
     const bye = d.byesPor[d.semana]?.has(j.equipo);
     const avance = d.progresoDe ? d.progresoDe(id) : 1;
-    // Si su partido no empezó, no tiene 0 puntos: todavía no juega
-    const hechos = avance > 0 || bye ? lado.puntosJugador[id] : null;
-    const cuando = !hechos && avance === 0 && !bye && d.hora ? d.hora(id) : null;
+    // Si su partido no empezó, no tiene 0 puntos: todavía no juega.
+    // Si ya empezó (o la semana ya pasó) y Sleeper no le anotó nada, hizo 0.
+    // Y si Sleeper ya le anotó puntos, se muestran aunque el marcador de ESPN no haya llegado.
+    const anotados = lado.puntosJugador[id];
+    const hechos = avance > 0 || bye ? (anotados ?? 0) : anotados ? anotados : null;
+    const cuando = hechos == null && !bye && d.inicio?.(id) ? fmtHora(d.inicio(id), { corto: true }) : null;
     const enVivo = avance > 0 && avance < 1;
     const nombre = j.nombre.split(' ');
     const corto = nombre.length > 1 ? `${nombre[0][0]}. ${nombre.slice(1).join(' ')}` : j.nombre;
     return `<div class="ef-j ${derecha ? 'der' : ''}" data-id="${esc(id)}">
       <div class="ef-nom">${esc(corto)}</div>
-      <div class="ef-sub">${esc(j.pos)} · ${esc(j.equipo || '')}${bye ? ' · <b class="baja">BYE</b>' : ''}${enVivo ? ' · <b class="sube">🔴 juega</b>' : ''}${cuando ? ` · ⏰ ${esc(cuando)}` : ''} ${etiquetaLesion(j)}</div>
+      <div class="ef-sub">${[
+        `<span>${esc(j.pos)}</span>`,
+        bye && '<b class="baja">BYE</b>',
+        enVivo && '<b class="sube">🔴 juega</b>',
+        cuando && `<span>⏰ ${esc(cuando)}</span>`,
+        etiquetaLesion(j, { corta: true }),
+      ].filter(Boolean).join(' ')}</div>
       <div class="ef-pts"><b>${hechos != null ? pts(hechos) : '–'}</b><small>${p != null ? pts(p) : ''}</small></div>
     </div>`;
   };

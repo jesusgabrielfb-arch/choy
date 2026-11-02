@@ -7,7 +7,7 @@ import { fmtHora } from '../estado.js';
 const POS = [['QB', '🎯 Quarterbacks'], ['RB', '🏃 Corredores'], ['WR', '🙌 Receptores'], ['TE', '💪 Alas cerradas'], ['K', '🦶 Pateador'], ['DEF', '🛡️ Defensa']];
 
 const dia = (ms) => new Date(ms).toLocaleDateString('es', { weekday: 'long', day: 'numeric', month: 'short' });
-const horaSola = (ms) => new Date(ms).toLocaleTimeString('es', { hour: 'numeric', minute: '2-digit' });
+const horaSola = (ms) => new Date(ms).toLocaleTimeString('es', { hour: 'numeric', minute: '2-digit', hour12: true });
 
 function bolita(abr) {
   const e = EQUIPOS[abr];

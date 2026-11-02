@@ -12,7 +12,7 @@ self.addEventListener('activate', (e) => e.waitUntil((async () => {
 self.addEventListener('fetch', (e) => {
   const url = new URL(e.request.url);
   if (e.request.method !== 'GET' || url.origin !== self.location.origin) return;
-  const fijo = url.pathname.startsWith('/assets/') || url.pathname === '/mascota.glb' || /^\/icono-.*\.png$/.test(url.pathname);
+  const fijo = url.pathname.startsWith('/assets/') || url.pathname === '/mascota.glb' || url.pathname === '/cody.webp' || /^\/icono-.*\.png$/.test(url.pathname);
   if (fijo) {
     e.respondWith((async () => {
       const c = await caches.open(CACHE);
