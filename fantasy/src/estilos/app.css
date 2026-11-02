@@ -497,3 +497,21 @@ details.juego > summary::-webkit-details-marker { display: none; }
 .reg-caja b { font-size: 17px; font-variant-numeric: tabular-nums; }
 .reg-caja small { font-size: 10.5px; color: var(--suave); font-weight: 650; }
 .totales-reg { margin-top: 12px; }
+
+/* Colores del registro: cada sección el suyo, lo destacado en dorado y la tarjeta con la franja de cómo le fue */
+.sec-naranja { --sec: #ff9f43; } .sec-azul { --sec: #4cb8ff; } .sec-morado { --sec: #b18cff; }
+.sec-turquesa { --sec: #2ed3c0; } .sec-amarillo { --sec: #ffd54a; } .sec-rojo { --sec: #ff6b7a; } .sec-gris { --sec: var(--suave); }
+.reg-seccion .reg-titulo { color: var(--sec); }
+.reg-seccion .reg-caja { background: color-mix(in srgb, var(--sec) 13%, var(--tarjeta-2)); box-shadow: inset 0 2px 0 color-mix(in srgb, var(--sec) 55%, transparent); }
+.reg-seccion .reg-caja small { color: color-mix(in srgb, var(--sec) 45%, var(--suave)); }
+.reg-caja.destaca { background: linear-gradient(160deg, rgb(255 205 70 / 0.28), color-mix(in srgb, var(--sec) 14%, var(--tarjeta-2))); box-shadow: inset 0 0 0 1.5px rgb(255 205 70 / 0.75); }
+.reg-caja.destaca b { color: #ffd54a; }
+.reg-caja.destaca small { color: #ffe39a; }
+.reg-caja { position: relative; }
+.reg-caja .estrella { position: absolute; top: -6px; right: -4px; font-style: normal; font-size: 13px; filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.6)); }
+.partido-reg { position: relative; overflow: hidden; }
+.partido-reg::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--pvc, transparent); }
+.partido-reg.res-fuego { --pvc: #3ee08f; } .partido-reg.res-bien { --pvc: var(--verde); } .partido-reg.res-cerca { --pvc: var(--amarillo); } .partido-reg.res-bajo { --pvc: var(--rojo); }
+.partido-reg.res-fuego, .partido-reg.res-bien, .partido-reg.res-cerca, .partido-reg.res-bajo { background: linear-gradient(120deg, color-mix(in srgb, var(--pvc) 9%, var(--tarjeta)), var(--tarjeta) 45%); }
+.partido-reg[class*='res-'] .sem { background: color-mix(in srgb, var(--pvc, var(--suave)) 20%, var(--tarjeta-2)); color: var(--pvc, var(--suave)); }
+.rival-eq { display: inline-block; padding: 1px 8px; border-radius: 8px; background: var(--c1); box-shadow: inset 0 0 0 2px var(--c2); color: #fff; font-size: 13.5px; text-shadow: 0 1px 2px rgb(0 0 0 / 0.5); }

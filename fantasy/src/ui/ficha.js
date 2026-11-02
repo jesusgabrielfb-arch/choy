@@ -95,16 +95,20 @@ export async function abrirFicha({ id, jugador, d = null, temporada, semanaActua
       <small>${k}</small></button>`;
   }).join('');
 
-  const cajas = (st) => secs.filter((sec) => !sec.solo || sec.solo(st)).map((sec) => `
-    <div class="reg-seccion"><div class="reg-titulo">${sec.icono} ${esc(sec.titulo)}</div>
-      <div class="reg-cajas">${sec.stats.map(([t, f]) => `<div class="reg-caja"><b>${esc(String(f(st)))}</b><small>${esc(t)}</small></div>`).join('')}</div></div>`).join('');
+  const cajas = (st, conBrillo = true) => secs.filter((sec) => !sec.solo || sec.solo(st)).map((sec) => `
+    <div class="reg-seccion sec-${sec.color || 'gris'}"><div class="reg-titulo">${sec.icono} ${esc(sec.titulo)}</div>
+      <div class="reg-cajas">${sec.stats.map(([t, f, destaca]) => {
+        const brilla = conBrillo && destaca?.(st);
+        return `<div class="reg-caja${brilla ? ' destaca' : ''}"><b>${esc(String(f(st)))}</b><small>${esc(t)}</small>${brilla ? '<i class="estrella" aria-label="destacado">⭐</i>' : ''}</div>`;
+      }).join('')}</div></div>`).join('');
 
   const tarjetaPartido = (k) => {
     const x = info[k];
     if (!x) return `<div class="partido-reg corto" data-sem="${k}"><span class="sem">S${k}</span><span class="nota">😴 Descanso (bye)</span></div>`;
-    const cab = `<span class="sem">S${k}</span><div class="partido-rival"><b>${x.w.rival ? `vs ${esc(x.w.rival)}` : '–'}</b><small>${esc(fechaCorta(x.w.fecha))}</small></div>`;
+    const er = EQUIPOS[x.w.rival];
+    const cab = `<span class="sem">S${k}</span><div class="partido-rival"><b>${x.w.rival ? `vs <span class="rival-eq" style="--c1:${er?.camiseta || '#333'};--c2:${er?.ribete || '#777'}">${esc(x.w.rival)}</span>` : '–'}</b><small>${esc(fechaCorta(x.w.fecha))}</small></div>`;
     if (x.hechos == null) return `<div class="partido-reg corto" data-sem="${k}">${cab}<span class="nota">No jugó</span></div>`;
-    return `<article class="partido-reg" data-sem="${k}">
+    return `<article class="partido-reg res-${x.como.clase.replace('pv-', '')}" data-sem="${k}">
       <header>${cab}
         <div class="partido-pts"><span class="pv ${x.como.clase}"><i>${x.como.icono}</i>${pts(x.hechos)}</span><small>${x.proy != null ? `de ${pts(x.proy)} proy.` : 'pts'}</small></div>
       </header>
@@ -134,7 +138,7 @@ export async function abrirFicha({ id, jugador, d = null, temporada, semanaActua
       </section>
       <h3 class="seccion-titulo">🎮 Partido por partido</h3>
       <div class="partidos-reg">${Array.from({ length: ultimaJugada }, (_, i) => ultimaJugada - i).map(tarjetaPartido).join('')}</div>
-      <details class="tarjeta totales-reg"><summary><div><h2>🧮 Totales de la temporada</h2><small class="nota">${r.partidos} partidos · ${pts(r.total)} pts</small></div></summary>${cajas(totales)}</details>
+      <details class="tarjeta totales-reg"><summary><div><h2>🧮 Totales de la temporada</h2><small class="nota">${r.partidos} partidos · ${pts(r.total)} pts</small></div></summary>${cajas(totales, false)}</details>
       <p class="nota" style="margin:8px 4px">${reglas === REGLAS_PPR ? 'Puntos en formato PPR' : 'Puntos con las reglas de tu liga'}</p>`
       : '<div class="vacio">Todavía no ha jugado esta temporada.</div>'}
     </div>

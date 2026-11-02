@@ -20,14 +20,14 @@ const n = (x) => x || 0;
 const r1 = (x) => (x == null ? '–' : x.toFixed(1));
 const snaps = (s) => (s.tm_off_snp ? `${Math.round((100 * n(s.off_snp)) / s.tm_off_snp)}%` : s.off_snp ?? '–');
 
-// Cada sección: { icono, titulo, stats: [[nombre, valor(s)]], solo?(s) → si se muestra }
-const PASE = { icono: '🎯', titulo: 'Pase', stats: [['Completos', (s) => `${n(s.pass_cmp)}/${n(s.pass_att)}`], ['Yardas', (s) => n(s.pass_yd)],
-  ['TD', (s) => n(s.pass_td)], ['Intercep.', (s) => n(s.pass_int)]] };
-const CARRERA = { icono: '🏃', titulo: 'Carrera', stats: [['Acarreos', (s) => n(s.rush_att)], ['Yardas', (s) => n(s.rush_yd)],
-  ['Yds/acarreo', (s) => r1(div(n(s.rush_yd), s.rush_att))], ['TD', (s) => n(s.rush_td)]] };
-const RECEPCION = { icono: '🙌', titulo: 'Recepción', stats: [['Objetivos', (s) => n(s.rec_tgt)], ['Atrapadas', (s) => n(s.rec)],
-  ['Yardas', (s) => n(s.rec_yd)], ['TD', (s) => n(s.rec_td)]] };
-const USO = { icono: '⏱️', titulo: 'Uso', stats: [['En el campo', snaps], ['Jugadas', (s) => s.off_snp ?? '–']], solo: (s) => s.off_snp != null };
+// Cada sección: { icono, titulo, color, stats: [[nombre, valor(s), destaca?(s)]], solo?(s) → si se muestra }
+const PASE = { icono: '🎯', titulo: 'Pase', color: 'morado', stats: [['Completos', (s) => `${n(s.pass_cmp)}/${n(s.pass_att)}`], ['Yardas', (s) => n(s.pass_yd), (s) => n(s.pass_yd) >= 300],
+  ['TD', (s) => n(s.pass_td), (s) => n(s.pass_td) >= 2], ['Intercep.', (s) => n(s.pass_int)]] };
+const CARRERA = { icono: '🏃', titulo: 'Carrera', color: 'naranja', stats: [['Acarreos', (s) => n(s.rush_att), (s) => n(s.rush_att) >= 20], ['Yardas', (s) => n(s.rush_yd), (s) => n(s.rush_yd) >= 100],
+  ['Yds/acarreo', (s) => r1(div(n(s.rush_yd), s.rush_att)), (s) => n(s.rush_att) >= 5 && n(s.rush_yd) / s.rush_att >= 5], ['TD', (s) => n(s.rush_td), (s) => n(s.rush_td) > 0]] };
+const RECEPCION = { icono: '🙌', titulo: 'Recepción', color: 'azul', stats: [['Objetivos', (s) => n(s.rec_tgt), (s) => n(s.rec_tgt) >= 10], ['Atrapadas', (s) => n(s.rec), (s) => n(s.rec) >= 8],
+  ['Yardas', (s) => n(s.rec_yd), (s) => n(s.rec_yd) >= 100], ['TD', (s) => n(s.rec_td), (s) => n(s.rec_td) > 0]] };
+const USO = { icono: '⏱️', titulo: 'Uso', color: 'turquesa', stats: [['En el campo', snaps, (s) => s.tm_off_snp && s.off_snp / s.tm_off_snp >= 0.8], ['Jugadas', (s) => s.off_snp ?? '–']], solo: (s) => s.off_snp != null };
 const conCarreras = { ...CARRERA, solo: (s) => n(s.rush_att) > 0 };
 const conRecepciones = { ...RECEPCION, solo: (s) => n(s.rec_tgt) > 0 };
 
@@ -37,10 +37,10 @@ export function secciones(pos) {
     case 'QB': return [PASE, conCarreras, USO];
     case 'RB': return [CARRERA, conRecepciones, USO];
     case 'WR': case 'TE': return [RECEPCION, conCarreras, USO];
-    case 'K': return [{ icono: '🦶', titulo: 'Pateo', stats: [['Goles de campo', (s) => `${n(s.fgm)}/${n(s.fga)}`],
+    case 'K': return [{ icono: '🦶', titulo: 'Pateo', color: 'amarillo', stats: [['Goles de campo', (s) => `${n(s.fgm)}/${n(s.fga)}`],
       ['Extras', (s) => `${n(s.xpm)}/${n(s.xpa)}`], ['Más largo', (s) => s.fgm_lng ?? '–']] }];
-    case 'DEF': return [{ icono: '🛡️', titulo: 'Defensa', stats: [['Capturas', (s) => n(s.sack)], ['Intercep.', (s) => n(s.int)],
-      ['Balones', (s) => n(s.fum_rec)], ['TD', (s) => n(s.def_td) + n(s.def_st_td)], ['Pts permitidos', (s) => s.pts_allow ?? '–']] }];
+    case 'DEF': return [{ icono: '🛡️', titulo: 'Defensa', color: 'rojo', stats: [['Capturas', (s) => n(s.sack), (s) => n(s.sack) >= 4], ['Intercep.', (s) => n(s.int), (s) => n(s.int) > 0],
+      ['Balones', (s) => n(s.fum_rec), (s) => n(s.fum_rec) > 0], ['TD', (s) => n(s.def_td) + n(s.def_st_td), (s) => n(s.def_td) + n(s.def_st_td) > 0], ['Pts permitidos', (s) => s.pts_allow ?? '–']] }];
     default: return [];
   }
 }
