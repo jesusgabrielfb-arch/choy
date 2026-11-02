@@ -63,7 +63,8 @@ export default async function handler(req, res) {
       const enviados = new Set(s.enviados || []);
       const avisos = generarAvisos({
         ligas, jugadores, semana, byes, byesSig, noticias, enviados, opciones: s.opciones,
-        desde: Math.max(s.creado || 0, inicio - 12 * 3600_000),
+        // Noticias desde la revisión anterior (con 1 hora de margen), nunca más de 30 horas atrás
+        desde: Math.max(s.creado || 0, Math.min(ultima?.t ? ultima.t - 3600_000 : inicio - 12 * 3600_000, inicio - 3600_000), inicio - 30 * 3600_000),
       });
       // Máximo 4 por vuelta; si hay más, un resumen
       const lote = avisos.length > 4

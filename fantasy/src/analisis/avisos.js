@@ -49,12 +49,15 @@ export function generarAvisos({ ligas, jugadores: J, semana, byes = new Set(), b
   }
 
   if (opciones.noticias) {
+    // Se compara sin mayúsculas ni acentos, en el título y en el resumen de la noticia
+    const limpio = (t) => ` ${String(t || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ')} `;
     const mios = new Map();
-    for (const l of ligas) for (const id of l.plantel || []) if (J[id]?.nombre?.length > 6) mios.set(J[id].nombre, id);
+    for (const l of ligas) for (const id of l.plantel || []) if (J[id]?.nombre?.length > 6) mios.set(J[id].nombre, limpio(J[id].nombre));
     let cuenta = 0;
     for (const not of [...noticias].sort((a, b) => b.fecha - a.fecha)) {
       if (cuenta >= maxNoticias || (not.fecha && not.fecha < desde)) break;
-      const nombre = [...mios.keys()].find((x) => not.titulo.includes(x));
+      const texto = limpio(`${not.titulo} ${not.resumen || ''}`);
+      const nombre = [...mios.keys()].find((x) => texto.includes(mios.get(x)));
       if (!nombre) continue;
       const a = { clave: `not:${not.enlace || not.titulo}`, urgente: false, url: not.enlace || '/#/noticias',
         titulo: `📰 ${nombre}`, cuerpo: not.titulo };

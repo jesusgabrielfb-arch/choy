@@ -381,3 +381,15 @@ test('equipoEsperado: puntos sin marcador cuentan como partido a medias', async 
   assert.equal(r.hechos, 10);
   assert.equal(r.esperado, 10 + 10 + 20);
 });
+
+test('avisos de noticias: encuentra al jugador sin importar mayúsculas, acentos ni si sale solo en el resumen', () => {
+  const J = { 1: { nombre: 'Bijan Robinson', equipo: 'ATL' }, 2: { nombre: 'Kenneth Walker', equipo: 'SEA' } };
+  const ligas = [{ id: 'L', nombre: 'Liga', titulares: [], plantel: ['1', '2'] }];
+  const noticias = [
+    { titulo: 'BIJAN ROBINSON, listo para el domingo', enlace: 'a', fecha: 5000 },
+    { titulo: 'Reporte de lesiones de Seattle', resumen: 'Kenneth Walker no practicó el miércoles', enlace: 'b', fecha: 4000 },
+    { titulo: 'Noticia vieja de Bijan Robinson', enlace: 'c', fecha: 10 },
+  ];
+  const av = generarAvisos({ ligas, jugadores: J, semana: 9, noticias, desde: 1000, opciones: { equipo: false, noticias: true } });
+  assert.deepEqual(av.map((a) => a.clave), ['not:a', 'not:b']);
+});
