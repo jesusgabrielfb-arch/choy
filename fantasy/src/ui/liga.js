@@ -1,6 +1,6 @@
 // Carpeta de una liga: Inicio (plan de la semana), Equipo, Mercado, Jugadores y Noticias.
 // Cody aparece arriba en cada pestaña con un comentario de esa pantalla.
-import { esc, $, $$, filaJugador, pts, miles, cargando, tarjeta, notaCruce, etiquetaLesion, codyHtml, ponerCody } from './comun.js';
+import { esc, $, $$, filaJugador, pts, miles, cargando, tarjeta, notaCruce, etiquetaLesion, codyHtml, ponerCody, puntosVsProy, LEYENDA_PV } from './comun.js';
 import { cargarLiga, sesion } from '../estado.js';
 import { NOMBRE_PUESTO } from '../analisis/alineacion.js';
 import { consejoLesion, ESTADOS } from '../analisis/lesiones.js';
@@ -212,6 +212,7 @@ function inicio(el, d, ctx, ligaId) {
 
 // ---------------------------------------------------------------- Equipo
 function equipo(el, d, ctx) {
+  const vsProy = puntosDe(d);
   const J = d.jugadores;
   const t = d.titulares;
   const semana = d.semana;
@@ -221,8 +222,7 @@ function equipo(el, d, ctx) {
     return {
       sub: info.enBye ? '<b class="baja">BYE</b>' : info.rival ? `vs ${esc(info.rival)}${d.bloqueado?.(id) ? ' · 🔒 ya jugó' : d.hora?.(id) ? ` · ⏰ ${esc(d.hora(id))}` : ''}` : '',
       etiquetas: info.rival && !info.enBye ? notaCruce(info.factor) : '',
-      derecha: info.enBye || info.fuera ? '0.0' : pts(d.proyAjustada(semana, id)),
-      derechaSub: 'proy.',
+      ...(info.enBye ? { derecha: '0.0', derechaSub: 'bye' } : vsProy(id, info.fuera ? 0 : d.proyAjustada(semana, id))),
     };
   };
   const tit = new Set(d.mio.titulares);
@@ -236,7 +236,7 @@ function equipo(el, d, ctx) {
       const cambia = s.id && !tit.has(s.id);
       return filaJugador(j, { puesto: NOMBRE_PUESTO[s.puesto] || s.puesto, ...infoFila(s.id),
         etiquetas: `${infoFila(s.id).etiquetas || ''}${cambia ? '<span class="etiqueta verde">Entra</span>' : ''}` });
-    }).join('')}</div>`, { sub: 'Proyección ajustada por la defensa rival (A = fácil, F = difícil)' })}
+    }).join('')}</div>${t.alineacion.titulares.some((x) => d.hechosDe?.(x.id) != null) ? LEYENDA_PV : ''}`, { sub: 'Proyección ajustada por la defensa rival (A = fácil, F = difícil)' })}
     ${tarjeta('🪑 Banca', `<div class="lista">${t.alineacion.banca.map((b) => filaJugador(J[b.id], {
       ...infoFila(b.id), etiquetas: `${infoFila(b.id).etiquetas || ''}${tit.has(b.id) ? '<span class="etiqueta rojo">Sale</span>' : ''}` })).join('') || '<div class="vacio">Sin banca</div>'}</div>`, { plegable: true, sub: `${t.alineacion.banca.length} jugadores` })}
     ${d.lesiones.mios.length ? tarjeta('🩹 Lesionados de tu equipo', `<div class="lista">${d.lesiones.mios.map((j) => filaJugador(j, {
@@ -279,7 +279,7 @@ function equipo(el, d, ctx) {
     const lista = d.defensasSemana(w).slice(0, 12);
     $('#lista-def').innerHTML = lista.length ? `<div class="lista">${lista.map((x) => filaJugador(J[x.id], {
       puesto: `#${x.rank}`, etiquetas: notaCruce(x.factor) + etiquetaDueno(x), sub: esc(x.razon),
-      derecha: x.proy != null ? pts(x.proy) : '', derechaSub: x.proy != null ? 'proy.' : '' })).join('')}</div>`
+      ...(w === d.semana ? puntosDe(d)(x.id, x.proy) : { derecha: x.proy != null ? pts(x.proy) : '', derechaSub: x.proy != null ? 'proy.' : '' }) })).join('')}</div>`
       : '<div class="vacio">Todavía no hay calendario para esa semana.</div>';
   };
   $$('#chips-sem button').forEach((b) => b.addEventListener('click', () => {
@@ -306,7 +306,9 @@ function jugadores(el, d, ctx) {
   el.innerHTML = `
     ${waivers.length ? tarjeta('➕ Agrega esta semana', `<div class="lista">${waivers.filter((a) => a.entra).map((a) => filaJugador(J[a.entra], {
       etiquetas: a.ganancia > 0.5 && a.tipo === 'waiver' ? `<span class="etiqueta ganancia">+${a.ganancia.toFixed(1)}</span>` : '<span class="etiqueta acento">Bye</span>',
-      derecha: pts(d.proyAjustada(a.semana || (a.tipo === 'proxima' ? d.semana + 1 : d.semana), a.entra)), derechaSub: a.semana && a.semana !== d.semana ? `proy. S${a.semana}` : 'proy.',
+      ...((a.semana || (a.tipo === 'proxima' ? d.semana + 1 : d.semana)) === d.semana
+        ? puntosDe(d)(a.entra, d.proyAjustada(d.semana, a.entra))
+        : { derecha: pts(d.proyAjustada(a.semana || d.semana + 1, a.entra)), derechaSub: `proy. S${a.semana || d.semana + 1}` }),
       consejo: a.soltar ? `Suelta a <b>${esc(J[a.soltar]?.nombre)}</b>` : esc(a.tipo === 'proxima' ? `Para la semana ${d.semana + 1}` : ''),
     })).join('')}</div>`, { sub: 'Lo que más suma a tu alineación' }) : ''}
     ${d.byes.length ? d.byes.map((a) => tarjeta(a.semana === d.semana ? `😴 Byes de esta semana` : `😴 Byes de la semana ${a.semana}`,
@@ -350,7 +352,7 @@ function jugadores(el, d, ctx) {
       .sort((a, b) => b.p - a.p || d.valor(b.id) - d.valor(a.id)).slice(0, 8);
     $('#libres').innerHTML = `<div class="lista">${lista.map((x) => filaJugador(J[x.id], {
       sub: d.rivalesPor[d.semana]?.[J[x.id].equipo] ? `vs ${esc(d.rivalesPor[d.semana][J[x.id].equipo])}` : 'BYE',
-      derecha: pts(x.p), derechaSub: 'proy.' })).join('') || '<div class="vacio">Sin jugadores libres.</div>'}</div>`;
+      ...puntosDe(d)(x.id, x.p) })).join('') || '<div class="vacio">Sin jugadores libres.</div>'}</div>`;
   };
   $$('#chips-libres button').forEach((b) => b.addEventListener('click', () => {
     $$('#chips-libres button').forEach((x) => x.classList.toggle('activo', x === b));
@@ -367,3 +369,12 @@ function jugadores(el, d, ctx) {
 }
 
 export { inicio, equipo, jugadores };
+
+// Puntos hechos (con color contra lo proyectado) o, si todavía no juega, su proyección
+function puntosDe(d) {
+  return (id, proy) => {
+    const hechos = d.hechosDe ? d.hechosDe(id) : null;
+    const avance = d.progresoDe ? d.progresoDe(id) : 0;
+    return puntosVsProy(hechos, proy, { vivo: hechos != null && avance > 0 && avance < 1 });
+  };
+}

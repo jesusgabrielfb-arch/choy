@@ -59,7 +59,7 @@ async function armarLiga(ligaId, usuarioId, semanaVista = null) {
   for (let w = Math.max(1, semanaActual - 8); w < semanaActual; w++) pasadas.push(w);
   const futuras = [...new Set([semana, semana + 1, semana + 2, semana + 3, semanaActual])].filter((w) => w <= 18 && !pasadas.includes(w));
 
-  const [vals, proyAhora, proySig, statsPasadas, partidos, matchAhora, tendAdd, tendDrop] = await Promise.all([
+  const [vals, proyAhora, proySig, statsPasadas, partidos, matchAhora, tendAdd, tendDrop, statsAhora] = await Promise.all([
     seguro(pedirValores(liga), {}),
     seguro(S.proyecciones(temporada, semana), {}),
     seguro(S.proyecciones(temporada, semana + 1), {}),
@@ -68,6 +68,8 @@ async function armarLiga(ligaId, usuarioId, semanaVista = null) {
     seguro(S.matchups(ligaId, semana), []),
     seguro(S.tendencias('add'), []),
     seguro(S.tendencias('drop'), []),
+    // Lo que van haciendo esta semana (para mostrar puntos hechos junto a lo proyectado)
+    semana <= semanaActual ? seguro(S.estadisticas(temporada, semana, semana < semanaActual), {}) : {},
   ]);
 
   const partidosPor = {};
@@ -136,6 +138,15 @@ async function armarLiga(ligaId, usuarioId, semanaVista = null) {
   const prog = progresoPorEquipo(partidosPor[semana] || []);
   const progresoDe = (id) => (semana < semanaActual ? 1 : prog[jugadores[id]?.equipo] ?? (byesPor[semana]?.has(jugadores[id]?.equipo) ? 1 : 0));
   res.progresoDe = progresoDe;
+  // Puntos que ya hizo en la semana: null si su partido todavía no empieza
+  const puntosLiga = Object.assign({}, ...(matchAhora || []).map((m) => m.players_points || {}));
+  res.hechosDe = (id) => {
+    const avance = progresoDe(id);
+    if (puntosLiga[id] != null && (puntosLiga[id] !== 0 || avance > 0)) return puntosLiga[id];
+    if (!avance || byesPor[semana]?.has(jugadores[id]?.equipo)) return null;
+    const st = statsAhora?.[id]?.stats;
+    return st ? puntos(st, reglas) : 0;
+  };
   // Quien todavía no juega cuenta con su proyección PPR (o su promedio si no hay proyección), nunca con 0
   const proyDuelo = (id) => proy(semana, id) ?? promedioReciente(id, statsPasadas, reglas, 8) ?? 0;
   res.proyDuelo = proyDuelo;

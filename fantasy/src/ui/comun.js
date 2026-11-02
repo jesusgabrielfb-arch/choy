@@ -98,3 +98,32 @@ export async function ponerCody(raiz, ctx, texto, opciones = {}) {
     ctx.mascota?.hablar(texto, animo === 'Hablar' ? 'Reposo' : animo);
   }
 }
+
+/**
+ * Cómo le fue contra lo proyectado. Devuelve la clase de color y un iconito
+ * (el color nunca va solo: siempre lleva flecha).
+ */
+export function comoLeFue(hechos, proy) {
+  if (hechos == null) return null;
+  if (!proy) return { clase: 'pv-neutro', icono: '', texto: 'sin proyección' };
+  const r = hechos / proy;
+  if (r >= 1.25) return { clase: 'pv-fuego', icono: '🔥', texto: 'la rompió' };
+  if (r >= 1) return { clase: 'pv-bien', icono: '▲', texto: 'superó lo proyectado' };
+  if (r >= 0.75) return { clase: 'pv-cerca', icono: '≈', texto: 'cerca de lo proyectado' };
+  return { clase: 'pv-bajo', icono: '▼', texto: 'por debajo' };
+}
+
+/**
+ * Lado derecho de una fila de jugador: si ya jugó, sus puntos en grande (con color según lo
+ * proyectado) y la proyección en chiquito; si no ha jugado, solo la proyección.
+ */
+export function puntosVsProy(hechos, proy, { vivo = false, etiquetaProy = 'proy.' } = {}) {
+  if (hechos == null) return { derecha: proy != null ? pts(proy) : '–', derechaSub: proy != null ? etiquetaProy : '' };
+  const c = vivo ? { clase: 'pv-vivo', icono: '🔴', texto: 'jugando' } : comoLeFue(hechos, proy);
+  return {
+    derecha: `<span class="pv ${c.clase}" title="${esc(c.texto)}">${c.icono ? `<i>${c.icono}</i>` : ''}${pts(hechos)}</span>`,
+    derechaSub: proy != null ? `de ${pts(proy)} ${etiquetaProy}` : 'pts',
+  };
+}
+
+export const LEYENDA_PV = '<p class="nota leyenda-pv"><span class="pv pv-fuego"><i>🔥</i>la rompió</span> <span class="pv pv-bien"><i>▲</i>superó</span> <span class="pv pv-cerca"><i>≈</i>cerca</span> <span class="pv pv-bajo"><i>▼</i>por debajo</span> de lo proyectado</p>';

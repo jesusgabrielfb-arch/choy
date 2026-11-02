@@ -1,5 +1,5 @@
 // Casilla del enfrentamiento (como la de Sleeper): tus titulares contra los del rival, puesto por puesto.
-import { esc, pts, etiquetaLesion } from './comun.js';
+import { esc, pts, etiquetaLesion, comoLeFue } from './comun.js';
 import { fmtHora } from '../estado.js';
 import { puestosTitulares, NOMBRE_PUESTO } from '../analisis/alineacion.js';
 
@@ -31,7 +31,7 @@ export function enfrentamientoHtml(dd, d) {
         cuando && `<span>⏰ ${esc(cuando)}</span>`,
         etiquetaLesion(j, { corta: true }),
       ].filter(Boolean).join(' ')}</div>
-      <div class="ef-pts"><b>${hechos != null ? pts(hechos) : '–'}</b><small>${p != null ? pts(p) : ''}</small></div>
+      <div class="ef-pts"><b class="${hechos != null && avance >= 1 ? `pv ${comoLeFue(hechos, p)?.clase || ''}` : ''}">${hechos != null ? pts(hechos) : '–'}</b><small>${p != null ? pts(p) : ''}</small></div>
     </div>`;
   };
   const filas = puestos.map((p, i) => {
@@ -56,7 +56,7 @@ export function enfrentamientoHtml(dd, d) {
     </div>
     <div class="barra-prob"><span style="width:${pa}%"></span></div>
     <div class="ef-filas">${filas}</div>
-    <p class="nota" style="margin-top:6px">Número grande: puntos hechos · chico: proyección</p>
+    <p class="nota" style="margin-top:6px">Número grande: puntos hechos · chico: proyección · <span class="pv pv-bien">verde</span> superó, <span class="pv pv-cerca">amarillo</span> cerca, <span class="pv pv-bajo">rojo</span> por debajo</p>
     <details class="ef-banca"><summary class="chip-boton">🪑 Ver bancas</summary>
       <div class="ef-bancas"><div>${bancaHtml(dd.a) || '<span class="nota">Sin banca</span>'}</div><div>${bancaHtml(dd.b) || '<span class="nota">Sin banca</span>'}</div></div>
     </details>

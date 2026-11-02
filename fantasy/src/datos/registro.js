@@ -17,38 +17,52 @@ export async function registro(id, temporada) {
 
 const div = (a, b) => (b ? a / b : null);
 const n = (x) => x || 0;
+const r1 = (x) => (x == null ? '–' : x.toFixed(1));
+const snaps = (s) => (s.tm_off_snp ? `${Math.round((100 * n(s.off_snp)) / s.tm_off_snp)}%` : s.off_snp ?? '–');
 
-/** Columnas del registro según la posición: [título, función(stats) → valor]. */
-export function columnas(pos) {
-  const snp = (s) => (s.tm_off_snp ? `${Math.round((100 * n(s.off_snp)) / s.tm_off_snp)}%` : s.off_snp ?? '–');
-  const r1 = (x) => (x == null ? '–' : x.toFixed(1));
+// Cada sección: { icono, titulo, stats: [[nombre, valor(s)]], solo?(s) → si se muestra }
+const PASE = { icono: '🎯', titulo: 'Pase', stats: [['Completos', (s) => `${n(s.pass_cmp)}/${n(s.pass_att)}`], ['Yardas', (s) => n(s.pass_yd)],
+  ['TD', (s) => n(s.pass_td)], ['Intercep.', (s) => n(s.pass_int)]] };
+const CARRERA = { icono: '🏃', titulo: 'Carrera', stats: [['Acarreos', (s) => n(s.rush_att)], ['Yardas', (s) => n(s.rush_yd)],
+  ['Yds/acarreo', (s) => r1(div(n(s.rush_yd), s.rush_att))], ['TD', (s) => n(s.rush_td)]] };
+const RECEPCION = { icono: '🙌', titulo: 'Recepción', stats: [['Objetivos', (s) => n(s.rec_tgt)], ['Atrapadas', (s) => n(s.rec)],
+  ['Yardas', (s) => n(s.rec_yd)], ['TD', (s) => n(s.rec_td)]] };
+const USO = { icono: '⏱️', titulo: 'Uso', stats: [['En el campo', snaps], ['Jugadas', (s) => s.off_snp ?? '–']], solo: (s) => s.off_snp != null };
+const conCarreras = { ...CARRERA, solo: (s) => n(s.rush_att) > 0 };
+const conRecepciones = { ...RECEPCION, solo: (s) => n(s.rec_tgt) > 0 };
+
+/** Secciones del registro según la posición. */
+export function secciones(pos) {
   switch (pos) {
-    case 'QB': return [['C/I', (s) => `${n(s.pass_cmp)}/${n(s.pass_att)}`], ['YDS', (s) => n(s.pass_yd)], ['TD', (s) => n(s.pass_td)],
-      ['INT', (s) => n(s.pass_int)], ['CAR', (s) => n(s.rush_att)], ['YD C', (s) => n(s.rush_yd)]];
-    case 'RB': return [['SNAP', snp], ['CAR', (s) => n(s.rush_att)], ['YDS', (s) => n(s.rush_yd)], ['Y/C', (s) => r1(div(n(s.rush_yd), s.rush_att))],
-      ['TD', (s) => n(s.rush_td) + n(s.rec_td)], ['OBJ', (s) => n(s.rec_tgt)], ['REC', (s) => n(s.rec)], ['YD R', (s) => n(s.rec_yd)]];
-    case 'WR': case 'TE': return [['SNAP', snp], ['OBJ', (s) => n(s.rec_tgt)], ['REC', (s) => n(s.rec)], ['YDS', (s) => n(s.rec_yd)],
-      ['Y/R', (s) => r1(div(n(s.rec_yd), s.rec))], ['TD', (s) => n(s.rec_td)], ['CAR', (s) => n(s.rush_att)]];
-    case 'K': return [['FG', (s) => `${n(s.fgm)}/${n(s.fga)}`], ['XP', (s) => `${n(s.xpm)}/${n(s.xpa)}`], ['LARGO', (s) => s.fgm_lng ?? '–']];
-    case 'DEF': return [['SACK', (s) => n(s.sack)], ['INT', (s) => n(s.int)], ['FR', (s) => n(s.fum_rec)], ['TD', (s) => n(s.def_td) + n(s.def_st_td)],
-      ['PTS PERM', (s) => s.pts_allow ?? '–']];
+    case 'QB': return [PASE, conCarreras, USO];
+    case 'RB': return [CARRERA, conRecepciones, USO];
+    case 'WR': case 'TE': return [RECEPCION, conCarreras, USO];
+    case 'K': return [{ icono: '🦶', titulo: 'Pateo', stats: [['Goles de campo', (s) => `${n(s.fgm)}/${n(s.fga)}`],
+      ['Extras', (s) => `${n(s.xpm)}/${n(s.xpa)}`], ['Más largo', (s) => s.fgm_lng ?? '–']] }];
+    case 'DEF': return [{ icono: '🛡️', titulo: 'Defensa', stats: [['Capturas', (s) => n(s.sack)], ['Intercep.', (s) => n(s.int)],
+      ['Balones', (s) => n(s.fum_rec)], ['TD', (s) => n(s.def_td) + n(s.def_st_td)], ['Pts permitidos', (s) => s.pts_allow ?? '–']] }];
     default: return [];
   }
 }
 
-export const LEYENDA = {
-  QB: 'C/I completos/intentos · CAR acarreos · YD C yardas por tierra',
-  RB: 'SNAP % de jugadas en el campo · CAR acarreos · Y/C yardas por acarreo · OBJ veces que lo buscaron',
-  WR: 'SNAP % de jugadas en el campo · OBJ veces que lo buscaron · Y/R yardas por recepción',
-  TE: 'SNAP % de jugadas en el campo · OBJ veces que lo buscaron · Y/R yardas por recepción',
-  K: 'FG goles de campo · XP puntos extra',
-  DEF: 'FR balones sueltos recuperados · PTS PERM puntos permitidos',
-};
+const jugo = (w) => w.stats && Object.keys(w.stats).length && (w.stats.gp ?? 1) > 0;
 
-/** Resumen de temporada: partidos, puntos totales y promedio. */
+/**
+ * Resumen pensado en cómo viene (no en el total de la temporada):
+ * promedio, últimos 3, cuántas veces superó lo proyectado y su mejor partido.
+ */
 export function resumen(semanas, reglas) {
-  const jugadas = semanas.filter((w) => w.stats && (w.stats.gp ?? 1) > 0 && Object.keys(w.stats).length);
+  const jugadas = semanas.filter(jugo).sort((a, b) => a.semana - b.semana);
   const pts = jugadas.map((w) => puntos(w.stats, reglas));
   const total = pts.reduce((a, b) => a + b, 0);
-  return { partidos: jugadas.length, total, promedio: jugadas.length ? total / jugadas.length : 0, mejor: pts.length ? Math.max(...pts) : 0 };
+  const ult = pts.slice(-3);
+  const conProy = jugadas.filter((w) => w.proy && Object.keys(w.proy).length);
+  const supero = conProy.filter((w) => puntos(w.stats, reglas) >= puntos(w.proy, reglas)).length;
+  return {
+    partidos: jugadas.length, total,
+    promedio: jugadas.length ? total / jugadas.length : 0,
+    ultimos3: ult.length ? ult.reduce((a, b) => a + b, 0) / ult.length : 0,
+    mejor: pts.length ? Math.max(...pts) : 0,
+    supero, conProy: conProy.length,
+  };
 }

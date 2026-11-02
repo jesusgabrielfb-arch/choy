@@ -425,16 +425,10 @@ details.accion[open] > summary .tit { color: var(--acento); }
 .ficha-resumen { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
 .ficha-resumen div { background: var(--tarjeta); border-radius: 14px; padding: 10px 8px; display: grid; text-align: center; }
 .ficha-resumen small { color: var(--suave); font-size: 11px; }
-.ficha-resumen b { font-size: 17px; }
-.tabla-scroll { overflow-x: auto; border-radius: 14px; border: 1px solid var(--linea); }
-table.registro { border-collapse: collapse; width: 100%; font-size: 13px; white-space: nowrap; }
-table.registro th, table.registro td { padding: 9px 8px; text-align: center; border-bottom: 1px solid var(--linea); }
-table.registro thead th { font-size: 11px; color: var(--suave); background: var(--tarjeta); position: sticky; top: 0; }
-table.registro tbody th { color: var(--suave); font-weight: 700; }
-table.registro .rival { font-weight: 700; }
-table.registro .pts-col { font-weight: 900; color: var(--acento); }
-table.registro tr.sin-jugar td { color: var(--tenue); }
-table.registro tfoot th, table.registro tfoot td { font-weight: 800; background: var(--tarjeta); }
+.ficha-resumen b { font-size: 18px; }
+.ficha-resumen em { font-style: normal; font-size: 10.5px; color: var(--tenue); font-weight: 650; }
+.ficha-resumen em.sube { color: var(--verde); }
+.ficha-resumen em.baja { color: var(--rojo); }
 @media (max-width: 380px) { .ficha-resumen { grid-template-columns: repeat(2, 1fr); } }
 
 /* ---------- NFL: calendario y equipos ---------- */
@@ -455,3 +449,51 @@ details.juego > summary::-webkit-details-marker { display: none; }
 .equipo-cab small { color: rgb(255 255 255 / 0.85); font-size: 12.5px; line-height: 1.5; }
 .jugador[data-id], .ef-j[data-id] { cursor: pointer; }
 .jugador[data-id]:active, .ef-j[data-id]:active { opacity: 0.7; }
+
+/* ---------- Puntos hechos vs proyectados (siempre con flecha, no solo color) ---------- */
+.pv { font-weight: 850; font-variant-numeric: tabular-nums; }
+.pv i { font-style: normal; font-size: 0.72em; margin-right: 3px; vertical-align: 1px; }
+.pv-fuego { color: #3ee08f; }
+.pv-bien { color: var(--verde); }
+.pv-cerca { color: var(--amarillo); }
+.pv-bajo { color: var(--rojo); }
+.pv-vivo { color: var(--texto); }
+.pv-vivo i { font-size: 0.6em; }
+.pv-neutro { color: var(--texto); }
+.jugador .der .pv { font-size: 17px; }
+.leyenda-pv { margin: 10px 4px 0; display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: center; }
+.leyenda-pv .pv { font-weight: 750; font-size: 12px; }
+
+/* ---------- Registro de juego: gráfica por semana + partido por partido en cuadritos ---------- */
+.grafica-sem { padding-bottom: 12px; }
+.barras-sem { display: flex; gap: 3px; align-items: stretch; height: 132px; margin-top: 10px; }
+.barra-sem { flex: 1; min-width: 0; display: grid; grid-template-rows: 1fr auto; gap: 4px; background: none; border: 0; padding: 0; color: var(--tenue); cursor: pointer; font: inherit; }
+.barra-zona { position: relative; display: flex; align-items: flex-end; justify-content: center; border-bottom: 1px solid var(--linea); }
+.barra { width: 100%; max-width: 22px; border-radius: 4px 4px 0 0; background: currentColor; }
+.barra.pv-fuego { color: #3ee08f; } .barra.pv-bien { color: var(--verde); } .barra.pv-cerca { color: var(--amarillo); }
+.barra.pv-bajo { color: var(--rojo); } .barra.pv-neutro { color: var(--suave); }
+.barra-vacia { font-size: 8px; font-weight: 800; color: var(--tenue); writing-mode: vertical-rl; transform: rotate(180deg); margin-bottom: 4px; }
+.raya-proy { position: absolute; left: 8%; right: 8%; height: 2px; border-radius: 2px; background: var(--texto); opacity: 0.75; }
+.barra-sem small { font-size: 10px; font-weight: 700; text-align: center; }
+.barra-sem.activa small { color: var(--texto); }
+.barra-sem.activa .barra-zona { background: rgb(255 255 255 / 0.05); border-radius: 6px 6px 0 0; }
+.tip-sem { margin: 10px 2px 0; font-size: 13.5px; font-weight: 650; min-height: 2.6em; }
+.partidos-reg { display: grid; gap: 10px; }
+.partido-reg { background: var(--tarjeta); border: 1px solid var(--linea); border-radius: 18px; padding: 12px; transition: border-color 0.2s; }
+.partido-reg.resaltado { border-color: var(--acento); }
+.partido-reg header, .partido-reg.corto { display: flex; align-items: center; gap: 10px; }
+.partido-reg.corto { padding: 10px 12px; }
+.partido-reg .sem { flex: none; width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; background: var(--tarjeta-2); font-weight: 850; font-size: 13px; color: var(--suave); }
+.partido-rival { display: grid; flex: 1; min-width: 0; }
+.partido-rival b { font-size: 15px; }
+.partido-rival small { color: var(--suave); font-size: 12px; }
+.partido-pts { display: grid; text-align: right; }
+.partido-pts .pv { font-size: 22px; }
+.partido-pts small { color: var(--suave); font-size: 11.5px; }
+.reg-seccion { margin-top: 12px; }
+.reg-titulo { font-size: 11.5px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--suave); margin-bottom: 6px; }
+.reg-cajas { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 6px; }
+.reg-caja { background: var(--tarjeta-2); border-radius: 12px; padding: 9px 6px; display: grid; text-align: center; gap: 1px; }
+.reg-caja b { font-size: 17px; font-variant-numeric: tabular-nums; }
+.reg-caja small { font-size: 10.5px; color: var(--suave); font-weight: 650; }
+.totales-reg { margin-top: 12px; }

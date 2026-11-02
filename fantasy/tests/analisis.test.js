@@ -355,18 +355,23 @@ test('plan avisa de los titulares que juegan fuera del domingo', () => {
   assert.match(h.detalle, /jue 8:15/);
 });
 
-import { columnas, resumen, REGLAS_PPR } from '../src/datos/registro.js';
+import { secciones, resumen, REGLAS_PPR } from '../src/datos/registro.js';
 
-test('registro de juego: columnas por posición y resumen de temporada', () => {
-  const rb = columnas('RB');
+test('registro de juego: secciones por posición y resumen de cómo viene', () => {
   const s = { off_snp: 40, tm_off_snp: 60, rush_att: 10, rush_yd: 55, rush_td: 1, rec_tgt: 4, rec: 3, rec_yd: 20 };
-  const fila = Object.fromEntries(rb.map(([t, f]) => [t, f(s)]));
-  assert.equal(fila.SNAP, '67%');
-  assert.equal(fila['Y/C'], '5.5');
-  assert.equal(fila.TD, 1);
-  const r = resumen([{ semana: 1, stats: s }, { semana: 2, stats: { gp: 0 } }, { semana: 3 }], REGLAS_PPR);
+  const rb = secciones('RB');
+  assert.deepEqual(rb.map((x) => x.titulo), ['Carrera', 'Recepción', 'Uso']);
+  const valor = (sec, nombre) => sec.stats.find(([t]) => t === nombre)[1](s);
+  assert.equal(valor(rb[0], 'Yds/acarreo'), '5.5');
+  assert.equal(valor(rb[2], 'En el campo'), '67%');
+  // un receptor sin acarreos no muestra la sección de carrera
+  assert.equal(secciones('WR')[1].solo(s), true);
+  assert.equal(secciones('WR')[1].solo({ rec: 3 }), false);
+  const r = resumen([{ semana: 1, stats: s, proy: { rush_yd: 50 } }, { semana: 2, stats: { gp: 0 } }, { semana: 3 }], REGLAS_PPR);
   assert.equal(r.partidos, 1);
   assert.equal(Math.round(r.total * 10) / 10, 16.5); // 5.5 carrera + 6 TD + 3 rec + 2 yardas
+  assert.equal(r.supero, 1); // 16.5 contra 5 proyectados
+  assert.equal(r.conProy, 1);
 });
 
 test('equipoEsperado: puntos sin marcador cuentan como partido a medias', async () => {
