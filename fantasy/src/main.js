@@ -91,6 +91,16 @@ async function ir() {
 
 // Tocar a cualquier jugador (en listas, el enfrentamiento, equipos…) abre su ficha con el registro de juego
 document.addEventListener('click', async (e) => {
+  // Tocar la letra del cruce (A–F): Cody explica por qué
+  const nota = e.target.closest('.nota-cruce');
+  if (nota) {
+    e.stopPropagation();
+    const { codyDice } = await import('./ui/comun.js');
+    const animo = { A: 'Feliz', B: 'Feliz', C: 'Hablar', D: 'Sorpresa', F: 'Enojado' }[nota.textContent.trim()] || 'Hablar';
+    codyDice(document, ctx, `${nota.textContent.trim()}: ${nota.getAttribute('aria-label') || ''}`, { animo });
+    document.querySelector('.cody')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
   const fila = e.target.closest('.jugador[data-id], .ef-j[data-id]');
   if (!fila || e.target.closest('button, a, input, select, summary')) return;
   if (fila.closest('.ficha-capa, .buscador, .tutorial')) return;

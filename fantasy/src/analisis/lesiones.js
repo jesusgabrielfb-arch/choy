@@ -23,9 +23,16 @@ const PARTES = {
 
 export const parteEnEspanol = (p) => (p ? PARTES[p] || p.toLowerCase() : null);
 
-export function consejoLesion(j, { titular, suplente } = {}) {
+export function consejoLesion(j, { titular, suplente, disponible } = {}) {
   const e = ESTADOS[j.lesion];
   if (!e) return null;
+  // El reporte que tiene es el de la semana pasada: todavía no hay que sentarlo
+  if (disponible && /todavía no sale/.test(disponible.texto || '')) {
+    return `Su estado es del partido pasado; el reporte de esta semana sale entre miércoles y viernes. ${titular && suplente ? `Ten listo a ${suplente} por si acaso.` : 'Revísalo antes del partido.'}`;
+  }
+  if (disponible?.factor > 0 && ['IR', 'PUP'].includes(j.lesion)) {
+    return 'Sleeper ya le proyecta puntos: podría regresar pronto. Revisa las noticias antes de activarlo.';
+  }
   switch (j.lesion) {
     case 'Questionable':
       return titular
@@ -103,4 +110,51 @@ export function analizarLesiones({ jugadores, miRoster, rosteados, valor, tieneI
   reemplazos.sort((a, b) => (Number(b.libre) - Number(a.libre)) || (Number(b.seguro) - Number(a.seguro)) ||
     (valor(b.lesionado.id) - valor(a.lesionado.id)));
   return { mios, liga, stash, reemplazos: reemplazos.slice(0, 40) };
+}
+
+const LARGO_PLAZO = ['IR', 'PUP', 'NA', 'Sus', 'DNR'];
+
+/**
+ * ¿Qué tan probable es que juegue en la semana w? Devuelve { factor 0..1, texto }.
+ * No basta con que tenga una etiqueta de lesión: se mira
+ *  - si el reporte es de ESTA semana o se quedó de su partido pasado (actualizado vs. su último partido),
+ *  - cómo practicó (Full / Limited / DNP),
+ *  - si Sleeper le sigue proyectando puntos para ese partido,
+ *  - y si es una semana futura (el reporte semanal solo habla del próximo partido).
+ * ctx: { w, semanaActual, proy (pts de Sleeper o null), ultimoPartido (ms) }
+ */
+export function disponibilidad(j, { w, semanaActual, proy = null, ultimoPartido = null } = {}) {
+  const est = j?.lesion;
+  if (!est || !ESTADOS[est]) return { factor: 1, texto: '' };
+  const proyecta = proy != null && proy >= 0.5;
+
+  if (LARGO_PLAZO.includes(est)) {
+    // Si Sleeper ya le proyecta puntos, es porque espera que regrese
+    return proyecta ? { factor: 0.6, texto: 'podría regresar (Sleeper ya le proyecta puntos)' }
+      : { factor: 0, texto: est === 'Sus' ? 'suspendido' : 'fuera por tiempo largo' };
+  }
+  if (w > semanaActual) {
+    // El reporte de la semana habla del próximo partido, no de los siguientes
+    return est === 'Out' ? { factor: 0.75, texto: 'fuera esta semana; puede volver para entonces' }
+      : { factor: 0.95, texto: 'en duda esta semana; para entonces debería estar' };
+  }
+  // ¿El reporte es nuevo (salió después de su último partido) o es el de la semana pasada?
+  const nuevo = !(j.actualizado && ultimoPartido) || j.actualizado > ultimoPartido;
+  if (proy != null && proy < 0.5 && nuevo) return { factor: 0, texto: 'Sleeper ya no le proyecta puntos' };
+  if (!nuevo) {
+    const f = { Out: 0.5, Doubtful: 0.6, Questionable: 0.9 }[est] ?? 0.8;
+    return { factor: f, texto: 'su reporte de esta semana todavía no sale' };
+  }
+  const pr = j.practica;
+  switch (est) {
+    case 'Out': return { factor: 0, texto: 'descartado para este partido' };
+    case 'Doubtful': return pr === 'Full' ? { factor: 0.5, texto: 'muy en duda, pero practicó completo' }
+      : { factor: 0.2, texto: 'muy en duda: lo más probable es que no juegue' };
+    case 'Questionable': {
+      const f = { Full: 0.95, Limited: 0.8, DNP: 0.55 }[pr] ?? 0.8;
+      const como = { Full: 'practicó completo', Limited: 'practicó limitado', DNP: 'no practicó' }[pr] || 'sin reporte de práctica';
+      return { factor: f, texto: `en duda, ${como}` };
+    }
+    default: return { factor: 0.8, texto: '' };
+  }
 }

@@ -220,8 +220,9 @@ function equipo(el, d, ctx) {
     const info = t.porId[id];
     if (!info) return {};
     return {
-      sub: info.enBye ? '<b class="baja">BYE</b>' : info.rival ? `vs ${esc(info.rival)}${d.bloqueado?.(id) ? ' · 🔒 ya jugó' : d.hora?.(id) ? ` · ⏰ ${esc(d.hora(id))}` : ''}` : '',
-      etiquetas: info.rival && !info.enBye ? notaCruce(info.factor) : '',
+      sub: (info.enBye ? '<b class="baja">BYE</b>' : info.rival ? `vs ${esc(info.rival)}${d.bloqueado?.(id) ? ' · 🔒 ya jugó' : d.hora?.(id) ? ` · ⏰ ${esc(d.hora(id))}` : ''}` : '')
+        + dispoTexto(d, semana, id),
+      etiquetas: info.rival && !info.enBye ? notaCruce(info.cruce || info.factor) : '',
       ...(info.enBye ? { derecha: '0.0', derechaSub: 'bye' } : vsProy(id, info.fuera ? 0 : d.proyAjustada(semana, id))),
     };
   };
@@ -236,13 +237,14 @@ function equipo(el, d, ctx) {
       const cambia = s.id && !tit.has(s.id);
       return filaJugador(j, { puesto: NOMBRE_PUESTO[s.puesto] || s.puesto, ...infoFila(s.id),
         etiquetas: `${infoFila(s.id).etiquetas || ''}${cambia ? '<span class="etiqueta verde">Entra</span>' : ''}` });
-    }).join('')}</div>${t.alineacion.titulares.some((x) => d.hechosDe?.(x.id) != null) ? LEYENDA_PV : ''}`, { sub: 'Proyección ajustada por la defensa rival (A = fácil, F = difícil)' })}
+    }).join('')}</div>${t.alineacion.titulares.some((x) => d.hechosDe?.(x.id) != null) ? LEYENDA_PV : ''}`, { sub: 'Proyección ajustada por la defensa rival y por si va a jugar. A = cruce fácil, F = difícil: toca la letra y te digo por qué' })}
     ${tarjeta('🪑 Banca', `<div class="lista">${t.alineacion.banca.map((b) => filaJugador(J[b.id], {
       ...infoFila(b.id), etiquetas: `${infoFila(b.id).etiquetas || ''}${tit.has(b.id) ? '<span class="etiqueta rojo">Sale</span>' : ''}` })).join('') || '<div class="vacio">Sin banca</div>'}</div>`, { plegable: true, sub: `${t.alineacion.banca.length} jugadores` })}
     ${d.lesiones.mios.length ? tarjeta('🩹 Lesionados de tu equipo', `<div class="lista">${d.lesiones.mios.map((j) => filaJugador(j, {
       etiquetas: tit.has(j.id) ? '<span class="etiqueta">Titular</span>' : '',
-      consejo: esc(consejoLesion(j, { titular: tit.has(j.id), suplente: J[suplenteDe(j)]?.nombre })) })).join('')}</div>`) : ''}
-    <details class="tarjeta"><summary><div><h2>🔬 Analizador de defensas</h2><small class="nota">Quién le permite más puntos a cada posición</small></div></summary>
+      sub: dispoTexto(d, semana, j.id),
+      consejo: esc(consejoLesion(j, { titular: tit.has(j.id), suplente: J[suplenteDe(j)]?.nombre, disponible: d.disponible?.(semana, j.id) })) })).join('')}</div>`) : ''}
+    <details class="tarjeta"><summary><div><h2>🔬 Analizador de defensas</h2><small class="nota">Quién le permite más yardas y puntos a cada posición</small></div></summary>
       <div class="chips" id="chips-pos">${posiciones.map((p, k) => `<button data-pos="${p}" class="${k === 0 ? 'activo' : ''}">${p}</button>`).join('')}</div>
       <div id="ranking"></div>
     </details>
@@ -262,8 +264,8 @@ function equipo(el, d, ctx) {
     $('#ranking').innerHTML = filas.length ? `<div class="lista">${filas.map((f) => {
       const mios = (misPorRival[f.equipo] || []).filter((j) => j.pos === pos);
       return `<div class="jugador"><span class="pos">${f.rank}</span>
-        <div style="min-width:0"><div class="nombre"><span class="txt">${esc(f.equipo)}</span>${notaCruce(f.factor)}</div>
-        <div class="sub">${mios.length ? 'Esta semana: ' + mios.map((j) => esc(j.nombre)).join(', ') : ''}</div></div>
+        <div style="min-width:0"><div class="nombre"><span class="txt">${esc(f.equipo)}</span>${notaCruce(f)}</div>
+        <div class="sub">${f.yardas != null ? `${Math.round(f.yardas)} yds/partido a ${pos}` : ''}${mios.length ? `${f.yardas != null ? ' · ' : ''}Esta semana: ${mios.map((j) => esc(j.nombre)).join(', ')}` : ''}</div></div>
         <div class="der">${pts(f.permite)}<small>pts/partido</small></div></div>`;
     }).join('')}</div>` : '<div class="vacio">Todavía no hay semanas jugadas para analizar.</div>';
   };
@@ -278,7 +280,7 @@ function equipo(el, d, ctx) {
   const pintarDef = (w) => {
     const lista = d.defensasSemana(w).slice(0, 12);
     $('#lista-def').innerHTML = lista.length ? `<div class="lista">${lista.map((x) => filaJugador(J[x.id], {
-      puesto: `#${x.rank}`, etiquetas: notaCruce(x.factor) + etiquetaDueno(x), sub: esc(x.razon),
+      puesto: `#${x.rank}`, etiquetas: notaCruce(x.cruce || x.factor) + etiquetaDueno(x), sub: esc(x.razon),
       ...(w === d.semana ? puntosDe(d)(x.id, x.proy) : { derecha: x.proy != null ? pts(x.proy) : '', derechaSub: x.proy != null ? 'proy.' : '' }) })).join('')}</div>`
       : '<div class="vacio">Todavía no hay calendario para esa semana.</div>';
   };
@@ -377,4 +379,12 @@ function puntosDe(d) {
     const avance = d.progresoDe ? d.progresoDe(id) : 0;
     return puntosVsProy(hechos, proy, { vivo: hechos != null && avance > 0 && avance < 1 });
   };
+}
+
+// Qué tan probable es que juegue (solo si tiene algo de lesión)
+function dispoTexto(d, w, id) {
+  const x = d.disponible?.(w, id);
+  if (!x?.texto) return '';
+  const pct = x.factor > 0 && x.factor < 1 ? ` · ~${Math.round(x.factor * 100)}% de jugar` : '';
+  return `<div class="dispo ${x.factor === 0 ? 'no' : x.factor < 0.7 ? 'duda' : 'casi'}">🩹 ${esc(x.texto)}${pct}</div>`;
 }

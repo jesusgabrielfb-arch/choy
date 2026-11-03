@@ -519,3 +519,8 @@ details.juego > summary::-webkit-details-marker { display: none; }
 .barra-vacia.les { writing-mode: horizontal-tb; transform: none; font-size: 15px; margin-bottom: 6px; }
 .partido-reg.lesion { border-color: color-mix(in srgb, var(--rojo) 35%, var(--linea)); background: linear-gradient(120deg, color-mix(in srgb, var(--rojo) 8%, var(--tarjeta)), var(--tarjeta) 50%); }
 .partido-reg.lesion .etiqueta { margin-left: auto; }
+
+/* Probabilidad de jugar de un lesionado y letra del cruce tocable */
+.dispo { font-size: 11.5px; font-weight: 650; margin-top: 2px; white-space: normal; }
+.dispo.no { color: var(--rojo); } .dispo.duda { color: var(--naranja); } .dispo.casi { color: var(--amarillo); }
+.nota-cruce { cursor: pointer; }

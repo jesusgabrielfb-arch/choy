@@ -16,9 +16,10 @@ export function etiquetaLesion(j, { corta = false } = {}) {
   return `<span class="etiqueta ${e.color}" title="${esc(j.nota || '')}">${esc(e.texto)}${parte ? ' · ' + esc(parte) : ''}</span>`;
 }
 
-export function notaCruce(factor) {
-  const c = calificar(factor ?? 1);
-  return `<span class="nota-cruce ${c.nota}" title="${c.texto}">${c.nota}</span>`;
+/** Letra del cruce (A fácil … F difícil). Recibe la fila del ranking de defensas o, si no hay, un factor. */
+export function notaCruce(cruce) {
+  const c = cruce && typeof cruce === 'object' && cruce.nota ? cruce : calificar(typeof cruce === 'number' ? cruce : 1);
+  return `<span class="nota-cruce ${c.nota}" title="${esc(c.texto)}" aria-label="${esc(c.texto)}">${c.nota}</span>`;
 }
 
 /** Fila de jugador. extra: { sub, derecha, derechaSub, puesto, etiquetas, consejo } */

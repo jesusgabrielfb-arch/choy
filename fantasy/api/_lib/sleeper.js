@@ -18,7 +18,7 @@ export async function jugadoresLivianos() {
     res[id] = {
       n: p.full_name || [p.first_name, p.last_name].filter(Boolean).join(' '),
       p: p.position, t: p.team || null, l: p.injury_status || null, b: p.injury_body_part || null,
-      o: p.injury_notes || null, pr: p.practice_participation || null, e: p.age || null,
+      o: p.injury_notes || null, pr: p.practice_participation || null, u: p.news_updated || null, e: p.age || null,
       r: p.search_rank ?? 9999, d: p.depth_chart_order ?? null, a: p.active !== false ? 1 : 0,
     };
   }

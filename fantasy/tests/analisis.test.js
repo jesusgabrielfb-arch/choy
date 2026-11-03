@@ -393,3 +393,48 @@ test('avisos de noticias: encuentra al jugador sin importar mayúsculas, acentos
   const av = generarAvisos({ ligas, jugadores: J, semana: 9, noticias, desde: 1000, opciones: { equipo: false, noticias: true } });
   assert.deepEqual(av.map((a) => a.clave), ['not:a', 'not:b']);
 });
+
+import { disponibilidad } from '../src/analisis/lesiones.js';
+import { notaPorLugar } from '../src/analisis/defensas.js';
+
+test('disponibilidad: no pone 0 nomás por estar lesionado', () => {
+  const ultimo = 1000;
+  const base = { w: 9, semanaActual: 9, ultimoPartido: ultimo, proy: 14 };
+  // Reporte nuevo de esta semana
+  assert.equal(disponibilidad({ lesion: 'Out', actualizado: 2000 }, base).factor, 0);
+  assert.equal(disponibilidad({ lesion: 'Questionable', practica: 'Full', actualizado: 2000 }, base).factor, 0.95);
+  assert.equal(disponibilidad({ lesion: 'Questionable', practica: 'DNP', actualizado: 2000 }, base).factor, 0.55);
+  assert.equal(disponibilidad({ lesion: 'Doubtful', practica: 'Limited', actualizado: 2000 }, base).factor, 0.2);
+  // "Fuera" que se quedó del partido pasado: todavía no sale el reporte de esta semana
+  const viejo = disponibilidad({ lesion: 'Out', actualizado: 500 }, base);
+  assert.equal(viejo.factor, 0.5);
+  assert.match(viejo.texto, /todavía no sale/);
+  // En IR pero Sleeper ya le proyecta puntos: puede regresar
+  assert.equal(disponibilidad({ lesion: 'IR' }, { ...base, proy: 10 }).factor, 0.6);
+  assert.equal(disponibilidad({ lesion: 'IR' }, { ...base, proy: null }).factor, 0);
+  // Semana que viene: el "Fuera" de esta semana no lo deja en 0
+  assert.equal(disponibilidad({ lesion: 'Out', actualizado: 2000 }, { ...base, w: 10 }).factor, 0.75);
+  // Sleeper ya no le proyecta nada con reporte nuevo: no juega
+  assert.equal(disponibilidad({ lesion: 'Questionable', actualizado: 2000 }, { ...base, proy: 0 }).factor, 0);
+  assert.equal(disponibilidad({}, base).factor, 1);
+});
+
+test('cruce: mezcla yardas y puntos permitidos a la posición y da la nota por lugar', () => {
+  const semanas = [{
+    stats: {
+      rb1: { stats: { rush_yd: 150, rec_yd: 30 }, rival: 'NYJ' }, // a NYJ le corren mucho
+      rb2: { stats: { rush_yd: 40, rush_td: 2 }, rival: 'NE' }, // a NE pocas yardas pero 2 TD
+    },
+    rivales: {},
+  }];
+  const p = puntosPermitidos(semanas, J, PPR);
+  assert.equal(p.yardas.NYJ.RB, 180);
+  const r = rankingDefensas(p, 'RB');
+  assert.equal(r[0].equipo, 'NYJ'); // 180 yds y 18 pts > 40 yds y 16 pts
+  assert.match(r[0].texto, /180 yds/);
+  assert.equal(notaPorLugar(1, 32).nota, 'A');
+  assert.equal(notaPorLugar(10, 32).nota, 'B');
+  assert.equal(notaPorLugar(16, 32).nota, 'C');
+  assert.equal(notaPorLugar(24, 32).nota, 'D');
+  assert.equal(notaPorLugar(32, 32).nota, 'F');
+});

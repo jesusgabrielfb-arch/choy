@@ -19,6 +19,8 @@ const MARGEN_WAIVER = 1.5;
 export function planSemana(ctx) {
   const { semana, miRoster, titularesActuales, jugadores: J, rosterPositions, proyAjustada, enBye, libres, valor } = ctx;
   const bloqueado = ctx.bloqueado || (() => false);
+  // ¿No juega esa semana? (si la app sabe su disponibilidad, se usa; si no, la etiqueta de lesión)
+  const noJuega = (id, w = semana) => (ctx.noJuega ? ctx.noJuega(w, id) : NO_JUEGA.includes(J[id]?.lesion));
   const semanaWaivers = ctx.semanaWaivers || semana;
   const hora = ctx.hora || (() => null);
   const inicio = ctx.inicio || (() => null);
@@ -28,14 +30,14 @@ export function planSemana(ctx) {
   const motivoSalida = (id, w = semana) => {
     const j = J[id];
     if (enBye(w, id)) return `está de bye`;
-    if (NO_JUEGA.includes(j?.lesion)) return 'no juega (lesión)';
+    if (noJuega(id, w)) return 'no juega (lesión)';
     if (j?.lesion === 'Doubtful') return 'casi seguro no juega';
     return 'tiene peor proyección';
   };
 
   // Quien está de bye o no juega no puede llenar un puesto.
   const lista = (w) => miRoster
-    .filter((id) => J[id] && !enBye(w, id) && !NO_JUEGA.includes(J[id].lesion))
+    .filter((id) => J[id] && !enBye(w, id) && !noJuega(id, w))
     .map((id) => ({ id, pos: J[id].pos, valor: proyAjustada(w, id) }));
   const optima = mejorAlineacion(lista(semana), rosterPositions);
   const enOptima = new Set(optima.titulares.map((t) => t.id).filter(Boolean));
@@ -54,8 +56,8 @@ export function planSemana(ctx) {
     const sale = salen.length ? salen.splice(k, 1)[0] : null;
     if (sale && bloqueado(sale)) continue;
     const gana = proyAjustada(semana, entra) - (sale ? proyAjustada(semana, sale) : 0);
-    if (gana <= 0.3 && sale && !enBye(semana, sale) && !NO_JUEGA.includes(J[sale]?.lesion)) continue;
-    const urgente = !sale || enBye(semana, sale) || NO_JUEGA.includes(J[sale]?.lesion) || J[sale]?.lesion === 'Doubtful';
+    if (gana <= 0.3 && sale && !enBye(semana, sale) && !noJuega(sale)) continue;
+    const urgente = !sale || enBye(semana, sale) || noJuega(sale) || J[sale]?.lesion === 'Doubtful';
     acciones.push({
       tipo: 'alineacion', urgente, ganancia: gana, entra, sale,
       titulo: sale ? `Sienta a ${nombre(sale)} y pon a ${nombre(entra)}` : `Pon a ${nombre(entra)} en el puesto vacío`,
@@ -66,7 +68,7 @@ export function planSemana(ctx) {
 
   // Titulares que no juegan y no tienen reemplazo en tu banca
   for (const sale of salen) {
-    if (!enBye(semana, sale) && !NO_JUEGA.includes(J[sale]?.lesion)) continue;
+    if (!enBye(semana, sale) && !noJuega(sale)) continue;
     acciones.push({
       tipo: 'alineacion', urgente: true, ganancia: 0, sale,
       titulo: `Saca a ${nombre(sale)} de tu alineación`,
@@ -89,7 +91,7 @@ export function planSemana(ctx) {
       const actual = t.id ? proyAjustada(w, t.id) : 0;
       const mejor = libres
         .filter((id) => !usados.has(id) && J[id] && elegibles.includes(J[id].pos) && !enBye(w, id) &&
-          !NO_JUEGA.includes(J[id].lesion) && (w !== semana || !bloqueado(id)))
+          !noJuega(id, w) && (w !== semana || !bloqueado(id)))
         .map((id) => ({ id, p: proyAjustada(w, id) }))
         .sort((a, b) => b.p - a.p)[0];
       if (!mejor || mejor.p - actual < MARGEN_WAIVER) continue;
@@ -150,7 +152,7 @@ export function planSemana(ctx) {
     if (huecos.length || seVan.length >= 2) {
       const pos = new Set(huecos.flatMap((h) => ELEGIBLES[h.puesto]).concat(seVan.map((id) => J[id].pos)));
       const candidato = libres
-        .filter((id) => J[id] && pos.has(J[id].pos) && !enBye(sig, id) && !NO_JUEGA.includes(J[id].lesion))
+        .filter((id) => J[id] && pos.has(J[id].pos) && !enBye(sig, id) && !noJuega(id, sig))
         .map((id) => ({ id, p: proyAjustada(sig, id) || valor(id) / 1000 }))
         .sort((a, b) => b.p - a.p)[0];
       acciones.push({

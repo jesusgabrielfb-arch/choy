@@ -4,10 +4,10 @@ import { valores as pedirValores, valorRespaldo } from './datos/valores.js';
 import { partidosSemana, equiposEnBye, rivales as rivalesDe } from './datos/calendario.js';
 import { leerCache, guardarCache, sinCache } from './datos/http.js';
 import { puntos, promedioReciente } from './analisis/puntos.js';
-import { puntosPermitidos, recomendarTitulares, factorCruce, rankingDefensas, mejoresDefensas } from './analisis/defensas.js';
+import { puntosPermitidos, recomendarTitulares, factorCruce, rankingDefensas, mejoresDefensas, cruceDe } from './analisis/defensas.js';
 import { comprarBarato, venderCaro } from './analisis/compraventa.js';
 import { alertasBye } from './analisis/byes.js';
-import { analizarLesiones } from './analisis/lesiones.js';
+import { analizarLesiones, disponibilidad } from './analisis/lesiones.js';
 import { puestosTitulares } from './analisis/alineacion.js';
 import { planSemana, puntoDebil } from './analisis/plan.js';
 import { duelosSemana } from './analisis/probabilidad.js';
@@ -129,9 +129,26 @@ async function armarLiga(ligaId, usuarioId, semanaVista = null) {
   };
   if (!mio) return res;
 
+  // ¿Va a jugar? Estado actual + práctica + si el reporte es nuevo + si Sleeper le proyecta puntos
+  const ahora = Date.now();
+  const ultimoPartido = {};
+  for (const lista of Object.values(partidosPor)) for (const p of lista || []) {
+    const t = Date.parse(p.fecha);
+    if (!(t < ahora)) continue;
+    for (const eq of [p.local, p.visita]) if (!(ultimoPartido[eq] > t)) ultimoPartido[eq] = t;
+  }
+  const dispoCache = {};
+  const disponible = (w, id) => (dispoCache[`${w}|${id}`] ??= disponibilidad(jugadores[id], {
+    w, semanaActual, proy: proy(w, id), ultimoPartido: ultimoPartido[jugadores[id]?.equipo] ?? null,
+  }));
+  res.disponible = disponible;
+  res.noJuega = (w, id) => disponible(w, id).factor === 0;
+  res.cruce = (rival, pos) => cruceDe(permitidos, rival, pos);
+
   res.titulares = recomendarTitulares({
     miRoster: mio.ids, titularesActuales: mio.titulares, jugadores, proy: proySemana, permitidos,
     rivales: rivalesPor[semana] || {}, rosterPositions: puestos, byes: byesPor[semana] || new Set(),
+    disponible: (id) => disponible(semana, id),
   });
 
   // Duelos de la semana con probabilidad de ganar (en vivo si hay partidos jugándose)
@@ -148,7 +165,7 @@ async function armarLiga(ligaId, usuarioId, semanaVista = null) {
     return st ? puntos(st, reglas) : 0;
   };
   // Quien todavía no juega cuenta con su proyección PPR (o su promedio si no hay proyección), nunca con 0
-  const proyDuelo = (id) => proy(semana, id) ?? promedioReciente(id, statsPasadas, reglas, 8) ?? 0;
+  const proyDuelo = (id) => (proy(semana, id) ?? promedioReciente(id, statsPasadas, reglas, 8) ?? 0) * disponible(semana, id).factor;
   res.proyDuelo = proyDuelo;
   res.duelos = duelosSemana({ matchups: matchAhora, equipos, proy: proyDuelo, progreso: progresoDe })
     .map((dd) => (dd.b.equipo.esMio ? { a: dd.b, b: dd.a } : dd))
@@ -210,12 +227,12 @@ async function armarLiga(ligaId, usuarioId, semanaVista = null) {
   const enBye = (w, id) => !!byesPor[w]?.has(jugadores[id]?.equipo);
   const proyAjustada = (w, id) => {
     const j = jugadores[id];
-    if (!j || enBye(w, id) || ['Out', 'IR', 'PUP', 'Sus'].includes(j.lesion)) return 0;
+    if (!j || enBye(w, id)) return 0;
     const base = proy(w, id);
     if (base == null) return 0;
     const rival = rivalesPor[w]?.[j.equipo];
     const f = rival ? factor(rival, j.pos) : 1;
-    return base * (0.6 + 0.4 * Math.min(1.35, Math.max(0.7, f)));
+    return base * disponible(w, id).factor * (0.6 + 0.4 * Math.min(1.35, Math.max(0.7, f)));
   };
   res.proyAjustada = proyAjustada;
   const ocupadoIR = (mio.reserva || []).length;
@@ -240,7 +257,7 @@ async function armarLiga(ligaId, usuarioId, semanaVista = null) {
   Object.assign(res, { inicio, bloqueado, hora, semanaWaivers, partidoDe });
   res.plan = planSemana({
     semana, miRoster: mio.ids.filter((id) => !(mio.reserva || []).includes(id)), titularesActuales: mio.titulares,
-    jugadores, rosterPositions: puestos, proyAjustada, enBye, libres, valor,
+    jugadores, rosterPositions: puestos, proyAjustada, enBye, libres, valor, noJuega: res.noJuega,
     tieneIRLibre: (liga.settings?.reserve_slots ?? 0) > ocupadoIR, rosterIR: mio.reserva,
     bloqueado, semanaWaivers, hora, inicio,
   });

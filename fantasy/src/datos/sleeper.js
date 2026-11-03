@@ -34,6 +34,7 @@ export function resumirJugador(id, p) {
     parte: p.injury_body_part || null,
     nota: p.injury_notes || null,
     practica: p.practice_participation || null,
+    actualizado: p.news_updated || null,
     edad: p.age || null,
     rank: p.search_rank ?? 9999,
     activo: p.active !== false,
@@ -45,7 +46,7 @@ export function resumirJugador(id, p) {
 export function expandirJugadores(corto) {
   const res = {};
   for (const [id, p] of Object.entries(corto)) {
-    res[id] = { id, nombre: p.n, pos: p.p, equipo: p.t, lesion: p.l, parte: p.b, nota: p.o, practica: p.pr,
+    res[id] = { id, nombre: p.n, pos: p.p, equipo: p.t, lesion: p.l, parte: p.b, nota: p.o, practica: p.pr, actualizado: p.u ?? null,
       edad: p.e, rank: p.r ?? 9999, activo: p.a !== 0, profundidad: p.d ?? null };
   }
   return res;
