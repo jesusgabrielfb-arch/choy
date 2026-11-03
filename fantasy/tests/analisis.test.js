@@ -440,3 +440,28 @@ test('cruce: mezcla yardas y puntos permitidos a la posición y da la nota por l
   assert.equal(notaPorLugar(24, 32).nota, 'D');
   assert.equal(notaPorLugar(32, 32).nota, 'F');
 });
+
+import { buscarPorNecesidad } from '../src/analisis/trades.js';
+
+test('buscar por necesidad: necesito WR, me sobra RB → equipo con WR de sobra y que necesita RB', () => {
+  const P = ['QB', 'RB', 'RB', 'WR', 'WR', 'FLEX', 'BN', 'BN', 'BN', 'BN'];
+  const Jn = {}; const V = {};
+  const jug = (id, pos, v) => { Jn[id] = { id, pos }; V[id] = v; return id; };
+  const equipos = [
+    { rosterId: 1, nombre: 'Yo', esMio: true, ids: [jug('q1', 'QB', 5000), jug('r1', 'RB', 7000), jug('r2', 'RB', 6500), jug('r3', 'RB', 6000), jug('r4', 'RB', 5800),
+      jug('w1', 'WR', 2500), jug('w2', 'WR', 2000)] },
+    { rosterId: 2, nombre: 'Ricos en WR', ids: [jug('q2', 'QB', 5000), jug('r5', 'RB', 1500), jug('r6', 'RB', 1200),
+      jug('w3', 'WR', 7500), jug('w4', 'WR', 7000), jug('w5', 'WR', 6500), jug('w6', 'WR', 6000)] },
+    { rosterId: 3, nombre: 'Normales', ids: [jug('q3', 'QB', 5000), jug('r7', 'RB', 5000), jug('r8', 'RB', 4800),
+      jug('w7', 'WR', 5000), jug('w8', 'WR', 4500), jug('w9', 'WR', 900)] },
+  ];
+  const r = buscarPorNecesidad({ necesito: 'WR', equipos, jugadores: Jn, rosterPositions: P, valor: (id) => V[id] ?? 0 });
+  assert.ok(r.sobrantes.some((s) => s.id === 'r4'), 'mi 4º RB me sobra');
+  assert.ok(r.opciones.length > 0);
+  const o = r.opciones[0];
+  assert.equal(o.rosterId, 2);
+  assert.equal(Jn[o.recibo[0]].pos, 'WR');
+  assert.ok(o.doy.every((id) => Jn[id].pos === 'RB'));
+  assert.ok(o.yoGano > 0 && o.ellosGanan > 0);
+  assert.equal(o.lesFalta.pos, 'RB');
+});

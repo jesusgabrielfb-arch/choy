@@ -1,6 +1,6 @@
 // Mercado: armador de trades justos (Cody opina), comprar barato / vender caro y lo que hacen miles de ligas.
 import { esc, $, $$, filaJugador, miles, tarjeta, codyDice } from './comun.js';
-import { proponerTrades } from '../analisis/trades.js';
+import { proponerTrades, buscarPorNecesidad } from '../analisis/trades.js';
 
 export function vistaMercado(el, d, ctx) {
   const J = d.jugadores;
@@ -20,8 +20,14 @@ export function vistaMercado(el, d, ctx) {
     sessionStorage.removeItem('trade-sugerido');
   } catch { /* nada */ }
 
+  const posTrade = ['QB', 'RB', 'WR', 'TE'].filter((p) => d.puestos.includes(p));
+  const inicial = posTrade.includes(d.debil?.pos) ? d.debil.pos : posTrade.includes('WR') ? 'WR' : posTrade[0];
   el.innerHTML = `
-    <section class="tarjeta"><header><h2>🤝 Armador de trades</h2><small>1. Elige rival · 2. Toca lo que quieres · 3. (Opcional) lo que das</small></header>
+    <section class="tarjeta" id="necesidad"><header><h2>🔎 ¿Qué necesitas?</h2><small>Elige la posición y busco equipos a los que les sobra justo eso y les falta lo que a ti te sobra</small></header>
+      <div class="chips" id="chips-necesito">${posTrade.map((p) => `<button data-pos="${p}" class="${p === inicial ? 'activo' : ''}">${p === d.debil?.pos ? '⚠️ ' : ''}${p}</button>`).join('')}</div>
+      <div id="res-necesito"></div>
+    </section>
+    <section class="tarjeta" id="armador"><header><h2>🤝 Armador de trades</h2><small>1. Elige rival · 2. Toca lo que quieres · 3. (Opcional) lo que das</small></header>
       <select id="rival" aria-label="Equipo rival">${rivales.map((r) => `<option value="${r.rosterId}">${esc(r.nombre)} · @${esc(r.usuario)}</option>`).join('')}</select>
       <div class="pasos dos" style="margin-top:10px">
         <div class="lado"><h3>📥 Recibes</h3><div class="scroll" id="lista-rival"></div></div>
@@ -105,6 +111,46 @@ export function vistaMercado(el, d, ctx) {
     }
   }
 
+  // ---------- Buscador por necesidad
+  const NOMBRE_POS = { QB: 'quarterback', RB: 'corredor', WR: 'receptor', TE: 'ala cerrada' };
+  function necesito(pos) {
+    const r = buscarPorNecesidad({ necesito: pos, equipos: d.equipos, jugadores: J, rosterPositions: d.puestos, valor: d.valor });
+    const nombre = (id) => `<b>${esc(J[id].nombre)}</b> <span class="pos ${J[id].pos}">${J[id].pos}</span>`;
+    const caja = $('#res-necesito');
+    const corto = (n) => { const p = n.split(' '); return p.length > 1 ? `${p[0][0]}. ${p.slice(1).join(' ')}` : n; };
+    const sobran = r.sobrantes.map((x) => esc(corto(J[x.id].nombre))).join(', ');
+    caja.innerHTML = `
+      <p class="nota" style="margin:8px 2px">${r.miLugar ? `Tus ${pos} titulares son los <b>${r.miLugar}º de ${r.total}</b> de la liga. ` : ''}${sobran ? `Lo que te sobra para cambiar: ${sobran}.` : 'No veo jugadores que te sobren: cualquier trade te quita un titular.'}</p>
+      ${r.opciones.length ? r.opciones.map((o, k) => `<div class="opcion necesidad">
+        <div class="linea"><span class="que">Equipo</span><b>${esc(o.equipo.nombre)}</b></div>
+        <div class="linea"><span class="que">Recibes</span>${o.recibo.map(nombre).join(' + ')}</div>
+        <div class="linea"><span class="que">Das</span>${o.doy.map(nombre).join(' + ')}</div>
+        <div class="por-que">
+          ${o.buenos >= 3 ? `<span class="etiqueta verde">Tienen ${o.buenos} ${pos} buenos</span>` : `<span class="etiqueta verde">Les sobra en ${pos}</span>`}
+          ${o.lesFalta && o.lesFalta.lugar > o.total / 2 ? `<span class="etiqueta naranja">Sus ${o.lesFalta.pos} son ${o.lesFalta.lugar}º de ${o.total}</span>` : ''}
+          <span class="etiqueta ${o.tipo === 'justo' ? 'verde' : 'amarillo'}">${esc(o.texto)}</span>
+          ${o.ellosGanan > 0 ? '<span class="etiqueta acento">A ellos también les conviene</span>' : ''}
+        </div>
+        <button class="chip-boton principal" data-abrir="${k}">🤝 Ver en el armador</button>
+      </div>`).join('') : `<div class="vacio">No encontré a nadie que tenga ${pos} de sobra y quiera lo que te sobra. Prueba con otra posición o en unos días.</div>`}`;
+    $$('[data-abrir]', caja).forEach((b) => (b.onclick = () => {
+      const o = r.opciones[Number(b.dataset.abrir)];
+      estado.rival = o.rosterId;
+      estado.recibo = new Set(o.recibo);
+      estado.doy = new Set(o.doy);
+      pintar();
+      $('#armador').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }));
+    const o = r.opciones[0];
+    codyDice(document, ctx, o
+      ? `Buscando ${NOMBRE_POS[pos] || pos}… En ${o.equipo.nombre} les sobra ${pos}${o.lesFalta && o.lesFalta.lugar > o.total / 2 ? ` y andan flojos en ${o.lesFalta.pos}` : ''}. Ofréceles ${o.doy.map((id) => J[id].nombre).join(' + ')} por ${J[o.recibo[0]].nombre}. 🤝`
+      : `Nadie tiene ${pos} de sobra para lo que tú puedes dar. Te toca buscar en waivers. 🧐`, { animo: o ? 'Cool' : 'Triste' });
+  }
+  $$('#chips-necesito button').forEach((b) => (b.onclick = () => {
+    $$('#chips-necesito button').forEach((x) => x.classList.toggle('activo', x === b));
+    necesito(b.dataset.pos);
+  }));
+
   $('#rival').addEventListener('change', (e) => { estado.rival = e.target.value; estado.recibo.clear(); pintar(); });
   $$('[data-pedir]', el).forEach((b) => b.addEventListener('click', () => {
     estado.rival = b.dataset.roster;
@@ -114,5 +160,5 @@ export function vistaMercado(el, d, ctx) {
     $('#rival').scrollIntoView({ behavior: 'smooth', block: 'center' });
   }));
   pintar();
-  ctx.ponerMascota($('[data-cody]')).then(calcular);
+  ctx.ponerMascota($('[data-cody]')).then(() => (inicial ? necesito(inicial) : calcular()));
 }

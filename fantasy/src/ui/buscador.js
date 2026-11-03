@@ -16,6 +16,7 @@ export const FUNCIONES = [
   { t: '🩹 Lesionados de tu equipo', desc: 'Estado y qué hacer con cada uno', k: 'lesion lesionados injury duda out', tab: 'equipo', abrir: 'Lesionados de tu equipo' },
   { t: '🔬 Analizador de defensas', desc: 'Qué defensa regala más puntos a cada posición', k: 'analizador defensas cruce matchup permite puntos', tab: 'equipo', abrir: 'Analizador' },
   { t: '🛡️ Mejores defensas de la semana', desc: 'Ranking de DEF por rival (esta y la próxima)', k: 'mejores defensas dst def semana rival', tab: 'equipo', abrir: 'Mejores defensas' },
+  { t: '🔎 Trade por necesidad', desc: 'Dime qué posición necesitas y te digo a quién le sobra y qué le falta', k: 'necesidad necesito busco falta sobra trade receptor corredor wr rb qb te', tab: 'mercado', abrir: 'Qué necesitas' },
   { t: '🤝 Armador de trades', desc: 'Elige jugadores y te doy opciones justas', k: 'trade intercambio cambio justo armar', tab: 'mercado', abrir: 'Armador' },
   { t: '🛒 Comprar barato', desc: 'Jugadores que rinden menos de lo que valen', k: 'comprar barato buy low', tab: 'mercado', abrir: 'Comprar barato' },
   { t: '💰 Vender caro', desc: 'Tus jugadores en su punto más alto', k: 'vender caro sell high', tab: 'mercado', abrir: 'Vender caro' },

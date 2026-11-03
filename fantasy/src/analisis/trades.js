@@ -1,4 +1,5 @@
 // Trades justos con valores de FantasyCalc.
+import { mejorAlineacion } from './alineacion.js';
 // Un paquete de varios jugadores vale menos que la suma: el mejor jugador manda.
 
 const PESOS = [1, 0.72, 0.55, 0.45, 0.4];
@@ -102,4 +103,102 @@ export function buscarCompradores({ mio, rosters, valor, posDe, necesidad = () =
     }
   }
   return res.sort((a, b) => b.puntaje - a.puntaje).slice(0, 10);
+}
+
+const POS_TRADE = ['QB', 'RB', 'WR', 'TE'];
+
+/**
+ * Buscador por necesidad: "necesito un WR".
+ * 1) Ve qué te sobra a ti: jugadores que, si se van, casi no bajan tu alineación.
+ * 2) Busca equipos a los que les SOBRA esa posición (tienen varios buenos y alguno no cabe de titular)
+ *    y a los que les FALTA algo que a ti te sobra.
+ * 3) Arma trades parejos (1 o 2 de los tuyos por 1 de ellos) que te mejoran la alineación
+ *    y que también les sirven a ellos, así es más fácil que acepten.
+ * equipos: [{ rosterId, nombre, ids, esMio }]; jugadores: { id: { pos } }; valor(id) → número.
+ */
+export function buscarPorNecesidad({ necesito, equipos, jugadores: J, rosterPositions, valor, limite = 8 }) {
+  const fuerzaAlineacion = (ids) => mejorAlineacion(
+    ids.filter((id) => J[id] && POS_TRADE.includes(J[id].pos)).map((id) => ({ id, pos: J[id].pos, valor: valor(id) })),
+    rosterPositions,
+  ).titulares.reduce((s, t) => s + (t.id ? valor(t.id) : 0), 0);
+  // Cuánto pierde un equipo si se va este jugador, comparado con lo que vale (0 = le sobra del todo)
+  const peso = (ids, base, id) => {
+    const v = valor(id);
+    return v ? (base - fuerzaAlineacion(ids.filter((x) => x !== id))) / v : 1;
+  };
+  // Fuerza de cada equipo por posición (suma de sus titulares en esa posición) → ranking de necesidades
+  const titularesDe = (ids) => new Set(mejorAlineacion(
+    ids.filter((id) => J[id]).map((id) => ({ id, pos: J[id].pos, valor: valor(id) })), rosterPositions,
+  ).titulares.map((t) => t.id));
+  const info = equipos.map((e) => {
+    const base = fuerzaAlineacion(e.ids);
+    const tit = titularesDe(e.ids);
+    const porPos = {};
+    for (const p of POS_TRADE) porPos[p] = e.ids.filter((id) => J[id]?.pos === p && tit.has(id)).reduce((s, id) => s + valor(id), 0);
+    return { e, base, tit, porPos };
+  });
+  const lugar = {}; // lugar[rosterId][pos]: 1 = el más fuerte
+  for (const p of POS_TRADE) {
+    [...info].sort((a, b) => b.porPos[p] - a.porPos[p]).forEach((x, i) => { (lugar[x.e.rosterId] ??= {})[p] = i + 1; });
+  }
+  const total = info.length;
+  const mio = info.find((x) => x.e.esMio);
+  if (!mio) return { sobrantes: [], opciones: [] };
+
+  // Lo que te sobra a ti (fuera de la posición que necesitas)
+  const sobrantes = mio.e.ids
+    .filter((id) => J[id] && POS_TRADE.includes(J[id].pos) && J[id].pos !== necesito && valor(id) > 300)
+    .map((id) => ({ id, pierde: peso(mio.e.ids, mio.base, id) }))
+    .filter((x) => x.pierde < 0.6)
+    .sort((a, b) => valor(b.id) - valor(a.id))
+    .slice(0, 7);
+
+  const opciones = [];
+  for (const otro of info) {
+    if (otro === mio) continue;
+    const suyos = otro.e.ids.filter((id) => J[id]?.pos === necesito && valor(id) > 300);
+    const buenos = suyos.filter((id) => valor(id) >= 1500).length;
+    // A ellos les sobra: de esa posición, los que casi no les bajan la alineación
+    const objetivos = suyos
+      .map((id) => ({ id, pierde: peso(otro.e.ids, otro.base, id) }))
+      .filter((x) => x.pierde < 0.6)
+      .sort((a, b) => valor(b.id) - valor(a.id))
+      .slice(0, 3);
+    for (const obj of objetivos) {
+      const vObj = valor(obj.id);
+      const combos = [];
+      for (let i = 0; i < sobrantes.length; i++) {
+        combos.push([sobrantes[i].id]);
+        for (let k = i + 1; k < sobrantes.length; k++) combos.push([sobrantes[i].id, sobrantes[k].id]);
+      }
+      for (const doy of combos) {
+        const vDoy = valorPaquete(doy.map(valor));
+        const e = equidad(vDoy, vObj);
+        if (e < 0.85) continue;
+        const misIds = [...mio.e.ids.filter((x) => !doy.includes(x)), obj.id];
+        const susIds = [...otro.e.ids.filter((x) => x !== obj.id), ...doy];
+        const yoGano = fuerzaAlineacion(misIds) - mio.base;
+        const ellosGanan = fuerzaAlineacion(susIds) - otro.base;
+        if (yoGano <= 0) continue;
+        // ¿Lo que les doy es de una posición donde andan flojos?
+        const lesFalta = doy.map((id) => J[id].pos).filter((p, i, a) => a.indexOf(p) === i)
+          .map((p) => ({ pos: p, lugar: lugar[otro.e.rosterId][p] }))
+          .sort((a, b) => b.lugar - a.lugar)[0];
+        const necesidad = lesFalta ? (lesFalta.lugar - 1) / Math.max(1, total - 1) : 0;
+        const puntaje = e * (0.45 + 0.35 * necesidad + 0.2 * (ellosGanan > 0 ? 1 : 0)) * (1 + Math.min(1, yoGano / Math.max(1, vObj)));
+        opciones.push({
+          rosterId: otro.e.rosterId, equipo: otro.e, recibo: [obj.id], doy, vDoy, vRecibo: vObj, equidad: e,
+          yoGano, ellosGanan, buenos, lesFalta, total, puntaje, ...veredicto(vDoy, vObj),
+        });
+      }
+    }
+  }
+  // Una opción por jugador que recibes (la mejor), ordenadas por puntaje
+  const vistos = new Set();
+  const unicas = opciones.sort((a, b) => b.puntaje - a.puntaje)
+    .filter((o) => (vistos.has(o.recibo[0]) ? false : vistos.add(o.recibo[0])));
+  return {
+    sobrantes, opciones: unicas.slice(0, limite),
+    miLugar: lugar[mio.e.rosterId]?.[necesito] ?? null, total,
+  };
 }
