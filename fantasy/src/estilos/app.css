@@ -537,3 +537,16 @@ details.juego > summary::-webkit-details-marker { display: none; }
 .seccion-titulo.nivel-mejor { color: var(--verde); } .seccion-titulo.nivel-medio { color: var(--amarillo); } .seccion-titulo.nivel-desesperado { color: var(--rojo); }
 .opcion .lista-j { flex: 1; min-width: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; }
 .opcion .lista-j .mas { color: var(--suave); }
+
+/* Mis waivers */
+.chip-boton.apuntar { margin-left: 6px; padding: 4px 10px; font-size: 12px; }
+.chip-boton.apuntar.activo { background: color-mix(in srgb, var(--verde) 22%, var(--tarjeta-2)); color: var(--verde); }
+.mov-historial { margin-top: 10px; }
+.mov-historial > summary { list-style: none; display: inline-flex; cursor: pointer; }
+.mov-historial > summary::-webkit-details-marker { display: none; }
+.mov { background: var(--tarjeta-2); border-radius: 14px; padding: 10px 12px; margin-top: 8px; display: grid; gap: 4px; }
+.mov.fallo { opacity: 0.75; }
+.mov-cab { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.mov-cab small { margin-left: auto; color: var(--suave); }
+.mov-linea { font-size: 13.5px; font-weight: 650; }
+.mov-linea.entra { color: var(--verde); } .mov-linea.sale { color: var(--rojo); }

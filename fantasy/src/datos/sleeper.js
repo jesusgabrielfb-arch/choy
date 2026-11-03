@@ -18,6 +18,10 @@ export const usuariosLiga = (id) => pedirJSON(`${API}/league/${id}/users`, { cla
 export const matchups = (id, semana) =>
   pedirJSON(`${API}/league/${id}/matchups/${semana}`, { clave: `matchups:${id}:${semana}`, ttl: 5 * MINUTO });
 
+/** Movimientos ya procesados de una semana (waivers ganados/fallidos, libres, trades). Los pendientes no salen: son privados. */
+export const transacciones = (id, semana) =>
+  pedirJSON(`${API}/league/${id}/transactions/${semana}`, { clave: `tx:${id}:${semana}`, ttl: 5 * MINUTO });
+
 export const tendencias = (tipo = 'add', horas = 24, limite = 60) =>
   pedirJSON(`${API}/players/nfl/trending/${tipo}?lookback_hours=${horas}&limit=${limite}`,
     { clave: `trend:${tipo}`, ttl: 30 * MINUTO });

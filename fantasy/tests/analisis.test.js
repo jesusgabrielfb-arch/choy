@@ -468,3 +468,27 @@ test('buscar por necesidad: necesito WR, me sobra RB → equipo con WR de sobra 
   // Los desesperados tocan un titular, pagan de más o piden a su titular
   assert.ok(r.porNivel.desesperado.every((x) => x.tocaTitular || x.pagoDeMas || x.esSuTitular));
 });
+
+import { misMovimientos, estadoReclamos } from '../src/analisis/waivers.js';
+
+test('mis waivers: cruza lo que apunté con lo que Sleeper procesó', () => {
+  const t0 = 1_000_000_000;
+  const txs = [
+    { transaction_id: '1', type: 'waiver', status: 'complete', roster_ids: [3], adds: { a: 3 }, drops: { x: 3 }, settings: { waiver_bid: 12 }, status_updated: t0 + 5000 },
+    { transaction_id: '2', type: 'waiver', status: 'complete', roster_ids: [7], adds: { b: 7 }, settings: { waiver_bid: 30 }, status_updated: t0 + 5000 },
+    { transaction_id: '3', type: 'waiver', status: 'failed', roster_ids: [3], adds: { c: 3 }, metadata: { notes: 'Otro reclamo con más prioridad' }, status_updated: t0 + 5000 },
+    { transaction_id: '4', type: 'free_agent', status: 'complete', roster_ids: [3], adds: { e: 3 }, status_updated: t0 + 9000 },
+  ];
+  const apuntados = [{ id: 'a', t: t0 }, { id: 'b', t: t0 }, { id: 'c', t: t0 }, { id: 'd', t: t0 }];
+  const r = estadoReclamos(apuntados, txs, { miRosterId: 3, misIds: [], nombreDe: (rid) => `Equipo ${rid}` });
+  const por = Object.fromEntries(r.map((x) => [x.id, x]));
+  assert.equal(por.a.estado, 'ganado');
+  assert.equal(por.a.faab, 12);
+  assert.equal(por.b.estado, 'perdido');
+  assert.match(por.b.motivo, /Equipo 7/);
+  assert.equal(por.c.estado, 'perdido');
+  assert.equal(por.d.estado, 'pendiente');
+  const m = misMovimientos(txs, 3);
+  assert.deepEqual(m.map((x) => x.id), ['4', '1', '3']); // del más nuevo al más viejo, solo los míos
+  assert.deepEqual(m[1].salen, ['x']);
+});

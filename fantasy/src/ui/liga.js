@@ -9,6 +9,9 @@ import { vistaNoticias } from './noticias.js';
 import * as F from './frases.js';
 import { enfrentamientoHtml } from './enfrentamiento.js';
 import { abrirBuscador, abrirPendiente } from './buscador.js';
+import { leerApuntados, alternarApuntado, estaApuntado, limpiarApuntados } from '../datos/apuntes.js';
+import { misMovimientos, estadoReclamos } from '../analisis/waivers.js';
+import * as Sl from '../datos/sleeper.js';
 import { tutorialVisto, iniciarTutorial } from './tutorial.js';
 import { vistaNFL } from './nfl.js';
 import { codyDice } from './comun.js';
@@ -305,13 +308,18 @@ function jugadores(el, d, ctx) {
   const vistos = new Set();
   const waivers = d.plan.filter((a) => (a.tipo === 'waiver' || a.tipo === 'proxima') && !(a.entra && vistos.has(a.entra)) && (vistos.add(a.entra) || true));
   const posMias = ['QB', 'RB', 'WR', 'TE'].filter((p) => d.puestos.includes(p));
+  const ligaId = d.liga?.league_id;
+  const botonApuntar = (id, soltar = null) => `<button class="chip-boton apuntar ${estaApuntado(ligaId, id) ? 'activo' : ''}" data-apuntar="${esc(id)}"${soltar ? ` data-soltar="${esc(soltar)}"` : ''}>${estaApuntado(ligaId, id) ? '✅ Apuntado' : '📝 Ya lo pedí'}</button>`;
   el.innerHTML = `
+    <section class="tarjeta" id="mis-waivers"><header><h2>📝 Mis waivers</h2><small>Lo que pediste y cómo te fue</small></header>
+      <div id="mis-waivers-cuerpo">${cargando('Revisando tus movimientos en Sleeper…')}</div>
+    </section>
     ${waivers.length ? tarjeta('➕ Agrega esta semana', `<div class="lista">${waivers.filter((a) => a.entra).map((a) => filaJugador(J[a.entra], {
       etiquetas: a.ganancia > 0.5 && a.tipo === 'waiver' ? `<span class="etiqueta ganancia">+${a.ganancia.toFixed(1)}</span>` : '<span class="etiqueta acento">Bye</span>',
       ...((a.semana || (a.tipo === 'proxima' ? d.semana + 1 : d.semana)) === d.semana
         ? puntosDe(d)(a.entra, d.proyAjustada(d.semana, a.entra))
         : { derecha: pts(d.proyAjustada(a.semana || d.semana + 1, a.entra)), derechaSub: `proy. S${a.semana || d.semana + 1}` }),
-      consejo: a.soltar ? `Suelta a <b>${esc(J[a.soltar]?.nombre)}</b>` : esc(a.tipo === 'proxima' ? `Para la semana ${d.semana + 1}` : ''),
+      consejo: `${a.soltar ? `Suelta a <b>${esc(J[a.soltar]?.nombre)}</b>` : esc(a.tipo === 'proxima' ? `Para la semana ${d.semana + 1}` : '')} ${botonApuntar(a.entra, a.soltar)}`,
     })).join('')}</div>`, { sub: 'Lo que más suma a tu alineación' }) : ''}
     ${d.byes.length ? d.byes.map((a) => tarjeta(a.semana === d.semana ? `😴 Byes de esta semana` : `😴 Byes de la semana ${a.semana}`,
       `<div class="lista">${a.enBye.map((id) => filaJugador(J[id], { etiquetas: a.titularesAfectados.includes(id) ? '<span class="etiqueta naranja">Titular</span>' : '' })).join('')}</div>`,
@@ -354,13 +362,77 @@ function jugadores(el, d, ctx) {
       .sort((a, b) => b.p - a.p || d.valor(b.id) - d.valor(a.id)).slice(0, 8);
     $('#libres').innerHTML = `<div class="lista">${lista.map((x) => filaJugador(J[x.id], {
       sub: d.rivalesPor[d.semana]?.[J[x.id].equipo] ? `vs ${esc(d.rivalesPor[d.semana][J[x.id].equipo])}` : 'BYE',
-      ...puntosDe(d)(x.id, x.p) })).join('') || '<div class="vacio">Sin jugadores libres.</div>'}</div>`;
+      ...puntosDe(d)(x.id, x.p), consejo: botonApuntar(x.id) })).join('') || '<div class="vacio">Sin jugadores libres.</div>'}</div>`;
+    if (typeof refrescarBotones === 'function') refrescarBotones();
   };
   $$('#chips-libres button').forEach((b) => b.addEventListener('click', () => {
     $$('#chips-libres button').forEach((x) => x.classList.toggle('activo', x === b));
     pintar(b.dataset.pos);
   }));
   if (posMias[0]) pintar(posMias[0]);
+
+  // ---------- Mis waivers: apuntados (pendientes) + lo que Sleeper ya procesó
+  const nombreEquipo = (rid) => d.equipos.find((e) => Number(e.rosterId) === Number(rid))?.nombre || 'otro equipo';
+  let txs = [];
+  const pintarMios = () => {
+    const caja = $('#mis-waivers-cuerpo');
+    if (!caja) return;
+    const reclamos = estadoReclamos(leerApuntados(ligaId), txs, { miRosterId: d.mio.rosterId, misIds: d.mio.ids, nombreDe: nombreEquipo });
+    limpiarApuntados(ligaId, reclamos);
+    const movs = misMovimientos(txs, d.mio.rosterId).slice(0, 12);
+    const fila = (r) => {
+      const j = J[r.id];
+      if (!j) return '';
+      const est = r.estado === 'ganado' ? `<span class="etiqueta verde">✅ Ganado${r.faab != null ? ` · $${r.faab}` : ''}</span>`
+        : r.estado === 'perdido' ? `<span class="etiqueta rojo">❌ Perdido</span>`
+          : '<span class="etiqueta amarillo">⏳ Pendiente</span>';
+      return filaJugador(j, {
+        etiquetas: est,
+        sub: [r.soltar && J[r.soltar] ? `suelta a ${esc(J[r.soltar].nombre)}` : '', r.motivo ? esc(r.motivo) + (r.faabGanador != null ? ` ($${r.faabGanador})` : '') : ''].filter(Boolean).join(' · '),
+        consejo: r.estado === 'pendiente' ? `<button class="chip-boton" data-quitar="${esc(r.id)}">🗑️ Quitar</button>` : '',
+      });
+    };
+    const nombres = (ids) => ids.map((id) => esc(J[id]?.nombre || 'jugador')).join(', ');
+    const TIPO = { waiver: '📋 Waiver', free_agent: '🆓 Agente libre', trade: '🤝 Trade', commissioner: '🛠️ Comisionado' };
+    const movHtml = (m) => `<div class="mov ${m.estado === 'failed' ? 'fallo' : ''}">
+      <div class="mov-cab"><b>${TIPO[m.tipo] || m.tipo}</b>${m.estado === 'failed' ? '<span class="etiqueta rojo">No pasó</span>' : ''}${m.faab != null && m.tipo === 'waiver' ? `<span class="etiqueta">$${m.faab} FAAB</span>` : ''}<small>${m.fecha ? esc(new Date(m.fecha).toLocaleDateString('es', { weekday: 'short', day: 'numeric', month: 'short' })) : ''}</small></div>
+      ${m.entran.length ? `<div class="mov-linea entra">➕ ${nombres(m.entran)}</div>` : ''}
+      ${m.salen.length ? `<div class="mov-linea sale">➖ ${nombres(m.salen)}</div>` : ''}
+      ${m.estado === 'failed' && m.nota ? `<div class="nota">${esc(m.nota)}</div>` : ''}
+    </div>`;
+    caja.innerHTML = `
+      ${reclamos.length ? `<div class="lista">${reclamos.map(fila).join('')}</div>`
+        : '<p class="nota" style="margin:6px 2px">Cuando pidas a alguien en Sleeper, toca <b>📝 Ya lo pedí</b> en su fila (abajo, en "Agrega esta semana" o en "Mejores libres") y aquí te digo si lo ganaste.</p>'}
+      <details class="mov-historial"${movs.length && !reclamos.length ? ' open' : ''}><summary class="chip-boton">🧾 Tus movimientos procesados (${movs.length})</summary>
+        ${movs.length ? movs.map(movHtml).join('') : '<div class="vacio">Sin movimientos en las últimas semanas.</div>'}
+      </details>
+      <p class="nota" style="margin-top:8px">Sleeper no deja ver los reclamos pendientes desde otras apps: esos los apuntas tú y yo los reviso cuando se procesan.</p>`;
+    $$('[data-quitar]', caja).forEach((b) => (b.onclick = () => { alternarApuntado(ligaId, { id: b.dataset.quitar }); pintarMios(); refrescarBotones(); }));
+  };
+  // Cada botón "Ya lo pedí" se conecta solo (también los de listas que se vuelven a pintar)
+  function refrescarBotones() {
+    $$('[data-apuntar]', el).forEach((b) => {
+      const si = estaApuntado(ligaId, b.dataset.apuntar);
+      b.classList.toggle('activo', si);
+      b.textContent = si ? '✅ Apuntado' : '📝 Ya lo pedí';
+      b.onclick = () => {
+        const ahora = alternarApuntado(ligaId, { id: b.dataset.apuntar, soltar: b.dataset.soltar || null, semana: d.semanaWaivers || d.semana });
+        refrescarBotones();
+        pintarMios();
+        if (ahora) codyDice(document, ctx, `Apuntado: pediste a ${J[b.dataset.apuntar]?.nombre}. Cuando Sleeper procese los waivers te digo si lo ganaste. 🤞`, { animo: 'Feliz' });
+      };
+    });
+  }
+  refrescarBotones();
+  pintarMios();
+  const semanasTx = [...new Set([d.semanaActual - 1, d.semanaActual, d.semanaActual + 1])].filter((w) => w >= 1 && w <= 18);
+  Promise.all(semanasTx.map((w) => Sl.transacciones(ligaId, w).catch(() => [])))
+    .then((listas) => {
+      const vistos = new Set();
+      txs = listas.flat().filter((t) => t && !(t.transaction_id && vistos.has(t.transaction_id)) && (vistos.add(t.transaction_id) || true));
+      pintarMios();
+    })
+    .catch(() => {});
 
   const w = waivers.find((a) => a.tipo === 'waiver');
   const texto = w ? `${w.titulo}. ${w.detalle}`
