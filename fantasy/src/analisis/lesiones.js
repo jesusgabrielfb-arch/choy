@@ -19,6 +19,10 @@ const PARTES = {
   Toe: 'dedo del pie', Neck: 'cuello', Ribs: 'costillas', Chest: 'pecho', Achilles: 'tendón de Aquiles',
   Thumb: 'pulgar', Finger: 'dedo', Illness: 'enfermedad', Abdomen: 'abdomen', Oblique: 'oblicuo',
   Pectoral: 'pectoral', Personal: 'asunto personal', Rest: 'descanso', Shin: 'espinilla',
+  Arm: 'brazo', Forearm: 'antebrazo', Head: 'cabeza', Leg: 'pierna', 'Lower Leg': 'pierna', Jaw: 'mandíbula',
+  Heel: 'talón', Collarbone: 'clavícula', Clavicle: 'clavícula', Biceps: 'bíceps', Triceps: 'tríceps', Face: 'cara',
+  Eye: 'ojo', Nose: 'nariz', Lung: 'pulmón', Kidney: 'riñón', Spleen: 'bazo', Glute: 'glúteo', Pelvis: 'pelvis',
+  Turf: 'dedo del pie (turf toe)', 'Turf Toe': 'dedo del pie (turf toe)', Undisclosed: 'sin especificar', 'Not Injury Related': 'no es lesión',
 };
 
 export const parteEnEspanol = (p) => (p ? PARTES[p] || p.toLowerCase() : null);
@@ -135,8 +139,8 @@ export function disponibilidad(j, { w, semanaActual, proy = null, ultimoPartido 
   }
   if (w > semanaActual) {
     // El reporte de la semana habla del próximo partido, no de los siguientes
-    return est === 'Out' ? { factor: 0.75, texto: 'fuera esta semana; puede volver para entonces' }
-      : { factor: 0.95, texto: 'en duda esta semana; para entonces debería estar' };
+    return est === 'Out' ? { factor: 0.75, texto: 'fuera para su próximo partido; para esta semana puede volver' }
+      : { factor: 0.95, texto: 'en duda para su próximo partido; para esta semana debería estar' };
   }
   // ¿El reporte es nuevo (salió después de su último partido) o es el de la semana pasada?
   const nuevo = !(j.actualizado && ultimoPartido) || j.actualizado > ultimoPartido;

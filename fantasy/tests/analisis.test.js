@@ -432,6 +432,8 @@ test('cruce: mezcla yardas y puntos permitidos a la posición y da la nota por l
   const r = rankingDefensas(p, 'RB');
   assert.equal(r[0].equipo, 'NYJ'); // 180 yds y 18 pts > 40 yds y 16 pts
   assert.match(r[0].texto, /180 yds/);
+  assert.match(r[0].texto, /MÁS le regala/);
+  assert.match(r[1].texto, /MÁS dura/);
   assert.equal(notaPorLugar(1, 32).nota, 'A');
   assert.equal(notaPorLugar(10, 32).nota, 'B');
   assert.equal(notaPorLugar(16, 32).nota, 'C');

@@ -91,7 +91,12 @@ export function rankingDefensas(permitidos, pos) {
   const total = filas.length;
   return filas.map((f, i) => {
     const c = notaPorLugar(i + 1, total);
-    const detalle = `${f.equipo} permite ${f.yardas != null ? `${Math.round(f.yardas)} yds y ` : ''}${f.permite.toFixed(1)} pts por partido a ${pos} (la ${i + 1}ª que más permite de ${total})`;
+    const lugar = i + 1;
+    const duras = total - lugar + 1; // 1 = la más dura
+    const donde = lugar <= total / 2
+      ? (lugar === 1 ? `es la que MÁS le regala a ${pos} de las ${total}` : `es la ${lugar}ª que MÁS le regala a ${pos} de ${total}`)
+      : (duras === 1 ? `es la defensa MÁS dura contra ${pos} de las ${total}` : `es la ${duras}ª defensa MÁS dura contra ${pos} de ${total}`);
+    const detalle = `${f.equipo} ${donde}: permite ${f.yardas != null ? `${Math.round(f.yardas)} yds y ` : ''}${f.permite.toFixed(1)} pts por partido`;
     return { ...f, rank: i + 1, total, nota: c.nota, texto: `${c.texto}: ${detalle}` };
   });
 }

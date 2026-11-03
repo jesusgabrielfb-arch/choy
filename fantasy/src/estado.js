@@ -138,8 +138,15 @@ async function armarLiga(ligaId, usuarioId, semanaVista = null) {
     for (const eq of [p.local, p.visita]) if (!(ultimoPartido[eq] > t)) ultimoPartido[eq] = t;
   }
   const dispoCache = {};
+  // La semana de su PRÓXIMO partido (el martes Sleeper todavía dice "semana 8", pero lo que viene es la 9)
+  const proximaSemana = {};
+  for (const [w, lista] of Object.entries(partidosPor)) for (const p of lista || []) {
+    if (!(Date.parse(p.fecha) > ahora - 4 * 3600_000) || (p.progreso ?? 0) >= 1) continue;
+    for (const eq of [p.local, p.visita]) if (!(proximaSemana[eq] <= Number(w))) proximaSemana[eq] = Number(w);
+  }
   const disponible = (w, id) => (dispoCache[`${w}|${id}`] ??= disponibilidad(jugadores[id], {
-    w, semanaActual, proy: proy(w, id), ultimoPartido: ultimoPartido[jugadores[id]?.equipo] ?? null,
+    w, semanaActual: proximaSemana[jugadores[id]?.equipo] ?? semanaActual, proy: proy(w, id),
+    ultimoPartido: ultimoPartido[jugadores[id]?.equipo] ?? null,
   }));
   res.disponible = disponible;
   res.noJuega = (w, id) => disponible(w, id).factor === 0;
