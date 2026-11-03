@@ -530,3 +530,10 @@ details.juego > summary::-webkit-details-marker { display: none; }
 .opcion.necesidad .por-que { display: flex; flex-wrap: wrap; gap: 5px; }
 .opcion.necesidad .chip-boton { justify-self: start; }
 .opcion.necesidad .pos { font-size: 10px; padding: 1px 5px; vertical-align: 1px; }
+
+.opcion.necesidad.nivel-mejor { border-left: 4px solid var(--verde); }
+.opcion.necesidad.nivel-medio { border-left: 4px solid var(--amarillo); }
+.opcion.necesidad.nivel-desesperado { border-left: 4px solid var(--rojo); }
+.seccion-titulo.nivel-mejor { color: var(--verde); } .seccion-titulo.nivel-medio { color: var(--amarillo); } .seccion-titulo.nivel-desesperado { color: var(--rojo); }
+.opcion .lista-j { flex: 1; min-width: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; }
+.opcion .lista-j .mas { color: var(--suave); }

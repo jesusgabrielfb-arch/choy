@@ -113,26 +113,38 @@ export function vistaMercado(el, d, ctx) {
 
   // ---------- Buscador por necesidad
   const NOMBRE_POS = { QB: 'quarterback', RB: 'corredor', WR: 'receptor', TE: 'ala cerrada' };
+  const NIVELES = [
+    ['mejor', '🏆 Lo mejor', 'Das solo lo que te sobra, es parejo y a ellos les hace falta.'],
+    ['medio', '👍 Lo medio', 'Parejo, pero no les urge tanto o te mejora menos.'],
+    ['desesperado', '🆘 Si estás desesperado', 'Das un poco de más o a un titular, pero consigues la posición que necesitas.'],
+  ];
+  const tarjetaOpcion = (o, k, pos) => {
+    const nombre = (id) => `<b>${esc(J[id].nombre)}</b> <span class="pos ${J[id].pos}">${J[id].pos}</span>`;
+    return `<div class="opcion necesidad nivel-${o.nivel}">
+      <div class="linea"><span class="que">Equipo</span><b>${esc(o.equipo.nombre)}</b></div>
+      <div class="linea"><span class="que">Recibes</span><span class="lista-j">${o.recibo.map(nombre).join(' + ')}</span></div>
+      <div class="linea"><span class="que">Das</span><span class="lista-j">${o.doy.map(nombre).join(' <span class="mas">+</span> ')}</span></div>
+      <div class="por-que">
+        ${o.esSuTitular ? `<span class="etiqueta naranja">Es su titular</span>` : o.buenos >= 3 ? `<span class="etiqueta verde">Tienen ${o.buenos} ${pos} buenos</span>` : `<span class="etiqueta verde">Les sobra en ${pos}</span>`}
+        ${o.lesFalta && o.lesFalta.lugar > o.total / 2 ? `<span class="etiqueta naranja">Sus ${o.lesFalta.pos} son ${o.lesFalta.lugar}º de ${o.total}</span>` : ''}
+        ${o.tocaTitular ? '<span class="etiqueta rojo">Das a un titular tuyo</span>' : ''}
+        <span class="etiqueta ${o.tipo === 'justo' ? 'verde' : o.tipo === 'pierdes' ? 'rojo' : 'amarillo'}">${esc(o.texto)}</span>
+        ${o.ellosGanan > 0 ? '<span class="etiqueta acento">A ellos también les conviene</span>' : ''}
+      </div>
+      <button class="chip-boton principal" data-abrir="${k}">🤝 Ver en el armador</button>
+    </div>`;
+  };
   function necesito(pos) {
     const r = buscarPorNecesidad({ necesito: pos, equipos: d.equipos, jugadores: J, rosterPositions: d.puestos, valor: d.valor });
-    const nombre = (id) => `<b>${esc(J[id].nombre)}</b> <span class="pos ${J[id].pos}">${J[id].pos}</span>`;
     const caja = $('#res-necesito');
     const corto = (n) => { const p = n.split(' '); return p.length > 1 ? `${p[0][0]}. ${p.slice(1).join(' ')}` : n; };
     const sobran = r.sobrantes.map((x) => esc(corto(J[x.id].nombre))).join(', ');
     caja.innerHTML = `
       <p class="nota" style="margin:8px 2px">${r.miLugar ? `Tus ${pos} titulares son los <b>${r.miLugar}º de ${r.total}</b> de la liga. ` : ''}${sobran ? `Lo que te sobra para cambiar: ${sobran}.` : 'No veo jugadores que te sobren: cualquier trade te quita un titular.'}</p>
-      ${r.opciones.length ? r.opciones.map((o, k) => `<div class="opcion necesidad">
-        <div class="linea"><span class="que">Equipo</span><b>${esc(o.equipo.nombre)}</b></div>
-        <div class="linea"><span class="que">Recibes</span>${o.recibo.map(nombre).join(' + ')}</div>
-        <div class="linea"><span class="que">Das</span>${o.doy.map(nombre).join(' + ')}</div>
-        <div class="por-que">
-          ${o.buenos >= 3 ? `<span class="etiqueta verde">Tienen ${o.buenos} ${pos} buenos</span>` : `<span class="etiqueta verde">Les sobra en ${pos}</span>`}
-          ${o.lesFalta && o.lesFalta.lugar > o.total / 2 ? `<span class="etiqueta naranja">Sus ${o.lesFalta.pos} son ${o.lesFalta.lugar}º de ${o.total}</span>` : ''}
-          <span class="etiqueta ${o.tipo === 'justo' ? 'verde' : 'amarillo'}">${esc(o.texto)}</span>
-          ${o.ellosGanan > 0 ? '<span class="etiqueta acento">A ellos también les conviene</span>' : ''}
-        </div>
-        <button class="chip-boton principal" data-abrir="${k}">🤝 Ver en el armador</button>
-      </div>`).join('') : `<div class="vacio">No encontré a nadie que tenga ${pos} de sobra y quiera lo que te sobra. Prueba con otra posición o en unos días.</div>`}`;
+      ${r.opciones.length ? NIVELES.filter(([n]) => r.porNivel[n].length).map(([n, titulo, sub]) => `
+        <h3 class="seccion-titulo nivel-${n}" style="margin-left:0">${titulo}</h3><p class="nota" style="margin:0 2px 6px">${sub}</p>
+        ${r.porNivel[n].map((o) => tarjetaOpcion(o, r.opciones.indexOf(o), pos)).join('')}`).join('')
+      : `<div class="vacio">No encontré a nadie que tenga ${pos} para cambiarte. Prueba con otra posición o busca en waivers.</div>`}`;
     $$('[data-abrir]', caja).forEach((b) => (b.onclick = () => {
       const o = r.opciones[Number(b.dataset.abrir)];
       estado.rival = o.rosterId;
@@ -141,7 +153,7 @@ export function vistaMercado(el, d, ctx) {
       pintar();
       $('#armador').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }));
-    const o = r.opciones[0];
+    const o = r.porNivel.mejor[0] || r.porNivel.medio[0] || r.opciones[0];
     codyDice(document, ctx, o
       ? `Buscando ${NOMBRE_POS[pos] || pos}… En ${o.equipo.nombre} les sobra ${pos}${o.lesFalta && o.lesFalta.lugar > o.total / 2 ? ` y andan flojos en ${o.lesFalta.pos}` : ''}. Ofréceles ${o.doy.map((id) => J[id].nombre).join(' + ')} por ${J[o.recibo[0]].nombre}. 🤝`
       : `Nadie tiene ${pos} de sobra para lo que tú puedes dar. Te toca buscar en waivers. 🧐`, { animo: o ? 'Cool' : 'Triste' });

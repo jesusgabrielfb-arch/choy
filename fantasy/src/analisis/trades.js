@@ -116,7 +116,7 @@ const POS_TRADE = ['QB', 'RB', 'WR', 'TE'];
  *    y que también les sirven a ellos, así es más fácil que acepten.
  * equipos: [{ rosterId, nombre, ids, esMio }]; jugadores: { id: { pos } }; valor(id) → número.
  */
-export function buscarPorNecesidad({ necesito, equipos, jugadores: J, rosterPositions, valor, limite = 8 }) {
+export function buscarPorNecesidad({ necesito, equipos, jugadores: J, rosterPositions, valor, limite = 9 }) {
   const fuerzaAlineacion = (ids) => mejorAlineacion(
     ids.filter((id) => J[id] && POS_TRADE.includes(J[id].pos)).map((id) => ({ id, pos: J[id].pos, valor: valor(id) })),
     rosterPositions,
@@ -146,59 +146,87 @@ export function buscarPorNecesidad({ necesito, equipos, jugadores: J, rosterPosi
   if (!mio) return { sobrantes: [], opciones: [] };
 
   // Lo que te sobra a ti (fuera de la posición que necesitas)
-  const sobrantes = mio.e.ids
+  const misCandidatos = mio.e.ids
     .filter((id) => J[id] && POS_TRADE.includes(J[id].pos) && J[id].pos !== necesito && valor(id) > 300)
     .map((id) => ({ id, pierde: peso(mio.e.ids, mio.base, id) }))
-    .filter((x) => x.pierde < 0.6)
-    .sort((a, b) => valor(b.id) - valor(a.id))
-    .slice(0, 7);
+    .sort((a, b) => valor(b.id) - valor(a.id));
+  const sobrantes = misCandidatos.filter((x) => x.pierde < 0.6).slice(0, 7);
+  const sobraSet = new Set(sobrantes.map((x) => x.id));
+  // Para el plan desesperado también entran tus titulares (los 4 que más valen fuera de esa posición)
+  const titularesMios = misCandidatos.filter((x) => !sobraSet.has(x.id)).slice(0, 4);
+  const pool = [...sobrantes, ...titularesMios].map((x) => x.id);
+
+  const combos = [];
+  for (let i = 0; i < pool.length; i++) {
+    combos.push([pool[i]]);
+    for (let k = i + 1; k < pool.length; k++) combos.push([pool[i], pool[k]]);
+  }
 
   const opciones = [];
   for (const otro of info) {
     if (otro === mio) continue;
     const suyos = otro.e.ids.filter((id) => J[id]?.pos === necesito && valor(id) > 300);
     const buenos = suyos.filter((id) => valor(id) >= 1500).length;
-    // A ellos les sobra: de esa posición, los que casi no les bajan la alineación
-    const objetivos = suyos
-      .map((id) => ({ id, pierde: peso(otro.e.ids, otro.base, id) }))
-      .filter((x) => x.pierde < 0.6)
-      .sort((a, b) => valor(b.id) - valor(a.id))
-      .slice(0, 3);
+    const pesos = suyos.map((id) => ({ id, pierde: peso(otro.e.ids, otro.base, id) }));
+    // Les sobra: casi no les baja la alineación. Para el plan desesperado, también su mejor de esa posición.
+    const objetivos = [
+      ...pesos.filter((x) => x.pierde < 0.6).sort((a, b) => valor(b.id) - valor(a.id)).slice(0, 3).map((x) => ({ ...x, sobra: true })),
+      ...pesos.filter((x) => x.pierde >= 0.6).sort((a, b) => valor(b.id) - valor(a.id)).slice(0, 1).map((x) => ({ ...x, sobra: false })),
+    ];
     for (const obj of objetivos) {
       const vObj = valor(obj.id);
-      const combos = [];
-      for (let i = 0; i < sobrantes.length; i++) {
-        combos.push([sobrantes[i].id]);
-        for (let k = i + 1; k < sobrantes.length; k++) combos.push([sobrantes[i].id, sobrantes[k].id]);
-      }
       for (const doy of combos) {
         const vDoy = valorPaquete(doy.map(valor));
         const e = equidad(vDoy, vObj);
-        if (e < 0.85) continue;
+        const pagoDeMas = vDoy > vObj * 1.08;
+        // Parejo (≥ 85 %) o, si pagas de más, hasta 1.6 veces su valor
+        if (e < 0.85 && !(vDoy > vObj && vDoy <= vObj * 1.6)) continue;
         const misIds = [...mio.e.ids.filter((x) => !doy.includes(x)), obj.id];
         const susIds = [...otro.e.ids.filter((x) => x !== obj.id), ...doy];
         const yoGano = fuerzaAlineacion(misIds) - mio.base;
         const ellosGanan = fuerzaAlineacion(susIds) - otro.base;
         if (yoGano <= 0) continue;
-        // ¿Lo que les doy es de una posición donde andan flojos?
-        const lesFalta = doy.map((id) => J[id].pos).filter((p, i, a) => a.indexOf(p) === i)
+        const lesFalta = doy.map((id) => J[id].pos).filter((p, i, arr) => arr.indexOf(p) === i)
           .map((p) => ({ pos: p, lugar: lugar[otro.e.rosterId][p] }))
-          .sort((a, b) => b.lugar - a.lugar)[0];
+          .sort((x, y) => y.lugar - x.lugar)[0];
         const necesidad = lesFalta ? (lesFalta.lugar - 1) / Math.max(1, total - 1) : 0;
-        const puntaje = e * (0.45 + 0.35 * necesidad + 0.2 * (ellosGanan > 0 ? 1 : 0)) * (1 + Math.min(1, yoGano / Math.max(1, vObj)));
+        const tocaTitular = doy.some((id) => !sobraSet.has(id));
+        // Nivel: lo mejor / lo medio / desesperado
+        let nivel;
+        if (tocaTitular || pagoDeMas || !obj.sobra) nivel = 'desesperado';
+        else if (e >= 0.9 && necesidad >= 0.5 && ellosGanan > 0) nivel = 'mejor';
+        else nivel = 'medio';
+        const puntaje = Math.min(1, e + (vObj > vDoy ? 0.05 : 0)) * (0.45 + 0.35 * necesidad + 0.2 * (ellosGanan > 0 ? 1 : 0))
+          * (1 + Math.min(1, yoGano / Math.max(1, vObj)));
         opciones.push({
           rosterId: otro.e.rosterId, equipo: otro.e, recibo: [obj.id], doy, vDoy, vRecibo: vObj, equidad: e,
-          yoGano, ellosGanan, buenos, lesFalta, total, puntaje, ...veredicto(vDoy, vObj),
+          yoGano, ellosGanan, buenos, lesFalta, total, puntaje, nivel, tocaTitular, pagoDeMas, esSuTitular: !obj.sobra,
+          ...veredicto(vDoy, vObj),
         });
       }
     }
   }
-  // Una opción por jugador que recibes (la mejor), ordenadas por puntaje
-  const vistos = new Set();
-  const unicas = opciones.sort((a, b) => b.puntaje - a.puntaje)
-    .filter((o) => (vistos.has(o.recibo[0]) ? false : vistos.add(o.recibo[0])));
+  // Por nivel: la mejor opción por jugador que recibes, hasta 3 por nivel
+  const porNivel = {};
+  const usados = new Set();
+  for (const nivel of ['mejor', 'medio', 'desesperado']) {
+    const vistos = new Set();
+    porNivel[nivel] = opciones.filter((o) => o.nivel === nivel)
+      // en el desesperado, lo que más te mejora primero
+      .sort((a, b) => (nivel === 'desesperado' ? b.yoGano - a.yoGano : b.puntaje - a.puntaje))
+      .filter((o) => {
+        const k = o.recibo[0];
+        // Cada jugador que recibes sale una sola vez (en el mejor nivel donde aparezca)
+        if (vistos.has(k) || usados.has(k)) return false;
+        vistos.add(k);
+        return true;
+      })
+      .slice(0, 3);
+    porNivel[nivel].forEach((o) => usados.add(o.recibo[0]));
+  }
+  const unicas = [...porNivel.mejor, ...porNivel.medio, ...porNivel.desesperado];
   return {
-    sobrantes, opciones: unicas.slice(0, limite),
+    sobrantes, opciones: unicas.slice(0, limite), porNivel,
     miLugar: lugar[mio.e.rosterId]?.[necesito] ?? null, total,
   };
 }

@@ -464,4 +464,7 @@ test('buscar por necesidad: necesito WR, me sobra RB → equipo con WR de sobra 
   assert.ok(o.doy.every((id) => Jn[id].pos === 'RB'));
   assert.ok(o.yoGano > 0 && o.ellosGanan > 0);
   assert.equal(o.lesFalta.pos, 'RB');
+  assert.equal(o.nivel, 'mejor');
+  // Los desesperados tocan un titular, pagan de más o piden a su titular
+  assert.ok(r.porNivel.desesperado.every((x) => x.tocaTitular || x.pagoDeMas || x.esSuTitular));
 });
