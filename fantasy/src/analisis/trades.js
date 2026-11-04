@@ -10,6 +10,14 @@ export function valorPaquete(valores) {
     .reduce((s, v, i) => s + v * (PESOS[i] ?? 0.35), 0);
 }
 
+// Las ofertas se arman a favor del que manda el trade, pero sin pasarse:
+// das cerca del 88 % de lo que recibes (ni menos del 78 %, porque nadie lo aceptaría).
+export const OBJETIVO = 0.88;
+export const MINIMO = 0.78;
+export const MAXIMO = 1.0;
+/** Qué tan cerca está la oferta del punto ideal (1 = justo en el 88 %). */
+const cercania = (ratio) => Math.max(0, 1 - Math.abs(ratio - OBJETIVO) / 0.25);
+
 /** 1 = perfectamente parejo. */
 export function equidad(a, b) {
   if (!a && !b) return 1;
@@ -22,7 +30,7 @@ export function veredicto(doy, recibo) {
   if (doy > recibo) {
     return e >= 0.8 ? { tipo: 'pierdes', texto: 'Das un poco de más' } : { tipo: 'pierdes', texto: 'Das demasiado' };
   }
-  return e >= 0.8 ? { tipo: 'ganas', texto: 'Te favorece un poco' } : { tipo: 'ganas', texto: 'Te favorece mucho (difícil que lo acepten)' };
+  return e >= MINIMO ? { tipo: 'ganas', texto: 'A tu favor y aceptable', aceptable: true } : { tipo: 'ganas', texto: 'Te favorece mucho (difícil que lo acepten)' };
 }
 
 function combinaciones(lista, max) {
@@ -55,26 +63,27 @@ export function proponerTrades({ recibo, doy = [], miRoster, rosterRival, valor,
   const mios = miRoster.filter((id) => !recibo.includes(id) && valor(id) > 0);
   for (const combo of combinaciones(mios, 3)) {
     const v = valorPaquete(combo.map(valor));
+    const ratio = vRecibo ? v / vRecibo : 1;
+    if (ratio < MINIMO || ratio > MAXIMO) continue;
     const e = equidad(v, vRecibo);
-    if (e < 0.88) continue;
     const dolor = combo.reduce((s, id) => s + (titular(id) ? 1 : 0), 0);
-    opciones.push({ doy: combo, recibo, vDoy: v, vRecibo, equidad: e, dolor, ...veredicto(v, vRecibo) });
+    opciones.push({ doy: combo, recibo, vDoy: v, vRecibo, equidad: e, ratio, dolor, ...veredicto(v, vRecibo) });
   }
   // 2) Si ya elegí qué dar, equilibrar sumando un jugador de un lado
-  if (actual && actual.equidad < 0.93) {
+  if (actual && (actual.vDoy / actual.vRecibo > MAXIMO || actual.vDoy / actual.vRecibo < MINIMO)) {
     if (vDoy < vRecibo) {
       for (const id of mios.filter((x) => !doy.includes(x))) {
         const nuevo = [...doy, id];
         const v = valorPaquete(nuevo.map(valor));
-        const e = equidad(v, vRecibo);
-        if (e >= 0.9) opciones.push({ doy: nuevo, recibo, vDoy: v, vRecibo, equidad: e, dolor: titular(id) ? 1 : 0, agrega: 'tú', ...veredicto(v, vRecibo) });
+        const ratio = v / vRecibo;
+        if (ratio >= MINIMO && ratio <= MAXIMO) opciones.push({ doy: nuevo, recibo, vDoy: v, vRecibo, equidad: equidad(v, vRecibo), ratio, dolor: titular(id) ? 1 : 0, agrega: 'tú', ...veredicto(v, vRecibo) });
       }
     } else {
       for (const id of rosterRival.filter((x) => !recibo.includes(x) && valor(x) > 0)) {
         const nuevo = [...recibo, id];
         const v = valorPaquete(nuevo.map(valor));
-        const e = equidad(vDoy, v);
-        if (e >= 0.9) opciones.push({ doy, recibo: nuevo, vDoy, vRecibo: v, equidad: e, dolor: 0, agrega: 'rival', ...veredicto(vDoy, v) });
+        const ratio = vDoy / v;
+        if (ratio >= MINIMO && ratio <= MAXIMO) opciones.push({ doy, recibo: nuevo, vDoy, vRecibo: v, equidad: equidad(vDoy, v), ratio, dolor: 0, agrega: 'rival', ...veredicto(vDoy, v) });
       }
     }
   }
@@ -82,7 +91,7 @@ export function proponerTrades({ recibo, doy = [], miRoster, rosterRival, valor,
   const vistos = new Set();
   const unicas = opciones
     .sort((a, b) => (a.dolor - b.dolor) || (a.doy.length + a.recibo.length - b.doy.length - b.recibo.length) ||
-      (b.equidad - a.equidad))
+      (cercania(b.ratio) - cercania(a.ratio)))
     .filter((o) => (vistos.has(clave(o)) ? false : vistos.add(clave(o))));
   return { actual, opciones: unicas.slice(0, 8) };
 }
@@ -178,9 +187,10 @@ export function buscarPorNecesidad({ necesito, equipos, jugadores: J, rosterPosi
       for (const doy of combos) {
         const vDoy = valorPaquete(doy.map(valor));
         const e = equidad(vDoy, vObj);
-        const pagoDeMas = vDoy > vObj * 1.08;
-        // Parejo (≥ 85 %) o, si pagas de más, hasta 1.6 veces su valor
-        if (e < 0.85 && !(vDoy > vObj && vDoy <= vObj * 1.6)) continue;
+        const ratio = vObj ? vDoy / vObj : 1;
+        const pagoDeMas = ratio > MAXIMO + 0.02;
+        // A tu favor (das entre 78 % y 100 % de lo que recibes) o, si estás desesperado, hasta 1.5 veces
+        if (ratio < MINIMO || ratio > 1.5) continue;
         const misIds = [...mio.e.ids.filter((x) => !doy.includes(x)), obj.id];
         const susIds = [...otro.e.ids.filter((x) => x !== obj.id), ...doy];
         const yoGano = fuerzaAlineacion(misIds) - mio.base;
@@ -194,13 +204,13 @@ export function buscarPorNecesidad({ necesito, equipos, jugadores: J, rosterPosi
         // Nivel: lo mejor / lo medio / desesperado
         let nivel;
         if (tocaTitular || pagoDeMas || !obj.sobra) nivel = 'desesperado';
-        else if (e >= 0.9 && necesidad >= 0.5 && ellosGanan > 0) nivel = 'mejor';
+        else if (ratio >= 0.8 && ratio <= 0.97 && necesidad >= 0.5 && ellosGanan > 0) nivel = 'mejor';
         else nivel = 'medio';
-        const puntaje = Math.min(1, e + (vObj > vDoy ? 0.05 : 0)) * (0.45 + 0.35 * necesidad + 0.2 * (ellosGanan > 0 ? 1 : 0))
+        const puntaje = (0.4 + 0.6 * cercania(ratio)) * (0.45 + 0.35 * necesidad + 0.2 * (ellosGanan > 0 ? 1 : 0))
           * (1 + Math.min(1, yoGano / Math.max(1, vObj)));
         opciones.push({
           rosterId: otro.e.rosterId, equipo: otro.e, recibo: [obj.id], doy, vDoy, vRecibo: vObj, equidad: e,
-          yoGano, ellosGanan, buenos, lesFalta, total, puntaje, nivel, tocaTitular, pagoDeMas, esSuTitular: !obj.sobra,
+          yoGano, ellosGanan, buenos, lesFalta, total, puntaje, nivel, tocaTitular, pagoDeMas, esSuTitular: !obj.sobra, ratio,
           ...veredicto(vDoy, vObj),
         });
       }

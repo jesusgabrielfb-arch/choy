@@ -80,7 +80,9 @@ test('trades: paquete vale menos que la suma y propone opciones justas', () => {
   });
   assert.equal(actual.tipo, 'ganas'); // doy 3500 por 6200
   assert.ok(opciones.length > 0);
-  assert.ok(opciones.every((o) => o.equidad >= 0.88));
+  // A favor del que manda: das entre 78 % y 100 % de lo que recibes, idealmente cerca del 88 %
+  assert.ok(opciones.every((o) => o.vDoy / o.vRecibo >= 0.78 && o.vDoy / o.vRecibo <= 1.0));
+  assert.ok(opciones.some((o) => o.vDoy < o.vRecibo));
   assert.ok(opciones.some((o) => o.doy.includes('a')));
 });
 

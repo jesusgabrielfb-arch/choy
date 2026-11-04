@@ -89,10 +89,10 @@ export function vistaMercado(el, d, ctx) {
     };
     res.innerHTML = `${r.actual ? `<div class="opcion" style="margin-top:8px"><div class="linea"><span class="que">Das</span>${nombres(r.actual.doy)}</div>
         <div class="linea"><span class="que">Recibes</span>${nombres(r.actual.recibo)}</div>${medidor(r.actual)}</div>` : ''}
-      <h3 class="seccion-titulo" style="margin-left:0">⚖️ Opciones justas</h3>
+      <h3 class="seccion-titulo" style="margin-left:0">⚖️ Ofertas a tu favor (que sí pueden aceptar)</h3>
       ${r.opciones.length ? r.opciones.slice(0, 5).map((o) => `<div class="opcion">
         <div class="linea"><span class="que">Das</span>${nombres(o.doy)}</div><div class="linea"><span class="que">Recibes</span>${nombres(o.recibo)}</div>
-        <div class="linea"><span class="etiqueta ${o.tipo === 'justo' ? 'verde' : 'amarillo'}">${esc(o.texto)}</span>
+        <div class="linea"><span class="etiqueta ${o.tipo === 'justo' || o.aceptable ? 'verde' : 'amarillo'}">${esc(o.texto)}</span>
         ${o.dolor ? `<span class="etiqueta naranja">Sale ${o.dolor} titular${o.dolor > 1 ? 'es' : ''}</span>` : '<span class="etiqueta">No toca tus titulares</span>'}</div></div>`).join('')
       : '<div class="vacio">No encontré combinaciones parejas con tu equipo.</div>'}
       <p class="nota">Proponlo desde Sleeper: no deja que otras apps manden trades.</p>`;
@@ -128,7 +128,7 @@ export function vistaMercado(el, d, ctx) {
         ${o.esSuTitular ? `<span class="etiqueta naranja">Es su titular</span>` : o.buenos >= 3 ? `<span class="etiqueta verde">Tienen ${o.buenos} ${pos} buenos</span>` : `<span class="etiqueta verde">Les sobra en ${pos}</span>`}
         ${o.lesFalta && o.lesFalta.lugar > o.total / 2 ? `<span class="etiqueta naranja">Sus ${o.lesFalta.pos} son ${o.lesFalta.lugar}º de ${o.total}</span>` : ''}
         ${o.tocaTitular ? '<span class="etiqueta rojo">Das a un titular tuyo</span>' : ''}
-        <span class="etiqueta ${o.tipo === 'justo' ? 'verde' : o.tipo === 'pierdes' ? 'rojo' : 'amarillo'}">${esc(o.texto)}</span>
+        <span class="etiqueta ${o.tipo === 'justo' || o.aceptable ? 'verde' : o.tipo === 'pierdes' ? 'rojo' : 'amarillo'}">${esc(o.texto)}</span>
         ${o.ellosGanan > 0 ? '<span class="etiqueta acento">A ellos también les conviene</span>' : ''}
       </div>
       <button class="chip-boton principal" data-abrir="${k}">🤝 Ver en el armador</button>
