@@ -18,6 +18,7 @@ export const FUNCIONES = [
   { t: '🛡️ Mejores defensas de la semana', desc: 'Ranking de DEF por rival (esta y la próxima)', k: 'mejores defensas dst def semana rival', tab: 'equipo', abrir: 'Mejores defensas' },
   { t: '📝 Mis waivers', desc: 'Los que pediste (pendientes) y si los ganaste o perdiste', k: 'mis waivers reclamos pedidos claims faab ganados perdidos pendientes movimientos transacciones', tab: 'jugadores', abrir: 'Mis waivers' },
   { t: '🔎 Trade por necesidad', desc: 'Dime qué posición necesitas y te digo a quién le sobra y qué le falta', k: 'necesidad necesito busco falta sobra trade receptor corredor wr rb qb te', tab: 'mercado', abrir: 'Qué necesitas' },
+  { t: '⚖️ Calculadora de trades', desc: 'Medidor de justicia: arma cualquier trade de la liga y te digo quién gana', k: 'calculadora medidor justicia justo trade cualquier jugador quien gana pierde valor', tab: 'mercado', abrir: 'Calculadora de trades' },
   { t: '🤝 Armador de trades', desc: 'Elige jugadores y te doy opciones justas', k: 'trade intercambio cambio justo armar', tab: 'mercado', abrir: 'Armador' },
   { t: '🛒 Comprar barato', desc: 'Jugadores que rinden menos de lo que valen', k: 'comprar barato buy low', tab: 'mercado', abrir: 'Comprar barato' },
   { t: '💰 Vender caro', desc: 'Tus jugadores en su punto más alto', k: 'vender caro sell high', tab: 'mercado', abrir: 'Vender caro' },
@@ -173,7 +174,7 @@ export function abrirPendiente(raiz = document) {
     : [...raiz.querySelectorAll('h2, button')].find((h) => sinAcentos(h.textContent).includes(sinAcentos(pedido.texto)));
   if (!objetivo) return;
   if (objetivo.id === 'ver-enfrentamiento') { objetivo.click(); return; }
-  if (objetivo.tagName === 'BUTTON' && objetivo.closest('.chips')) { objetivo.click(); return; }
+  if (objetivo.tagName === 'BUTTON' && (objetivo.closest('.chips') || objetivo.hasAttribute('data-abrir-calc'))) { objetivo.click(); return; }
   const det = objetivo.closest('details');
   if (det) det.open = true;
   const caja = objetivo.closest('.tarjeta') || objetivo;

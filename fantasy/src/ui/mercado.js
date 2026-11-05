@@ -1,6 +1,7 @@
 // Mercado: armador de trades justos (Cody opina), comprar barato / vender caro y lo que hacen miles de ligas.
 import { esc, $, $$, filaJugador, miles, tarjeta, codyDice } from './comun.js';
 import { proponerTrades, buscarPorNecesidad } from '../analisis/trades.js';
+import { abrirCalculadora } from './calculadora.js';
 
 export function vistaMercado(el, d, ctx) {
   const J = d.jugadores;
@@ -23,6 +24,7 @@ export function vistaMercado(el, d, ctx) {
   const posTrade = ['QB', 'RB', 'WR', 'TE'].filter((p) => d.puestos.includes(p));
   const inicial = posTrade.includes(d.debil?.pos) ? d.debil.pos : posTrade.includes('WR') ? 'WR' : posTrade[0];
   el.innerHTML = `
+    <button class="boton-calc" id="abrir-calc" data-abrir-calc>⚖️ Calculadora de trades<small>Arma cualquier trade de la liga y te digo qué tan justo es</small></button>
     <section class="tarjeta" id="necesidad"><header><h2>🔎 ¿Qué necesitas?</h2><small>Elige la posición y busco equipos a los que les sobra justo eso y les falta lo que a ti te sobra</small></header>
       <div class="chips" id="chips-necesito">${posTrade.map((p) => `<button data-pos="${p}" class="${p === inicial ? 'activo' : ''}">${p === d.debil?.pos ? '⚠️ ' : ''}${p}</button>`).join('')}</div>
       <div id="res-necesito"></div>
@@ -95,7 +97,10 @@ export function vistaMercado(el, d, ctx) {
         <div class="linea"><span class="etiqueta ${o.tipo === 'justo' || o.aceptable ? 'verde' : 'amarillo'}">${esc(o.texto)}</span>
         ${o.dolor ? `<span class="etiqueta naranja">Sale ${o.dolor} titular${o.dolor > 1 ? 'es' : ''}</span>` : '<span class="etiqueta">No toca tus titulares</span>'}</div></div>`).join('')
       : '<div class="vacio">No encontré combinaciones parejas con tu equipo.</div>'}
+      <button class="chip-boton" id="medir-calc">⚖️ Medirlo en la calculadora</button>
       <p class="nota">Proponlo desde Sleeper: no deja que otras apps manden trades.</p>`;
+    $('#medir-calc').onclick = () => abrirCalculadora({ d, inicial: {
+      a: { equipo: d.mio.rosterId, da: [...estado.doy] }, b: { equipo: estado.rival, da: [...estado.recibo] } } });
 
     // Cody opina
     const a = r.actual;
@@ -162,6 +167,8 @@ export function vistaMercado(el, d, ctx) {
     $$('#chips-necesito button').forEach((x) => x.classList.toggle('activo', x === b));
     necesito(b.dataset.pos);
   }));
+
+  $('#abrir-calc').onclick = () => abrirCalculadora({ d });
 
   $('#rival').addEventListener('change', (e) => { estado.rival = e.target.value; estado.recibo.clear(); pintar(); });
   $$('[data-pedir]', el).forEach((b) => b.addEventListener('click', () => {

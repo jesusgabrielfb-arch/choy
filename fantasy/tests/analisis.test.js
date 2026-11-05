@@ -494,3 +494,23 @@ test('mis waivers: cruza lo que apunté con lo que Sleeper procesó', () => {
   assert.deepEqual(m.map((x) => x.id), ['4', '1', '3']); // del más nuevo al más viejo, solo los míos
   assert.deepEqual(m[1].salen, ['x']);
 });
+
+import { evaluarTrade } from '../src/analisis/trades.js';
+
+test('calculadora de trades: dice qué lado gana, por cuánto y cómo emparejarlo', () => {
+  const P = ['QB', 'RB', 'RB', 'WR', 'WR', 'FLEX', 'BN', 'BN'];
+  const Jt = { q1: { pos: 'QB' }, r1: { pos: 'RB' }, r2: { pos: 'RB' }, w1: { pos: 'WR' }, w2: { pos: 'WR' },
+    q2: { pos: 'QB' }, r3: { pos: 'RB' }, w3: { pos: 'WR' }, w4: { pos: 'WR' }, w5: { pos: 'WR' } };
+  const V = { q1: 5000, r1: 8000, r2: 3000, w1: 2000, w2: 1500, q2: 5000, r3: 1000, w3: 6000, w4: 5500, w5: 1200 };
+  const valor = (id) => V[id] ?? 0;
+  const a = { nombre: 'Yo', ids: ['q1', 'r1', 'r2', 'w1', 'w2'], da: ['r2'] };
+  const b = { nombre: 'Rival', ids: ['q2', 'r3', 'w3', 'w4', 'w5'], da: ['w3'] };
+  const r = evaluarTrade({ a, b, valor, jugadores: Jt, rosterPositions: P, proy: (id) => valor(id) / 500 });
+  assert.equal(r.veredicto.tipo, 'gana');
+  assert.equal(r.veredicto.gana, 'a'); // recibo 6000, doy 3000
+  assert.ok(r.a.parte > 0.6 && Math.abs(r.a.parte + r.b.parte - 1) < 1e-9);
+  assert.ok(r.a.puntos > 0 && r.b.puntos < 0);
+  assert.ok(r.emparejar && r.emparejar.quien === 'Yo');
+  const parejo = evaluarTrade({ a: { ...a, da: ['r2'] }, b: { ...b, da: ['r3', 'w5'] }, valor, jugadores: Jt, rosterPositions: P });
+  assert.ok(['parejo', 'gana'].includes(parejo.veredicto.tipo));
+});

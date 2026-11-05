@@ -240,3 +240,68 @@ export function buscarPorNecesidad({ necesito, equipos, jugadores: J, rosterPosi
     miLugar: lugar[mio.e.rosterId]?.[necesito] ?? null, total,
   };
 }
+
+/**
+ * Calculadora de trades entre dos equipos cualesquiera.
+ * a, b: { nombre, ids (su plantel), da: [ids que manda] }
+ * Para cada lado: cuánto valor recibe y da, qué % del trade se lleva, cómo cambia su alineación
+ * (en valor y en puntos proyectados de la semana) y el veredicto. Si no es parejo, qué falta para emparejarlo.
+ * proy(id) → puntos proyectados de la semana (opcional).
+ */
+export function evaluarTrade({ a, b, valor, jugadores: J, rosterPositions, proy = null }) {
+  const elegibles = (ids, f) => ids.filter((id) => J[id]).map((id) => ({ id, pos: J[id].pos, valor: f(id) }));
+  const suma = (ids, f) => mejorAlineacion(elegibles(ids, f), rosterPositions).titulares.reduce((s, t) => s + (t.id ? f(t.id) : 0), 0);
+  const lado = (yo, otro) => {
+    const recibe = valorPaquete(otro.da.map(valor));
+    const da = valorPaquete(yo.da.map(valor));
+    const despues = [...yo.ids.filter((id) => !yo.da.includes(id)), ...otro.da];
+    const antesV = suma(yo.ids, valor);
+    const despuesV = suma(despues, valor);
+    const antesP = proy ? suma(yo.ids, (id) => proy(id) || 0) : null;
+    const despuesP = proy ? suma(despues, (id) => proy(id) || 0) : null;
+    const conEquipo = yo.ids.length > 0; // sin equipo elegido solo se mide el valor
+    return {
+      nombre: yo.nombre, recibe, da, neto: recibe - da,
+      alineacion: conEquipo && antesV ? (despuesV - antesV) / antesV : null,
+      puntos: conEquipo && proy ? despuesP - antesP : null,
+      // ¿Llena un hueco? Posiciones que recibe y que antes no tenía de titular
+      posRecibe: [...new Set(otro.da.map((id) => J[id]?.pos).filter(Boolean))],
+    };
+  };
+  const A = lado(a, b);
+  const B = lado(b, a);
+  const total = A.recibe + B.recibe;
+  A.parte = total ? A.recibe / total : 0.5;
+  B.parte = 1 - A.parte;
+  const dif = Math.abs(A.parte - 0.5);
+  let veredicto;
+  if (!a.da.length && !b.da.length) veredicto = { tipo: 'vacio', texto: 'Elige jugadores de los dos lados' };
+  else if (dif < 0.035) veredicto = { tipo: 'parejo', texto: 'Trade parejo: ninguno sale perdiendo' };
+  else {
+    const gana = A.parte > 0.5 ? A : B;
+    const cuanto = dif < 0.08 ? 'un poco' : dif < 0.15 ? 'claramente' : 'por mucho';
+    veredicto = { tipo: 'gana', gana: gana === A ? 'a' : 'b', texto: `${gana.nombre} gana ${cuanto}`, cuanto };
+  }
+  // Para emparejar: qué jugador del que gana podría agregar
+  let emparejar = null;
+  if (veredicto.tipo === 'gana') {
+    const [gana, pierde, ladoGana] = veredicto.gana === 'a' ? [A, B, a] : [B, A, b];
+    const otro = ladoGana === a ? b : a;
+    const candidatos = (ladoGana.ids.length ? ladoGana.ids : []).filter((id) => !ladoGana.da.includes(id) && valor(id) > 0)
+      .map((id) => {
+        const nuevoDa = valorPaquete([...ladoGana.da, id].map(valor));
+        const recibeOtro = nuevoDa;
+        const recibeGana = valorPaquete(otro.da.map(valor));
+        const parte = recibeGana / (recibeGana + recibeOtro);
+        return { id, parte, dif: Math.abs(parte - 0.5) };
+      })
+      .sort((x, y) => x.dif - y.dif);
+    if (candidatos[0] && candidatos[0].dif < dif) {
+      emparejar = { quien: gana.nombre, para: pierde.nombre, id: candidatos[0].id, parte: candidatos[0].parte };
+    } else {
+      // Sin plantel para buscar: cuánto valor le falta al que pierde
+      emparejar = { quien: gana.nombre, para: pierde.nombre, falta: Math.max(0, gana.recibe - pierde.recibe) };
+    }
+  }
+  return { a: A, b: B, veredicto, emparejar };
+}
