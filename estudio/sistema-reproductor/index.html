@@ -1,0 +1,1150 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Guía de estudio del sistema reproductor: resumen, diagramas, ciclo menstrual, calculadora de ovulación, tarjetas y quiz.">
+<meta name="theme-color" content="#F7F6F2">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9C%BF%3C/text%3E%3C/svg%3E">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Sistema Reproductor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Figtree:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Gochi+Hand&display=swap">
+<style>
+/* Diseño de un solo tema, claro y tranquilo a propósito. Layout: escritorio con hojas de cuaderno (margen rojo, cuadrícula, cinta), post-its para notas, práctica en una "libreta" oscura al final */
+:root{
+  --desk:#F7F6F2; --page:#FFFFFF; --grid:#EFF2EC; --margin:#F6C9C0; --ink:#45403F; --muted:#8A8381; --line:#E7E2DC; --line2:#D9D1C9;
+  --hl:#FFDCCF; --hl2:#D4EFE2; --hl3:#E8E0F7; --coral:#E07A5F; --blue:#5E958A; --blue-soft:#EEF6F2;
+  --sticky:#FFF0B5; --sticky-ink:#5A4A16; --ok:#3E9A72; --ok-soft:#E3F5EC; --bad:#D0665E; --bad-soft:#FCEBE8; --extra:#B07A22; --extra-soft:#FDF3DF;
+  --tape1:rgba(224,122,95,.28); --tape2:rgba(160,140,210,.28); --tape3:rgba(94,149,138,.28);
+  --fsh:#6A9FD0; --lh:#A58BDB; --est:#E58BA0; --prog:#55B08F; --temp:#E0A146;
+  --shadow:0 1px 2px rgba(120,100,90,.06),0 14px 30px -20px rgba(120,100,90,.35);
+  --hard:0 3px 0 var(--line2);
+  --f-display:"Instrument Serif",Georgia,"Times New Roman",serif;
+  --f-body:"Figtree",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-hand:"Gochi Hand","Comic Sans MS","Marker Felt",cursive;
+  color-scheme:light;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{background:var(--desk);color:var(--ink);font-family:var(--f-body);font-size:16.5px;line-height:1.62}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--page)}
+.wrap{max-width:1060px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* ---------- nav ---------- */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:color-mix(in srgb,var(--page) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav-row{display:flex;gap:4px;align-items:center;padding-block:9px;overflow-x:auto;scrollbar-width:none;position:relative}
+.nav-row::-webkit-scrollbar{display:none}
+.nav .brand{font-family:var(--f-hand);font-size:21px;margin-right:10px;white-space:nowrap;color:var(--coral)}
+.nav a{position:relative;white-space:nowrap;text-decoration:none;color:var(--muted);font-size:14px;font-weight:600;padding:6px 11px;border-radius:999px;transition:color .2s}
+.nav a:hover{color:var(--ink)}
+.nav a.active{color:var(--ink)}
+.nav a.active::after{content:"";position:absolute;left:10px;right:10px;bottom:2px;height:7px;border-radius:4px;background:var(--hl);z-index:-1;animation:swipe .35s ease-out}
+.nav a .tick{display:inline-block;width:0;overflow:hidden;color:var(--ok);transition:width .3s}
+.nav a.done .tick{width:1em}
+.nav a.practice{background:var(--coral);color:#fff}
+.progress{height:4px;background:var(--line)}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--coral),var(--sticky));transition:width .6s cubic-bezier(.2,.8,.2,1)}
+@keyframes swipe{from{transform:scaleX(0);transform-origin:left}to{transform:scaleX(1)}}
+
+/* ---------- hero ---------- */
+.hero{position:relative;padding-block:30px 10px}
+.hero-card{position:relative;background:var(--page);border-radius:6px 6px 22px 6px;box-shadow:var(--shadow);overflow:hidden;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px}
+#swim{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero-inner{position:relative;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:24px;padding:42px clamp(18px,5vw,56px) 36px}
+@media (max-width:820px){.hero-inner{grid-template-columns:1fr;padding-top:30px}}
+.eyebrow{font-family:var(--f-hand);font-size:22px;color:var(--blue);transform:rotate(-2deg);display:inline-block}
+h1{font-family:var(--f-display);font-weight:400;font-size:clamp(54px,10vw,112px);line-height:.88;letter-spacing:-.02em;margin:6px 0 14px}
+h1 .w{display:inline-block;animation:rise .9s cubic-bezier(.2,.8,.2,1) both}
+h1 .w:nth-child(2){animation-delay:.12s}
+h1 em{font-style:italic;color:var(--coral)}
+@keyframes rise{from{transform:translateY(.35em) rotate(2deg);opacity:.15}to{transform:none;opacity:1}}
+.lede{max-width:52ch;color:var(--muted);font-size:17.5px;margin:0 0 20px}
+.cta{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.stats{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:22px;font-size:14px;color:var(--muted)}
+.stats b{font-family:var(--f-display);font-size:30px;font-weight:400;color:var(--ink);display:block;line-height:1}
+.ring-card{align-self:end;justify-self:end;background:var(--sticky);color:var(--sticky-ink);padding:18px 20px 20px;width:min(100%,290px);transform:rotate(2.5deg);box-shadow:0 12px 24px -14px rgba(0,0,0,.45);position:relative;transition:transform .3s}
+.ring-card:hover{transform:rotate(0deg) translateY(-3px)}
+.ring-card::before{content:"";position:absolute;top:-12px;left:50%;width:90px;height:24px;margin-left:-45px;background:var(--tape3);transform:rotate(-4deg)}
+.ring-card h4{font-family:var(--f-hand);font-weight:400;font-size:24px;margin:0 0 6px;line-height:1.1}
+.ring{display:flex;gap:14px;align-items:center}
+.ring svg{width:84px;height:84px;flex:none}
+.ring .bg{stroke:color-mix(in srgb,var(--sticky-ink) 18%,transparent)}
+.ring .fg{stroke:var(--coral);transition:stroke-dashoffset .8s cubic-bezier(.2,.8,.2,1)}
+.ring text{fill:var(--sticky-ink);font:700 18px var(--f-body)}
+.ring p{margin:0;font-size:14px;line-height:1.35}
+.legend{display:grid;gap:6px;margin-top:12px;font-size:13.5px}
+
+/* ---------- chips & buttons ---------- */
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:3px 10px 3px 8px;border-radius:999px;vertical-align:middle;white-space:nowrap;font-family:var(--f-body);letter-spacing:.01em}
+.chip::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.c-hot{color:var(--bad);background:var(--bad-soft)}
+.c-hot::before{animation:pulse 1.8s ease-in-out infinite}
+.c-ok{color:var(--ok);background:var(--ok-soft)}
+.c-extra{color:var(--extra);background:var(--extra-soft)}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 color-mix(in srgb,var(--bad) 55%,transparent)}50%{box-shadow:0 0 0 5px transparent}}
+button{font:inherit;color:inherit}
+.btn{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--line2);background:var(--page);border-radius:14px;padding:9px 16px;font-weight:700;font-size:15px;cursor:pointer;text-decoration:none;color:var(--ink);
+  box-shadow:var(--hard);transition:transform .15s,box-shadow .15s,background .15s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 5px 0 var(--line2)}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--line2)}
+.btn.primary{background:var(--coral);color:#fff;border-color:#C9664D;box-shadow:0 3px 0 #C9664D}
+.btn.primary:hover{box-shadow:0 5px 0 #C9664D}
+.btn.small{padding:5px 11px;font-size:13px}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:6px}
+
+/* ---------- notebook pages ---------- */
+section.topic{position:relative;background:var(--page);border-radius:4px 4px 18px 4px;box-shadow:var(--shadow);margin-block:34px;
+  padding:34px clamp(16px,4vw,44px) 30px clamp(28px,7vw,84px);
+  background-image:linear-gradient(90deg,transparent calc(clamp(28px,7vw,84px) - 18px),var(--margin) calc(clamp(28px,7vw,84px) - 18px),var(--margin) calc(clamp(28px,7vw,84px) - 16px),transparent calc(clamp(28px,7vw,84px) - 16px)),
+    linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:100% 100%,24px 24px,24px 24px}
+section.topic::before{content:"";position:absolute;top:-11px;left:clamp(40px,10vw,120px);width:110px;height:26px;background:var(--tape1);transform:rotate(-3deg);
+  background-image:repeating-linear-gradient(45deg,transparent 0 6px,rgba(255,255,255,.18) 6px 12px)}
+section.topic:nth-of-type(3n+2)::before{background-color:var(--tape2);left:auto;right:60px;transform:rotate(3deg)}
+section.topic:nth-of-type(3n)::before{background-color:var(--tape3);transform:rotate(2deg)}
+.topic-head{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;margin-bottom:14px}
+.num{font-family:var(--f-hand);font-size:24px;color:var(--coral);width:52px;height:46px;display:grid;place-items:center;border:2.5px solid var(--coral);
+  border-radius:52% 46% 55% 44%/48% 55% 45% 52%;transform:rotate(-6deg);flex:none}
+h2{font-family:var(--f-display);font-weight:400;font-size:clamp(34px,5vw,48px);line-height:1;margin:0;letter-spacing:-.01em;text-wrap:balance}
+h3{font-family:var(--f-body);font-weight:800;font-size:19px;margin:28px 0 8px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;text-wrap:balance}
+h3 .hand{font-weight:400}
+p{margin:8px 0}
+.cols{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:30px;align-items:start}
+@media (max-width:820px){.cols{grid-template-columns:1fr}}
+.hand{font-family:var(--f-hand);color:var(--coral);font-size:1.2em;line-height:1.1}
+
+/* highlighter that sweeps in */
+mark{color:inherit;padding:0 .12em;margin:0 -.04em;border-radius:3px;
+  background:linear-gradient(100deg,transparent 2%,var(--hl) 4%,var(--hl) 96%,transparent 98%) no-repeat 0 72%/100% 58%;transition:background-size .8s cubic-bezier(.2,.8,.2,1)}
+mark.g{background-image:linear-gradient(100deg,transparent 2%,var(--hl2) 4%,var(--hl2) 96%,transparent 98%)}
+mark.pre{background-size:0% 58%}
+
+ul.dots{padding-left:22px;margin:8px 0}
+ul.dots li{margin:5px 0}
+ul.dots li::marker{content:"✶  ";color:var(--coral);font-size:.85em}
+.def{position:relative;border-left:4px solid color-mix(in srgb,var(--blue) 60%,white);background:var(--blue-soft);border-radius:0 12px 12px 0;padding:12px 16px;margin:14px 0}
+.def b:first-child{color:var(--blue)}
+.sticky{position:relative;background:var(--sticky);color:var(--sticky-ink);padding:16px 18px 18px;margin:20px 6px;transform:rotate(-1.2deg);box-shadow:0 10px 20px -14px rgba(0,0,0,.5);font-size:15.5px;transition:transform .3s}
+.sticky:hover{transform:rotate(0) scale(1.01)}
+.sticky .t{font-family:var(--f-hand);font-size:22px;display:block;line-height:1;margin-bottom:4px}
+.sticky::after{content:"";position:absolute;right:0;bottom:0;border-width:0 0 18px 18px;border-style:solid;border-color:transparent transparent var(--page) color-mix(in srgb,var(--sticky) 70%,#000)}
+.scribble{font-family:var(--f-hand);font-size:21px;color:var(--coral);line-height:1.2;margin:8px 0;transform:rotate(-1.5deg)}
+
+/* tables */
+.tbl{overflow-x:auto;margin:14px 0;border-radius:12px;border:1.5px solid var(--line2);background:var(--page)}
+table{border-collapse:collapse;width:100%;font-size:15px;min-width:470px}
+th{text-align:left;font-weight:800;padding:10px 12px;font-size:13px;letter-spacing:.04em;text-transform:uppercase;border-bottom:1.5px solid var(--line2);background:color-mix(in srgb,var(--hl) 60%,var(--page));color:#7A4A3C}
+td{padding:10px 12px;border-top:1px dashed var(--line);vertical-align:top}
+tbody tr{transition:background .2s}
+tbody tr:hover td{background:color-mix(in srgb,var(--sticky) 30%,transparent)}
+td:first-child{font-weight:700}
+
+/* flow */
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:12px 0;padding:0;list-style:none}
+.flow li{background:var(--page);border:1.5px solid var(--line2);border-radius:12px;padding:8px 12px;font-weight:700;font-size:14.5px;line-height:1.25;box-shadow:var(--hard)}
+.flow li small{display:block;font-weight:400;color:var(--muted);font-size:12.5px}
+.flow .arr{border:0;background:none;box-shadow:none;padding:0;color:var(--coral);font-size:22px;animation:nudge 1.6s ease-in-out infinite}
+@keyframes nudge{50%{transform:translateX(4px)}}
+.flow.in li:not(.arr){animation:pop .5s cubic-bezier(.2,1.4,.4,1) both}
+.flow.in li:nth-child(3){animation-delay:.12s}.flow.in li:nth-child(5){animation-delay:.24s}.flow.in li:nth-child(7){animation-delay:.36s}.flow.in li:nth-child(9){animation-delay:.48s}
+@keyframes pop{from{transform:scale(.7);opacity:.2}to{transform:none;opacity:1}}
+
+ol.steps{list-style:none;padding:0;margin:14px 0;display:grid;gap:12px;counter-reset:s}
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:34px minmax(0,1fr);gap:10px;align-items:start}
+ol.steps li::before{content:counter(s);width:30px;height:30px;border-radius:48% 52% 45% 55%/55% 45% 55% 45%;background:var(--hl);color:var(--ink);font-weight:400;display:grid;place-items:center;font-family:var(--f-hand);font-size:19px}
+
+.vs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:14px 0}
+@media (max-width:620px){.vs{grid-template-columns:1fr}}
+.vs > div{border:1.5px solid var(--line2);border-radius:14px;padding:12px 16px;background:var(--page);transition:transform .25s,box-shadow .25s;box-shadow:var(--hard)}
+.vs > div:hover{transform:translateY(-3px) rotate(-.4deg);box-shadow:5px 6px 0 var(--hl)}
+.vs h4{margin:0 0 4px;font-family:var(--f-display);font-weight:400;font-size:25px;line-height:1.1}
+
+/* figures */
+figure{margin:0;background:var(--page);border:1.5px solid var(--line2);border-radius:16px;padding:12px;box-shadow:var(--hard)}
+figure svg{width:100%;height:auto;display:block}
+figcaption{font-size:13px;color:var(--muted);margin-top:8px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}
+.svg-ink{stroke:var(--ink)}
+.lbl text{fill:var(--ink);font:700 13px var(--f-body);transition:fill .25s}
+.lbl line,.lbl polyline{stroke:var(--muted);stroke-width:1;fill:none}
+.lbl .pill{fill:transparent;transition:fill .25s}
+.hidden-labels .lbl text{fill:transparent}
+.hidden-labels .lbl .pill{fill:var(--sticky);cursor:pointer;stroke:var(--sticky-ink);stroke-width:1}
+.lbl.shown text{fill:var(--ink)!important}
+.lbl.shown .pill{fill:transparent!important;stroke:none}
+.float{animation:bob 5s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes bob{50%{transform:translateY(-4px)}}
+
+/* done stamp */
+.done-row{display:flex;justify-content:flex-end;margin-top:22px}
+.donebtn{display:inline-flex;align-items:center;gap:8px;border:2px dashed var(--ok);color:var(--ok);background:transparent;border-radius:12px;padding:8px 14px;font-weight:700;cursor:pointer;transition:background .2s}
+.donebtn:hover{background:var(--ok-soft)}
+.donebtn .box{width:18px;height:18px;border:2px solid currentColor;border-radius:5px;display:grid;place-items:center;font-size:13px}
+.topic.done .donebtn{border-style:solid;background:var(--ok-soft)}
+.stamp{position:absolute;top:22px;right:22px;font-family:var(--f-hand);font-size:24px;color:var(--ok);border:3px solid var(--ok);border-radius:10px;padding:2px 12px;transform:rotate(12deg) scale(0);opacity:0;pointer-events:none;letter-spacing:.04em;transition:transform .45s cubic-bezier(.2,1.6,.4,1),opacity .2s}
+.topic.done .stamp{transform:rotate(12deg) scale(1);opacity:.85}
+@media (max-width:620px){.stamp{top:auto;bottom:70px;right:14px;font-size:20px}}
+
+/* reveal */
+.reveal{transition:transform .8s cubic-bezier(.2,.8,.2,1),opacity .8s}
+.reveal.pre{transform:translateY(34px) rotate(.6deg);opacity:.3}
+.draw-pre{stroke-dashoffset:var(--len)}
+.drawn{transition:stroke-dashoffset 1.6s cubic-bezier(.4,.1,.2,1)}
+
+/* cycle */
+.cycle-ui{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:20px;align-items:start;margin-top:12px}
+@media (max-width:860px){.cycle-ui{grid-template-columns:1fr}}
+.daybox{background:var(--sticky);color:var(--sticky-ink);padding:16px 18px;transform:rotate(1deg);box-shadow:0 12px 22px -14px rgba(0,0,0,.5)}
+.daybox .dnum{font-family:var(--f-display);font-size:56px;line-height:1;font-variant-numeric:tabular-nums}
+.daybox .phase{display:inline-block;margin:6px 0 10px;padding:3px 12px;border-radius:999px;font-weight:700;font-size:13.5px;background:var(--page);color:var(--ink)}
+.daybox dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 12px;margin:0;font-size:15px}
+.daybox dt{font-family:var(--f-hand);font-size:17px;opacity:.8}
+.daybox dd{margin:0}
+.daybox.flash{animation:flash .4s}
+@keyframes flash{40%{transform:rotate(1deg) scale(1.03)}}
+input[type=range]{width:100%;accent-color:var(--coral);margin-top:6px}
+.chart text{fill:var(--muted);font:12px var(--f-body)}
+.chart .axis{stroke:var(--line)}
+.legend-row{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--muted)}
+.legend-row span{display:inline-flex;align-items:center;gap:6px}
+.legend-row i{width:16px;height:3px;border-radius:2px;display:inline-block}
+.playbtn{margin-left:auto}
+
+/* calc */
+.calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:22px;margin-top:12px}
+@media (max-width:760px){.calc{grid-template-columns:1fr}}
+.field{display:grid;gap:4px;margin-bottom:12px}
+.field label{font-weight:700;font-size:14px}
+.field input{font:inherit;padding:10px 12px;border:1.5px solid var(--line2);border-radius:10px;background:var(--page);color:var(--ink);width:100%}
+.results{display:grid;gap:8px}
+.res{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:10px 14px;border-radius:12px;background:var(--page);border:1.5px solid var(--line);flex-wrap:wrap}
+.res b{font-family:var(--f-display);font-weight:400;font-size:23px;line-height:1.1}
+.res.key{background:var(--hl);border-color:transparent}
+.res.bump{animation:pop .45s cubic-bezier(.2,1.4,.4,1)}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin-top:12px;font-size:12px;font-variant-numeric:tabular-nums}
+.cal div{aspect-ratio:1;max-width:100%;display:grid;place-items:center;border-radius:8px;background:var(--page);border:1px solid var(--line);line-height:1.05;text-align:center;animation:pop .35s both}
+.cal .m{background:var(--bad-soft);border-color:var(--bad);color:var(--bad);font-weight:800}
+.cal .f{background:var(--ok-soft);border-color:var(--ok)}
+.cal .o{background:var(--ok);color:#fff;font-weight:800;border-color:var(--ok);animation:pop .35s both,beat 1.4s ease-in-out .6s infinite}
+.cal .n{background:transparent;border-style:dashed;border-color:var(--bad);color:var(--bad);font-weight:700}
+.cal .h{background:none;border:0;color:var(--muted);font-weight:700;animation:none}
+@keyframes beat{50%{transform:scale(1.1)}}
+
+/* practice */
+.practice-wrap{position:relative;background:linear-gradient(160deg,#FFE9DF 0%,#F3ECFA 55%,#E3F4EC 100%);color:var(--ink);border-radius:24px;margin-block:44px;padding:34px clamp(16px,4vw,40px);overflow:hidden;box-shadow:var(--shadow)}
+.practice-wrap::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(circle,rgba(255,255,255,.7) 1.5px,transparent 1.6px);background-size:22px 22px;opacity:.6}
+.practice-wrap > *{position:relative;z-index:1}
+.ptabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
+.ptabs button{border:1.5px solid var(--line2);background:rgba(255,255,255,.6);color:var(--ink);border-radius:999px;padding:8px 18px;font-weight:700;cursor:pointer;transition:all .2s}
+.ptabs button:hover{background:#fff}
+.ptabs button[aria-selected="true"]{background:var(--coral);color:#fff;border-color:var(--coral);transform:rotate(-1.5deg)}
+.panel{background:var(--page);color:var(--ink);border-radius:18px;box-shadow:var(--shadow);padding:22px clamp(14px,3vw,30px);animation:panelIn .4s cubic-bezier(.2,.8,.2,1)}
+@keyframes panelIn{from{transform:translateY(12px);opacity:.3}}
+
+.card-stage{perspective:1200px;max-width:560px;margin:0 auto;position:relative}
+.card-stage::before,.card-stage::after{content:"";position:absolute;inset:10px -6px -10px 6px;border-radius:18px;background:var(--hl2);transform:rotate(3deg);z-index:0}
+.card-stage::after{background:var(--hl);transform:rotate(-2.5deg);inset:6px 4px -6px -4px}
+.fcard{position:relative;z-index:1;width:100%;min-height:240px;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.2,.8,.2,1);cursor:pointer;border:0;background:none;padding:0;display:block;text-align:center}
+.fcard.flipped{transform:rotateY(180deg)}
+.fcard.out{animation:cardOut .28s ease-in}
+.fcard.in{animation:cardIn .35s cubic-bezier(.2,1.2,.4,1)}
+@keyframes cardOut{to{transform:translateX(-40px) rotate(-6deg);opacity:0}}
+@keyframes cardIn{from{transform:translateX(40px) rotate(6deg);opacity:0}}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:18px;padding:26px 22px;display:grid;place-items:center;border:1.5px solid var(--line2);font-size:19px;line-height:1.4}
+.face.front{background:var(--page);font-family:var(--f-display);font-size:29px;line-height:1.15;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px);background-size:100% 30px}
+.face.back{background:var(--sticky);color:var(--sticky-ink);transform:rotateY(180deg)}
+.face small{position:absolute;top:10px;left:14px;font-family:var(--f-hand);font-size:17px;opacity:.7}
+.card-ctrl{display:flex;justify-content:center;align-items:center;gap:12px;margin-top:20px;flex-wrap:wrap}
+.counter{font-variant-numeric:tabular-nums;color:var(--muted);font-size:14px;min-width:70px;text-align:center}
+.know{display:flex;justify-content:center;gap:10px;margin-top:12px;flex-wrap:wrap}
+.know .btn.small:first-child{background:var(--bad-soft)}
+.know .btn.small:last-child{background:var(--ok-soft)}
+
+.qhead{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+.streak{font-family:var(--f-hand);font-size:20px;color:var(--coral);display:inline-block}
+.streak.pop{animation:pop .4s cubic-bezier(.2,1.6,.4,1)}
+.bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin-bottom:16px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--coral),var(--sticky));transition:width .4s}
+.qtext{font-family:var(--f-display);font-size:28px;line-height:1.15;margin:4px 0 16px;text-wrap:balance}
+.opts{display:grid;gap:9px}
+.opt{text-align:left;border:2px solid var(--line);background:var(--page);border-radius:12px;padding:11px 14px;cursor:pointer;font-size:16px;display:flex;gap:12px;align-items:flex-start;transition:border-color .15s,transform .15s}
+.opt:hover:not([disabled]){border-color:var(--ink);transform:translateX(3px)}
+.opt .k{font-family:var(--f-hand);font-size:19px;line-height:1.1;color:var(--coral);min-width:18px}
+.opt.right{border-color:var(--ok);background:var(--ok-soft);animation:pop .4s cubic-bezier(.2,1.6,.4,1)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft);animation:shake .4s}
+.opt[disabled]{cursor:default}
+@keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.explain{margin-top:14px;padding:12px 14px;border-radius:12px;background:var(--blue-soft);font-size:15px;animation:panelIn .3s}
+.explain b{color:var(--blue)}
+.score{text-align:center;padding:10px 0}
+.score .big{font-family:var(--f-display);font-size:96px;line-height:1;font-variant-numeric:tabular-nums}
+.missed{text-align:left;margin-top:16px;font-size:15px}
+.missed li{margin:8px 0}
+
+.rev td:last-child{cursor:pointer}
+.rev td:last-child span{transition:background .3s,color .3s;border-radius:4px}
+.covered .rev td:last-child span{background:#DCD2EE;color:transparent;user-select:none;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.covered .rev td.shown:last-child span{background:var(--hl2);color:var(--ink)}
+
+#confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
+footer{color:var(--muted);font-size:14px;padding-block:10px 60px;text-align:center}
+footer .hand{font-size:22px}
+</style>
+</head>
+<body>
+
+<canvas id="confetti" aria-hidden="true"></canvas>
+
+<nav class="nav" aria-label="Secciones">
+  <div class="wrap nav-row" id="navrow">
+    <span class="brand">reproductor ✿</span>
+    <a href="#base" data-sec="base"><span class="tick">✓</span>Base</a>
+    <a href="#masculino" data-sec="masculino"><span class="tick">✓</span>Masculino</a>
+    <a href="#espermatogenesis" data-sec="espermatogenesis"><span class="tick">✓</span>Espermatozoide</a>
+    <a href="#femenino" data-sec="femenino"><span class="tick">✓</span>Femenino</a>
+    <a href="#ovogenesis" data-sec="ovogenesis"><span class="tick">✓</span>Ovogénesis</a>
+    <a href="#ciclo" data-sec="ciclo"><span class="tick">✓</span>Ciclo</a>
+    <a href="#calculo" data-sec="calculo"><span class="tick">✓</span>Cálculo</a>
+    <a href="#fecundacion" data-sec="fecundacion"><span class="tick">✓</span>Fecundación</a>
+    <a href="#confusiones" data-sec="confusiones"><span class="tick">✓</span>Ojo</a>
+    <a href="#practica" class="practice">Practicar →</a>
+  </div>
+  <div class="progress" aria-hidden="true"><i id="progbar"></i></div>
+</nav>
+
+<div class="wrap">
+<header class="hero">
+  <div class="hero-card">
+    <canvas id="swim" aria-hidden="true"></canvas>
+    <div class="hero-inner">
+      <div>
+        <span class="eyebrow">mi guía de bio ~</span>
+        <h1><span class="w">Sistema</span><br><span class="w"><em>Reproductor</em></span></h1>
+        <p class="lede">Tus 5 páginas de apuntes pasadas en limpio: aparato masculino y femenino, gametos, ciclo menstrual, cómo calcular la ovulación, fecundación y gemelos. Marca cada tema cuando lo domines y termina con el quiz.</p>
+        <div class="cta">
+          <a class="btn primary" href="#base">Empezar a estudiar</a>
+          <a class="btn" href="#practica">Ir directo al quiz</a>
+        </div>
+        <div class="stats">
+          <span><b>9</b>temas</span>
+          <span><b>30</b>tarjetas</span>
+          <span><b>28</b>preguntas</span>
+          <span><b>~40</b>min</span>
+        </div>
+      </div>
+      <div class="ring-card" aria-live="polite">
+        <h4>mi avance</h4>
+        <div class="ring">
+          <svg viewBox="0 0 84 84" aria-hidden="true">
+            <circle class="bg" cx="42" cy="42" r="34" fill="none" stroke-width="9"/>
+            <circle class="fg" id="ringfg" cx="42" cy="42" r="34" fill="none" stroke-width="9" stroke-linecap="round" transform="rotate(-90 42 42)" stroke-dasharray="213.6" stroke-dashoffset="213.6"/>
+            <text id="ringtxt" x="42" y="48" text-anchor="middle">0/9</text>
+          </svg>
+          <p id="ringmsg">Marca "Lo tengo" al final de cada tema.</p>
+        </div>
+        <div class="legend">
+          <div><span class="chip c-hot">Muy probable</span> pinta para examen</div>
+          <div><span class="chip c-ok">Seguro</span> lo básico</div>
+          <div><span class="chip c-extra">Extra</span> si te sobra tiempo</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- 1 BASE -->
+<section class="topic reveal" id="base">
+  <span class="stamp">¡dominado!</span>
+  <div class="topic-head"><span class="num">1</span><h2>Ideas base</h2><span class="chip c-ok">Seguro</span></div>
+  <div class="cols">
+    <div>
+      <div class="def"><b>Reproducción humana:</b> proceso por el cual la especie humana se puede <mark>perpetuar</mark>.</div>
+      <ul class="dots">
+        <li>El conjunto de órganos reproductores se llama <b>genitales</b>.</li>
+        <li>Cada sexo produce su <b>gameto</b> (célula sexual): gameto masculino (espermatozoide) y gameto femenino (ovocito).</li>
+        <li>Los genitales se dividen en <b>internos</b> y <b>externos</b>, más las <b>glándulas accesorias</b>, que ayudan a la reproducción.</li>
+      </ul>
+    </div>
+    <div>
+      <h3 style="margin-top:0">Relación con el sistema urinario <span class="chip c-hot">Muy probable</span></h3>
+      <p>En el hombre, el reproductor y el urinario comparten un elemento: la <mark>uretra</mark>.</p>
+      <ul class="flow" aria-label="La uretra transporta dos productos">
+        <li>Vejiga urinaria<small>orina · S. urinario</small></li><li class="arr" aria-hidden="true">→</li>
+        <li>Uretra<small>conducto común</small></li><li class="arr" aria-hidden="true" style="animation-direction:reverse">←</li>
+        <li>Semen<small>S. reproductor</small></li>
+      </ul>
+      <p>En la mujer <b>no</b> se comparte: la uretra (orina) y la vagina (reproducción) tienen <b>orificios separados</b>.</p>
+    </div>
+  </div>
+  <div class="done-row"><button class="donebtn" data-done="base"><span class="box"></span>Lo tengo</button></div>
+</section>
+
+<!-- 2 MASCULINO -->
+<section class="topic reveal" id="masculino">
+  <span class="stamp">¡dominado!</span>
+  <div class="topic-head"><span class="num">2</span><h2>Aparato masculino</h2></div>
+
+  <h3>Genitales internos <span class="chip c-ok">Seguro</span></h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Órgano</th><th>Qué es / qué hace</th></tr></thead>
+    <tbody>
+      <tr><td>Testículos</td><td>Gónadas masculinas (dos, uno a cada lado). Producen los <b>espermatozoides</b>, con apoyo de las <mark>células de Sertoli</mark>, y la <b>testosterona</b>, en las <mark class="g">células de Leydig</mark>.</td></tr>
+      <tr><td>Epidídimo</td><td>Parte inicial del conducto deferente. <b>Termina la maduración</b> de los gametos y los <b>almacena</b> hasta que salen.</td></tr>
+      <tr><td>Conducto deferente</td><td>Lleva y almacena espermatozoides; desemboca en la uretra. El recorrido va <b>en contra de la gravedad</b>.</td></tr>
+      <tr><td>Conducto eyaculador</td><td>Por donde salen los espermatozoides.</td></tr>
+      <tr><td>Uretra</td><td>Conducto común para orina y semen.</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="cols">
+    <div>
+      <h3>¿Por qué los testículos están afuera? <span class="chip c-hot">Muy probable</span></h3>
+      <p>Cuando eras <b>feto</b>, los testículos estaban en el mismo lugar que los ovarios (dentro del abdomen). Luego <b>descienden</b> al escroto para tener una <mark>temperatura menor que la corporal</mark>, que es la que necesita la producción de espermatozoides.</p>
+      <p class="scribble">si no bajan → infertilidad</p>
+    </div>
+    <div>
+      <h3>Recorrido del espermatozoide</h3>
+      <ul class="flow" aria-label="Recorrido del espermatozoide">
+        <li>Testículo<small>se forma</small></li><li class="arr" aria-hidden="true">→</li>
+        <li>Epidídimo<small>madura y se guarda</small></li><li class="arr" aria-hidden="true">→</li>
+        <li>Conducto deferente</li><li class="arr" aria-hidden="true">→</li>
+        <li>Conducto eyaculador<small>+ líquidos de las glándulas</small></li><li class="arr" aria-hidden="true">→</li>
+        <li>Uretra</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Glándulas anexas (3) <span class="chip c-hot">Muy probable</span></h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Glándula</th><th>Qué aporta</th><th>¿Para qué?</th></tr></thead>
+    <tbody>
+      <tr><td>Vesículas seminales</td><td>Líquido alto en azúcar (sobre todo <mark>fructosa</mark>) y <b>prostaglandinas</b></td><td>La fructosa da el ATP para el recorrido. Las prostaglandinas favorecen las contracciones que mueven a los espermatozoides dentro del cuerpo de la mujer.</td></tr>
+      <tr><td>Próstata <span class="hand">(la + grande)</span></td><td>Líquido prostático</td><td>Facilita el movimiento de los espermatozoides; es esencial por la gran distancia que deben recorrer.</td></tr>
+      <tr><td>Bulbouretral <span class="hand">(la + pequeña)</span></td><td>Sustancia <mark class="g">alcalina</mark></td><td>Neutraliza el pH. La uretra tiene restos de orina, que es <b>ácida</b> y puede matar muchos espermatozoides.</td></tr>
+    </tbody>
+  </table></div>
+  <ul class="dots">
+    <li><b>Semen:</b> líquido en el que nadan los espermatozoides; es el conjunto de lo que secretan todas las glándulas.</li>
+    <li><b>Eyaculación:</b> salida de los espermatozoides. Si no salen, los testículos los <b>reabsorben</b> y los vuelven a usar.</li>
+    <li><b>Prostatitis:</b> inflamación de la próstata. Se recomienda el examen de próstata desde los ~40 años.</li>
+  </ul>
+
+  <h3>Genitales externos <span class="chip c-ok">Seguro</span></h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Parte</th><th>Descripción</th></tr></thead>
+    <tbody>
+      <tr><td>Escroto</td><td>Capa de piel que guarda a los testículos fuera de la cavidad del cuerpo.</td></tr>
+      <tr><td>Pene</td><td>Protegido por el <b>prepucio</b> (piel con la que se nace, de protección). Se puede retirar por <b>circuncisión</b>.</td></tr>
+      <tr><td>Glande</td><td>Parte final del pene. Tiene muchas terminaciones nerviosas; es importante en el placer sexual.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="vs">
+    <div>
+      <h4>Circuncisión <span class="chip c-extra">Extra</span></h4>
+      <p>Tiene origen judío: un pacto entre Dios y el pueblo judío. Hoy se hace sobre todo por costumbre. En un <b>niño</b> sana rápido; en un <b>adulto</b>, las erecciones duelen mientras cicatriza.</p>
+    </div>
+    <div>
+      <h4>Higiene del prepucio</h4>
+      <p>Debajo se acumulan sudor, sebo, restos de orina y células muertas, así que hay que ser aseado. Si no: <b>① mal olor</b> y <b>② más probabilidad de infecciones sexuales</b>.</p>
+    </div>
+  </div>
+  <div class="def"><b>Erección:</b> por la excitación, el sistema nervioso manda la señal para que pase sangre al <b>cuerpo cavernoso</b>, que se llena de sangre.</div>
+  <div class="done-row"><button class="donebtn" data-done="masculino"><span class="box"></span>Lo tengo</button></div>
+</section>
+
+<!-- 3 ESPERMATOGENESIS -->
+<section class="topic reveal" id="espermatogenesis">
+  <span class="stamp">¡dominado!</span>
+  <div class="topic-head"><span class="num">3</span><h2>Espermatogénesis</h2><span class="chip c-hot">Muy probable</span></div>
+  <div class="cols">
+    <div>
+      <div class="def"><b>Espermatogénesis:</b> proceso en el que se producen los espermatozoides, es decir, <mark>células haploides funcionales</mark>.</div>
+      <ol class="steps">
+        <li><div><b>Espermatogonio</b>: célula <b>diploide</b> del testículo.</div></li>
+        <li><div><b>Espermátida</b>: ya es <b>haploide</b>, pero todavía no puede funcionar.</div></li>
+        <li><div><b>Espermiogénesis</b>: la espermátida se <b>diferencia</b> en espermatozoide (le sale cola, acrosoma…).</div></li>
+      </ol>
+      <ul class="dots">
+        <li><b>Empieza:</b> en la pubertad, impulsada por la testosterona.</li>
+        <li><b>Termina:</b> <mark class="g">nunca</mark>; el hombre produce espermatozoides toda la vida.</li>
+        <li>Dentro de la mujer, los espermatozoides duran <b>~5 días</b>.</li>
+      </ul>
+    </div>
+    <div>
+      <figure id="fig-esperma">
+        <svg viewBox="0 0 480 230" role="img" aria-label="Partes del espermatozoide: cabeza con acrosoma y núcleo, pieza media con mitocondrias, cola o flagelo">
+          <path class="draw" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round" d="M196 100 C 240 70, 270 130, 310 100 S 380 70, 420 100 S 455 120, 470 108">
+            <animate attributeName="d" dur="1.6s" repeatCount="indefinite" values="M196 100 C 240 70, 270 130, 310 100 S 380 70, 420 100 S 455 120, 470 108;M196 100 C 240 130, 270 70, 310 100 S 380 130, 420 100 S 455 80, 470 92;M196 100 C 240 70, 270 130, 310 100 S 380 70, 420 100 S 455 120, 470 108"/>
+          </path>
+          <rect x="128" y="90" width="70" height="20" rx="9" fill="var(--hl)" class="svg-ink" stroke-width="2"/>
+          <path d="M138 92 l8 16 M150 92 l8 16 M162 92 l8 16 M174 92 l8 16 M186 92 l8 16" stroke="var(--coral)" stroke-width="2"/>
+          <ellipse cx="82" cy="100" rx="48" ry="30" fill="var(--blue-soft)" class="svg-ink draw" stroke-width="2.5"/>
+          <path d="M40 86 A 48 30 0 0 1 82 70 L 82 130 A 48 30 0 0 1 40 114 Z" fill="var(--est)" opacity=".35"/>
+          <ellipse cx="88" cy="100" rx="26" ry="18" fill="var(--blue)" opacity=".55"/>
+          <circle cx="126" cy="100" r="4" fill="var(--ink)"/>
+          <g class="lbl"><line x1="44" y1="78" x2="30" y2="40"/><rect class="pill" x="4" y="22" width="76" height="22" rx="6"/><text x="8" y="38">Acrosoma</text></g>
+          <g class="lbl"><line x1="92" y1="104" x2="100" y2="168"/><rect class="pill" x="56" y="168" width="124" height="22" rx="6"/><text x="60" y="184">Núcleo (haploide)</text></g>
+          <g class="lbl"><line x1="126" y1="96" x2="134" y2="40"/><rect class="pill" x="96" y="22" width="86" height="22" rx="6"/><text x="100" y="38">Centriolos</text></g>
+          <g class="lbl"><line x1="164" y1="112" x2="200" y2="168"/><rect class="pill" x="190" y="168" width="170" height="22" rx="6"/><text x="194" y="184">Pieza media (mitocondrias)</text></g>
+          <g class="lbl"><line x1="380" y1="86" x2="380" y2="40"/><rect class="pill" x="330" y="22" width="106" height="22" rx="6"/><text x="334" y="38">Cola o flagelo</text></g>
+          <g class="lbl"><polyline points="34,140 34,210 130,210 130,140"/><rect class="pill" x="54" y="200" width="56" height="22" rx="6"/><text x="58" y="215">Cabeza</text></g>
+        </svg>
+        <figcaption><span>Espermatozoide: cabeza, pieza media y cola.</span><button class="btn small" data-hide="fig-esperma">Ocultar nombres</button></figcaption>
+      </figure>
+      <div class="sticky"><span class="t">ojo, lo aclaré</span>En tus apuntes el lugar quedó entre el epidídimo y el conducto deferente. Según los libros, los espermatozoides se <b>forman en los túbulos seminíferos</b> del testículo y <b>terminan de madurar en el epidídimo</b>. Confirma cómo lo dio tu profe.</div>
+    </div>
+  </div>
+  <h3>Partes del espermatozoide</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Parte</th><th>Contiene</th><th>Función</th></tr></thead>
+    <tbody>
+      <tr><td>Cabeza</td><td><mark>Acrosoma</mark> y núcleo</td><td>El acrosoma tiene <b>enzimas hidrolíticas</b> que degradan la zona pelúcida del ovocito para poder entrar.</td></tr>
+      <tr><td>Cuello</td><td>Centriolos</td><td>Dirigen el movimiento de los cromosomas.</td></tr>
+      <tr><td>Pieza media</td><td><mark class="g">Mitocondrias</mark></td><td>Producen el ATP (energía) que usa la cola para moverse.</td></tr>
+      <tr><td>Cola (flagelo)</td><td>—</td><td>Permite que el espermatozoide se mueva.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="done-row"><button class="donebtn" data-done="espermatogenesis"><span class="box"></span>Lo tengo</button></div>
+</section>
+
+<!-- 4 FEMENINO -->
+<section class="topic reveal" id="femenino">
+  <span class="stamp">¡dominado!</span>
+  <div class="topic-head"><span class="num">4</span><h2>Aparato femenino</h2></div>
+  <div class="cols">
+    <figure id="fig-fem">
+      <svg viewBox="0 0 440 320" role="img" aria-label="Aparato reproductor femenino: ovarios, trompas de Falopio con ámpula y fimbrias, útero con miometrio y endometrio, vagina">
+        <path class="draw" d="M172 108 C 140 92, 112 82, 88 92" fill="none" stroke="var(--coral)" stroke-width="9" stroke-linecap="round"/>
+        <path class="draw" d="M268 108 C 300 92, 328 82, 352 92" fill="none" stroke="var(--coral)" stroke-width="9" stroke-linecap="round"/>
+        <path d="M120 86 C 106 84, 96 86, 88 92" fill="none" stroke="var(--coral)" stroke-width="15" stroke-linecap="round" opacity=".85"/>
+        <path d="M320 86 C 334 84, 344 86, 352 92" fill="none" stroke="var(--coral)" stroke-width="15" stroke-linecap="round" opacity=".85"/>
+        <path d="M84 88 l-12 -8 M82 94 l-14 0 M84 100 l-12 8 M86 104 l-6 12" stroke="var(--coral)" stroke-width="3" stroke-linecap="round"/>
+        <path d="M356 88 l12 -8 M358 94 l14 0 M356 100 l12 8 M354 104 l6 12" stroke="var(--coral)" stroke-width="3" stroke-linecap="round"/>
+        <g class="float"><ellipse cx="96" cy="138" rx="26" ry="16" fill="var(--est)" opacity=".8" class="svg-ink" stroke-width="1.5"/>
+        <circle cx="88" cy="136" r="5" fill="var(--page)"/><circle cx="104" cy="141" r="3.5" fill="var(--page)"/></g>
+        <g class="float" style="animation-delay:-2.5s"><ellipse cx="344" cy="138" rx="26" ry="16" fill="var(--est)" opacity=".8" class="svg-ink" stroke-width="1.5"/>
+        <circle cx="352" cy="136" r="5" fill="var(--page)"/><circle cx="336" cy="141" r="3.5" fill="var(--page)"/></g>
+        <path class="draw" d="M168 100 Q 220 74 272 100 L 252 206 Q 220 228 188 206 Z" fill="var(--hl)" stroke="var(--ink)" stroke-width="2.5"/>
+        <path d="M190 114 Q 220 102 250 114 L 236 190 Q 220 200 204 190 Z" fill="var(--bad-soft)" stroke="var(--bad)" stroke-width="2"/>
+        <path class="draw" d="M205 212 L 203 292 Q 220 300 237 292 L 235 212" fill="var(--hl)" stroke="var(--ink)" stroke-width="2.5"/>
+        <path d="M220 218 L 220 290" stroke="var(--bad)" stroke-width="2" stroke-dasharray="4 4"/>
+        <g class="lbl"><line x1="96" y1="154" x2="70" y2="196"/><rect class="pill" x="22" y="196" width="68" height="22" rx="6"/><text x="26" y="212">Ovario</text></g>
+        <g class="lbl"><line x1="150" y1="96" x2="150" y2="40"/><rect class="pill" x="94" y="22" width="134" height="22" rx="6"/><text x="98" y="38">Trompa de Falopio</text></g>
+        <g class="lbl"><line x1="108" y1="82" x2="70" y2="58"/><rect class="pill" x="8" y="44" width="66" height="22" rx="6"/><text x="12" y="60">Ámpula</text></g>
+        <g class="lbl"><line x1="70" y1="104" x2="40" y2="128"/><rect class="pill" x="2" y="128" width="70" height="22" rx="6"/><text x="6" y="144">Fimbrias</text></g>
+        <g class="lbl"><line x1="268" y1="128" x2="330" y2="200"/><rect class="pill" x="300" y="200" width="134" height="22" rx="6"/><text x="304" y="216">Miometrio (músc.)</text></g>
+        <g class="lbl"><line x1="240" y1="150" x2="330" y2="236"/><rect class="pill" x="300" y="236" width="94" height="22" rx="6"/><text x="304" y="252">Endometrio</text></g>
+        <g class="lbl"><line x1="270" y1="92" x2="300" y2="40"/><rect class="pill" x="272" y="22" width="56" height="22" rx="6"/><text x="276" y="38">Útero</text></g>
+        <g class="lbl"><line x1="236" y1="270" x2="300" y2="286"/><rect class="pill" x="300" y="276" width="64" height="22" rx="6"/><text x="304" y="292">Vagina</text></g>
+      </svg>
+      <figcaption><span>Vista frontal (esquema).</span><button class="btn small" data-hide="fig-fem">Ocultar nombres</button></figcaption>
+    </figure>
+    <div>
+      <h3 style="margin-top:0">Genitales internos <span class="chip c-ok">Seguro</span></h3>
+      <ul class="dots">
+        <li><b>Ovarios</b> (gónadas, ~15 g): producen los ovocitos y las hormonas <mark>estrógeno y progesterona</mark>. <b>No tocan</b> a las trompas; las fimbrias atrapan al ovocito.</li>
+        <li><b>Trompas de Falopio u oviductos:</b> por ahí se mueven los óvulos. Tienen <b>cilios</b> que también ayudan a mover a los espermatozoides.</li>
+        <li><b>Ámpula:</b> la parte media/ancha de la trompa; es el <mark class="g">lugar de la fecundación</mark>.</li>
+        <li><b>Útero:</b> órgano muscular y fuerte que permite el desarrollo del embarazo y puede expandirse. Afuera tiene el <b>miometrio</b> (capa de músculo) y adentro el <b>endometrio</b>, una capa con sangre que se desprende en la menstruación (se forma desde la pubertad).</li>
+        <li><b>Vagina:</b> tubo muscular que se expande.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Dos orificios distintos <span class="chip c-hot">Muy probable</span></h3>
+  <div class="vs">
+    <div><h4>Vejiga → uretra</h4><p>Sale por el <b>meato urinario</b>, el orificio de salida de la orina, localizado en la vulva.</p></div>
+    <div><h4>Útero → vagina</h4><p>Sale por el <b>orificio vaginal</b>: por ahí sale la sangre menstrual y el bebé, y entra el pene.</p></div>
+  </div>
+
+  <h3>Genitales externos: la vulva <span class="chip c-ok">Seguro</span></h3>
+  <p><b>Vulva</b> = conjunto de labios mayores, labios menores y clítoris.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Parte</th><th>Características</th></tr></thead>
+    <tbody>
+      <tr><td>Labios mayores</td><td>Más gruesos, la parte de afuera, cubiertos de vello púbico y formados de grasa.</td></tr>
+      <tr><td>Labios menores</td><td>Más delicados, de menos grosor y sin vello.</td></tr>
+      <tr><td>Clítoris</td><td>Origen <b>análogo al pene</b>, de tejido eréctil. Esta diferenciación se da en una etapa avanzada del embarazo.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Glándulas accesorias <span class="chip c-extra">Extra</span></h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Glándula</th><th>Dónde</th><th>Función</th></tr></thead>
+    <tbody>
+      <tr><td>Bartolino</td><td>Parte inicial de la vagina (vestíbulo)</td><td>Lubrica y facilita la penetración, lo que ayuda al éxito del embarazo.</td></tr>
+      <tr><td>Vestibulares menores</td><td>También al inicio de la vagina</td><td>Igual que Bartolino.</td></tr>
+      <tr><td>Skene</td><td>Junto al orificio externo de la uretra (meato urinario)</td><td>Igual: ayudan a la lubricación.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="done-row"><button class="donebtn" data-done="femenino"><span class="box"></span>Lo tengo</button></div>
+</section>
+
+<!-- 5 OVOGENESIS -->
+<section class="topic reveal" id="ovogenesis">
+  <span class="stamp">¡dominado!</span>
+  <div class="topic-head"><span class="num">5</span><h2>Ovogénesis y ovocito II</h2><span class="chip c-hot">Muy probable</span></div>
+  <div class="cols">
+    <div>
+      <ol class="steps">
+        <li><div>Empieza cuando la mujer <b>todavía es un embrión</b>.</div></li>
+        <li><div>Se <mark>detiene en la meiosis I</mark>, al terminar la profase I. En esa etapa ocurre la <b>recombinación genética</b>, que asegura que todos los gametos sean diferentes (variabilidad genética).</div></li>
+        <li><div>La mujer <b>nace con todos los gametos</b> que va a tener en la vida: aprox. <mark class="g">400 mil ovocitos I</mark> (diploides).</div></li>
+        <li><div>El proceso se <b>retoma en la pubertad</b> y sigue cada ciclo hasta la <b>menopausia</b>.</div></li>
+        <li><div>De cada ovocito I sale <b>1 ovocito II</b> (haploide) + <b>3 cuerpos polares</b>.</div></li>
+        <li><div>El ovocito II <b>no ha terminado la meiosis</b>: la termina <mark>con la fecundación</mark>.</div></li>
+      </ol>
+    </div>
+    <div>
+      <h3 style="margin-top:0">Ovocito II</h3>
+      <ul class="dots">
+        <li><b>No tiene flagelo</b> (no se mueve solo).</li>
+        <li>Es de las <mark>células más grandes</mark> del cuerpo humano.</li>
+        <li>Tiene 2 zonas:
+          <ul class="dots">
+            <li><b>Parte externa:</b> la <b>zona pelúcida</b>, rodeada de <b>células foliculares</b>.</li>
+            <li><b>Núcleo:</b> contenido <b>haploide</b>.</li>
+          </ul>
+        </li>
+        <li>Cuando el espermatozoide llega, las enzimas de su acrosoma abren la zona pelúcida y le dan paso.</li>
+      </ul>
+      <p class="scribble">nace con ~400 mil y no hace más ✎</p>
+    </div>
+  </div>
+  <h3>Espermatogénesis vs. ovogénesis</h3>
+  <div class="tbl"><table>
+    <thead><tr><th></th><th>Espermatogénesis</th><th>Ovogénesis</th></tr></thead>
+    <tbody>
+      <tr><td>¿Cuándo empieza?</td><td>En la pubertad</td><td>En el embrión (se detiene y se retoma en la pubertad)</td></tr>
+      <tr><td>¿Cuándo termina?</td><td>Nunca</td><td>En la menopausia</td></tr>
+      <tr><td>¿Cuántos gametos?</td><td>Se producen todo el tiempo</td><td>Nace con ~400 mil ovocitos I</td></tr>
+      <tr><td>Resultado</td><td>Espermatozoides haploides</td><td>1 ovocito II + 3 cuerpos polares</td></tr>
+      <tr><td>Movimiento</td><td>Con flagelo</td><td>Sin flagelo</td></tr>
+    </tbody>
+  </table></div>
+  <div class="done-row"><button class="donebtn" data-done="ovogenesis"><span class="box"></span>Lo tengo</button></div>
+</section>
+
+<!-- 6 CICLO -->
+<section class="topic reveal" id="ciclo">
+  <span class="stamp">¡dominado!</span>
+  <div class="topic-head"><span class="num">6</span><h2>Ciclo menstrual</h2><span class="chip c-hot">Muy probable</span></div>
+  <div class="def"><b>Ciclo menstrual:</b> proceso cíclico en el que la mujer tiene una serie de cambios en su anatomía y sus componentes. Dura <mark>28 a 35 días</mark>, depende de cada mujer.</div>
+  <div class="vs">
+    <div><h4>Menarquia</h4><p>La primera menstruación; llega a una edad distinta para cada una. La cantidad de sangrado depende del grosor del endometrio, que a su vez depende del estado físico, la nutrición y las hormonas.</p></div>
+    <div><h4>Menopausia y perimenopausia</h4><p><b>Menopausia:</b> 1 año entero sin menstruación.<br><b>Perimenopausia:</b> la etapa en la que se está acercando.</p></div>
+  </div>
+  <p>Hay cambios a 4 niveles: <b>ovarios</b>, <b>temperatura corporal</b>, <b>hormonas</b> y <b>útero (endometrio)</b>. Mueve el control o dale a "Reproducir" para recorrer un ciclo de 28 días:</p>
+
+  <div class="cycle-ui">
+    <figure>
+      <svg class="chart" id="chart" viewBox="0 0 600 330" role="img" aria-label="Niveles de FSH, LH, estrógeno y progesterona y temperatura a lo largo de 28 días"></svg>
+      <div style="display:flex;align-items:center;gap:10px;margin-top:6px;flex-wrap:wrap">
+        <label for="day" style="font-weight:700;font-size:14px">Día del ciclo</label>
+        <button class="btn small playbtn" id="play">▶ Reproducir</button>
+      </div>
+      <input id="day" type="range" min="1" max="28" value="14">
+      <figcaption><span class="legend-row">
+        <span><i style="background:var(--fsh)"></i>FSH</span>
+        <span><i style="background:var(--lh)"></i>LH (luteinizante)</span>
+        <span><i style="background:var(--est)"></i>Estrógeno</span>
+        <span><i style="background:var(--prog)"></i>Progesterona</span>
+        <span><i style="background:var(--temp)"></i>Temperatura</span>
+      </span><span>Curvas aproximadas para entender la tendencia, no valores reales.</span></figcaption>
+    </figure>
+    <div class="daybox" id="daybox" aria-live="polite">
+      <div class="dnum" id="dnum">Día 14</div>
+      <div class="phase" id="dphase">Ovulación</div>
+      <dl>
+        <dt>ovarios</dt><dd id="dov"></dd>
+        <dt>temp.</dt><dd id="dtemp"></dd>
+        <dt>hormonas</dt><dd id="dhorm"></dd>
+        <dt>útero</dt><dd id="dut"></dd>
+      </dl>
+    </div>
+  </div>
+
+  <h3>Las 4 fases en una tabla</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Fase</th><th>Ovarios</th><th>Temperatura</th><th>Hormonas</th><th>Útero</th></tr></thead>
+    <tbody>
+      <tr><td>1. Menstruación<br><small>día 1 = primer día del periodo</small></td><td>Crecen muchos folículos, sobre todo el <b>de Graaf</b> (el maduro, que contiene al ovocito II)</td><td>~36 °C (normal)</td><td>Bajas, menos la FSH; el estrógeno sube un poco</td><td>Se desprende el endometrio (sangrado)</td></tr>
+      <tr><td>2. Fase folicular</td><td>El folículo de Graaf madura</td><td>~36 °C</td><td><b>Suben FSH y estrógeno</b></td><td>El endometrio se vuelve a formar</td></tr>
+      <tr><td>3. Ovulación<br><small>mitad del ciclo</small></td><td>Se rompe el folículo y <b>sale el ovocito II</b> hacia la trompa; las fimbrias lo atrapan</td><td><mark>Sube 1 °C → ~37 °C</mark></td><td>Pico de <b>LH</b> y FSH; el estrógeno baja</td><td>Aumenta el grosor del endometrio</td></tr>
+      <tr><td>4. Fase lútea</td><td>El folículo vacío se transforma en el <b>cuerpo lúteo</b></td><td>Se mantiene alta</td><td>Bajan las hipofisarias (FSH, LH); suben las ováricas, sobre todo la <mark class="g">progesterona</mark>, la hormona del embarazo</td><td>El endometrio se prepara para un embarazo</td></tr>
+    </tbody>
+  </table></div>
+  <div class="def"><b>Ovulación:</b> liberación del ovocito II por la ruptura del folículo. El ovocito pasa a la <b>trompa</b>; el folículo de Graaf se queda <b>dentro del ovario</b>.</div>
+  <div class="def"><b>Si no hay embarazo:</b> el cuerpo lúteo se degrada, baja la progesterona, el endometrio se desprende y empieza la <b>menstruación</b>: termina un ciclo y empieza el otro.</div>
+  <p class="scribble">los cambios de humor = las hormonas suben y bajan ↑↓</p>
+  <h3>Irregularidades: ovarios poliquísticos <span class="chip c-ok">Seguro</span></h3>
+  <p>Los folículos de Graaf se <b>endurecen y forman quistes</b>; los ovocitos no maduran y se <b>pierde fertilidad</b>.</p>
+  <div class="done-row"><button class="donebtn" data-done="ciclo"><span class="box"></span>Lo tengo</button></div>
+</section>
+
+<!-- 7 CALCULO -->
+<section class="topic reveal" id="calculo">
+  <span class="stamp">¡dominado!</span>
+  <div class="topic-head"><span class="num">7</span><h2>Calcular la ovulación</h2><span class="chip c-hot">Muy probable</span></div>
+  <p>El método de tu cuaderno:</p>
+  <ol class="steps">
+    <li><div>El <b>día 1</b> es el primer día de la menstruación.</div></li>
+    <li><div><b>Ovulación</b> ≈ la <mark>mitad del ciclo</mark>: duración ÷ 2.</div></li>
+    <li><div><b>Días fértiles</b> = <mark class="g">2 días antes y 2 días después</mark> de la ovulación.</div></li>
+    <li><div><b>Próxima menstruación</b> = día 1 + duración del ciclo.</div></li>
+  </ol>
+  <div class="calc">
+    <form id="calcform" onsubmit="return false">
+      <div class="field"><label for="cstart">Primer día de la menstruación</label><input id="cstart" type="date" value="2026-11-19"></div>
+      <div class="field"><label for="clen">Duración del ciclo (días)</label><input id="clen" type="number" min="20" max="45" value="24"></div>
+      <p class="scribble">ejemplo del cuaderno: joven de 25 años, día 1 = 19 nov, ciclo de 24 días → mitad = 12</p>
+    </form>
+    <div>
+      <div class="results" id="cres"></div>
+      <div class="cal" id="ccal" aria-label="Calendario del ciclo"></div>
+      <div class="legend-row" style="margin-top:10px">
+        <span><i style="background:var(--bad);height:10px;width:10px;border-radius:3px"></i>Menstruación</span>
+        <span><i style="background:var(--ok-soft);border:1px solid var(--ok);height:10px;width:10px;border-radius:3px"></i>Días fértiles</span>
+        <span><i style="background:var(--ok);height:10px;width:10px;border-radius:3px"></i>Ovulación</span>
+        <span><i style="border:1px dashed var(--bad);height:10px;width:10px;border-radius:3px"></i>Próxima menstruación</span>
+      </div>
+    </div>
+  </div>
+  <div class="sticky"><span class="t">revisa con tu profe</span>Aquí el día 1 cuenta como el primer día, así que el día 12 del ciclo es el 30 de nov. Si en clase suman directo (19 + 12), la ovulación cae el 1 de dic. Usa la forma de contar que pida tu profe.</div>
+  <div class="done-row"><button class="donebtn" data-done="calculo"><span class="box"></span>Lo tengo</button></div>
+</section>
+
+<!-- 8 FECUNDACION -->
+<section class="topic reveal" id="fecundacion">
+  <span class="stamp">¡dominado!</span>
+  <div class="topic-head"><span class="num">8</span><h2>Fecundación y gestación</h2></div>
+  <div class="cols">
+    <div>
+      <h3 style="margin-top:0">Fecundación <span class="chip c-hot">Muy probable</span></h3>
+      <div class="def"><b>Fecundación:</b> célula masculina + célula femenina = <mark>nueva célula</mark>. Es <b>interna</b> y ocurre en las <b>trompas</b> (en la ámpula).</div>
+      <ol class="steps">
+        <li><div>El semen eyaculado entra a la vagina.</div></li>
+        <li><div>Los espermatozoides recorren el útero hasta la trompa, ayudados por las contracciones y los cilios.</div></li>
+        <li><div>Llegan al <b>ovocito II</b>. Las enzimas del <b>acrosoma</b> degradan la <b>zona pelúcida</b>.</div></li>
+        <li><div>Un espermatozoide entra y el ovocito II termina su meiosis.</div></li>
+      </ol>
+      <p>El <b>sexo</b> se define en el <mark class="g">par 23</mark>: <b>XX</b> = mujer, <b>XY</b> = hombre.</p>
+      <p>Las <b>cicatrices</b> en los órganos reproductores pueden dificultar la fecundación.</p>
+    </div>
+    <div>
+      <h3 style="margin-top:0">Gestación <span class="chip c-ok">Seguro</span></h3>
+      <p>Durante el embarazo el <b>sistema inmune baja</b>; si no, podría reconocer al bebé como extraño.</p>
+      <div class="vs" style="grid-template-columns:1fr">
+        <div><h4>Univitelinos</h4><p><b>Gemelos idénticos.</b> Un solo óvulo fecundado que <b>se divide en 2</b>.</p></div>
+        <div><h4>Bivitelinos</h4><p><b>Mellizos.</b> La mujer <b>ovula varios ovocitos</b> y cada uno se fecunda por separado.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="done-row"><button class="donebtn" data-done="fecundacion"><span class="box"></span>Lo tengo</button></div>
+</section>
+
+<!-- 9 CONFUSIONES -->
+<section class="topic reveal" id="confusiones">
+  <span class="stamp">¡dominado!</span>
+  <div class="topic-head"><span class="num">9</span><h2>No te confundas</h2></div>
+  <div class="tbl"><table>
+    <thead><tr><th>Esto…</th><th>…no es lo mismo que esto</th></tr></thead>
+    <tbody>
+      <tr><td>Sertoli: apoyan la formación de espermatozoides</td><td>Leydig: producen testosterona</td></tr>
+      <tr><td>Vesículas seminales: fructosa (energía)</td><td>Bulbouretral: alcalina (neutraliza el pH)</td></tr>
+      <tr><td>Epidídimo: madura y almacena</td><td>Conducto eyaculador: por donde salen</td></tr>
+      <tr><td>Folículo de Graaf: antes de ovular</td><td>Cuerpo lúteo: lo que queda después de ovular</td></tr>
+      <tr><td>FSH y LH: hipofisarias (cerebro)</td><td>Estrógeno y progesterona: ováricas</td></tr>
+      <tr><td>Menopausia: 1 año sin menstruación</td><td>Perimenopausia: se está acercando</td></tr>
+      <tr><td>Univitelinos: idénticos, 1 óvulo</td><td>Bivitelinos: mellizos, varios óvulos</td></tr>
+      <tr><td>Meato urinario: sale orina</td><td>Orificio vaginal: sangre, bebé</td></tr>
+      <tr><td>Endometrio: capa interna que se desprende</td><td>Miometrio: capa de músculo</td></tr>
+    </tbody>
+  </table></div>
+  <div class="done-row"><button class="donebtn" data-done="confusiones"><span class="box"></span>Lo tengo</button></div>
+</section>
+
+<!-- PRACTICA -->
+<section class="practice-wrap" id="practica">
+  <div class="topic-head"><span class="num">✎</span><h2>Hora de practicar</h2></div>
+  <p class="lede">Primero las tarjetas para memorizar, luego el quiz para ver qué tanto sabes, y el repaso tapado la noche antes del examen.</p>
+  <div class="ptabs" role="tablist">
+    <button role="tab" id="t-cards" aria-selected="true" aria-controls="p-cards">Tarjetas</button>
+    <button role="tab" id="t-quiz" aria-selected="false" aria-controls="p-quiz">Quiz</button>
+    <button role="tab" id="t-rev" aria-selected="false" aria-controls="p-rev">Repaso tapado</button>
+  </div>
+
+  <div class="panel" id="p-cards" role="tabpanel" aria-labelledby="t-cards">
+    <div class="card-stage">
+      <button class="fcard" id="fcard" aria-label="Voltear tarjeta">
+        <div class="face front"><small>pregunta</small><span id="ffront"></span></div>
+        <div class="face back"><small>respuesta</small><span id="fback"></span></div>
+      </button>
+    </div>
+    <div class="know">
+      <button class="btn small" id="fno">Todavía no</button>
+      <button class="btn small" id="fyes">¡Me la sé!</button>
+    </div>
+    <div class="card-ctrl">
+      <button class="btn small" id="fprev">←</button>
+      <span class="counter" id="fcount"></span>
+      <button class="btn small" id="fnext">→</button>
+      <button class="btn small" id="fshuf">Mezclar</button>
+    </div>
+    <p style="text-align:center;color:var(--muted);font-size:14px;margin-top:10px" id="fknown"></p>
+  </div>
+
+  <div class="panel" id="p-quiz" role="tabpanel" aria-labelledby="t-quiz" hidden>
+    <div id="quiz"></div>
+  </div>
+
+  <div class="panel covered" id="p-rev" role="tabpanel" aria-labelledby="t-rev" hidden>
+    <div class="qhead"><p style="margin:0">Trata de explicar cada término con tus palabras. Toca la respuesta para destaparla.</p><button class="btn small" id="revtoggle">Destapar todo</button></div>
+    <div class="tbl"><table class="rev"><thead><tr><th>Término</th><th>En una frase</th></tr></thead><tbody id="revbody"></tbody></table></div>
+  </div>
+</section>
+
+<footer><span class="hand">¡tú puedes! ✿</span><br>Guía hecha con tus apuntes. Lo que agregué o aclaré está en los post-its amarillos.</footer>
+</div>
+
+<script>
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+
+/* ---------- hero: espermatozoides nadando hacia el ovocito ---------- */
+(function(){
+  const cv=document.getElementById('swim'),ctx=cv.getContext('2d');let W,H,dpr,sp=[],t=0,vis=true,raf;
+  function size(){dpr=Math.min(devicePixelRatio||1,2);W=cv.clientWidth;H=cv.clientHeight;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}
+  function egg(){return{x:W>820?W*.86:W*.82,y:W>820?H*.2:H*.12,r:Math.max(46,Math.min(W,H)*.11)}}
+  function spawn(s,init){const e=egg();s.x=init?Math.random()*W*.7:-40-Math.random()*200;s.y=H*.15+Math.random()*H*.8;s.v=.55+Math.random()*.6;s.ph=Math.random()*6.28;s.tx=e.x;s.ty=e.y;return s}
+  function init(){size();sp=[];const n=W<600?9:16;for(let i=0;i<n;i++)sp.push(spawn({},true))}
+  function draw(){
+    const ink=css('--ink'),coral=css('--coral'),hl=css('--hl'),est=css('--est');
+    ctx.clearRect(0,0,W,H);const e=egg();
+    // ovocito
+    ctx.save();ctx.globalAlpha=.9;
+    for(let i=0;i<22;i++){const a=i/22*6.283+t*.002;ctx.beginPath();ctx.arc(e.x+Math.cos(a)*(e.r+16),e.y+Math.sin(a)*(e.r+16),6,0,6.283);ctx.fillStyle=hl;ctx.fill()}
+    ctx.beginPath();ctx.arc(e.x,e.y,e.r+4,0,6.283);ctx.fillStyle=css('--page');ctx.fill();ctx.lineWidth=5;ctx.strokeStyle=hl;ctx.stroke();
+    ctx.beginPath();ctx.arc(e.x,e.y,e.r-6,0,6.283);ctx.fillStyle=est;ctx.globalAlpha=.22;ctx.fill();ctx.globalAlpha=.9;
+    ctx.beginPath();ctx.arc(e.x-e.r*.18,e.y-e.r*.1,e.r*.28,0,6.283);ctx.fillStyle=est;ctx.globalAlpha=.55;ctx.fill();
+    ctx.restore();
+    // espermatozoides
+    sp.forEach(s=>{
+      const dx=s.tx-s.x,dy=s.ty-s.y,d=Math.hypot(dx,dy),ang=Math.atan2(dy,dx)+Math.sin(t*.03+s.ph)*.25;
+      ctx.save();ctx.translate(s.x,s.y);ctx.rotate(ang);ctx.globalAlpha=.38;
+      ctx.beginPath();ctx.moveTo(-6,0);
+      for(let i=0;i<=26;i++){const xx=-6-i*1.6;ctx.lineTo(xx,Math.sin(t*.25+s.ph-i*.45)*(i*.22))}
+      ctx.strokeStyle=ink;ctx.lineWidth=1.4;ctx.stroke();
+      ctx.beginPath();ctx.ellipse(0,0,6.5,4.2,0,0,6.283);ctx.fillStyle=coral;ctx.fill();
+      ctx.restore();
+      if(!RM){s.x+=Math.cos(ang)*s.v;s.y+=Math.sin(ang)*s.v}
+      if(d<e.r+18)spawn(s,false);
+    });
+  }
+  function loop(){t++;draw();if(vis&&!RM)raf=requestAnimationFrame(loop)}
+  init();draw();if(!RM)loop();
+  addEventListener('resize',()=>{init();draw()});
+  new IntersectionObserver(es=>{vis=es[0].isIntersecting;cancelAnimationFrame(raf);if(vis&&!RM)loop()}).observe(cv);
+})();
+
+/* ---------- reveal / highlighter / draw-on-scroll ---------- */
+(function(){
+  if(RM||!('IntersectionObserver' in window))return;
+  const below=el=>el.getBoundingClientRect().top>innerHeight*.9;
+  document.querySelectorAll('.reveal').forEach(el=>{if(below(el))el.classList.add('pre')});
+  document.querySelectorAll('mark').forEach(el=>{if(below(el))el.classList.add('pre')});
+  document.querySelectorAll('svg .draw').forEach(p=>{
+    if(!below(p))return;
+    const L=p.getTotalLength?p.getTotalLength():0;if(!L)return;
+    p.style.strokeDasharray=L;p.style.setProperty('--len',L);p.classList.add('draw-pre');
+  });
+  const io=new IntersectionObserver(es=>es.forEach(en=>{
+    if(!en.isIntersecting)return;const el=en.target;
+    el.classList.remove('pre');
+    if(el.matches('.reveal'))el.querySelectorAll('svg .draw-pre').forEach(p=>{p.classList.add('drawn');requestAnimationFrame(()=>p.classList.remove('draw-pre'));p.addEventListener('transitionend',()=>{p.style.strokeDasharray=''},{once:true})});
+    io.unobserve(el);
+  }),{rootMargin:'0px 0px -12% 0px'});
+  document.querySelectorAll('.reveal,mark').forEach(el=>io.observe(el));
+  const fio=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');fio.unobserve(en.target)}}),{rootMargin:'0px 0px -10% 0px'});
+  document.querySelectorAll('.flow').forEach(f=>{if(below(f))fio.observe(f)});
+})();
+
+/* ---------- confetti ---------- */
+const confetti=(function(){
+  const cv=document.getElementById('confetti'),ctx=cv.getContext('2d');let parts=[],run=false;
+  function fire(x,y,n){
+    if(RM)return;const dpr=Math.min(devicePixelRatio||1,2);cv.width=innerWidth*dpr;cv.height=innerHeight*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
+    const cols=[css('--coral'),css('--sticky'),css('--hl2'),css('--blue'),css('--hl')];
+    for(let i=0;i<n;i++){const a=Math.random()*6.283,v=3+Math.random()*7;parts.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-5,r:4+Math.random()*5,c:cols[i%cols.length],rot:Math.random()*6,vr:(Math.random()-.5)*.4,life:0})}
+    if(!run){run=true;tick()}
+  }
+  function tick(){
+    ctx.clearRect(0,0,cv.width,cv.height);
+    parts.forEach(p=>{p.vy+=.22;p.vx*=.985;p.x+=p.vx;p.y+=p.vy;p.rot+=p.vr;p.life++;
+      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.globalAlpha=Math.max(0,1-p.life/110);ctx.fillStyle=p.c;ctx.fillRect(-p.r/2,-p.r/4,p.r,p.r/2);ctx.restore()});
+    parts=parts.filter(p=>p.life<110&&p.y<innerHeight+40);
+    if(parts.length)requestAnimationFrame(tick);else{run=false;ctx.clearRect(0,0,cv.width,cv.height)}
+  }
+  return fire;
+})();
+
+/* ---------- progreso por tema ---------- */
+const SECS=['base','masculino','espermatogenesis','femenino','ovogenesis','ciclo','calculo','fecundacion','confusiones'];
+let done=new Set(store.get('repro-done',[]));
+function paintProgress(){
+  SECS.forEach(s=>{document.getElementById(s).classList.toggle('done',done.has(s));
+    const a=document.querySelector(`.nav a[data-sec="${s}"]`);if(a)a.classList.toggle('done',done.has(s));
+    const b=document.querySelector(`[data-done="${s}"] .box`);if(b)b.textContent=done.has(s)?'✓':''});
+  const n=done.size;document.getElementById('progbar').style.width=(n/SECS.length*100)+'%';
+  document.getElementById('ringfg').setAttribute('stroke-dashoffset',213.6*(1-n/SECS.length));
+  document.getElementById('ringtxt').textContent=n+'/9';
+  document.getElementById('ringmsg').textContent=n===0?'Marca "Lo tengo" al final de cada tema.':n<5?'¡Buen comienzo! Sigue así.':n<9?'Ya vas más de la mitad.':'¡Todo dominado! Ahora el quiz.';
+}
+document.querySelectorAll('[data-done]').forEach(b=>b.addEventListener('click',e=>{
+  const s=b.dataset.done;if(done.has(s))done.delete(s);else{done.add(s);const r=b.getBoundingClientRect();confetti(r.left+r.width/2,r.top,done.size===9?140:40)}
+  store.set('repro-done',[...done]);paintProgress();
+}));
+paintProgress();
+
+/* scrollspy */
+(function(){
+  const links=[...document.querySelectorAll('.nav a[data-sec]')];
+  const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){links.forEach(a=>a.classList.toggle('active',a.dataset.sec===en.target.id));
+    const a=links.find(a=>a.dataset.sec===en.target.id);if(a){const row=document.getElementById('navrow');row.scrollTo({left:a.offsetLeft-row.clientWidth/2+a.offsetWidth/2,behavior:RM?'auto':'smooth'})}}}),{rootMargin:'-45% 0px -50% 0px'});
+  SECS.forEach(s=>io.observe(document.getElementById(s)));
+})();
+
+/* ---------- diagramas: ocultar nombres ---------- */
+document.querySelectorAll('[data-hide]').forEach(btn=>{
+  const fig=document.getElementById(btn.dataset.hide);
+  btn.addEventListener('click',()=>{const on=fig.classList.toggle('hidden-labels');fig.querySelectorAll('.lbl').forEach(l=>l.classList.remove('shown'));btn.textContent=on?'Mostrar nombres':'Ocultar nombres'});
+  fig.querySelectorAll('.lbl').forEach(l=>l.addEventListener('click',()=>{if(fig.classList.contains('hidden-labels'))l.classList.toggle('shown')}));
+});
+
+/* ---------- gráfica del ciclo ---------- */
+const NS='http://www.w3.org/2000/svg',chart=document.getElementById('chart');
+const X0=46,X1=584,TOP=48,H=170,TT=262,TH=46,STEP=(X1-X0)/27;
+const xd=d=>X0+(d-1)*STEP;
+const g=(d,m,s)=>Math.exp(-((d-m)**2)/(2*s*s));
+const curves={fsh:d=>.30+.22*g(d,3,3)+.42*g(d,14,1.2),lh:d=>.10+.85*g(d,14,1.0),est:d=>.10+.70*g(d,12.6,2.0)+.32*g(d,21,3),prog:d=>.04+.78*g(d,21,3.2)};
+function el(tag,attrs,parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);(parent||chart).appendChild(e);return e}
+[[1,5,'Menstruación','var(--bad-soft)'],[6,13,'Folicular','var(--blue-soft)'],[14,14,'Ovul.','var(--ok-soft)'],[15,28,'Lútea','var(--extra-soft)']].forEach(([a,b,name,fill])=>{
+  const x=Math.max(X0,xd(a)-STEP/2),x2=Math.min(X1,xd(b)+STEP/2);
+  el('rect',{x,y:8,width:x2-x,height:26,rx:6,fill});
+  const t=el('text',{x:(x+x2)/2,y:26,'text-anchor':'middle'});t.textContent=name;t.style.fill='var(--ink)';t.style.fontWeight='700';
+});
+el('line',{x1:X0,y1:TOP+H,x2:X1,y2:TOP+H,class:'axis'});el('line',{x1:X0,y1:TOP,x2:X0,y2:TOP+H,class:'axis'});
+el('text',{x:X0-8,y:TOP+10,'text-anchor':'end'}).textContent='alto';el('text',{x:X0-8,y:TOP+H,'text-anchor':'end'}).textContent='bajo';
+const colors={fsh:'var(--fsh)',lh:'var(--lh)',est:'var(--est)',prog:'var(--prog)'};
+for(const k in curves){let p='';for(let d=1;d<=28;d+=.25)p+=(d===1?'M':'L')+xd(d).toFixed(1)+' '+(TOP+(1-curves[k](d))*H).toFixed(1);
+  el('path',{d:p,fill:'none',stroke:colors[k],'stroke-width':2.8,'stroke-linecap':'round','stroke-linejoin':'round',class:'draw'})}
+[['LH',14,'lh',-8],['Estrógeno',11.2,'est',-8],['Progesterona',21,'prog',-8],['FSH',4.2,'fsh',-6]].forEach(([n,d,k,dy])=>{const t=el('text',{x:xd(d),y:TOP+(1-curves[k](d))*H+dy,'text-anchor':'middle'});t.textContent=n;t.style.fill=colors[k];t.style.fontWeight='700'});
+el('line',{x1:X0,y1:TT+TH,x2:X1,y2:TT+TH,class:'axis'});
+const ty=v=>TT+TH-(v-35.8)/(37.2-35.8)*TH,tempAt=d=>d<14?36.0:(d===14?36.5:37.0);
+let tp='';for(let d=1;d<=28;d++)tp+=(d===1?'M':'L')+xd(d)+' '+ty(tempAt(d));
+el('path',{d:tp,fill:'none',stroke:'var(--temp)','stroke-width':2.8,'stroke-linejoin':'round',class:'draw'});
+el('text',{x:X0-8,y:ty(36)+4,'text-anchor':'end'}).textContent='36°';el('text',{x:X0-8,y:ty(37)+4,'text-anchor':'end'}).textContent='37°';
+const tl=el('text',{x:xd(21),y:ty(37)-8,'text-anchor':'middle'});tl.textContent='Temperatura';tl.style.fill='var(--temp)';tl.style.fontWeight='700';
+[1,7,14,21,28].forEach(d=>{el('text',{x:xd(d),y:TT+TH+18,'text-anchor':'middle'}).textContent='día '+d});
+const cur=el('g',{style:'transition:transform .35s cubic-bezier(.2,.8,.2,1)'});
+el('line',{x1:0,y1:8,x2:0,y2:TT+TH,stroke:'var(--ink)','stroke-width':1.5,'stroke-dasharray':'4 4'},cur);
+const dot=el('circle',{r:6,cx:0,fill:'var(--temp)',stroke:'var(--page)','stroke-width':2,style:'transition:cy .35s'},cur);
+const info=d=>{
+  if(d<=5)return{p:'Menstruación',ov:'Crecen los folículos, sobre todo el de Graaf.',t:'~36 °C (normal)',h:'Bajas, menos la FSH; el estrógeno sube un poco.',u:'Se desprende el endometrio: sangrado.'};
+  if(d<=13)return{p:'Fase folicular',ov:'El folículo de Graaf madura y contiene al ovocito II.',t:'~36 °C',h:'Suben la FSH y el estrógeno.',u:'El endometrio se vuelve a formar y engrosa.'};
+  if(d===14)return{p:'Ovulación',ov:'Se rompe el folículo y sale el ovocito II hacia la trompa.',t:'Sube 1 °C → ~37 °C',h:'Pico de LH (y FSH); el estrógeno baja.',u:'Endometrio grueso.'};
+  return{p:'Fase lútea',ov:'El folículo vacío se vuelve cuerpo lúteo.'+(d>=26?' Si no hubo embarazo, se degrada.':''),t:'Se mantiene alta (~37 °C)',h:'Bajan FSH y LH; sube la progesterona'+(d>=26?' (y luego cae si no hay embarazo)':'')+'.',u:d>=26?'Sin embarazo, se prepara para desprenderse.':'Se prepara para un posible embarazo.'};
+};
+const dayIn=document.getElementById('day'),dbox=document.getElementById('daybox');let lastPhase='';
+function setDay(d){
+  cur.style.transform=`translateX(${xd(d)}px)`;dot.setAttribute('cy',ty(tempAt(d)));
+  const i=info(d);document.getElementById('dnum').textContent='Día '+d;
+  ['dphase','dov','dtemp','dhorm','dut'].forEach((id,k)=>document.getElementById(id).textContent=[i.p,i.ov,i.t,i.h,i.u][k]);
+  if(i.p!==lastPhase){dbox.classList.remove('flash');void dbox.offsetWidth;dbox.classList.add('flash');lastPhase=i.p}
+}
+dayIn.addEventListener('input',()=>{stopPlay();setDay(+dayIn.value)});setDay(14);
+let playT=null;const pb=document.getElementById('play');
+function stopPlay(){if(playT){clearInterval(playT);playT=null;pb.textContent='▶ Reproducir'}}
+pb.addEventListener('click',()=>{if(playT)return stopPlay();let d=+dayIn.value>=28?1:+dayIn.value;pb.textContent='❚❚ Pausar';
+  playT=setInterval(()=>{dayIn.value=d;setDay(d);d++;if(d>28)stopPlay()},RM?900:520)});
+
+/* ---------- calculadora ---------- */
+const DAY=864e5,fmt=(t,o)=>new Date(t).toLocaleDateString('es',Object.assign({day:'numeric',month:'long',timeZone:'UTC'},o||{}));
+function calc(){
+  const s=document.getElementById('cstart').value,L=parseInt(document.getElementById('clen').value,10);
+  const res=document.getElementById('cres'),cal=document.getElementById('ccal');
+  if(!s||!(L>=20&&L<=45)){res.innerHTML='<div class="res">Escribe una fecha y una duración entre 20 y 45 días.</div>';cal.innerHTML='';return}
+  const [y,m,d]=s.split('-').map(Number),start=Date.UTC(y,m-1,d),mid=Math.round(L/2);
+  const ov=start+(mid-1)*DAY,f0=ov-2*DAY,f1=ov+2*DAY,next=start+L*DAY;
+  res.innerHTML=`<div class="res"><span>Mitad del ciclo</span><b>${L} ÷ 2 ≈ día ${mid}</b></div><div class="res key bump"><span>Ovulación</span><b>${fmt(ov,{weekday:'long'})}</b></div><div class="res"><span>Días fértiles (±2)</span><b>${fmt(f0)} – ${fmt(f1)}</b></div><div class="res"><span>Próxima menstruación</span><b>${fmt(next)}</b></div>`;
+  const dow=(new Date(start).getUTCDay()+6)%7;let html=['L','M','M','J','V','S','D'].map(x=>`<div class="h">${x}</div>`).join(''),k=0;
+  for(let i=0;i<dow;i++)html+='<div style="visibility:hidden;animation:none"></div>';
+  for(let t=start;t<=next;t+=DAY){const dd=new Date(t).getUTCDate();let c='';
+    if(t===start)c='m';else if(t===ov)c='o';else if(t>=f0&&t<=f1)c='f';else if(t===next)c='n';
+    const first=(dd===1||t===start)?`<br><small>${new Date(t).toLocaleDateString('es',{month:'short',timeZone:'UTC'})}</small>`:'';
+    html+=`<div class="${c}" style="animation-delay:${RM?0:k++*12}ms">${dd}${first}</div>`}
+  cal.innerHTML=html;
+}
+['cstart','clen'].forEach(id=>document.getElementById(id).addEventListener('input',calc));calc();
+
+/* ---------- pestañas ---------- */
+const tabs=[['t-cards','p-cards'],['t-quiz','p-quiz'],['t-rev','p-rev']];
+tabs.forEach(([t,p])=>document.getElementById(t).addEventListener('click',()=>tabs.forEach(([t2,p2])=>{document.getElementById(t2).setAttribute('aria-selected',t2===t);document.getElementById(p2).hidden=p2!==p})));
+
+/* ---------- tarjetas ---------- */
+const CARDS=[
+ ['¿Qué órgano comparten el sistema urinario y el reproductor masculino?','La uretra: lleva orina y semen.'],
+ ['¿Qué producen las células de Leydig?','Testosterona.'],
+ ['¿Qué hacen las células de Sertoli?','Apoyan la producción de espermatozoides en el testículo.'],
+ ['¿Por qué los testículos bajan al escroto?','Para estar a una temperatura menor que la corporal; si no bajan, hay infertilidad.'],
+ ['Función del epidídimo','Termina la maduración de los espermatozoides y los almacena.'],
+ ['¿Qué aportan las vesículas seminales?','Fructosa (energía/ATP) y prostaglandinas (contracciones).'],
+ ['¿Qué hace la glándula bulbouretral?','Secreta una sustancia alcalina que neutraliza la acidez de la orina en la uretra.'],
+ ['¿Cuál es la glándula anexa más grande?','La próstata: facilita el movimiento de los espermatozoides.'],
+ ['¿Qué pasa si los espermatozoides no salen?','Los testículos los reabsorben y los vuelven a usar.'],
+ ['Espermátida vs. espermatogonio','Espermatogonio: diploide. Espermátida: haploide, pero aún debe pasar por la espermiogénesis.'],
+ ['¿Qué tiene la pieza media del espermatozoide?','Mitocondrias, que dan el ATP para mover la cola.'],
+ ['¿Qué es el acrosoma?','Enzimas hidrolíticas en la cabeza que degradan la zona pelúcida del ovocito.'],
+ ['¿Cuánto viven los espermatozoides dentro de la mujer?','Aproximadamente 5 días.'],
+ ['¿Dónde ocurre la fecundación?','En la ámpula de la trompa de Falopio.'],
+ ['Hormonas de los ovarios','Estrógeno y progesterona.'],
+ ['Miometrio vs. endometrio','Miometrio: capa de músculo. Endometrio: capa interna con sangre que se desprende.'],
+ ['¿Dónde se detiene la ovogénesis?','En la meiosis I, al terminar la profase I (cuando la mujer es embrión).'],
+ ['¿Con cuántos ovocitos nace una mujer?','Con aproximadamente 400 mil ovocitos I.'],
+ ['¿Qué resulta de la ovogénesis?','1 ovocito II (haploide) + 3 cuerpos polares.'],
+ ['¿Cuándo termina el ovocito II su meiosis?','Con la fecundación.'],
+ ['Define ovulación','La liberación del ovocito II por la ruptura del folículo.'],
+ ['¿Qué le pasa a la temperatura en la ovulación?','Sube 1 °C: de ~36 °C a ~37 °C.'],
+ ['¿En qué se transforma el folículo después de ovular?','En el cuerpo lúteo.'],
+ ['Hormona principal de la fase lútea','La progesterona, la hormona del embarazo.'],
+ ['Menopausia','1 año entero sin menstruación.'],
+ ['Ovarios poliquísticos','Los folículos se endurecen y forman quistes; los ovocitos no maduran y se pierde fertilidad.'],
+ ['¿Qué par de cromosomas define el sexo?','El par 23: XX mujer, XY hombre.'],
+ ['Univitelinos vs. bivitelinos','Univitelinos: idénticos, un óvulo que se divide en 2. Bivitelinos: mellizos, la mujer ovula varios.'],
+ ['¿Por qué baja el sistema inmune en el embarazo?','Para no reconocer al bebé como extraño.'],
+ ['Días fértiles','2 días antes y 2 días después de la ovulación.'],
+];
+let order=CARDS.map((_,i)=>i),ci=0,known=new Set(store.get('repro-known',[]));
+const fc=document.getElementById('fcard');
+function fillCard(){const [q,a]=CARDS[order[ci]];document.getElementById('ffront').textContent=q;document.getElementById('fback').textContent=a;
+  document.getElementById('fcount').textContent=(ci+1)+' / '+CARDS.length;
+  document.getElementById('fknown').textContent=`Te sabes ${known.size} de ${CARDS.length} tarjetas.`+(known.has(order[ci])?' Esta ya la marcaste.':'')}
+function go(delta){
+  if(RM){fc.classList.remove('flipped');ci=(ci+delta+CARDS.length)%CARDS.length;fillCard();return}
+  fc.classList.add('out');
+  setTimeout(()=>{fc.classList.remove('out','flipped');fc.style.transition='none';ci=(ci+delta+CARDS.length)%CARDS.length;fillCard();void fc.offsetWidth;fc.style.transition='';fc.classList.add('in');setTimeout(()=>fc.classList.remove('in'),360)},260);
+}
+fc.addEventListener('click',()=>fc.classList.toggle('flipped'));
+document.getElementById('fnext').addEventListener('click',()=>go(1));
+document.getElementById('fprev').addEventListener('click',()=>go(-1));
+document.getElementById('fshuf').addEventListener('click',()=>{shuffle(order);ci=-1;go(1)});
+document.getElementById('fyes').addEventListener('click',e=>{known.add(order[ci]);store.set('repro-known',[...known]);
+  const r=e.currentTarget.getBoundingClientRect();confetti(r.left+r.width/2,r.top,known.size===CARDS.length?120:18);go(1)});
+document.getElementById('fno').addEventListener('click',()=>{known.delete(order[ci]);store.set('repro-known',[...known]);go(1)});
+document.addEventListener('keydown',e=>{if(document.getElementById('p-cards').hidden||['INPUT','TEXTAREA'].includes(document.activeElement.tagName))return;
+  if(e.key==='ArrowRight')go(1);else if(e.key==='ArrowLeft')go(-1)});
+fillCard();
+
+/* ---------- quiz ---------- */
+const Q=[
+ ['¿Qué estructura es común al sistema urinario y al reproductor masculino?',['Uretra','Uréter','Conducto deferente','Epidídimo'],'La uretra lleva tanto la orina de la vejiga como el semen.'],
+ ['¿Qué células del testículo producen testosterona?',['Células de Leydig','Células de Sertoli','Células foliculares','Células de Skene'],'Leydig = testosterona. Sertoli = apoyan la producción de espermatozoides.'],
+ ['Los testículos descienden al escroto porque…',['necesitan una temperatura menor que la corporal','así producen más testosterona','el epidídimo los empuja','así se protegen de golpes'],'La producción de espermatozoides necesita menos temperatura que la corporal. Si no bajan, hay infertilidad.'],
+ ['¿Qué glándula aporta fructosa al semen?',['Vesículas seminales','Próstata','Bulbouretral','Bartolino'],'La fructosa de las vesículas seminales da el ATP para el recorrido.'],
+ ['La orina en la uretra es ácida. ¿Qué glándula neutraliza esa acidez?',['Bulbouretral','Vesículas seminales','Próstata','Skene'],'La bulbouretral secreta una sustancia alcalina para que los espermatozoides no mueran.'],
+ ['¿Cuál es la función del epidídimo?',['Terminar de madurar y almacenar los espermatozoides','Producir testosterona','Producir el líquido con fructosa','Neutralizar el pH'],'El epidídimo es la parte inicial del conducto deferente: madura y almacena.'],
+ ['¿Qué pasa con los espermatozoides que no salen por eyaculación?',['Los testículos los reabsorben y reutilizan','Se quedan para siempre en el epidídimo','Salen con la orina','Se convierten en espermátidas'],'Según tus apuntes, se reabsorben y se vuelven a usar.'],
+ ['La pieza media del espermatozoide contiene…',['mitocondrias','el acrosoma','el núcleo haploide','la zona pelúcida'],'Las mitocondrias producen el ATP que mueve la cola (flagelo).'],
+ ['El acrosoma sirve para…',['degradar la zona pelúcida del ovocito con enzimas','mover la cola','producir ATP','guardar los cromosomas'],'Sus enzimas hidrolíticas abren paso a través de la zona pelúcida.'],
+ ['La espermátida es…',['haploide, pero aún debe diferenciarse (espermiogénesis)','diploide y sale del testículo','el espermatozoide ya maduro','un cuerpo polar'],'El espermatogonio es diploide; la espermátida ya es haploide pero le falta la espermiogénesis.'],
+ ['¿Cuándo deja el hombre de producir espermatozoides?',['Nunca','A los 40 años','En la andropausia, como la menopausia','Al terminar la pubertad'],'La espermatogénesis empieza en la pubertad y nunca se detiene.'],
+ ['¿En qué parte de la trompa ocurre la fecundación?',['Ámpula','Fimbrias','Útero','Ovario'],'La ámpula es la parte media y ancha de la trompa.'],
+ ['¿Qué capa del útero se desprende en la menstruación?',['Endometrio','Miometrio','Zona pelúcida','Cuerpo lúteo'],'El endometrio es la capa interna con sangre; el miometrio es músculo.'],
+ ['La ovogénesis se detiene por primera vez…',['en la profase I de la meiosis I, cuando la mujer es embrión','en la pubertad','en la menopausia','después de la fecundación'],'Se detiene en el embrión y se retoma en la pubertad.'],
+ ['¿Qué produce la ovogénesis a partir de un ovocito I?',['1 ovocito II y 3 cuerpos polares','4 ovocitos II','2 ovocitos y 2 espermátidas','1 folículo de Graaf'],'Solo una célula queda como gameto; las otras tres son cuerpos polares.'],
+ ['El ovocito II termina su meiosis…',['con la fecundación','en la ovulación','en la menstruación','en la pubertad'],'Si no es fecundado, no termina la meiosis.'],
+ ['¿Cuál es la definición de ovulación?',['La liberación del ovocito II por la ruptura del folículo','El desprendimiento del endometrio','La unión del óvulo con el espermatozoide','La formación del cuerpo lúteo'],'Así está en tus apuntes; el folículo se queda en el ovario.'],
+ ['En la ovulación, la temperatura corporal…',['sube 1 °C (de ~36 a ~37 °C)','baja 1 °C','no cambia','sube 3 °C'],'Por eso medir la temperatura ayuda a saber si ya ovulaste.'],
+ ['¿Qué hormona alcanza su pico justo en la ovulación?',['LH (luteinizante)','Progesterona','Testosterona','Melatonina'],'En la ovulación hay el mayor nivel de LH y FSH.'],
+ ['¿Qué hormona domina la fase lútea y prepara al cuerpo para el embarazo?',['Progesterona','FSH','LH','Estrógeno'],'El cuerpo lúteo produce progesterona.'],
+ ['Si no hay embarazo, ¿qué pasa al final de la fase lútea?',['Se degrada el cuerpo lúteo y empieza la menstruación','Se forma un nuevo folículo de Graaf en la trompa','Sube la temperatura a 38 °C','El ovocito II termina la meiosis'],'Baja la progesterona, se desprende el endometrio y empieza otro ciclo.'],
+ ['Ciclo de 28 días que empieza el 1 de marzo. ¿Cuáles son los días fértiles?',['12 al 16 de marzo','1 al 5 de marzo','14 al 20 de marzo','26 al 28 de marzo'],'Mitad = día 14 (14 de marzo). Fértiles: 2 días antes y después → 12 al 16.'],
+ ['Menopausia es…',['1 año entero sin menstruación','la primera menstruación','la etapa en la que se está acercando','un ciclo de más de 35 días'],'La primera es la menarquia; la etapa previa es la perimenopausia.'],
+ ['En los ovarios poliquísticos…',['los folículos forman quistes y los ovocitos no maduran','se produce demasiado endometrio','no hay trompas de Falopio','los ovocitos maduran más rápido'],'Por eso se pierde fertilidad.'],
+ ['Los gemelos idénticos son…',['univitelinos: un óvulo fecundado que se divide en 2','bivitelinos: varios óvulos fecundados','siempre de distinto sexo','resultado de dos espermatozoides en un óvulo'],'Bivitelinos son mellizos: la mujer ovula varios ovocitos.'],
+ ['¿Qué define si el bebé es mujer u hombre?',['El par 23: XX o XY','El par 1','La temperatura del útero','La cantidad de fructosa'],'XX = mujer, XY = hombre.'],
+ ['¿Qué glándula está en el vestíbulo vaginal y facilita la penetración?',['Bartolino','Skene','Próstata','Bulbouretral'],'Skene está junto al meato urinario.'],
+ ['El ovocito II se diferencia del espermatozoide porque…',['no tiene flagelo y es de las células más grandes del cuerpo','es diploide','tiene acrosoma','tiene pieza media con mitocondrias'],'Es grande y no se mueve solo; el núcleo es haploide.'],
+];
+const qbox=document.getElementById('quiz');let qs=[],qi=0,score=0,missed=[],answered=false,streak=0;
+const best=()=>store.get('repro-best',0);
+function startQuiz(subset){qs=shuffle((subset||Q.map((_,i)=>i)).slice()).map(i=>({i,q:Q[i][0],o:shuffle(Q[i][1].map((t,k)=>({t,ok:k===0}))),ex:Q[i][2]}));qi=0;score=0;missed=[];streak=0;renderQ()}
+function renderQ(){
+  answered=false;if(qi>=qs.length)return renderEnd();const c=qs[qi];
+  qbox.innerHTML=`<div class="qhead"><span class="counter" style="text-align:left">Pregunta ${qi+1} de ${qs.length}</span><span class="streak" id="streak">${streak>=2?'racha ×'+streak:''}</span><span class="counter">Aciertos: ${score}</span></div>
+  <div class="bar"><i style="width:${qi/qs.length*100}%"></i></div><div class="qtext">${c.q}</div>
+  <div class="opts">${c.o.map((o,k)=>`<button class="opt" data-k="${k}"><span class="k">${'abcd'[k]})</span><span>${o.t}</span></button>`).join('')}</div><div id="qfb"></div>`;
+  qbox.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>answer(+b.dataset.k,b)));
+}
+function answer(k,btn){
+  if(answered)return;answered=true;const c=qs[qi],ok=c.o[k].ok;
+  if(ok){score++;streak++;const r=btn.getBoundingClientRect();confetti(r.left+40,r.top+r.height/2,streak>=3?36:16)}else{missed.push(c.i);streak=0}
+  qbox.querySelectorAll('.opt').forEach((b,j)=>{b.disabled=true;if(c.o[j].ok)b.classList.add('right');else if(j===k)b.classList.add('wrong')});
+  const st=document.getElementById('streak');st.textContent=streak>=2?'racha ×'+streak:'';st.classList.remove('pop');void st.offsetWidth;st.classList.add('pop');
+  document.getElementById('qfb').innerHTML=`<div class="explain"><b>${ok?(streak>=3?'¡Imparable!':'¡Correcto!'):'Casi.'}</b> ${c.ex}</div><div style="margin-top:14px;text-align:right"><button class="btn primary" id="qnext">${qi+1<qs.length?'Siguiente →':'Ver resultado'}</button></div>`;
+  const nb=document.getElementById('qnext');nb.addEventListener('click',()=>{qi++;renderQ()});nb.focus({preventScroll:true});
+}
+function renderEnd(){
+  const pct=Math.round(score/qs.length*100);if(qs.length===Q.length&&pct>best())store.set('repro-best',pct);
+  const msg=pct>=90?'¡Lista/o para el examen!':pct>=70?'Vas muy bien; repasa las que fallaste.':'Repasa las tarjetas y vuelve a intentarlo.';
+  qbox.innerHTML=`<div class="score"><div class="big" id="bignum">0/${qs.length}</div><p class="hand" style="font-size:26px">${msg}</p>
+  <p class="counter" style="text-align:center">${pct}% · Mejor puntaje en el quiz completo: ${best()}%</p>
+  <div class="card-ctrl">${missed.length?'<button class="btn primary" id="qretry">Repetir solo las falladas ('+missed.length+')</button>':''}<button class="btn" id="qall">Hacer todo de nuevo</button></div>
+  ${missed.length?'<ul class="missed">'+missed.map(i=>`<li><b>${Q[i][0]}</b><br>${Q[i][1][0]}</li>`).join('')+'</ul>':''}</div>`;
+  const bn=document.getElementById('bignum');let n=0;const tick=()=>{bn.textContent=n+'/'+qs.length;if(n<score){n++;setTimeout(tick,RM?0:45)}};tick();
+  if(pct>=70){const r=bn.getBoundingClientRect();setTimeout(()=>confetti(r.left+r.width/2,r.top+r.height/2,pct>=90?180:90),RM?0:score*45)}
+  const rr=document.getElementById('qretry');if(rr){const m=missed.slice();rr.addEventListener('click',()=>startQuiz(m))}
+  document.getElementById('qall').addEventListener('click',()=>startQuiz());
+}
+startQuiz();
+
+/* ---------- repaso tapado ---------- */
+const REV=[
+ ['Reproducción humana','Proceso por el cual la especie humana se perpetúa.'],
+ ['Uretra (hombre)','Conducto común para la orina y el semen.'],
+ ['Testículos','Gónadas masculinas: espermatozoides (Sertoli) y testosterona (Leydig).'],
+ ['Epidídimo','Termina la maduración y almacena los espermatozoides.'],
+ ['Vesículas seminales','Fructosa (ATP) y prostaglandinas (contracciones).'],
+ ['Próstata','La más grande; facilita el movimiento de los espermatozoides.'],
+ ['Bulbouretral','La más pequeña; sustancia alcalina que neutraliza la acidez.'],
+ ['Semen','Espermatozoides + lo que secretan todas las glándulas.'],
+ ['Espermatogénesis','Producción de células haploides funcionales; empieza en la pubertad y nunca termina.'],
+ ['Acrosoma','Enzimas hidrolíticas que degradan la zona pelúcida.'],
+ ['Ámpula','Parte de la trompa donde ocurre la fecundación.'],
+ ['Endometrio','Capa interna del útero que se desprende en la menstruación.'],
+ ['Ovogénesis','Empieza en el embrión, se detiene en la profase I y se retoma en la pubertad.'],
+ ['Ovocito II','Haploide, sin flagelo, con zona pelúcida; termina la meiosis al ser fecundado.'],
+ ['Folículo de Graaf','Folículo maduro que contiene y libera al ovocito II.'],
+ ['Ovulación','Liberación del ovocito II por la ruptura del folículo; la temperatura sube 1 °C.'],
+ ['Cuerpo lúteo','Lo que queda del folículo; produce progesterona.'],
+ ['Menopausia','1 año entero sin menstruación.'],
+ ['Días fértiles','Ovulación ± 2 días.'],
+ ['Univitelinos','Gemelos idénticos: un óvulo que se divide en 2.'],
+ ['Bivitelinos','Mellizos: la mujer ovula varios ovocitos.'],
+];
+const rb=document.getElementById('revbody');
+rb.innerHTML=REV.map(([a,b])=>`<tr><td>${a}</td><td tabindex="0"><span>${b}</span></td></tr>`).join('');
+rb.querySelectorAll('td:last-child').forEach(td=>{const f=()=>td.classList.toggle('shown');td.addEventListener('click',f);td.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();f()}})});
+const rp=document.getElementById('p-rev'),rt=document.getElementById('revtoggle');
+rt.addEventListener('click',()=>{const c=rp.classList.toggle('covered');rt.textContent=c?'Destapar todo':'Tapar todo';rb.querySelectorAll('td').forEach(t=>t.classList.remove('shown'))});
+</script>
+
+</body>
+</html>
