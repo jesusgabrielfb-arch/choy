@@ -484,6 +484,7 @@ input[type=range]{width:100%;accent-color:var(--coral);margin-top:6px}
 .sim-part h4 small{font-family:var(--f-body);font-size:13px;color:var(--muted)}
 .sim-words{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:4px 12px;background:var(--blue-soft);border-radius:12px;padding:12px 14px;font-size:14.5px}
 .sim-words b{display:inline-block;width:22px;color:var(--coral)}
+.sim-short{padding-left:24px}.sim-short li{margin:10px 0}.sim-short li p{margin:0 0 6px}
 .sim-lines,.sim-fill{padding-left:26px;display:grid;gap:6px;font-size:15px}
 .sim-lines li,.sim-fill li{line-height:1.9}
 .sim-in{font:inherit;color:var(--ink);background:transparent;border:0;border-bottom:1.6px solid var(--line2);padding:2px 4px;transition:background .2s,border-color .2s}
@@ -1236,7 +1237,7 @@ footer .hand{font-size:22px}
   <div class="topic-head"><span class="num">✓</span><h2>Simulacro de examen</h2></div>
   <div class="sim-top">
     <div>
-      <p class="lede">Un examen completo como el de verdad: <b>I.</b> pareo de 25 palabras y 30 líneas, <b>II.</b> 15 oraciones para llenar espacios, <b>III.</b> dos casos clínicos, <b>IV.</b> tres imágenes para identificar y explicar, y <b>V.</b> desarrollo comparando hombre y mujer, con una pregunta de nivel alto. Cada simulacro nuevo cambia palabras, oraciones, casos e imágenes.</p>
+      <p class="lede">Un examen completo como el de verdad: <b>I.</b> pareo de 25 palabras y 30 líneas, <b>II.</b> 15 preguntas de respuesta corta (escribes los elementos que se piden), <b>III.</b> dos casos clínicos, <b>IV.</b> tres imágenes para identificar y explicar, y <b>V.</b> desarrollo comparando hombre y mujer, con una pregunta de nivel alto. Cada simulacro nuevo cambia palabras, oraciones, casos e imágenes.</p>
       <div class="sim-btns">
         <button class="btn primary" type="button" id="sim-new">Generar simulacro nuevo</button>
         <button class="btn" type="button" id="sim-print">Imprimir examen</button>
@@ -2274,7 +2275,42 @@ terms:[
  ['Ovogénesis',['Empieza en el embrión y se detiene en la profase I','Se retoma en la pubertad y termina en la menopausia']],
  ['Espermatogénesis',['Empieza en la pubertad y nunca termina','Produce células haploides funcionales']]
 ],
-/* llenar espacios: oración con ___ y respuestas aceptadas */
+/* respuesta corta: pregunta, elementos esperados [texto, variantes aceptadas…] */
+short:[
+ ['¿Cuáles son las tres partes principales del espermatozoide?',[['Cabeza','cabeza'],['Pieza media','media'],['Cola o flagelo','cola','flagelo']]],
+ ['Nombra las tres glándulas anexas del aparato masculino.',[['Vesículas seminales','vesicula'],['Próstata','prostata'],['Glándula bulbouretral','bulbouretral']]],
+ ['¿Qué dos hormonas producen los ovarios?',[['Estrógeno','estrogeno'],['Progesterona','progesterona']]],
+ ['¿Cuáles son las cuatro fases del ciclo menstrual?',[['Menstruación','menstruacion'],['Fase folicular','folicular'],['Ovulación','ovulacion'],['Fase lútea','lutea']]],
+ ['¿Qué dos sustancias aportan las vesículas seminales?',[['Fructosa','fructosa'],['Prostaglandinas','prostaglandina']]],
+ ['¿Qué estructuras forman la vulva?',[['Labios mayores','mayores'],['Labios menores','menores'],['Clítoris','clitoris']]],
+ ['Nombra los genitales externos masculinos.',[['Pene','pene'],['Escroto','escroto']]],
+ ['¿Cuáles son las dos capas del útero que estudiaste?',[['Miometrio','miometrio'],['Endometrio','endometrio']]],
+ ['¿Qué dos estructuras tiene la cabeza del espermatozoide?',[['Acrosoma','acrosoma'],['Núcleo','nucleo']]],
+ ['¿Qué células del testículo producen testosterona y cuáles apoyan la formación de espermatozoides?',[['Leydig (testosterona)','leydig'],['Sertoli (espermatozoides)','sertoli']]],
+ ['¿Qué células resultan de la ovogénesis a partir de un ovocito I?',[['Un ovocito II','ovocito ii','ovocito 2','ovocito secundario'],['Tres cuerpos polares','polar']]],
+ ['Escribe las tres estructuras por las que pasa el espermatozoide entre el testículo y la uretra.',[['Epidídimo','epididimo'],['Conducto deferente','deferente'],['Conducto eyaculador','eyaculador']]],
+ ['¿Cuáles son las dos hormonas hipofisarias que regulan el ciclo?',[['FSH','fsh','foliculo estimulante'],['LH','lh','luteinizante']]],
+ ['Nombra las glándulas accesorias femeninas que estudiaste.',[['Bartolino','bartolino'],['Skene','skene']]],
+ ['Escribe cuatro cambios que ocurren en la ovulación.',[['Sube la temperatura 1 °C','temperatura','37','1 °c','1°c','un grado'],['Pico de LH','lh','luteinizante'],['Baja el estrógeno','estrogeno'],['Se rompe el folículo y sale el ovocito II','ovocito','rompe','foliculo']]],
+ ['¿Cuáles son las dos partes del ovocito II?',[['Zona pelúcida (parte externa)','pelucida','externa'],['Núcleo haploide','nucleo']]],
+ ['¿Qué dos problemas puede causar la falta de higiene del prepucio?',[['Mal olor','olor'],['Más infecciones sexuales','infecci']]],
+ ['Escribe las etapas de la espermatogénesis en orden.',[['Espermatogonio','espermatogonio'],['Espermátida','espermatida'],['Espermiogénesis / espermatozoide','espermiogenesis','espermatozoide']]],
+ ['¿En qué momento se detiene la ovogénesis y cuándo se retoma?',[['Se detiene en la profase I (en el embrión)','profase','embrion'],['Se retoma en la pubertad','pubertad']]],
+ ['¿Cómo se llaman los dos tipos de gemelos/mellizos?',[['Univitelinos','univitelino'],['Bivitelinos','bivitelino']]],
+ ['¿Qué cromosomas tiene la mujer y cuáles el hombre en el par 23?',[['Mujer: XX','xx'],['Hombre: XY','xy']]],
+ ['Nombra dos partes de la trompa de Falopio que estudiaste y su función.',[['Ámpula (fecundación)','ampula'],['Fimbrias (atrapan al ovocito)','fimbria']]],
+ ['En la mujer, ¿cuáles son los dos orificios de salida y qué sale por cada uno?',[['Meato urinario: orina','meato'],['Orificio vaginal: sangre menstrual y bebé','vaginal','vagina']]],
+ ['Nombra cuatro genitales internos femeninos.',[['Ovarios','ovario'],['Trompas de Falopio','trompa','oviducto'],['Útero','utero'],['Vagina','vagina']]],
+ ['Nombra tres genitales internos masculinos.',[['Testículos','testiculo'],['Epidídimo','epididimo'],['Conducto deferente','deferente','eyaculador','uretra']]],
+ ['¿Qué etapas marcan el inicio y el final de la menstruación en la vida de una mujer?',[['Menarquia','menarquia'],['Menopausia','menopausia']]],
+ ['Escribe la regla para calcular la ovulación y los días fértiles.',[['Ovulación = mitad del ciclo','mitad','entre 2','÷ 2','/2'],['Fértiles: 2 días antes','antes'],['y 2 días después','despues']]],
+ ['¿Qué hay en el cuello y en la pieza media del espermatozoide?',[['Cuello: centriolos','centriolo'],['Pieza media: mitocondrias','mitocondria']]],
+ ['¿Qué pasa al final de la fase lútea si no hay embarazo?',[['Se degrada el cuerpo lúteo','luteo','degrad'],['Baja la progesterona','progesterona'],['Se desprende el endometrio y llega la menstruación','endometrio','menstruacion']]],
+ ['¿Qué dos productos transporta la uretra en el hombre?',[['Orina','orina'],['Semen','semen']]],
+ ['¿Qué funciones tiene el escroto y por qué?',[['Mantiene los testículos fuera del cuerpo','fuera','afuera','cavidad'],['A menor temperatura para producir espermatozoides','temperatura']]],
+ ['¿Qué hormonas suben en la fase folicular?',[['FSH','fsh'],['Estrógeno','estrogeno']]]
+],
+/* (banco anterior de llenar espacios, ya no se usa en el examen) */
 fill:[
  ['La ___ es el conducto común para la orina y el semen.',['uretra']],
  ['Las células de ___ producen testosterona.',['leydig']],
@@ -2419,8 +2455,8 @@ function build(seed){
   for(const t of order){if(lines.length>=30&&nUsed>=18)break;t[1].forEach(d=>lines.push([d,t[0]]));nUsed++}
   lines=shufR(lines,r);
   ex.pareo={words,lines:lines.slice(0,30).map(([d,w])=>({d,a:LETTERS[words.indexOf(w)]}))};
-  // II. llenar espacios
-  ex.fill=shufR(SIM.fill,r).slice(0,15);
+  // II. respuesta corta
+  ex.short=shufR(SIM.short,r).slice(0,15);
   // III. casos
   ex.cases=shufR(SIM.cases,r).slice(0,2).map(c=>c.make(r));
   // IV. imágenes
@@ -2484,8 +2520,9 @@ function render(rec){
     <div class="sim-words">${ex.pareo.words.map((w,i)=>`<span><b>${LETTERS[i]}</b> ${w}</span>`).join('')}</div>
     <ol class="sim-lines">${ex.pareo.lines.map((l,i)=>`<li>${inp('p'+i,'letter','','text')} ${l.d}${key('<b>'+l.a+'</b> · '+ex.pareo.words[LETTERS.indexOf(l.a)])}</li>`).join('')}</ol></section>`;
   // II
-  h+=`<section class="sim-part"><h4><span>II</span>Llenar espacios <small>15 puntos</small></h4><p class="sim-inst">Completa cada oración con la palabra correcta.</p>
-    <ol class="sim-fill">${ex.fill.map((f,i)=>`<li>${f[0].replace('___',inp('f'+i,'blank'))}${key(f[1][0])}</li>`).join('')}</ol></section>`;
+  const shortPts=ex.short.reduce((t,q)=>t+q[1].length,0);
+  h+=`<section class="sim-part"><h4><span>II</span>Respuesta corta <small>${shortPts} puntos</small></h4><p class="sim-inst">Escribe lo que se pide. Cada elemento correcto vale 1 punto.</p>
+    <ol class="sim-short">${ex.short.map((q,i)=>`<li><p>${q[0]} <small>(${q[1].length} pts)</small></p>${ta('s'+i,2)}${key(q[1].map(x=>x[0]).join(' · '))}</li>`).join('')}</ol></section>`;
   // III
   h+=`<section class="sim-part"><h4><span>III</span>Casos clínicos</h4>${ex.cases.map((c,ci)=>`<div class="sim-case"><h5>Caso ${ci+1}: ${c.title}</h5><p class="sim-ctx">${c.text}</p><ol>${c.qs.map((q,qi)=>{const k='c'+ci+'_'+qi,pts=q.pts||1;
       return `<li><p>${q.q} <small>(${pts} pt${pts>1?'s':''})</small></p>${q.type==='open'?ta(k,3):q.type==='date'?inp(k,'date','','date'):inp(k,'word')}${key(q.type==='open'?q.model:q.show)}</li>`}).join('')}</ol></div>`).join('')}</section>`;
@@ -2512,13 +2549,14 @@ function openScore(model,keys,pts,txt){const n=norm(txt),hits=keys.map(k=>({k:k.
   const s=(txt||'').trim().length<4?0:f>=.75?pts:f>=.5?pts*.66:f>=.25?pts*.33:0;return {s:Math.round(s*2)/2,hits}}
 const okWord=(v,alts)=>{const n=norm(v).trim();return !!n&&alts.some(a=>{const b=norm(a);return n===b||n.includes(b)||(b.length>4&&b.includes(n)&&n.length>=b.length-2)})};
 function grade(fresh){
-  const {rec,ex}=cur,A=rec.ans,parts={I:[0,ex.pareo.lines.length],II:[0,15],III:[0,0],IV:[0,0],V:[0,0]};
+  const {rec,ex}=cur,A=rec.ans,parts={I:[0,ex.pareo.lines.length],II:[0,0],III:[0,0],IV:[0,0],V:[0,0]};
   const mark=(k,ok,partial)=>{const el=sheet.querySelector(`[data-key="${k}"]`);if(el){el.classList.remove('ok','bad','mid');el.classList.add(ok?'ok':partial?'mid':'bad')}};
   ex.pareo.lines.forEach((l,i)=>{const ok=(A['p'+i]||'').trim().toUpperCase()===l.a;parts.I[0]+=ok?1:0;mark('p'+i,ok)});
-  ex.fill.forEach((f,i)=>{const ok=okWord(A['f'+i],f[1]);parts.II[0]+=ok?1:0;mark('f'+i,ok)});
   const chips=(hits)=>'<div class="sim-kw">'+hits.map(x=>`<span class="kw ${x.h?'y':'n'}">${x.h?'✓':'✗'} ${x.k}</span>`).join(' ')+'</div>';
   sheet.querySelectorAll('.sim-kw').forEach(e=>e.remove());
   const addChips=(k,h)=>{const el=sheet.querySelector(`[data-key="${k}"]`);if(el)el.insertAdjacentHTML('afterend',chips(h))};
+  ex.short.forEach((q,i)=>{const k='s'+i,n=norm(A[k]||''),hits=q[1].map(it=>({k:it[0],h:!!n.trim()&&it.slice(1).some(a=>n.includes(norm(a)))})),g=hits.filter(x=>x.h).length;
+    parts.II[1]+=q[1].length;parts.II[0]+=g;mark(k,g===q[1].length,g>0);addChips(k,hits)});
   ex.cases.forEach((c,ci)=>c.qs.forEach((q,qi)=>{const k='c'+ci+'_'+qi,pts=q.pts||1;parts.III[1]+=pts;
     if(q.type==='open'){const r=openScore(q.model,q.k,pts,A[k]);parts.III[0]+=r.s;mark(k,r.s>=pts,r.s>0);addChips(k,r.hits)}
     else{const ok=q.type==='date'?A[k]===q.ans:okWord(A[k],q.ans);parts.III[0]+=ok?pts:0;mark(k,ok)}}));
@@ -2530,7 +2568,7 @@ function grade(fresh){
   const nota=+(1+4*got/tot).toFixed(1);
   rec.graded={got:Math.round(got*10)/10,tot,nota,at:Date.now()};save();renderList();
   sheet.classList.add('graded');
-  const names={I:'Pareo',II:'Llenar espacios',III:'Casos clínicos',IV:'Imágenes',V:'Desarrollo'};
+  const names={I:'Pareo',II:'Respuesta corta',III:'Casos clínicos',IV:'Imágenes',V:'Desarrollo'};
   document.getElementById('sim-result').innerHTML=`<div class="sim-res"><div class="big">${nota.toFixed(1)}</div><p>de 5 · ${rec.graded.got} de ${tot} puntos</p>
     ${Object.entries(parts).map(([k,[a,b]])=>{const p=Math.round(a/b*100);return `<div class="rbar"><span>${k}. ${names[k]}</span><i><b style="width:${p}%;background:${p>=80?'var(--ok)':p>=60?'var(--extra)':'var(--bad)'}"></b></i><em>${Math.round(a*10)/10}/${b}</em></div>`}).join('')}
     <p class="hint" style="margin-top:8px">Las respuestas correctas y modelos aparecen debajo de cada pregunta. En desarrollo, la corrección busca ideas clave: compárala con la respuesta modelo.</p>
