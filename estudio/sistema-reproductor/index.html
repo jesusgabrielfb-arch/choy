@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Guía de estudio del sistema reproductor: resumen, diagramas, ciclo menstrual, calculadora de ovulación, tarjetas y quiz.">
+<meta name="description" content="Guía de estudio del sistema reproductor con Spermi y Ovulina: resumen, diagramas, ciclo menstrual, calculadora de ovulación, tarjetas y quiz.">
 <meta name="theme-color" content="#F7F6F2">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9C%BF%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="mascotas/icon.png">
 <style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>Sistema Reproductor</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -291,6 +291,39 @@ input[type=range]{width:100%;accent-color:var(--coral);margin-top:6px}
 .covered .rev td:last-child span{background:#DCD2EE;color:transparent;user-select:none;box-decoration-break:clone;-webkit-box-decoration-break:clone}
 .covered .rev td.shown:last-child span{background:var(--hl2);color:var(--ink)}
 
+/* mascotas */
+.stage{position:relative;display:flex;justify-content:center;align-items:flex-end;gap:4px;padding-top:58px}
+.mfig{margin:0;border:0;padding:0;box-shadow:none;background:none;display:grid;justify-items:center}
+.mfig figcaption{font-family:var(--f-hand);font-size:17px;color:var(--coral);margin-top:-14px;justify-content:center}
+.mascot{cursor:pointer}
+.bubble b{font-family:var(--f-hand);font-weight:400;font-size:1.15em;margin-right:4px}
+.bubble .sp{color:#5B6BB0}.bubble .ov{color:#C2457A}
+.mfig:nth-child(3) figcaption{color:#C2457A}
+.mascot{--w:150px;width:var(--w);height:var(--w);background-repeat:no-repeat;background-size:calc(var(--w)*24) var(--w);
+  animation:sprite 2s steps(24) infinite}
+.mascot[data-who="ovulina"]{animation-delay:-.6s}
+.mascot[data-state="happy"],.mascot[data-state="sad"]{animation-iteration-count:1;animation-fill-mode:forwards;animation-delay:0s}
+.mascot[data-who="spermi"][data-state="idle"]{background-image:url(mascotas/spermi_idle.webp)}
+.mascot[data-who="spermi"][data-state="happy"]{background-image:url(mascotas/spermi_happy.webp)}
+.mascot[data-who="spermi"][data-state="sad"]{background-image:url(mascotas/spermi_sad.webp)}
+.mascot[data-who="ovulina"][data-state="idle"]{background-image:url(mascotas/ovulina_idle.webp)}
+.mascot[data-who="ovulina"][data-state="happy"]{background-image:url(mascotas/ovulina_happy.webp)}
+.mascot[data-who="ovulina"][data-state="sad"]{background-image:url(mascotas/ovulina_sad.webp)}
+@keyframes sprite{to{background-position:calc(var(--w)*-24) 0}}
+@media (prefers-reduced-motion:reduce){.mascot{animation:none!important}.mascot[data-state="happy"],.mascot[data-state="sad"]{background-position:calc(var(--w)*-11) 0}}
+.bubble{position:absolute;top:0;left:50%;transform:translateX(-50%);max-width:min(92%,340px);width:max-content;background:var(--page);border:1.5px solid var(--line2);border-radius:16px;padding:8px 14px;font-size:14.5px;font-weight:600;line-height:1.3;text-align:center;box-shadow:var(--hard);z-index:2}
+.bubble::after{content:"";position:absolute;left:50%;bottom:-8px;width:14px;height:14px;background:var(--page);border-right:1.5px solid var(--line2);border-bottom:1.5px solid var(--line2);transform:translateX(-50%) rotate(45deg)}
+.bubble.happy{background:var(--ok-soft);border-color:#9FD8BC}.bubble.happy::after{background:var(--ok-soft);border-color:#9FD8BC}
+.bubble.sad{background:var(--bad-soft);border-color:#F0B9B2}.bubble.sad::after{background:var(--bad-soft);border-color:#F0B9B2}
+.bubble.pop{animation:bubblePop .4s cubic-bezier(.2,1.5,.4,1)}
+@keyframes bubblePop{from{transform:translateX(-50%) scale(.7);opacity:.3}}
+.hero-side{display:grid;gap:14px;justify-items:end;align-self:end}
+.hero-side .stage{width:min(100%,320px);padding-top:66px}
+.hero-side .mascot{--w:176px}
+#p-quiz .stage{margin-bottom:6px}
+#p-cards .stage .mascot,#p-rev .stage .mascot{--w:122px}
+@media (max-width:820px){.hero-side{justify-items:center}.hero-side .mascot{--w:150px}}
+@media (max-width:480px){.mascot{--w:128px}#p-cards .stage .mascot,#p-rev .stage .mascot{--w:108px}}
 #confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
 footer{color:var(--muted);font-size:14px;padding-block:10px 60px;text-align:center}
 footer .hand{font-size:22px}
@@ -338,6 +371,12 @@ footer .hand{font-size:22px}
           <span><b>~40</b>min</span>
         </div>
       </div>
+      <div class="hero-side">
+      <div class="stage" id="stage-hero">
+        <div class="bubble" id="bubble-hero" aria-live="polite"><b class="sp">Spermi:</b>¡Hola! Yo soy Spermi y ella es Ovulina. ¡Vamos a estudiar juntos!</div>
+        <figure class="mfig"><div class="mascot" data-who="spermi" data-state="idle" role="img" aria-label="Spermi, el espermatozoide"></div><figcaption>Spermi</figcaption></figure>
+        <figure class="mfig"><div class="mascot" data-who="ovulina" data-state="idle" role="img" aria-label="Ovulina, el óvulo"></div><figcaption>Ovulina</figcaption></figure>
+      </div>
       <div class="ring-card" aria-live="polite">
         <h4>mi avance</h4>
         <div class="ring">
@@ -353,6 +392,7 @@ footer .hand{font-size:22px}
           <div><span class="chip c-ok">Seguro</span> lo básico</div>
           <div><span class="chip c-extra">Extra</span> si te sobra tiempo</div>
         </div>
+      </div>
       </div>
     </div>
   </div>
@@ -781,6 +821,11 @@ footer .hand{font-size:22px}
   </div>
 
   <div class="panel" id="p-cards" role="tabpanel" aria-labelledby="t-cards">
+    <div class="stage" id="stage-cards">
+      <div class="bubble" aria-live="polite"><b class="sp">Spermi:</b>Voltea la tarjeta y dinos si te la sabes.</div>
+      <figure class="mfig"><div class="mascot" data-who="spermi" data-state="idle" role="img" aria-label="Spermi"></div><figcaption>Spermi</figcaption></figure>
+      <figure class="mfig"><div class="mascot" data-who="ovulina" data-state="idle" role="img" aria-label="Ovulina"></div><figcaption>Ovulina</figcaption></figure>
+    </div>
     <div class="card-stage">
       <button class="fcard" id="fcard" aria-label="Voltear tarjeta">
         <div class="face front"><small>pregunta</small><span id="ffront"></span></div>
@@ -801,11 +846,21 @@ footer .hand{font-size:22px}
   </div>
 
   <div class="panel" id="p-quiz" role="tabpanel" aria-labelledby="t-quiz" hidden>
+    <div class="stage" id="stage-quiz">
+      <div class="bubble" aria-live="polite"><b class="ov">Ovulina:</b>¡Tú puedes! Elige una respuesta.</div>
+      <figure class="mfig"><div class="mascot" data-who="spermi" data-state="idle" role="img" aria-label="Spermi"></div><figcaption>Spermi</figcaption></figure>
+      <figure class="mfig"><div class="mascot" data-who="ovulina" data-state="idle" role="img" aria-label="Ovulina"></div><figcaption>Ovulina</figcaption></figure>
+    </div>
     <div id="quiz"></div>
   </div>
 
   <div class="panel covered" id="p-rev" role="tabpanel" aria-labelledby="t-rev" hidden>
     <div class="qhead"><p style="margin:0">Trata de explicar cada término con tus palabras. Toca la respuesta para destaparla.</p><button class="btn small" id="revtoggle">Destapar todo</button></div>
+    <div class="stage" id="stage-rev">
+      <div class="bubble" aria-live="polite"><b class="ov">Ovulina:</b>Di la respuesta en voz alta antes de destaparla.</div>
+      <figure class="mfig"><div class="mascot" data-who="spermi" data-state="idle" role="img" aria-label="Spermi"></div><figcaption>Spermi</figcaption></figure>
+      <figure class="mfig"><div class="mascot" data-who="ovulina" data-state="idle" role="img" aria-label="Ovulina"></div><figcaption>Ovulina</figcaption></figure>
+    </div>
     <div class="tbl"><table class="rev"><thead><tr><th>Término</th><th>En una frase</th></tr></thead><tbody id="revbody"></tbody></table></div>
   </div>
 </section>
@@ -823,19 +878,19 @@ const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()
 (function(){
   const cv=document.getElementById('swim'),ctx=cv.getContext('2d');let W,H,dpr,sp=[],t=0,vis=true,raf;
   function size(){dpr=Math.min(devicePixelRatio||1,2);W=cv.clientWidth;H=cv.clientHeight;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}
-  function egg(){return{x:W>820?W*.86:W*.82,y:W>820?H*.2:H*.12,r:Math.max(46,Math.min(W,H)*.11)}}
+  function egg(){const o=document.querySelector('#stage-hero .mascot[data-who="ovulina"]');if(o){const a=o.getBoundingClientRect(),c=cv.getBoundingClientRect();return{x:a.left-c.left+a.width*.5,y:a.top-c.top+a.height*.45,r:a.width*.22,hide:true}}return{x:W*.86,y:H*.2,r:Math.max(46,Math.min(W,H)*.11)}}
   function spawn(s,init){const e=egg();s.x=init?Math.random()*W*.7:-40-Math.random()*200;s.y=H*.15+Math.random()*H*.8;s.v=.55+Math.random()*.6;s.ph=Math.random()*6.28;s.tx=e.x;s.ty=e.y;return s}
   function init(){size();sp=[];const n=W<600?9:16;for(let i=0;i<n;i++)sp.push(spawn({},true))}
   function draw(){
     const ink=css('--ink'),coral=css('--coral'),hl=css('--hl'),est=css('--est');
     ctx.clearRect(0,0,W,H);const e=egg();
-    // ovocito
-    ctx.save();ctx.globalAlpha=.9;
+    // ovocito (solo si Ovulina no está en la portada)
+    if(!e.hide){ctx.save();ctx.globalAlpha=.9;
     for(let i=0;i<22;i++){const a=i/22*6.283+t*.002;ctx.beginPath();ctx.arc(e.x+Math.cos(a)*(e.r+16),e.y+Math.sin(a)*(e.r+16),6,0,6.283);ctx.fillStyle=hl;ctx.fill()}
     ctx.beginPath();ctx.arc(e.x,e.y,e.r+4,0,6.283);ctx.fillStyle=css('--page');ctx.fill();ctx.lineWidth=5;ctx.strokeStyle=hl;ctx.stroke();
     ctx.beginPath();ctx.arc(e.x,e.y,e.r-6,0,6.283);ctx.fillStyle=est;ctx.globalAlpha=.22;ctx.fill();ctx.globalAlpha=.9;
     ctx.beginPath();ctx.arc(e.x-e.r*.18,e.y-e.r*.1,e.r*.28,0,6.283);ctx.fillStyle=est;ctx.globalAlpha=.55;ctx.fill();
-    ctx.restore();
+    ctx.restore();}
     // espermatozoides
     sp.forEach(s=>{
       const dx=s.tx-s.x,dy=s.ty-s.y,d=Math.hypot(dx,dy),ang=Math.atan2(dy,dx)+Math.sin(t*.03+s.ph)*.25;
@@ -896,6 +951,67 @@ const confetti=(function(){
   return fire;
 })();
 
+/* ---------- mascotas: Spermi y Ovulina ---------- */
+const SP='<b class="sp">Spermi:</b>',OV='<b class="ov">Ovulina:</b>',BOTH='<b class="sp">Spermi</b> y <b class="ov">Ovulina:</b>';
+const PHR={
+  happy:[SP+'¡Eso! Más rápido que yo nadando.',SP+'Nivel experto desbloqueado.',SP+'Ni con lentes de sol se ve algo tan brillante.',SP+'¡Bien! Esa te la sabías de memoria.',
+         OV+'¡Me encanta! Eres la célula más lista del cuerpo.',OV+'¡Bravo! Te ganaste mi moño.',OV+'¡Sí! Así se estudia.',OV+'¡Correcto! Estoy muy orgullosa.'],
+  sad:[SP+'Tranqui, hasta yo me pierdo en las trompas.',SP+'Uy, esa engaña. Vamos por la siguiente.',SP+'Me bajó la autoestima… pero tú puedes.',
+       OV+'Ay… no pasa nada, repásalo conmigo.',OV+'Casi casi. ¡La próxima sí!',OV+'No llores, que la que llora soy yo.']
+};
+PHR.happy.push(SP+'¡Boom! Directo al ovocito.',SP+'Así se nada: sin perder el rumbo.',SP+'Mis mitocondrias están a full con esa respuesta.',SP+'Ni el acrosoma abre puertas tan rápido.',
+  SP+'Respuesta con lentes de sol: cool y correcta.',SP+'¡Choca esos cinco! Bueno… esa aleta.',SP+'Tú sí llegaste a la ámpula a tiempo.',
+  OV+'¡Qué bonito! Me dan ganas de bailar.',OV+'¡Perfecto! Hasta mi zona pelúcida brilla.',OV+'¡Lo sabías! Te estás volviendo una experta/o.',
+  OV+'¡Sí, sí, sí! Así me gusta.',OV+'Esa respuesta merece un abrazo de óvulo.',OV+'¡Excelente! El examen no te va a asustar.');
+PHR.sad.push(SP+'Me desvié del camino… igual que esa respuesta.',SP+'Ni modo, hasta los mejores nadadores fallan.',SP+'Esa me dejó sin ATP. Vamos de nuevo.',
+  SP+'Error de ruta. Recalculando…',SP+'Shhh, nadie vio nada. Siguiente.',
+  OV+'Ay, se me cayó el moño con esa…',OV+'No pasa nada, de los errores se aprende.',OV+'Lee la explicación de abajo, ahí está la clave.',
+  OV+'Esa la repasamos juntos en las tarjetas, ¿va?',OV+'Uy, casi. ¡Ánimo que vamos bien!');
+const NEXTQ=[SP+'Siguiente pregunta. Tú tranqui y yo nadando.',OV+'Lee con calma, la respuesta está en tus apuntes.',SP+'Esta tiene truco… o no. Piénsala bien.',
+  OV+'Tú puedes, yo creo en ti.',SP+'Concentración nivel espermatozoide en carrera.',OV+'¿Te acuerdas de la tabla? Te va a servir.',
+  SP+'Vamos, que se acaba el ATP.',OV+'Esta es de las que pregunta la profe Yaisel.',SP+'Respira, lee y elige.',OV+'¡Otra más! Ya casi lo dominas.',
+  SP+'Descarta las que suenan raro primero.',OV+'Piensa en el dibujo del útero, ayuda mucho.'];
+const MILE={25:[OV+'¡Ya vas un cuarto del quiz! Sigue así.',SP+'25% completado. Calentando motores.'],
+  50:[BOTH+'¡Mitad del quiz! Estamos bailando de la emoción.',SP+'50%. Ya llegamos a la mitad de la trompa.'],
+  75:[OV+'¡75%! Ya casi llegamos a la ámpula.',SP+'Tres cuartos listos. ¡Último empujón!'],
+  last:[BOTH+'¡Última pregunta! Dale con todo.',OV+'Esta es la última. ¡Tú puedes!']};
+const IDLEQ=[SP+'¿Sigues ahí? Lee otra vez la pregunta.',OV+'Si dudas, descarta las que no tienen sentido.',SP+'Te estás tardando más que yo en madurar en el epidídimo.',OV+'Tómate tu tiempo, pero no te quedes dormida/o.'];
+const FLIP=[SP+'¿Le atinaste? Sé sincera/o.',OV+'¿Era lo que pensabas?',SP+'Ahí está. ¿Te la sabías?',OV+'Léela en voz alta, se te queda mejor.',SP+'Dale a "Me la sé" solo si de verdad te la sabías.'];
+const REVP=[OV+'¿Lo dijiste antes de destaparlo? ¡Bien!',SP+'Destapado. ¿Coincide con lo que pensabas?',OV+'Repite esa en voz alta dos veces.',SP+'Esa sale seguro en el examen.',OV+'Vas muy bien con el repaso.'];
+const YAI={
+  bad:[SP+'Tres seguidas mal… la profe Yaisel se va a molestar. ¡Concéntrate!',OV+'Si sigues así te vas a quedar en Biología con la profe Yaisel. ¡Repasa las tarjetas!',
+       SP+'La profe Yaisel está viendo esto… y no está feliz. ¡Tú puedes remontar!',OV+'Ay no… la profe Yaisel nos va a regañar a los tres. ¡Lee bien la pregunta!',
+       SP+'Racha mala detectada. Yaisel ya está sacando el bolígrafo rojo.',OV+'Respira hondo. Ve a la tabla de repaso y vuelve: no le demos el gusto a la profe Yaisel.',
+       SP+'Si la profe Yaisel ve esto, te pone tarea extra. ¡Vamos, la siguiente sí!',OV+'Así no, mi amor… la profe Yaisel nos va a dejar en Biología.',SP+'Houston, tenemos un problema: la profe Yaisel.',OV+'Pausa: ve a "No te confundas" y regresa. La profe Yaisel lo agradecerá.'],
+  good:[OV+'¡La profe Yaisel estaría orgullosa de ti!',SP+'Con esto le sacas un 10 a la profe Yaisel.',OV+'¡Así, así! Yaisel te va a poner estrellita.',
+        SP+'Ni la profe Yaisel lo explica tan bien.',OV+'Si la profe Yaisel te viera, te pone de ejemplo en clase.',SP+'Yaisel: impresionada. Yo: impresionado.',BOTH+'¡Racha imparable! La profe Yaisel no lo puede creer.'],
+  end:{top:BOTH+'¡Increíble! La profe Yaisel te va a felicitar.',ok:OV+'¡Muy bien! Repasa las falladas y la profe Yaisel queda feliz.',low:SP+'Uy… así la profe Yaisel se va a molestar. Repasa las falladas y lo intentamos otra vez.'},
+  cards:[SP+'Ya van varias "todavía no"… la profe Yaisel pregunta justo esas. ¡Repásalas!',OV+'Tranqui, pero no las dejes: la profe Yaisel las va a preguntar.']
+};
+const TIPS=[OV+'Nací con unos 400 mil ovocitos. ¡Y no hago más!',SP+'Puedo vivir unos 5 días dentro del cuerpo de la mujer.',OV+'Soy de las células más grandes del cuerpo humano.',
+  SP+'Mi pieza media está llena de mitocondrias: es mi motor.',OV+'Nos encontramos en la ámpula de la trompa de Falopio.',SP+'Los testículos bajan al escroto porque necesito menos calor.',
+  OV+'En la ovulación la temperatura sube 1 °C.',SP+'Mi acrosoma tiene enzimas para abrir tu zona pelúcida, Ovulina.',OV+'Si no hay embarazo, el cuerpo lúteo se degrada y llega la regla.',
+  SP+'La bulbouretral me protege de la acidez de la orina.',OV+'Yo no tengo flagelo: me mueven los cilios de la trompa.',SP+'Las vesículas seminales me dan fructosa para el viaje.',OV+'La profe Yaisel siempre pregunta el ciclo menstrual. ¡Dale al botón Reproducir!',SP+'Termina los 9 temas y la profe Yaisel no te agarra desprevenida/o.'];
+const pick=a=>{if(a.length<2)return a[0];a._u=a._u||[];let v,t=0;do{v=a[Math.floor(Math.random()*a.length)];t++}while(a._u.includes(v)&&t<20);a._u.push(v);if(a._u.length>Math.min(6,a.length-1))a._u.shift();return v};
+function react(id,mood,text){
+  const st=document.getElementById(id);if(!st)return;
+  st.querySelectorAll('.mascot').forEach(m=>{m.dataset.state=mood;m.style.animation='none';void m.offsetWidth;m.style.animation=''});
+  const b=st.querySelector('.bubble');
+  if(text!=null&&b){b.innerHTML=text;b.className='bubble'+(mood==='idle'?'':' '+mood);void b.offsetWidth;b.classList.add('pop')}
+  clearTimeout(st._t);
+  if(mood!=='idle')st._t=setTimeout(()=>{st.querySelectorAll('.mascot').forEach(m=>{m.dataset.state='idle';m.style.animation='none';void m.offsetWidth;m.style.animation=''});if(b)b.className='bubble'},2100);
+}
+/* datos que se turnan en la portada */
+let tipI=0,tipPause=0;
+setInterval(()=>{if(Date.now()<tipPause||document.hidden)return;const st=document.getElementById('stage-hero');if(!st)return;
+  const r=st.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)return;
+  const b=st.querySelector('.bubble');b.innerHTML='<span style="font-size:12px;color:var(--muted);display:block">¿Sabías que…?</span>'+TIPS[tipI++%TIPS.length];b.className='bubble';void b.offsetWidth;b.classList.add('pop')},7000);
+document.querySelectorAll('.stage .mascot').forEach(m=>m.addEventListener('click',()=>{
+  const st=m.closest('.stage');tipPause=Date.now()+9000;
+  const who=m.dataset.who;const pool=TIPS.filter(t=>t.startsWith(who==='spermi'?SP:OV));
+  react(st.id,'happy',pick(pool))}));
+['happy','sad'].forEach(m=>['spermi','ovulina'].forEach(w=>{const i=new Image();i.src=`mascotas/${w}_${m}.webp`}));
+
 /* ---------- progreso por tema ---------- */
 const SECS=['base','masculino','espermatogenesis','femenino','ovogenesis','ciclo','calculo','fecundacion','confusiones'];
 let done=new Set(store.get('repro-done',[]));
@@ -911,6 +1027,7 @@ function paintProgress(){
 document.querySelectorAll('[data-done]').forEach(b=>b.addEventListener('click',e=>{
   const s=b.dataset.done;if(done.has(s))done.delete(s);else{done.add(s);const r=b.getBoundingClientRect();confetti(r.left+r.width/2,r.top,done.size===9?140:40)}
   store.set('repro-done',[...done]);paintProgress();
+  if(done.has(s))tipPause=Date.now()+9000;react('stage-hero','happy',done.size===9?BOTH+'¡Dominaste los 9 temas! Ahora ve por el quiz.':pick([SP+`¡${done.size} de 9! Vas a toda velocidad.`,OV+`¡${done.size} de 9 temas! Qué orgullo.`]));
 }));
 paintProgress();
 
@@ -1032,23 +1149,23 @@ const CARDS=[
  ['¿Por qué baja el sistema inmune en el embarazo?','Para no reconocer al bebé como extraño.'],
  ['Días fértiles','2 días antes y 2 días después de la ovulación.'],
 ];
-let order=CARDS.map((_,i)=>i),ci=0,known=new Set(store.get('repro-known',[]));
+let noRow=0,order=CARDS.map((_,i)=>i),ci=0,known=new Set(store.get('repro-known',[]));
 const fc=document.getElementById('fcard');
 function fillCard(){const [q,a]=CARDS[order[ci]];document.getElementById('ffront').textContent=q;document.getElementById('fback').textContent=a;
   document.getElementById('fcount').textContent=(ci+1)+' / '+CARDS.length;
   document.getElementById('fknown').textContent=`Te sabes ${known.size} de ${CARDS.length} tarjetas.`+(known.has(order[ci])?' Esta ya la marcaste.':'')}
-function go(delta){
+function go(delta){seen++;if(seen%5===0)react('stage-cards','happy',pick([SP+`¡Ya van ${seen} tarjetas! Sigue nadando.`,OV+`${seen} tarjetas repasadas. ¡Qué disciplina!`,BOTH+`¡${seen} tarjetas! La profe Yaisel aprueba.`]));
   if(RM){fc.classList.remove('flipped');ci=(ci+delta+CARDS.length)%CARDS.length;fillCard();return}
   fc.classList.add('out');
   setTimeout(()=>{fc.classList.remove('out','flipped');fc.style.transition='none';ci=(ci+delta+CARDS.length)%CARDS.length;fillCard();void fc.offsetWidth;fc.style.transition='';fc.classList.add('in');setTimeout(()=>fc.classList.remove('in'),360)},260);
 }
-fc.addEventListener('click',()=>fc.classList.toggle('flipped'));
+let seen=0;fc.addEventListener('click',()=>{fc.classList.toggle('flipped');if(fc.classList.contains('flipped')&&Math.random()<.6)react('stage-cards','idle',pick(FLIP))});
 document.getElementById('fnext').addEventListener('click',()=>go(1));
 document.getElementById('fprev').addEventListener('click',()=>go(-1));
-document.getElementById('fshuf').addEventListener('click',()=>{shuffle(order);ci=-1;go(1)});
+document.getElementById('fshuf').addEventListener('click',()=>{react('stage-cards','happy',pick([SP+'¡Mezcladas! Ahora sin trampa.',OV+'Nuevo orden, ¡a ver si te las sabes de verdad!']));shuffle(order);ci=-1;go(1)});
 document.getElementById('fyes').addEventListener('click',e=>{known.add(order[ci]);store.set('repro-known',[...known]);
-  const r=e.currentTarget.getBoundingClientRect();confetti(r.left+r.width/2,r.top,known.size===CARDS.length?120:18);go(1)});
-document.getElementById('fno').addEventListener('click',()=>{known.delete(order[ci]);store.set('repro-known',[...known]);go(1)});
+  const r=e.currentTarget.getBoundingClientRect();confetti(r.left+r.width/2,r.top,known.size===CARDS.length?120:18);noRow=0;react('stage-cards','happy',pick([SP+'¡Una menos! Siguiente.',OV+'¡Te la sabes! Qué bien.',SP+'Esa ya es tuya.',OV+'¡Eso! Sigue así.']));go(1)});
+document.getElementById('fno').addEventListener('click',()=>{known.delete(order[ci]);store.set('repro-known',[...known]);noRow++;react('stage-cards','sad',noRow>=3?pick(YAI.cards):pick([OV+'La repasamos otra vez, tranqui.',SP+'Ya te saldrá. Hasta yo tardé en madurar.']));go(1)});
 document.addEventListener('keydown',e=>{if(document.getElementById('p-cards').hidden||['INPUT','TEXTAREA'].includes(document.activeElement.tagName))return;
   if(e.key==='ArrowRight')go(1);else if(e.key==='ArrowLeft')go(-1)});
 fillCard();
@@ -1084,18 +1201,26 @@ const Q=[
  ['¿Qué glándula está en el vestíbulo vaginal y facilita la penetración?',['Bartolino','Skene','Próstata','Bulbouretral'],'Skene está junto al meato urinario.'],
  ['El ovocito II se diferencia del espermatozoide porque…',['no tiene flagelo y es de las células más grandes del cuerpo','es diploide','tiene acrosoma','tiene pieza media con mitocondrias'],'Es grande y no se mueve solo; el núcleo es haploide.'],
 ];
-const qbox=document.getElementById('quiz');let qs=[],qi=0,score=0,missed=[],answered=false,streak=0;
+const qbox=document.getElementById('quiz');let qs=[],qi=0,score=0,missed=[],answered=false,streak=0,bad=0;
 const best=()=>store.get('repro-best',0);
-function startQuiz(subset){qs=shuffle((subset||Q.map((_,i)=>i)).slice()).map(i=>({i,q:Q[i][0],o:shuffle(Q[i][1].map((t,k)=>({t,ok:k===0}))),ex:Q[i][2]}));qi=0;score=0;missed=[];streak=0;renderQ()}
+function startQuiz(subset){react('stage-quiz','idle',OV+'¡Tú puedes! Elige una respuesta.');qs=shuffle((subset||Q.map((_,i)=>i)).slice()).map(i=>({i,q:Q[i][0],o:shuffle(Q[i][1].map((t,k)=>({t,ok:k===0}))),ex:Q[i][2]}));qi=0;score=0;missed=[];streak=0;bad=0;renderQ()}
+let idleT=null;
 function renderQ(){
-  answered=false;if(qi>=qs.length)return renderEnd();const c=qs[qi];
+  answered=false;clearTimeout(idleT);if(qi>=qs.length)return renderEnd();const c=qs[qi];
+  if(qi>0){const pct=Math.round(qi/qs.length*100),n=qs.length;
+    let m=null;if(qi===n-1)m='last';else if(qi===Math.round(n*.75))m=75;else if(qi===Math.round(n*.5))m=50;else if(qi===Math.round(n*.25))m=25;
+    if(m)react('stage-quiz','happy',pick(MILE[m]));else react('stage-quiz','idle',pick(NEXTQ));}
+  idleT=setTimeout(()=>{if(!answered)react('stage-quiz','sad',pick(IDLEQ))},20000);
   qbox.innerHTML=`<div class="qhead"><span class="counter" style="text-align:left">Pregunta ${qi+1} de ${qs.length}</span><span class="streak" id="streak">${streak>=2?'racha ×'+streak:''}</span><span class="counter">Aciertos: ${score}</span></div>
   <div class="bar"><i style="width:${qi/qs.length*100}%"></i></div><div class="qtext">${c.q}</div>
   <div class="opts">${c.o.map((o,k)=>`<button class="opt" data-k="${k}"><span class="k">${'abcd'[k]})</span><span>${o.t}</span></button>`).join('')}</div><div id="qfb"></div>`;
   qbox.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>answer(+b.dataset.k,b)));
 }
 function answer(k,btn){
-  if(answered)return;answered=true;const c=qs[qi],ok=c.o[k].ok;
+  if(answered)return;answered=true;clearTimeout(idleT);const c=qs[qi],ok=c.o[k].ok;
+  {const ns=ok?streak+1:0,nb=ok?0:bad+1;bad=nb;
+  const right='<br><span style="font-weight:400">La correcta: '+c.o.find(o=>o.ok).t+'.</span>';
+  react('stage-quiz',ok?'happy':'sad',ok?(ns>=3&&ns%3===0?pick(YAI.good):(ns===2||ns%5===0)?BOTH+`¡Racha de ${ns}! Estamos bailando.`:pick(PHR.happy)):(nb>=3?pick(YAI.bad):pick(PHR.sad))+right);}
   if(ok){score++;streak++;const r=btn.getBoundingClientRect();confetti(r.left+40,r.top+r.height/2,streak>=3?36:16)}else{missed.push(c.i);streak=0}
   qbox.querySelectorAll('.opt').forEach((b,j)=>{b.disabled=true;if(c.o[j].ok)b.classList.add('right');else if(j===k)b.classList.add('wrong')});
   const st=document.getElementById('streak');st.textContent=streak>=2?'racha ×'+streak:'';st.classList.remove('pop');void st.offsetWidth;st.classList.add('pop');
@@ -1110,6 +1235,7 @@ function renderEnd(){
   <div class="card-ctrl">${missed.length?'<button class="btn primary" id="qretry">Repetir solo las falladas ('+missed.length+')</button>':''}<button class="btn" id="qall">Hacer todo de nuevo</button></div>
   ${missed.length?'<ul class="missed">'+missed.map(i=>`<li><b>${Q[i][0]}</b><br>${Q[i][1][0]}</li>`).join('')+'</ul>':''}</div>`;
   const bn=document.getElementById('bignum');let n=0;const tick=()=>{bn.textContent=n+'/'+qs.length;if(n<score){n++;setTimeout(tick,RM?0:45)}};tick();
+  react('stage-quiz',pct>=70?'happy':'sad',pct>=90?YAI.end.top:pct>=70?YAI.end.ok:YAI.end.low);
   if(pct>=70){const r=bn.getBoundingClientRect();setTimeout(()=>confetti(r.left+r.width/2,r.top+r.height/2,pct>=90?180:90),RM?0:score*45)}
   const rr=document.getElementById('qretry');if(rr){const m=missed.slice();rr.addEventListener('click',()=>startQuiz(m))}
   document.getElementById('qall').addEventListener('click',()=>startQuiz());
@@ -1142,7 +1268,7 @@ const REV=[
 ];
 const rb=document.getElementById('revbody');
 rb.innerHTML=REV.map(([a,b])=>`<tr><td>${a}</td><td tabindex="0"><span>${b}</span></td></tr>`).join('');
-rb.querySelectorAll('td:last-child').forEach(td=>{const f=()=>td.classList.toggle('shown');td.addEventListener('click',f);td.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();f()}})});
+let revN=0;rb.querySelectorAll('td:last-child').forEach(td=>{const f=()=>{td.classList.toggle('shown');if(td.classList.contains('shown')){revN++;const all=rb.querySelectorAll('td.shown').length===REV.length;react('stage-rev',all||revN%4===0?'happy':'idle',all?BOTH+'¡Destapaste todo! Ya estás para el examen de la profe Yaisel.':pick(REVP))}};td.addEventListener('click',f);td.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();f()}})});
 const rp=document.getElementById('p-rev'),rt=document.getElementById('revtoggle');
 rt.addEventListener('click',()=>{const c=rp.classList.toggle('covered');rt.textContent=c?'Destapar todo':'Tapar todo';rb.querySelectorAll('td').forEach(t=>t.classList.remove('shown'))});
 </script>
