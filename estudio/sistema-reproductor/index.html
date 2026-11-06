@@ -2506,7 +2506,7 @@ function build(seed){
 }
 
 /* ---------- dibujos ---------- */
-function cloneSvg(sel){const s=document.querySelector(sel);if(!s)return null;const c=s.cloneNode(true);c.querySelectorAll('.lab').forEach(e=>e.remove());c.removeAttribute('id');c.classList.add('sim-svg');return c}
+function cloneSvg(sel){const s=document.querySelector(sel);if(!s)return null;const c=s.cloneNode(true);c.querySelectorAll('.lab,.hit').forEach(e=>e.remove());c.removeAttribute('id');c.classList.add('sim-svg');return c}
 function marks(svg,k,parts){const NSs='http://www.w3.org/2000/svg',g=document.createElementNS(NSs,'g');
   parts.forEach((p,i)=>{const [name,,ax,ay]=p,l=LBL[k][name],bx=l[0]+14,by=l[1]+12;
     g.innerHTML+=`<line x1="${ax}" y1="${ay}" x2="${bx}" y2="${by}" stroke="#45403F" stroke-width="1.2"/><circle cx="${ax}" cy="${ay}" r="3" fill="#E07A5F"/><circle cx="${bx}" cy="${by}" r="12" fill="#fff" stroke="#45403F" stroke-width="1.6"/><text x="${bx}" y="${by+5}" text-anchor="middle" font-family="Figtree,sans-serif" font-weight="800" font-size="14" fill="#45403F">${i+1}</text>`});
@@ -2518,25 +2518,40 @@ function imgHTML(im){
     const map={FSH:'1','Estrógeno':'2',LH:'3',Progesterona:'4'};
     s.querySelectorAll('text').forEach(t=>{if(map[t.textContent]){t.textContent='('+map[t.textContent]+')';t.style.fontSize='15px';t.style.fill='#45403F'}});
     const gs=s.querySelectorAll('g');if(gs.length)gs[gs.length-1].remove();return s.outerHTML}
-  if(im.k==='male'){const box=(x,y,n,w=104)=>`<rect x="${x}" y="${y}" width="${w}" height="44" rx="12" fill="#FFE9DF" stroke="#C97560" stroke-width="1.8"/><circle cx="${x+w/2}" cy="${y+22}" r="13" fill="#fff" stroke="#45403F" stroke-width="1.6"/><text x="${x+w/2}" y="${y+27}" text-anchor="middle" font-weight="800" font-size="14" font-family="Figtree,sans-serif" fill="#45403F">${n}</text>`;
-    const arr=(x1,y1,x2,y2)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#E07A5F" stroke-width="3" marker-end="url(#simArr)"/>`;
-    return `<svg class="sim-svg" viewBox="0 0 600 260"><defs><marker id="simArr" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#E07A5F"/></marker></defs>
-      ${box(6,170,1)}${arr(112,192,132,192)}${box(136,170,2)}${arr(242,192,262,192)}${box(266,170,3)}${arr(372,192,392,192)}${box(396,170,4)}${arr(502,192,516,192)}${box(520,170,5,74)}
-      <g opacity=".95">${box(330,30,6,110)}${box(460,30,7,110)}${box(470,100,8,110)}</g>
-      <path d="M385,74 C400,120 420,150 440,170" stroke="#5E958A" stroke-width="2.4" stroke-dasharray="6 5" fill="none" marker-end="url(#simArr)"/><path d="M515,74 C512,120 470,150 455,170" stroke="#5E958A" stroke-width="2.4" stroke-dasharray="6 5" fill="none"/><path d="M525,144 C540,160 548,166 552,170" stroke="#5E958A" stroke-width="2.4" stroke-dasharray="6 5" fill="none"/>
-      <text x="8" y="246" font-family="Figtree,sans-serif" font-size="12.5" fill="#8A8381">Esquema: el camino (1→5) y las glándulas anexas (6, 7, 8) que aportan líquidos.</text></svg>`}
-  if(im.k==='ovo'){const t=(x,y,n)=>`<circle cx="${x}" cy="${y}" r="12" fill="#fff" stroke="#45403F" stroke-width="1.6"/><text x="${x}" y="${y+5}" text-anchor="middle" font-weight="800" font-size="14" font-family="Figtree,sans-serif" fill="#45403F">${n}</text>`;
-    return `<svg class="sim-svg" viewBox="0 0 600 240"><defs><radialGradient id="simOv" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#FCE6EC"/><stop offset="1" stop-color="#E9A6C0"/></radialGradient></defs>
-      <circle cx="90" cy="120" r="56" fill="url(#simOv)" stroke="#C47D99" stroke-width="2"/><circle cx="90" cy="120" r="20" fill="#E06B80" opacity=".7"/>${t(90,40,1)}
-      <path d="M150,120 L230,120" stroke="#E07A5F" stroke-width="3" marker-end="url(#simArr2)"/><defs><marker id="simArr2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#E07A5F"/></marker></defs>
-      <text x="152" y="108" font-family="Figtree,sans-serif" font-size="12" fill="#8A8381">meiosis I</text>
-      <circle cx="300" cy="120" r="52" fill="url(#simOv)" stroke="#C47D99" stroke-width="2"/><circle cx="300" cy="120" r="56" fill="none" stroke="#E7AFC4" stroke-width="5" stroke-dasharray="3 3"/><circle cx="300" cy="120" r="16" fill="#E06B80" opacity=".7"/>${t(300,44,2)}
-      <circle cx="372" cy="70" r="11" fill="#F6D0DD" stroke="#C47D99"/>
-      <path d="M362,120 L442,120" stroke="#E07A5F" stroke-width="3" marker-end="url(#simArr2)"/><text x="364" y="108" font-family="Figtree,sans-serif" font-size="12" fill="#8A8381">si hay fecundación</text>
-      <circle cx="510" cy="120" r="48" fill="url(#simOv)" stroke="#C47D99" stroke-width="2"/><circle cx="510" cy="120" r="14" fill="#9E3550" opacity=".75"/>
-      <circle cx="572" cy="78" r="10" fill="#F6D0DD" stroke="#C47D99"/><circle cx="574" cy="160" r="10" fill="#F6D0DD" stroke="#C47D99"/><circle cx="440" cy="190" r="10" fill="#F6D0DD" stroke="#C47D99"/>
-      <path d="M440,190 L540,212" stroke="#45403F" stroke-width="1" stroke-dasharray="3 3"/><path d="M574,170 L556,206" stroke="#45403F" stroke-width="1" stroke-dasharray="3 3"/>${t(552,214,3)}
-      <text x="8" y="232" font-family="Figtree,sans-serif" font-size="12.5" fill="#8A8381">Esquema de la ovogénesis (no está a escala).</text></svg>`}
+  if(im.k==='male'){
+    const F='font-family="Figtree,sans-serif"';
+    const badge=(cx,cy,n)=>`<circle cx="${cx}" cy="${cy}" r="14" fill="#fff" stroke="#45403F" stroke-width="1.8"/><text x="${cx}" y="${cy+5}" text-anchor="middle" font-weight="800" font-size="15" ${F} fill="#45403F">${n}</text>`;
+    const box=(x,y,w,n,fill,stroke)=>`<rect x="${x}" y="${y}" width="${w}" height="50" rx="12" fill="${fill}" stroke="${stroke}" stroke-width="1.8"/>${badge(x+w/2,y+25,n)}`;
+    const P=[[10,96],[126,96],[242,96],[358,96],[474,156]],Y=176;
+    let g='';P.forEach(([x,w],i)=>{g+=box(x,Y,w,i+1,'#FFE9DF','#C97560');if(i<4){const x1=x+w+3,x2=P[i+1][0]-4;g+=`<line x1="${x1}" y1="${Y+25}" x2="${x2}" y2="${Y+25}" stroke="#E07A5F" stroke-width="3" marker-end="url(#mArr)"/>`}});
+    const G=[[358,96,6],[474,70,7],[560,70,8]],GY=40;
+    G.forEach(([x,w,n])=>{g+=box(x,GY,w,n,'#E6F3EE','#5E958A');const cx=x+w/2;g+=`<line x1="${cx}" y1="${GY+52}" x2="${cx}" y2="${Y-6}" stroke="#5E958A" stroke-width="2.4" stroke-dasharray="5 4" marker-end="url(#gArr)"/>`});
+    return `<svg class="sim-svg" viewBox="0 0 640 270"><defs>
+      <marker id="mArr" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 Z" fill="#E07A5F"/></marker>
+      <marker id="gArr" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 Z" fill="#5E958A"/></marker></defs>
+      <text x="10" y="24" ${F} font-size="13" font-weight="700" fill="#5E958A">Glándulas anexas</text>
+      <text x="10" y="166" ${F} font-size="13" font-weight="700" fill="#C97560">Camino de los espermatozoides →</text>
+      ${g}
+      <text x="10" y="258" ${F} font-size="12.5" fill="#8A8381">Esquema: el camino va del 1 al 5 y las glándulas 6, 7 y 8 aportan sus líquidos donde señala la flecha.</text></svg>`}
+  if(im.k==='ovo'){
+    const F='font-family="Figtree,sans-serif"';
+    const badge=(cx,cy,n)=>`<circle cx="${cx}" cy="${cy}" r="14" fill="#fff" stroke="#45403F" stroke-width="1.8"/><text x="${cx}" y="${cy+5}" text-anchor="middle" font-weight="800" font-size="15" ${F} fill="#45403F">${n}</text>`;
+    const cell=(cx,cy,r,nuc)=>`<circle cx="${cx}" cy="${cy}" r="${r+5}" fill="none" stroke="#F2C6D5" stroke-width="5"/><circle cx="${cx}" cy="${cy}" r="${r}" fill="url(#simOv)" stroke="#C47D99" stroke-width="2"/><circle cx="${cx}" cy="${cy}" r="${nuc}" fill="#D86C86" opacity=".8"/>`;
+    const polar=(cx,cy)=>`<circle cx="${cx}" cy="${cy}" r="9" fill="#F6D0DD" stroke="#C47D99" stroke-width="1.5"/>`;
+    const arrow=(x1,x2,y,txt)=>`<line x1="${x1}" y1="${y}" x2="${x2}" y2="${y}" stroke="#E07A5F" stroke-width="3" marker-end="url(#oArr)"/><text x="${(x1+x2)/2}" y="${y-12}" text-anchor="middle" ${F} font-size="12.5" font-weight="700" fill="#8A8381">${txt}</text>`;
+    return `<svg class="sim-svg" viewBox="0 0 640 270"><defs>
+      <radialGradient id="simOv" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#FCE6EC"/><stop offset="1" stop-color="#E9A6C0"/></radialGradient>
+      <marker id="oArr" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 Z" fill="#E07A5F"/></marker></defs>
+      ${cell(95,115,52,20)}
+      ${arrow(165,245,115,'meiosis I')}
+      ${cell(325,115,48,16)}${polar(392,60)}
+      ${arrow(410,480,115,'meiosis II')}
+      ${cell(555,115,44,14)}
+      ${polar(500,205)}${polar(530,212)}${polar(560,205)}
+      <path d="M488,222 Q530,240 572,222" fill="none" stroke="#45403F" stroke-width="1.2"/>
+      ${badge(95,198,1)}${badge(325,198,2)}${badge(608,212,3)}<line x1="573" y1="210" x2="594" y2="212" stroke="#45403F" stroke-width="1.2" stroke-dasharray="3 3"/>
+      <text x="445" y="138" text-anchor="middle" ${F} font-size="11.5" fill="#8A8381">(si hay fecundación)</text>
+      <text x="10" y="262" ${F} font-size="12.5" fill="#8A8381">Esquema de la ovogénesis (no está a escala). Al final hay 1 gameto y 3 células pequeñas.</text></svg>`}
   return '';
 }
 
