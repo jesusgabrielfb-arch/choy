@@ -391,6 +391,73 @@ input[type=range]{width:100%;accent-color:var(--coral);margin-top:6px}
 .cp-btns{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px}
 .cp-sol{margin-top:12px;background:var(--blue-soft);border-radius:12px;padding:10px 14px;font-size:15px}
 .cp-sol ol{margin:4px 0;padding-left:20px}
+/* configuración de la práctica */
+.setup{display:grid;gap:18px;background:var(--page);border-radius:18px;padding:20px clamp(14px,3vw,28px);box-shadow:var(--shadow)}
+.setup h3{margin:0 0 6px;font-size:18px}
+.sn{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--coral);color:#fff;font-family:var(--f-hand);font-size:17px;margin-right:4px}
+.hint{color:var(--muted);font-size:14px;margin:0 0 10px}
+.tchips{display:flex;flex-wrap:wrap;gap:8px}
+.tchip-wrap{display:inline-flex;align-items:center;gap:2px}
+.tchip{border:1.5px solid var(--line2);background:var(--page);border-radius:999px;padding:7px 14px;font-weight:700;font-size:14px;cursor:pointer;display:inline-flex;gap:6px;align-items:center;transition:all .2s}
+.tchip small{color:var(--muted);font-weight:600}
+.tchip.on{background:var(--hl);border-color:var(--coral)}
+.tchip.all.on{background:var(--coral);color:#fff;border-color:var(--coral)}.tchip.all.on small{color:#fff}
+.tchip .ord{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--coral);color:#fff;font-size:12px}
+.tread{font-size:12.5px;color:var(--muted);padding:4px 6px}
+.modes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media (max-width:820px){.modes{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.mode{text-align:left;border:1.5px solid var(--line2);background:var(--page);border-radius:14px;padding:12px 14px;cursor:pointer;display:grid;gap:4px;transition:all .2s;box-shadow:var(--hard)}
+.mode b{font-family:var(--f-display);font-weight:400;font-size:22px;line-height:1.1}
+.mode span{font-size:13.5px;color:var(--muted);line-height:1.35}
+.mode.on{border-color:var(--coral);background:color-mix(in srgb,var(--hl) 55%,var(--page));transform:translateY(-2px)}
+.types{display:flex;flex-wrap:wrap;gap:8px 16px;margin-bottom:10px}
+.types label{display:inline-flex;gap:6px;align-items:center;font-weight:600;font-size:14.5px;cursor:pointer}
+.types input{accent-color:var(--coral);width:17px;height:17px}
+.qsel{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;font-weight:600;font-size:14px}
+.qsel select{font:inherit;padding:7px 10px;border:1.5px solid var(--line2);border-radius:10px;background:var(--page);color:var(--ink)}
+.setup-go{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-top:1.5px dashed var(--line2);padding-top:14px}
+.setup-go #go{font-size:17px;padding:11px 26px}
+.setup-go #go:disabled{opacity:.5;cursor:not-allowed}
+.panel .pback{margin-bottom:6px}
+.tprac{margin-right:auto}
+.done-row{gap:10px;flex-wrap:wrap}
+/* tipos de pregunta */
+.qtags{display:flex;gap:6px;flex-wrap:wrap;margin:-4px 0 6px}
+.qtype,.qtopic{font-size:12px;font-weight:700;padding:2px 9px;border-radius:999px;background:var(--blue-soft);color:var(--blue)}
+.qtopic{background:var(--extra-soft);color:var(--extra)}
+.qtype.t-tf{background:#EFE7FB;color:#7656B8}.qtype.t-open{background:var(--hl);color:#9A4A35}.qtype.t-order{background:var(--ok-soft);color:var(--ok)}.qtype.t-match{background:#FFE9F2;color:#C2457A}
+.opts.tf{grid-template-columns:1fr 1fr}
+.opt.chosen{border-color:var(--blue);background:var(--blue-soft)}
+.openans{width:100%;font:inherit;font-size:16px;padding:12px 14px;border:1.5px solid var(--line2);border-radius:12px;background:var(--page);color:var(--ink);resize:vertical}
+.openans:focus{outline:none;border-color:var(--coral)}
+.qact{margin-top:10px;text-align:right}
+.kw{display:inline-block;font-size:12.5px;font-weight:700;padding:1px 8px;border-radius:999px;margin:2px 0}
+.kw.y{background:var(--ok-soft);color:var(--ok)}.kw.n{background:var(--bad-soft);color:var(--bad)}
+.ord-ans{list-style:none;counter-reset:o;margin:6px 0 10px;padding:10px;border:1.5px dashed var(--line2);border-radius:12px;display:grid;gap:6px;min-height:52px}
+.ord-ans li{counter-increment:o;display:flex;gap:8px;align-items:center}
+.ord-ans li::before{content:counter(o);font-family:var(--f-hand);font-size:18px;color:var(--coral);width:18px}
+.ord-ans li.ph{color:var(--muted);font-size:14px}.ord-ans li.ph::before{content:""}
+.ord-pool{display:flex;flex-wrap:wrap;gap:8px}
+.ochip{border:1.5px solid var(--line2);background:var(--page);border-radius:12px;padding:8px 12px;font-size:15px;cursor:pointer;text-align:left;box-shadow:var(--hard);transition:transform .15s}
+.ochip:hover{transform:translateY(-2px)}
+.ochip.in{background:var(--blue-soft);flex:1}
+.ochip.ok{border-color:var(--ok);background:var(--ok-soft)}.ochip.bad{border-color:var(--bad);background:var(--bad-soft)}
+.match{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mcol{display:grid;gap:8px;align-content:start}
+.mitem{border:1.5px solid var(--line2);background:var(--page);border-radius:12px;padding:9px 12px;font-size:14.5px;text-align:left;cursor:pointer;transition:all .15s;line-height:1.3}
+.mitem.sel{border-color:var(--coral);background:var(--hl);transform:translateX(3px)}
+.mitem.linked{border-color:var(--pc);box-shadow:inset 6px 0 0 var(--pc)}
+.mitem.ok{background:var(--ok-soft)}.mitem.bad{background:var(--bad-soft)}
+.mitem.nudge{animation:shake .4s}
+.sol{margin:6px 0;padding-left:20px}
+.rgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:10px}
+@media (max-width:640px){.rgrid{grid-template-columns:1fr}.match{grid-template-columns:1fr}}
+.rgrid h4{margin:0 0 6px;font-size:15px}
+.rbar{display:grid;grid-template-columns:minmax(0,1.2fr) 1fr 44px;gap:8px;align-items:center;font-size:13.5px;margin:4px 0}
+.rbar i{height:9px;background:var(--line);border-radius:5px;overflow:hidden}.rbar i b{display:block;height:100%;border-radius:5px}
+.rbar em{font-style:normal;font-weight:700;text-align:right}
+.weak{margin-top:12px;background:var(--bad-soft);border-radius:12px;padding:10px 14px;font-size:15px}
+.review{padding-left:20px;font-size:14.5px}.review li{margin:10px 0}
 #confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
 footer{color:var(--muted);font-size:14px;padding-block:10px 60px;text-align:center}
 footer .hand{font-size:22px}
@@ -489,7 +556,7 @@ footer .hand{font-size:22px}
       <p>En la mujer <b>no</b> se comparte: la uretra (orina) y la vagina (reproducción) tienen <b>orificios separados</b>.</p>
     </div>
   </div>
-  <div class="done-row"><button class="donebtn" data-done="base"><span class="box"></span>Lo tengo</button></div>
+  <div class="done-row"><button class="btn small tprac" type="button" data-prac="base">Practicar este tema</button><button class="donebtn" data-done="base"><span class="box"></span>Lo tengo</button></div>
 </section>
 
 <!-- 2 MASCULINO -->
@@ -562,7 +629,7 @@ footer .hand{font-size:22px}
     </div>
   </div>
   <div class="def"><b>Erección:</b> por la excitación, el sistema nervioso manda la señal para que pase sangre al <b>cuerpo cavernoso</b>, que se llena de sangre.</div>
-  <div class="done-row"><button class="donebtn" data-done="masculino"><span class="box"></span>Lo tengo</button></div>
+  <div class="done-row"><button class="btn small tprac" type="button" data-prac="masc">Practicar este tema</button><button class="donebtn" data-done="masculino"><span class="box"></span>Lo tengo</button></div>
 </section>
 
 <!-- 3 ESPERMATOGENESIS -->
@@ -643,7 +710,7 @@ footer .hand{font-size:22px}
       <tr><td>Cola (flagelo)</td><td>—</td><td>Permite que el espermatozoide se mueva.</td></tr>
     </tbody>
   </table></div>
-  <div class="done-row"><button class="donebtn" data-done="espermatogenesis"><span class="box"></span>Lo tengo</button></div>
+  <div class="done-row"><button class="btn small tprac" type="button" data-prac="esperm">Practicar este tema</button><button class="donebtn" data-done="espermatogenesis"><span class="box"></span>Lo tengo</button></div>
 </section>
 
 <!-- 4 FEMENINO -->
@@ -797,7 +864,7 @@ footer .hand{font-size:22px}
       <tr><td>Skene</td><td>Junto al orificio externo de la uretra (meato urinario)</td><td>Igual: ayudan a la lubricación.</td></tr>
     </tbody>
   </table></div>
-  <div class="done-row"><button class="donebtn" data-done="femenino"><span class="box"></span>Lo tengo</button></div>
+  <div class="done-row"><button class="btn small tprac" type="button" data-prac="fem">Practicar este tema</button><button class="donebtn" data-done="femenino"><span class="box"></span>Lo tengo</button></div>
 </section>
 
 <!-- 5 OVOGENESIS -->
@@ -842,7 +909,7 @@ footer .hand{font-size:22px}
       <tr><td>Movimiento</td><td>Con flagelo</td><td>Sin flagelo</td></tr>
     </tbody>
   </table></div>
-  <div class="done-row"><button class="donebtn" data-done="ovogenesis"><span class="box"></span>Lo tengo</button></div>
+  <div class="done-row"><button class="btn small tprac" type="button" data-prac="ovo">Practicar este tema</button><button class="donebtn" data-done="ovogenesis"><span class="box"></span>Lo tengo</button></div>
 </section>
 
 <!-- 6 CICLO -->
@@ -899,7 +966,7 @@ footer .hand{font-size:22px}
   <p class="scribble">los cambios de humor = las hormonas suben y bajan ↑↓</p>
   <h3>Irregularidades: ovarios poliquísticos <span class="chip c-ok">Seguro</span></h3>
   <p>Los folículos de Graaf se <b>endurecen y forman quistes</b>; los ovocitos no maduran y se <b>pierde fertilidad</b>.</p>
-  <div class="done-row"><button class="donebtn" data-done="ciclo"><span class="box"></span>Lo tengo</button></div>
+  <div class="done-row"><button class="btn small tprac" type="button" data-prac="ciclo">Practicar este tema</button><button class="donebtn" data-done="ciclo"><span class="box"></span>Lo tengo</button></div>
 </section>
 
 <!-- 7 CALCULO -->
@@ -957,7 +1024,7 @@ footer .hand{font-size:22px}
       <div class="cp-sol" id="cp-steps" hidden></div>
     </div>
   </div>
-  <div class="done-row"><button class="donebtn" data-done="calculo"><span class="box"></span>Lo tengo</button></div>
+  <div class="done-row"><button class="btn small tprac" type="button" data-prac="calc">Practicar este tema</button><button class="donebtn" data-done="calculo"><span class="box"></span>Lo tengo</button></div>
 </section>
 
 <!-- 8 FECUNDACION -->
@@ -986,7 +1053,7 @@ footer .hand{font-size:22px}
       </div>
     </div>
   </div>
-  <div class="done-row"><button class="donebtn" data-done="fecundacion"><span class="box"></span>Lo tengo</button></div>
+  <div class="done-row"><button class="btn small tprac" type="button" data-prac="fec">Practicar este tema</button><button class="donebtn" data-done="fecundacion"><span class="box"></span>Lo tengo</button></div>
 </section>
 
 <!-- 9 CONFUSIONES -->
@@ -1013,14 +1080,41 @@ footer .hand{font-size:22px}
 <!-- PRACTICA -->
 <section class="practice-wrap" id="practica">
   <div class="topic-head"><span class="num">✎</span><h2>Hora de practicar</h2></div>
-  <p class="lede">Primero las tarjetas para memorizar, luego el quiz para ver qué tanto sabes, y el repaso tapado la noche antes del examen.</p>
-  <div class="ptabs" role="tablist">
-    <button role="tab" id="t-cards" aria-selected="true" aria-controls="p-cards">Tarjetas</button>
-    <button role="tab" id="t-quiz" aria-selected="false" aria-controls="p-quiz">Quiz</button>
-    <button role="tab" id="t-rev" aria-selected="false" aria-controls="p-rev">Repaso tapado</button>
+  <p class="lede">Elige qué temas estudiar (y en qué orden), cómo quieres estudiarlos y qué tipo de preguntas quieres. Hay más de 230 preguntas basadas en tus apuntes, de 5 tipos distintos.</p>
+  <div class="setup" id="setup">
+    <div class="step">
+      <h3><span class="sn">1</span>¿Qué temas quieres estudiar?</h3>
+      <p class="hint">Tócalos en el orden en que quieres empezar: el número dice el orden. "leer" te lleva al resumen del tema.</p>
+      <div class="tchips" id="tchips"></div>
+    </div>
+    <div class="step">
+      <h3><span class="sn">2</span>¿Cómo quieres estudiar?</h3>
+      <div class="modes" id="modes">
+        <button type="button" class="mode" data-m="tarjetas"><b>Tarjetas</b><span>Memoriza volteando tarjetas y marca las que ya te sabes.</span></button>
+        <button type="button" class="mode" data-m="guiada"><b>Práctica guiada</b><span>Todos los tipos de pregunta con la explicación al momento.</span></button>
+        <button type="button" class="mode" data-m="examen"><b>Examen</b><span>Sin ayudas hasta el final: nota del 1 al 5 y revisión.</span></button>
+        <button type="button" class="mode" data-m="repaso"><b>Repaso tapado</b><span>Explica cada término con tus palabras y destápalo.</span></button>
+      </div>
+    </div>
+    <div class="step" id="qopts">
+      <h3><span class="sn">3</span>Tipo y cantidad de preguntas</h3>
+      <div class="types" id="types">
+        <label><input type="checkbox" value="mc" checked> Selección múltiple</label>
+        <label><input type="checkbox" value="tf" checked> Verdadero o falso</label>
+        <label><input type="checkbox" value="open" checked> Desarrollo</label>
+        <label><input type="checkbox" value="order" checked> Ordenar procesos</label>
+        <label><input type="checkbox" value="match" checked> Pareo</label>
+      </div>
+      <div class="qsel">
+        <label for="qcount">Cantidad</label><select id="qcount"><option value="10">10</option><option value="20" selected>20</option><option value="40">40</option><option value="all">Todas</option></select>
+        <label for="qorder">Orden</label><select id="qorder"><option value="temas">Por temas, en el orden que elegí</option><option value="mezcla">Todo mezclado</option></select>
+      </div>
+    </div>
+    <div class="setup-go"><span id="setup-sum"></span><button class="btn primary" type="button" id="go">Empezar</button></div>
   </div>
 
-  <div class="panel" id="p-cards" role="tabpanel" aria-labelledby="t-cards">
+  <div class="panel" id="p-cards" hidden>
+    <button class="btn small pback" type="button">← Cambiar tema o modo</button>
     <div class="stage" id="stage-cards">
       <div class="bubble" aria-live="polite"><b class="sp">Spermi:</b>Voltea la tarjeta y dinos si te la sabes.</div>
       <figure class="mfig"><div class="mascot" data-who="spermi" data-state="idle" role="img" aria-label="Spermi"></div><figcaption>Spermi</figcaption></figure>
@@ -1045,7 +1139,8 @@ footer .hand{font-size:22px}
     <p style="text-align:center;color:var(--muted);font-size:14px;margin-top:10px" id="fknown"></p>
   </div>
 
-  <div class="panel" id="p-quiz" role="tabpanel" aria-labelledby="t-quiz" hidden>
+  <div class="panel" id="p-quiz" hidden>
+    <button class="btn small pback" type="button">← Cambiar tema o modo</button>
     <div class="stage" id="stage-quiz">
       <div class="bubble" aria-live="polite"><b class="ov">Ovulina:</b>¡Tú puedes! Elige una respuesta.</div>
       <figure class="mfig"><div class="mascot" data-who="spermi" data-state="idle" role="img" aria-label="Spermi"></div><figcaption>Spermi</figcaption></figure>
@@ -1054,7 +1149,8 @@ footer .hand{font-size:22px}
     <div id="quiz"></div>
   </div>
 
-  <div class="panel covered" id="p-rev" role="tabpanel" aria-labelledby="t-rev" hidden>
+  <div class="panel covered" id="p-rev" hidden>
+    <button class="btn small pback" type="button">← Cambiar tema o modo</button>
     <div class="qhead"><p style="margin:0">Trata de explicar cada término con tus palabras. Toca la respuesta para destaparla.</p><button class="btn small" id="revtoggle">Destapar todo</button></div>
     <div class="stage" id="stage-rev">
       <div class="bubble" aria-live="polite"><b class="ov">Ovulina:</b>Di la respuesta en voz alta antes de destaparla.</div>
@@ -1460,165 +1556,572 @@ function calc(){
   gen();
 })();
 
-/* ---------- pestañas ---------- */
-const tabs=[['t-cards','p-cards'],['t-quiz','p-quiz'],['t-rev','p-rev']];
-tabs.forEach(([t,p])=>document.getElementById(t).addEventListener('click',()=>tabs.forEach(([t2,p2])=>{document.getElementById(t2).setAttribute('aria-selected',t2===t);document.getElementById(p2).hidden=p2!==p})));
+/* ---------- banco de preguntas por tema ---------- */
+const TOPICS={base:['Ideas base','#base'],masc:['Aparato masculino','#masculino'],esperm:['Espermatogénesis','#espermatogenesis'],fem:['Aparato femenino','#femenino'],ovo:['Ovogénesis','#ovogenesis'],ciclo:['Ciclo menstrual','#ciclo'],calc:['Cálculo de la ovulación','#calculo'],fec:['Fecundación y gestación','#fecundacion']};
+const TYPES={mc:'Selección múltiple',tf:'Verdadero o falso',open:'Desarrollo',order:'Ordenar procesos',match:'Pareo'};
+/* mc: [tipo, tema, pregunta, [correcta, …incorrectas], explicación]
+   tf: [tipo, tema, afirmación, verdadero?, explicación]
+   open: [tipo, tema, pregunta, respuesta modelo, palabras clave ("a|b" = cualquiera)]
+   order: [tipo, tema, instrucción, [pasos en orden], explicación]
+   match: [tipo, tema, instrucción, [[izquierda, derecha], …]] */
+const BANK=[
+/* ===== IDEAS BASE ===== */
+["mc","base","¿Qué estructura es común al sistema urinario y al reproductor masculino?",["Uretra","Uréter","Conducto deferente","Epidídimo"],"La uretra lleva tanto la orina de la vejiga como el semen."],
+["mc","base","El conjunto de órganos reproductores se llama…",["Genitales","Gametos","Hormonas","Glándulas anexas"],"Genitales = conjunto de órganos reproductores."],
+["mc","base","¿Qué es un gameto?",["Una célula sexual","Un órgano reproductor","Una hormona","Una glándula"],"El gameto masculino es el espermatozoide y el femenino el ovocito."],
+["mc","base","La reproducción humana es el proceso por el cual…",["la especie humana se perpetúa","se producen hormonas","se filtra la sangre","se elimina la orina"],"Reproducción humana: proceso por el cual la especie humana se puede perpetuar."],
+["mc","base","Los genitales se dividen en…",["internos y externos, más las glándulas accesorias","diploides y haploides","solo internos","anteriores y posteriores"],"Hay genitales internos, externos y glándulas accesorias que ayudan a la reproducción."],
+["mc","base","¿Para qué sirven las glándulas accesorias?",["Ayudan a la reproducción","Producen orina","Digieren alimentos","Producen insulina"],"En el hombre: próstata, vesículas seminales y bulbouretral."],
+["mc","base","En la mujer, la uretra y la vagina…",["tienen orificios separados","comparten el mismo orificio","se unen en el útero","son el mismo conducto"],"En la mujer no se comparte: meato urinario (orina) y orificio vaginal (reproducción)."],
+["tf","base","En el hombre, la uretra lleva orina y semen.",true,"Es el elemento común entre el sistema urinario y el reproductor."],
+["tf","base","En la mujer, la orina y la sangre menstrual salen por el mismo orificio.",false,"Son orificios separados: meato urinario y orificio vaginal."],
+["tf","base","El espermatozoide y el ovocito son gametos.",true,"Gameto = célula sexual."],
+["open","base","¿Qué es la reproducción humana y qué órgano comparten el sistema urinario y el reproductor masculino?","Es el proceso por el cual la especie humana se perpetúa. Comparten la uretra, que lleva la orina y el semen.",["perpet","uretra","orina","semen"]],
+["match","base","Une cada término con su significado.",[["Genitales","Conjunto de órganos reproductores"],["Gameto","Célula sexual"],["Uretra (hombre)","Conducto común para orina y semen"],["Meato urinario","Orificio de salida de la orina en la mujer"]]],
+
+/* ===== APARATO MASCULINO ===== */
+["mc","masc","¿Qué células del testículo producen testosterona?",["Células de Leydig","Células de Sertoli","Células foliculares","Células de Skene"],"Leydig = testosterona. Sertoli = apoyan la producción de espermatozoides."],
+["mc","masc","Las células de Sertoli…",["apoyan la producción de espermatozoides","producen testosterona","producen fructosa","neutralizan el pH"],"Sertoli ayuda a formar espermatozoides; Leydig produce testosterona."],
+["mc","masc","Los testículos descienden al escroto porque…",["necesitan una temperatura menor que la corporal","así producen más testosterona","el epidídimo los empuja","así se protegen de golpes"],"La producción de espermatozoides necesita menos temperatura. Si no bajan, hay infertilidad."],
+["mc","masc","Si los testículos no descienden, puede haber…",["infertilidad","más espermatozoides","prostatitis","circuncisión"],"Necesitan menos temperatura que la corporal para producir espermatozoides."],
+["mc","masc","Cuando el hombre era feto, los testículos estaban…",["en el mismo lugar que los ovarios (dentro del abdomen)","fuera del cuerpo","dentro del pene","en la vejiga"],"Luego descienden al escroto."],
+["mc","masc","Las gónadas masculinas son…",["los testículos","los epidídimos","las vesículas seminales","la próstata"],"Gónadas = órganos que producen gametos."],
+["mc","masc","¿Qué glándula aporta fructosa al semen?",["Vesículas seminales","Próstata","Bulbouretral","Bartolino"],"La fructosa da el ATP para el recorrido."],
+["mc","masc","La orina en la uretra es ácida. ¿Qué glándula neutraliza esa acidez?",["Bulbouretral","Vesículas seminales","Próstata","Skene"],"La bulbouretral secreta una sustancia alcalina."],
+["mc","masc","¿Cuál es la función del epidídimo?",["Terminar de madurar y almacenar los espermatozoides","Producir testosterona","Producir el líquido con fructosa","Neutralizar el pH"],"Es la parte inicial del conducto deferente: madura y almacena."],
+["mc","masc","¿Qué pasa con los espermatozoides que no salen por eyaculación?",["Los testículos los reabsorben y reutilizan","Se quedan para siempre en el epidídimo","Salen con la orina","Se convierten en espermátidas"],"Según tus apuntes, se reabsorben y se vuelven a usar."],
+["mc","masc","¿Cuál es la parte inicial del conducto deferente?",["Epidídimo","Uretra","Escroto","Glande"],"El epidídimo es la parte inicial del conducto deferente."],
+["mc","masc","El conducto deferente desemboca en…",["la uretra","el escroto","la vejiga","el testículo"],"Del conducto deferente pasan a la uretra."],
+["mc","masc","El recorrido por el conducto deferente va…",["en contra de la gravedad","a favor de la gravedad","hacia el riñón","hacia el ano"],"Los espermatozoides suben en contra de la gravedad."],
+["mc","masc","¿Qué es el semen?",["El líquido donde nadan los espermatozoides, formado por lo que secretan las glándulas","Solo los espermatozoides","La orina del hombre","Una hormona"],"Semen = conjunto de lo que secretan todas las glándulas."],
+["mc","masc","¿Cuál es la glándula anexa más grande?",["Próstata","Bulbouretral","Vesículas seminales","Epidídimo"],"La próstata facilita el movimiento de los espermatozoides."],
+["mc","masc","¿Cuál es la glándula anexa más pequeña?",["Bulbouretral","Próstata","Vesículas seminales","Testículo"],"La bulbouretral secreta una sustancia alcalina."],
+["mc","masc","Las prostaglandinas de las vesículas seminales…",["favorecen contracciones que mueven a los espermatozoides dentro de la mujer","neutralizan el pH","producen testosterona","forman el acrosoma"],"Las vesículas aportan fructosa y prostaglandinas."],
+["mc","masc","¿Para qué sirve la fructosa del semen?",["Para producir el ATP necesario para el recorrido","Para neutralizar la acidez","Para formar la cola","Para producir testosterona"],"Fructosa → energía (ATP)."],
+["mc","masc","¿Por qué la próstata es esencial?",["Facilita el movimiento por la gran distancia que deben recorrer","Produce testosterona","Neutraliza la orina","Fabrica óvulos"],"Ayuda al movimiento de los espermatozoides."],
+["mc","masc","La prostatitis es…",["la inflamación de la próstata","un tipo de espermatozoide","la falta de testosterona","la salida del semen"],"Se recomienda el examen de próstata desde los ~40 años."],
+["mc","masc","¿Desde qué edad aproximada se recomienda el examen de próstata?",["40 años","15 años","25 años","70 años"],"Según tus apuntes, alrededor de los 40."],
+["mc","masc","El escroto es…",["la capa de piel que guarda a los testículos fuera de la cavidad del cuerpo","una glándula","un conducto","el músculo del pene"],"Es un genital externo."],
+["mc","masc","El prepucio es…",["la piel que protege el pene","una glándula","un conducto","parte del testículo"],"Se puede retirar con la circuncisión."],
+["mc","masc","La circuncisión consiste en…",["retirar el prepucio","retirar un testículo","inflamar la próstata","cortar el conducto deferente"],"Hoy se hace sobre todo por costumbre."],
+["mc","masc","La circuncisión tiene origen…",["judío (un pacto entre Dios y el pueblo judío)","romano","egipcio","chino"],"Según tus apuntes."],
+["mc","masc","Si no hay buena higiene del prepucio puede haber…",["mal olor y más probabilidad de infecciones sexuales","más testosterona","más espermatozoides","prostatitis segura"],"Debajo se acumulan sudor, sebo, restos de orina y células muertas."],
+["mc","masc","El glande es…",["la parte final del pene, con muchas terminaciones nerviosas","una glándula","un testículo","un conducto"],"Es importante en el placer sexual."],
+["mc","masc","La erección ocurre cuando…",["el sistema nervioso manda la señal y la sangre llena el cuerpo cavernoso","la próstata se inflama","bajan los testículos","se llena la vejiga"],"Ocurre por la excitación."],
+["mc","masc","La eyaculación es…",["la salida de los espermatozoides","la producción de testosterona","la maduración en el epidídimo","el descenso de los testículos"],"Si no salen, los testículos los reabsorben."],
+["mc","masc","Son genitales externos masculinos:",["pene y escroto","testículos y conducto deferente","próstata y vesículas","epidídimo y uretra"],"Los internos son testículos, conducto deferente, etc."],
+["mc","masc","Son genitales internos masculinos:",["testículos y conducto deferente","pene y escroto","glande y prepucio","escroto y glande"],"Pene y escroto son externos."],
+["mc","masc","¿Por dónde salen los espermatozoides hacia la uretra?",["Conducto eyaculador","Escroto","Vejiga","Prepucio"],"Del conducto eyaculador pasan a la uretra."],
+["tf","masc","Las células de Leydig producen testosterona.",true,"Sertoli apoya la formación de espermatozoides."],
+["tf","masc","Las vesículas seminales secretan una sustancia alcalina.",false,"La alcalina es de la bulbouretral; las vesículas aportan fructosa y prostaglandinas."],
+["tf","masc","La próstata es la glándula anexa más grande.",true,"La más pequeña es la bulbouretral."],
+["tf","masc","Los testículos necesitan más temperatura que la corporal.",false,"Necesitan menos: por eso están en el escroto."],
+["tf","masc","El epidídimo termina la maduración de los espermatozoides.",true,"Y los almacena hasta que salen."],
+["tf","masc","Si los espermatozoides no salen, se quedan para siempre en el cuerpo.",false,"Los testículos los reabsorben y los reutilizan."],
+["tf","masc","La orina es ácida y puede dañar a los espermatozoides.",true,"La bulbouretral neutraliza esa acidez."],
+["tf","masc","La circuncisión retira el glande.",false,"Retira el prepucio."],
+["tf","masc","La erección ocurre cuando la sangre llena el cuerpo cavernoso.",true,"El sistema nervioso manda la señal."],
+["tf","masc","El escroto es un genital interno.",false,"Pene y escroto son externos."],
+["open","masc","¿Por qué los testículos están fuera del cuerpo y qué pasa si no descienden?","Porque necesitan una temperatura menor que la corporal para producir espermatozoides. Si no descienden, hay infertilidad.",["temperatura","menor|baja|menos","espermatozoide|esperma","infertil"]],
+["open","masc","Explica la función de las tres glándulas anexas.","Vesículas seminales: líquido con fructosa (ATP) y prostaglandinas (contracciones). Próstata: la más grande, facilita el movimiento. Bulbouretral: la más pequeña, sustancia alcalina que neutraliza la acidez de la orina.",["vesicula","fructosa","prostata","movimiento","bulbouretral","alcalin"]],
+["open","masc","¿Qué diferencia hay entre las células de Sertoli y las de Leydig?","Las de Sertoli apoyan la producción de espermatozoides y las de Leydig producen testosterona.",["sertoli","espermatozoide|esperma","leydig","testosterona"]],
+["open","masc","¿Por qué es importante la higiene del prepucio?","Porque debajo se acumulan sudor, sebo, restos de orina y células muertas; sin aseo hay mal olor y más probabilidad de infecciones sexuales.",["sudor|sebo","orina","olor","infecci"]],
+["open","masc","¿Qué es el semen y qué pasa si los espermatozoides no salen?","El semen es el líquido en el que nadan los espermatozoides, formado por lo que secretan todas las glándulas. Si no salen, los testículos los reabsorben y los reutilizan.",["liquido","glandula","reabsorb"]],
+["order","masc","Ordena el recorrido del espermatozoide.",["Testículo","Epidídimo","Conducto deferente","Conducto eyaculador","Uretra"],"Se forma en el testículo, madura en el epidídimo, sube por el deferente y sale por el eyaculador a la uretra."],
+["match","masc","Une cada glándula con lo que aporta.",[["Vesículas seminales","Fructosa y prostaglandinas"],["Próstata","Facilita el movimiento (la más grande)"],["Bulbouretral","Sustancia alcalina (la más pequeña)"]]],
+["match","masc","Une cada estructura con su función.",[["Células de Sertoli","Apoyan la formación de espermatozoides"],["Células de Leydig","Producen testosterona"],["Epidídimo","Madura y almacena"],["Escroto","Mantiene los testículos a menor temperatura"],["Glande","Parte final del pene con muchas terminaciones nerviosas"]]],
+["match","masc","Une cada término con su definición.",[["Eyaculación","Salida de los espermatozoides"],["Prostatitis","Inflamación de la próstata"],["Circuncisión","Retirar el prepucio"],["Semen","Líquido donde nadan los espermatozoides"]]],
+
+/* ===== ESPERMATOGÉNESIS ===== */
+["mc","esperm","La pieza media del espermatozoide contiene…",["mitocondrias","el acrosoma","el núcleo haploide","la zona pelúcida"],"Las mitocondrias producen el ATP que mueve la cola."],
+["mc","esperm","El acrosoma sirve para…",["degradar la zona pelúcida del ovocito con enzimas","mover la cola","producir ATP","guardar los cromosomas"],"Sus enzimas hidrolíticas abren paso."],
+["mc","esperm","La espermátida es…",["haploide, pero aún debe diferenciarse (espermiogénesis)","diploide","el espermatozoide maduro","un cuerpo polar"],"El espermatogonio es diploide; la espermátida ya es haploide."],
+["mc","esperm","¿Cuándo deja el hombre de producir espermatozoides?",["Nunca","A los 40 años","En la andropausia","Al terminar la pubertad"],"Empieza en la pubertad y nunca se detiene."],
+["mc","esperm","La espermatogénesis produce…",["células haploides funcionales (espermatozoides)","células diploides","óvulos","hormonas"],"Definición de tus apuntes."],
+["mc","esperm","El espermatogonio es…",["diploide","haploide","un cuerpo polar","el espermatozoide maduro"],"Del espermatogonio diploide se llega a espermátidas haploides."],
+["mc","esperm","La espermiogénesis es…",["la diferenciación de la espermátida en espermatozoide","la división del ovocito","la salida del semen","la producción de testosterona"],"Ahí se forman cola, acrosoma, etc."],
+["mc","esperm","¿Qué hormona impulsa la espermatogénesis desde la pubertad?",["Testosterona","Progesterona","Estrógeno","Insulina"],"Según tus apuntes, sale por la testosterona."],
+["mc","esperm","¿Cuáles son las 3 partes del espermatozoide?",["Cabeza, pieza media y cola","Cabeza, tronco y patas","Núcleo, zona pelúcida y cola","Acrosoma, ovocito y flagelo"],"Cabeza (acrosoma y núcleo), pieza media (mitocondrias) y cola."],
+["mc","esperm","Los centriolos…",["dirigen el movimiento de los cromosomas","producen ATP","degradan la zona pelúcida","forman el semen"],"Están en el cuello del espermatozoide."],
+["mc","esperm","La cola del espermatozoide también se llama…",["flagelo","acrosoma","pieza media","centriolo"],"Le permite nadar."],
+["mc","esperm","¿Cuánto viven los espermatozoides dentro de la mujer?",["Unos 5 días","1 hora","1 mes","1 año"],"Por eso importa contar días fértiles."],
+["mc","esperm","¿Qué tipo de enzimas tiene el acrosoma?",["Hidrolíticas","Digestivas del estómago","Respiratorias","Ninguna"],"Enzimas hidrolíticas que degradan la zona pelúcida."],
+["mc","esperm","¿Dónde está el acrosoma?",["En la cabeza","En la cola","En la pieza media","En el cuello"],"Es como un gorro en la parte delantera de la cabeza."],
+["mc","esperm","El núcleo del espermatozoide es…",["haploide","diploide","triploide","no tiene núcleo"],"Lleva 23 cromosomas."],
+["tf","esperm","La espermatogénesis empieza en la pubertad.",true,"Y nunca termina."],
+["tf","esperm","El espermatogonio ya es haploide.",false,"Es diploide; la espermátida es la que ya es haploide."],
+["tf","esperm","Las mitocondrias de la pieza media producen ATP.",true,"Esa energía mueve la cola."],
+["tf","esperm","El acrosoma está en la cola del espermatozoide.",false,"Está en la cabeza."],
+["tf","esperm","Los espermatozoides pueden vivir unos 5 días dentro de la mujer.",true,"Según tus apuntes."],
+["tf","esperm","El hombre deja de producir espermatozoides en la menopausia.",false,"El hombre nunca deja de producirlos."],
+["open","esperm","¿Qué es la espermatogénesis, cuándo empieza y cuándo termina?","Es el proceso en el que se producen los espermatozoides, células haploides funcionales. Empieza en la pubertad (por la testosterona) y nunca termina.",["haploide","pubertad","nunca"]],
+["open","esperm","Describe las partes del espermatozoide y la función de cada una.","Cabeza: acrosoma (enzimas que degradan la zona pelúcida) y núcleo haploide. Cuello: centriolos. Pieza media: mitocondrias que dan ATP. Cola o flagelo: movimiento.",["cabeza","acrosoma","mitocondria","cola|flagelo"]],
+["open","esperm","¿Qué diferencia hay entre espermatogonio y espermátida?","El espermatogonio es diploide; la espermátida ya es haploide pero todavía debe pasar por la espermiogénesis para diferenciarse en espermatozoide.",["diploide","haploide","espermiogenesis|diferencia"]],
+["order","esperm","Ordena las etapas de la espermatogénesis.",["Espermatogonio (diploide)","Espermátida (haploide)","Espermiogénesis (diferenciación)","Espermatozoide maduro"],"De diploide a haploide y luego se diferencia."],
+["order","esperm","Ordena las partes del espermatozoide de adelante hacia atrás.",["Acrosoma","Núcleo","Cuello (centriolos)","Pieza media","Cola"],"El acrosoma va delante, cubriendo el núcleo."],
+["match","esperm","Une cada parte del espermatozoide con su función.",[["Acrosoma","Enzimas que degradan la zona pelúcida"],["Núcleo","Material genético haploide"],["Centriolos","Dirigen el movimiento de los cromosomas"],["Pieza media","Mitocondrias que dan ATP"],["Cola","Movimiento (flagelo)"]]],
+
+/* ===== APARATO FEMENINO ===== */
+["mc","fem","¿En qué parte de la trompa ocurre la fecundación?",["Ámpula","Fimbrias","Útero","Ovario"],"La ámpula es la parte media y ancha de la trompa."],
+["mc","fem","¿Qué capa del útero se desprende en la menstruación?",["Endometrio","Miometrio","Zona pelúcida","Cuerpo lúteo"],"El endometrio tiene sangre; el miometrio es músculo."],
+["mc","fem","¿Qué glándula está en el vestíbulo vaginal y facilita la penetración?",["Bartolino","Skene","Próstata","Bulbouretral"],"Skene está junto al meato urinario."],
+["mc","fem","¿Qué hormonas producen los ovarios?",["Estrógeno y progesterona","FSH y LH","Testosterona","Insulina"],"FSH y LH son hipofisarias."],
+["mc","fem","¿Cuánto pesa aproximadamente un ovario?",["15 g","1 kg","150 g","1 g"],"Según tus apuntes."],
+["mc","fem","Los ovarios y las trompas de Falopio…",["no se tocan: las fimbrias atrapan al ovocito","están pegados","son el mismo órgano","se unen en la vagina"],"Por eso el ovocito debe ser atrapado."],
+["mc","fem","Otro nombre de las trompas de Falopio es…",["oviductos","uréteres","conductos deferentes","vesículas"],"Por ahí se mueven los óvulos."],
+["mc","fem","Los cilios de las trompas…",["ayudan a mover el óvulo y a los espermatozoides","producen hormonas","forman el endometrio","protegen la vagina"],"Según tus apuntes, ayudan a mover espermatozoides."],
+["mc","fem","¿Qué órgano permite el desarrollo del embarazo?",["Útero","Ovario","Vagina","Vejiga"],"Es muscular, fuerte y se expande."],
+["mc","fem","El miometrio es…",["la capa de músculo del útero","la capa interna con sangre","una glándula","una hormona"],"El endometrio es la capa interna."],
+["mc","fem","La vagina es…",["un tubo muscular que se expande","una glándula","una capa del útero","parte del ovario"],"Por ahí sale la sangre menstrual y el bebé."],
+["mc","fem","¿Por dónde sale la orina en la mujer?",["Meato urinario","Orificio vaginal","Ámpula","Cuello del útero"],"Está en la vulva."],
+["mc","fem","¿Por dónde salen la sangre menstrual y el bebé?",["Orificio vaginal","Meato urinario","Trompas","Ovario"],"También es la entrada del pene."],
+["mc","fem","La vulva está formada por…",["labios mayores, labios menores y clítoris","útero y vagina","ovarios y trompas","endometrio y miometrio"],"Son los genitales externos."],
+["mc","fem","Los labios mayores son…",["gruesos, externos, con vello púbico y grasa","delicados y sin vello","glándulas","parte de la vagina"],"Los menores son delicados y sin vello."],
+["mc","fem","Los labios menores son…",["delicados, de menos grosor y sin vello","gruesos con vello","productores de hormonas","el clítoris"],"Los mayores tienen vello y grasa."],
+["mc","fem","El clítoris tiene un origen análogo al…",["pene","ovario","útero","escroto"],"Es tejido eréctil."],
+["mc","fem","Las glándulas de Skene están…",["junto al meato urinario","en el ovario","en el útero","en las trompas"],"Bartolino está en el vestíbulo vaginal."],
+["mc","fem","¿Desde cuándo se forma el endometrio?",["Desde la pubertad","Desde el nacimiento","Desde la menopausia","Desde el embrión"],"Según tus apuntes."],
+["mc","fem","¿Qué estructuras atrapan al ovocito al salir del ovario?",["Fimbrias","Labios menores","Cuello del útero","Glándulas de Skene"],"Están al final de la trompa."],
+["tf","fem","La fecundación ocurre en el útero.",false,"Ocurre en la ámpula de la trompa."],
+["tf","fem","El endometrio se desprende durante la menstruación.",true,"Es la capa interna con sangre."],
+["tf","fem","El miometrio es la capa interna del útero.",false,"El miometrio es músculo; la interna es el endometrio."],
+["tf","fem","Los ovarios producen estrógeno y progesterona.",true,"Son hormonas ováricas."],
+["tf","fem","Los ovarios están pegados a las trompas.",false,"No se tocan; las fimbrias atrapan al ovocito."],
+["tf","fem","Los labios menores tienen vello púbico.",false,"Los que tienen vello son los mayores."],
+["tf","fem","El útero puede expandirse.",true,"Por eso permite el embarazo."],
+["tf","fem","Las glándulas de Bartolino facilitan la penetración.",true,"Están en el vestíbulo vaginal."],
+["open","fem","¿Cuál es la diferencia entre el meato urinario y el orificio vaginal?","Por el meato urinario sale la orina; por el orificio vaginal sale la sangre menstrual y el bebé, y entra el pene. Son orificios separados.",["orina","sangre|menstrua","bebe","separad|distint"]],
+["open","fem","Describe las capas del útero.","El útero tiene el miometrio, una capa de músculo, y por dentro el endometrio, una capa con sangre que se desprende en la menstruación.",["miometrio","musculo","endometrio","sangre|desprende"]],
+["open","fem","¿Qué partes forman la vulva y cómo son?","Labios mayores (gruesos, con vello y grasa), labios menores (delicados, sin vello) y clítoris (análogo al pene, tejido eréctil).",["labios mayores","labios menores","clitoris"]],
+["order","fem","Ordena el camino del ovocito desde que sale.",["Ovario","Fimbrias","Ámpula de la trompa","Útero"],"Sale del ovario, lo atrapan las fimbrias, viaja por la trompa (ámpula) y llega al útero."],
+["match","fem","Une cada órgano con su función.",[["Ovario","Produce ovocitos y hormonas"],["Trompa de Falopio","Conduce al óvulo"],["Ámpula","Lugar de la fecundación"],["Útero","Desarrollo del embarazo"],["Vagina","Tubo muscular que se expande"]]],
+["match","fem","Une cada parte con su descripción.",[["Miometrio","Capa de músculo del útero"],["Endometrio","Capa interna que se desprende"],["Labios mayores","Gruesos, con vello y grasa"],["Clítoris","Análogo al pene"],["Fimbrias","Atrapan al ovocito"]]],
+["match","fem","Une cada glándula con su ubicación.",[["Bartolino","Vestíbulo vaginal"],["Skene","Junto al meato urinario"],["Ovario","Al lado de las trompas, sin tocarlas"]]],
+
+/* ===== OVOGÉNESIS ===== */
+["mc","ovo","La ovogénesis se detiene por primera vez…",["en la profase I de la meiosis I, cuando la mujer es embrión","en la pubertad","en la menopausia","después de la fecundación"],"Se detiene en el embrión y se retoma en la pubertad."],
+["mc","ovo","¿Qué produce la ovogénesis a partir de un ovocito I?",["1 ovocito II y 3 cuerpos polares","4 ovocitos II","2 ovocitos y 2 espermátidas","1 folículo de Graaf"],"Solo una célula queda como gameto."],
+["mc","ovo","El ovocito II termina su meiosis…",["con la fecundación","en la ovulación","en la menstruación","en la pubertad"],"Si no es fecundado, no la termina."],
+["mc","ovo","El ovocito II se diferencia del espermatozoide porque…",["no tiene flagelo y es de las células más grandes del cuerpo","es diploide","tiene acrosoma","tiene pieza media"],"Es grande y no se mueve solo."],
+["mc","ovo","¿Con cuántos ovocitos I nace aproximadamente una mujer?",["400 mil","400","4 millones","40"],"Nace con todos los que va a tener."],
+["mc","ovo","¿Qué ocurre en la profase I que hace que todos los gametos sean diferentes?",["Recombinación genética","Ovulación","Fecundación","Menstruación"],"Así hay variabilidad genética."],
+["mc","ovo","La ovogénesis se retoma en…",["la pubertad","la menopausia","el nacimiento","la fecundación"],"Y continúa hasta la menopausia."],
+["mc","ovo","¿Hasta cuándo ocurre la ovogénesis?",["Hasta la menopausia","Nunca termina","Hasta la pubertad","Hasta los 20 años"],"La espermatogénesis es la que nunca termina."],
+["mc","ovo","El ovocito I es…",["diploide","haploide","un cuerpo polar","un espermatozoide"],"El ovocito II es haploide."],
+["mc","ovo","La parte externa del ovocito II se llama…",["zona pelúcida","acrosoma","endometrio","flagelo"],"Está rodeada de células foliculares."],
+["mc","ovo","El núcleo del ovocito II es…",["haploide","diploide","triploide","no tiene"],"Contenido haploide."],
+["mc","ovo","¿Cuántos cuerpos polares resultan de la ovogénesis?",["3","1","4","0"],"1 ovocito II + 3 cuerpos polares."],
+["mc","ovo","¿Qué rodea a la zona pelúcida del ovocito II?",["Células foliculares","Mitocondrias","Endometrio","Cilios"],"Forman la parte externa."],
+["tf","ovo","La mujer nace con todos los ovocitos que va a tener.",true,"Aproximadamente 400 mil ovocitos I."],
+["tf","ovo","La ovogénesis empieza en la pubertad.",false,"Empieza en el embrión; en la pubertad se retoma."],
+["tf","ovo","El ovocito II tiene flagelo.",false,"No tiene flagelo."],
+["tf","ovo","El ovocito II es de las células más grandes del cuerpo humano.",true,"Según tus apuntes."],
+["tf","ovo","De la ovogénesis salen 4 óvulos iguales.",false,"Sale 1 ovocito II y 3 cuerpos polares."],
+["tf","ovo","La recombinación genética ocurre en la profase I.",true,"Asegura que los gametos sean diferentes."],
+["open","ovo","Explica la ovogénesis: cuándo empieza, dónde se detiene y cuándo termina.","Empieza cuando la mujer es embrión, se detiene en la profase I de la meiosis I, se retoma en la pubertad y sigue hasta la menopausia. Produce 1 ovocito II y 3 cuerpos polares; el ovocito II termina la meiosis con la fecundación.",["embrion","profase","pubertad","menopausia"]],
+["open","ovo","Compara la espermatogénesis y la ovogénesis.","La espermatogénesis empieza en la pubertad y nunca termina, y produce espermatozoides todo el tiempo. La ovogénesis empieza en el embrión, se detiene y se retoma en la pubertad hasta la menopausia; la mujer nace con ~400 mil ovocitos I y cada uno da 1 ovocito II y 3 cuerpos polares.",["pubertad","nunca","embrion","menopausia","cuerpos polares"]],
+["open","ovo","Describe el ovocito II.","No tiene flagelo, es de las células más grandes del cuerpo, tiene una parte externa (zona pelúcida con células foliculares) y un núcleo haploide.",["flagelo","grande","zona pelucida","haploide"]],
+["order","ovo","Ordena las etapas de la ovogénesis.",["Empieza cuando la mujer es embrión","Se detiene en la profase I de la meiosis I","Se retoma en la pubertad","En cada ciclo se libera un ovocito II","El ovocito II termina la meiosis si hay fecundación"],"Así lo tienes en tus apuntes."],
+["match","ovo","Une cada término con su significado.",[["~400 mil ovocitos I","Con los que nace la mujer"],["Cuerpos polares","Células que acompañan al ovocito II (3)"],["Zona pelúcida","Capa externa del ovocito II"],["Recombinación genética","Ocurre en la profase I"]]],
+["match","ovo","Une cada característica con el proceso correcto.",[["Empieza en la pubertad y nunca termina","Espermatogénesis"],["Empieza en el embrión y termina en la menopausia","Ovogénesis"],["Produce 1 ovocito II y 3 cuerpos polares","Ovogénesis femenina (resultado)"],["Produce espermatozoides todo el tiempo","Espermatogénesis masculina (resultado)"]]],
+
+/* ===== CICLO MENSTRUAL ===== */
+["mc","ciclo","¿Cuál es la definición de ovulación?",["La liberación del ovocito II por la ruptura del folículo","El desprendimiento del endometrio","La unión del óvulo con el espermatozoide","La formación del cuerpo lúteo"],"El folículo se queda en el ovario."],
+["mc","ciclo","En la ovulación, la temperatura corporal…",["sube 1 °C (de ~36 a ~37 °C)","baja 1 °C","no cambia","sube 3 °C"],"Medir la temperatura ayuda a saber si ya ovulaste."],
+["mc","ciclo","¿Qué hormona alcanza su pico justo en la ovulación?",["LH (luteinizante)","Progesterona","Testosterona","Melatonina"],"En la ovulación hay el mayor nivel de LH y FSH."],
+["mc","ciclo","¿Qué hormona domina la fase lútea y prepara al cuerpo para el embarazo?",["Progesterona","FSH","LH","Estrógeno"],"La produce el cuerpo lúteo."],
+["mc","ciclo","Si no hay embarazo, al final de la fase lútea…",["se degrada el cuerpo lúteo y empieza la menstruación","se forma un folículo en la trompa","sube la temperatura a 38 °C","el ovocito II termina la meiosis"],"Baja la progesterona y se desprende el endometrio."],
+["mc","ciclo","La menopausia es…",["1 año entero sin menstruación","la primera menstruación","la etapa en que se está acercando","un ciclo de más de 35 días"],"La primera es la menarquia; la etapa previa, la perimenopausia."],
+["mc","ciclo","En los ovarios poliquísticos…",["los folículos forman quistes y los ovocitos no maduran","hay demasiado endometrio","no hay trompas","los ovocitos maduran más rápido"],"Se pierde fertilidad."],
+["mc","ciclo","El ciclo menstrual dura entre…",["28 y 35 días","7 y 10 días","50 y 60 días","1 y 5 días"],"Depende de cada mujer."],
+["mc","ciclo","La menarquia es…",["la primera menstruación","la última menstruación","1 año sin regla","la ovulación"],"Es diferente para cada una."],
+["mc","ciclo","La perimenopausia es…",["la etapa en que se acerca la menopausia","la primera regla","la ovulación","la fase lútea"],"La menopausia es 1 año sin regla."],
+["mc","ciclo","El día 1 del ciclo es…",["el primer día de la menstruación","el día de la ovulación","el último día de la regla","el primer día fértil"],"Desde ahí se cuenta."],
+["mc","ciclo","¿De qué depende la cantidad de sangrado?",["Del grosor del endometrio","Del tamaño del ovario","De la temperatura","De la LH"],"Y el grosor depende del estado físico, la nutrición y las hormonas."],
+["mc","ciclo","Durante la menstruación, las hormonas están bajas excepto…",["la FSH (y el estrógeno sube un poco)","la progesterona","la LH","la testosterona"],"Según tus apuntes."],
+["mc","ciclo","En la fase folicular…",["suben la FSH y el estrógeno","sube la progesterona","se degrada el cuerpo lúteo","baja la temperatura a 35 °C"],"El folículo de Graaf madura."],
+["mc","ciclo","¿Cuál es la temperatura normal durante la menstruación?",["~36 °C","38 °C","40 °C","34 °C"],"En la ovulación sube a ~37 °C."],
+["mc","ciclo","En la ovulación, el estrógeno…",["baja","sube al máximo","no cambia","desaparece para siempre"],"Según tus apuntes, baja el estrógeno."],
+["mc","ciclo","La FSH y la LH son hormonas…",["hipofisarias","ováricas","del útero","del páncreas"],"Estrógeno y progesterona son ováricas."],
+["mc","ciclo","Después de ovular, el folículo de Graaf…",["se queda en el ovario y se vuelve cuerpo lúteo","viaja a la trompa","sale por la vagina","se vuelve endometrio"],"El que viaja es el ovocito II."],
+["mc","ciclo","¿Qué causa los cambios de humor en el ciclo?",["Que las hormonas suben y bajan","La temperatura","El endometrio","La comida"],"Según tus apuntes."],
+["mc","ciclo","¿Cuál es el orden correcto de las fases?",["Menstruación, folicular, ovulación, lútea","Ovulación, lútea, folicular, menstruación","Folicular, menstruación, lútea, ovulación","Lútea, ovulación, menstruación, folicular"],"El día 1 es la menstruación."],
+["mc","ciclo","El folículo de Graaf contiene…",["el ovocito II","el endometrio","el cuerpo lúteo","espermatozoides"],"Es el folículo maduro."],
+["mc","ciclo","La progesterona se conoce como…",["la hormona del embarazo","la hormona del crecimiento","la hormona del estrés","la hormona del sueño"],"Prepara el cuerpo para el embarazo."],
+["mc","ciclo","¿En qué fase aumenta el grosor del endometrio y se vuelve a formar?",["Fase folicular y ovulación","Menstruación","Menopausia","Solo en el embarazo"],"Después de desprenderse, se vuelve a formar."],
+["tf","ciclo","En la ovulación la temperatura sube 1 °C.",true,"De ~36 °C a ~37 °C."],
+["tf","ciclo","La menopausia es la primera menstruación.",false,"Esa es la menarquia; la menopausia es 1 año sin menstruación."],
+["tf","ciclo","Todos los ciclos menstruales duran exactamente 28 días.",false,"Duran entre 28 y 35 días, depende de cada mujer."],
+["tf","ciclo","En la fase lútea sube la progesterona.",true,"La produce el cuerpo lúteo."],
+["tf","ciclo","FSH y LH son hormonas ováricas.",false,"Son hipofisarias; las ováricas son estrógeno y progesterona."],
+["tf","ciclo","Si no hay embarazo, el cuerpo lúteo se degrada.",true,"Y empieza la menstruación."],
+["tf","ciclo","En la ovulación el ovocito II se queda dentro del ovario.",false,"El ovocito II sale a la trompa; el folículo es el que se queda."],
+["tf","ciclo","En los ovarios poliquísticos los ovocitos no maduran.",true,"Los folículos forman quistes y se pierde fertilidad."],
+["tf","ciclo","La perimenopausia es cuando se está acercando la menopausia.",true,"Según tus apuntes."],
+["tf","ciclo","Durante la menstruación se desprende el miometrio.",false,"Se desprende el endometrio."],
+["open","ciclo","¿Qué es la ovulación y qué cambios ocurren en ella?","Es la liberación del ovocito II por la ruptura del folículo. La temperatura sube 1 °C (a ~37 °C), hay el mayor nivel de LH y FSH, baja el estrógeno y aumenta el grosor del endometrio. El ovocito pasa a la trompa.",["ovocito","folicul","temperatura|37|1 °c","lh"]],
+["open","ciclo","Describe qué pasa en la fase lútea y qué ocurre si no hay embarazo.","El folículo se transforma en cuerpo lúteo; bajan las hormonas hipofisarias y sube la progesterona para preparar el embarazo. Si no hay embarazo, el cuerpo lúteo se degrada, baja la progesterona, se desprende el endometrio y empieza la menstruación.",["cuerpo luteo","progesterona","degrada","menstruacion"]],
+["open","ciclo","Explica la diferencia entre menarquia, menopausia y perimenopausia.","Menarquia: primera menstruación. Menopausia: 1 año entero sin menstruación. Perimenopausia: la etapa en la que se está acercando la menopausia.",["primera","1 año|un año","acerca"]],
+["open","ciclo","¿Qué son los ovarios poliquísticos?","Es cuando los folículos de Graaf se endurecen y forman quistes; los ovocitos no maduran y se pierde fertilidad.",["quiste","madur","fertilidad"]],
+["order","ciclo","Ordena las fases del ciclo menstrual.",["Menstruación","Fase folicular","Ovulación","Fase lútea"],"Empieza el día 1 con la menstruación."],
+["order","ciclo","Ordena lo que pasa si no hay embarazo.",["El cuerpo lúteo se degrada","Baja la progesterona","El endometrio se desprende","Empieza la menstruación (nuevo ciclo)"],"Termina un ciclo y empieza el otro."],
+["order","ciclo","Ordena lo que pasa en la ovulación.",["El folículo de Graaf madura","El folículo se rompe","Sale el ovocito II","Las fimbrias lo atrapan y pasa a la trompa"],"El folículo se queda en el ovario."],
+["match","ciclo","Une cada fase con lo que pasa.",[["Menstruación","Se desprende el endometrio"],["Fase folicular","Suben FSH y estrógeno"],["Ovulación","Pico de LH y la temperatura sube 1 °C"],["Fase lútea","Sube la progesterona"]]],
+["match","ciclo","Une cada término con su definición.",[["Menarquia","Primera menstruación"],["Menopausia","1 año entero sin menstruación"],["Perimenopausia","Se está acercando la menopausia"],["Cuerpo lúteo","Lo que queda del folículo; produce progesterona"],["Folículo de Graaf","Folículo maduro que libera el ovocito II"]]],
+["match","ciclo","Une cada hormona con su tipo o función.",[["FSH","Hipofisaria; sube en la fase folicular"],["LH","Hipofisaria; pico en la ovulación"],["Progesterona","Ovárica; hormona del embarazo"],["Estrógeno","Ovárica; sube en la fase folicular y baja en la ovulación"]]],
+
+/* ===== CÁLCULO ===== */
+["mc","calc","Ciclo de 28 días que empieza el 1 de marzo. ¿Cuáles son los días fértiles?",["12 al 16 de marzo","1 al 5 de marzo","14 al 20 de marzo","26 al 28 de marzo"],"Mitad = día 14 (14 de marzo). Fértiles: 2 antes y 2 después."],
+["mc","calc","Un ciclo de 30 días empieza el 5 de abril. ¿Cuándo es la próxima menstruación?",["5 de mayo","4 de mayo","20 de abril","19 de abril"],"5 de abril + 30 días = 5 de mayo."],
+["mc","calc","Ciclo de 24 días que empieza el 19 de noviembre. ¿Qué día es la ovulación (contando el día 1)?",["30 de noviembre","1 de diciembre","12 de noviembre","13 de diciembre"],"Mitad = día 12. Día 1 = 19 nov → día 12 = 19 + 11 = 30 nov."],
+["mc","calc","En un ciclo de 32 días, ¿qué día del ciclo es la ovulación?",["Día 16","Día 14","Día 32","Día 8"],"32 ÷ 2 = 16."],
+["mc","calc","Si la ovulación es el 10 de junio, ¿cuáles son los días fértiles?",["8 al 12 de junio","10 al 14 de junio","6 al 10 de junio","1 al 5 de junio"],"2 días antes y 2 después."],
+["mc","calc","Un ciclo de 28 días empieza el 10 de enero. ¿Cuándo es la próxima menstruación?",["7 de febrero","10 de febrero","8 de febrero","28 de enero"],"10 de enero + 28 días = 7 de febrero (enero tiene 31 días)."],
+["mc","calc","Un ciclo de 26 días empieza el 1 de mayo. ¿Qué día es la ovulación?",["13 de mayo","14 de mayo","26 de mayo","12 de mayo"],"26 ÷ 2 = 13 → día 13 = 1 de mayo + 12 días."],
+["mc","calc","Un ciclo de 34 días empieza el 3 de agosto. ¿Qué día es la ovulación?",["19 de agosto","20 de agosto","17 de agosto","3 de septiembre"],"34 ÷ 2 = 17 → 3 de agosto + 16 días."],
+["mc","calc","Los días fértiles son…",["2 días antes y 2 días después de la ovulación","solo el día de la ovulación","toda la menstruación","10 días después de la regla"],"Método de tu cuaderno."],
+["mc","calc","Para calcular la próxima menstruación…",["se suma la duración del ciclo al día 1","se resta 14 días","se divide entre 2","se suman 5 días"],"Día 1 + duración del ciclo."],
+["mc","calc","Un ciclo de 30 días empieza el 2 de octubre. ¿Qué día es la ovulación?",["16 de octubre","15 de octubre","17 de octubre","1 de noviembre"],"30 ÷ 2 = 15 → 2 de octubre + 14 días = 16 de octubre."],
+["tf","calc","Para calcular la ovulación se divide la duración del ciclo entre 2.",true,"Ovulación ≈ mitad del ciclo."],
+["tf","calc","Los días fértiles son solo los 2 días antes de la ovulación.",false,"Son 2 antes y 2 después."],
+["tf","calc","El día 1 del ciclo es el primer día de la menstruación.",true,"Desde ahí se cuenta."],
+["open","calc","Explica el método para calcular la ovulación y los días fértiles.","El día 1 es el primer día de la menstruación. La ovulación es aproximadamente la mitad del ciclo (duración ÷ 2). Los días fértiles son 2 días antes y 2 días después de la ovulación. La próxima menstruación es el día 1 más la duración del ciclo.",["dia 1|primer dia","mitad|entre 2|÷ 2|/2","2 dias|dos dias","antes","despues"]],
+["order","calc","Ordena los pasos para calcular los días fértiles.",["Identificar el día 1 (primer día de la regla)","Dividir la duración del ciclo entre 2","Contar desde el día 1 hasta ese día: ovulación","Restar y sumar 2 días: días fértiles","Sumar la duración al día 1: próxima regla"],"Así lo hiciste en el ejemplo del cuaderno."],
+["match","calc","Ciclo de 28 días que empieza el 1 de marzo. Une cada dato con su fecha.",[["Día 1","1 de marzo"],["Ovulación","14 de marzo"],["Primer día fértil","12 de marzo"],["Último día fértil","16 de marzo"],["Próxima menstruación","29 de marzo"]]],
+
+/* ===== FECUNDACIÓN Y GESTACIÓN ===== */
+["mc","fec","Los gemelos idénticos son…",["univitelinos: un óvulo fecundado que se divide en 2","bivitelinos: varios óvulos","siempre de distinto sexo","de dos espermatozoides en un óvulo"],"Los bivitelinos son mellizos."],
+["mc","fec","¿Qué define si el bebé es mujer u hombre?",["El par 23: XX o XY","El par 1","La temperatura del útero","La fructosa"],"XX = mujer, XY = hombre."],
+["mc","fec","La fecundación humana es…",["interna, en las trompas","externa","en el ovario","en la vagina"],"Ocurre en la ámpula de la trompa."],
+["mc","fec","La fecundación es…",["la unión de la célula masculina y la femenina, que forma una nueva célula","la unión de dos óvulos","la salida del ovocito","la menstruación"],"Célula m + célula f = nueva célula."],
+["mc","fec","XY corresponde a…",["hombre","mujer","gemelos","mellizos"],"XX = mujer."],
+["mc","fec","Para entrar al ovocito, el espermatozoide degrada la zona pelúcida con…",["el acrosoma","las mitocondrias","la cola","los centriolos"],"Enzimas hidrolíticas del acrosoma."],
+["mc","fec","Durante el embarazo el sistema inmune…",["baja, para no reconocer al bebé como extraño","sube mucho","no cambia","desaparece"],"Según tus apuntes."],
+["mc","fec","Las cicatrices en los órganos reproductores pueden…",["dificultar la fecundación","mejorar la fertilidad","producir gemelos","subir la temperatura"],"Según tus apuntes."],
+["mc","fec","Los mellizos son…",["bivitelinos: la mujer ovula varios ovocitos","univitelinos","siempre idénticos","de un solo óvulo"],"Cada óvulo se fecunda por separado."],
+["mc","fec","¿Qué termina el ovocito II cuando es fecundado?",["La meiosis","La ovulación","La menstruación","La pubertad"],"Por eso se dice que la termina con la fecundación."],
+["mc","fec","¿Hasta dónde llega el semen eyaculado en su camino?",["Hasta el ovocito II en la trompa","Hasta el ovario","Hasta la vejiga","Hasta el riñón"],"Los espermatozoides viajan hasta el ovocito II."],
+["tf","fec","Los gemelos univitelinos vienen de un solo óvulo que se divide en 2.",true,"Por eso son idénticos."],
+["tf","fec","La fecundación es externa en los humanos.",false,"Es interna, en las trompas."],
+["tf","fec","XX corresponde a una mujer.",true,"XY a un hombre."],
+["tf","fec","En el embarazo el sistema inmune sube para proteger al bebé.",false,"Baja, para no reconocer al bebé como extraño."],
+["tf","fec","Los mellizos vienen de varios óvulos fecundados.",true,"Son bivitelinos."],
+["open","fec","¿Dónde ocurre la fecundación y cómo entra el espermatozoide al ovocito?","Ocurre en la ámpula de la trompa de Falopio. Las enzimas hidrolíticas del acrosoma degradan la zona pelúcida y un espermatozoide entra; el ovocito II termina su meiosis.",["ampula|trompa","acrosoma","zona pelucida"]],
+["open","fec","¿Cuál es la diferencia entre gemelos univitelinos y bivitelinos?","Univitelinos: gemelos idénticos, un óvulo fecundado que se divide en 2. Bivitelinos: mellizos, la mujer ovula varios ovocitos y cada uno se fecunda.",["identico","un ovulo|un solo","divide","varios"]],
+["open","fec","¿Cómo se define el sexo del bebé?","Se define en el par 23 de cromosomas: XX es mujer y XY es hombre.",["23","xx","xy"]],
+["order","fec","Ordena los pasos de la fecundación.",["El semen entra a la vagina","Los espermatozoides suben por el útero hasta la trompa","El acrosoma degrada la zona pelúcida","Un espermatozoide entra al ovocito II","El ovocito II termina la meiosis: nueva célula"],"Ocurre en la ámpula."],
+["match","fec","Une cada término con su significado.",[["Univitelinos","Gemelos idénticos (un óvulo se divide)"],["Bivitelinos","Mellizos (varios óvulos)"],["XX","Mujer"],["XY","Hombre"],["Ámpula","Lugar de la fecundación"]]]
+];
+
+/* tarjetas: [pregunta, respuesta, tema] */
+const CARDS=[
+ ['¿Qué órgano comparten el sistema urinario y el reproductor masculino?','La uretra: lleva orina y semen.','base'],
+ ['¿Qué es un gameto?','Una célula sexual: espermatozoide u ovocito.','base'],
+ ['Reproducción humana','Proceso por el cual la especie humana se perpetúa.','base'],
+ ['¿Qué producen las células de Leydig?','Testosterona.','masc'],
+ ['¿Qué hacen las células de Sertoli?','Apoyan la producción de espermatozoides en el testículo.','masc'],
+ ['¿Por qué los testículos bajan al escroto?','Para estar a una temperatura menor que la corporal; si no bajan, hay infertilidad.','masc'],
+ ['Función del epidídimo','Termina la maduración de los espermatozoides y los almacena.','masc'],
+ ['¿Qué aportan las vesículas seminales?','Fructosa (energía/ATP) y prostaglandinas (contracciones).','masc'],
+ ['¿Qué hace la glándula bulbouretral?','Secreta una sustancia alcalina que neutraliza la acidez de la orina en la uretra.','masc'],
+ ['¿Cuál es la glándula anexa más grande?','La próstata: facilita el movimiento de los espermatozoides.','masc'],
+ ['¿Qué pasa si los espermatozoides no salen?','Los testículos los reabsorben y los vuelven a usar.','masc'],
+ ['Recorrido del espermatozoide','Testículo → epidídimo → conducto deferente → conducto eyaculador → uretra.','masc'],
+ ['Semen','Líquido donde nadan los espermatozoides: lo que secretan todas las glándulas.','masc'],
+ ['Prostatitis','Inflamación de la próstata; examen desde los ~40 años.','masc'],
+ ['Circuncisión','Retirar el prepucio; origen judío, hoy por costumbre.','masc'],
+ ['Erección','El sistema nervioso manda la señal y la sangre llena el cuerpo cavernoso.','masc'],
+ ['Espermátida vs. espermatogonio','Espermatogonio: diploide. Espermátida: haploide, pero aún debe pasar por la espermiogénesis.','esperm'],
+ ['¿Qué tiene la pieza media del espermatozoide?','Mitocondrias, que dan el ATP para mover la cola.','esperm'],
+ ['¿Qué es el acrosoma?','Enzimas hidrolíticas en la cabeza que degradan la zona pelúcida del ovocito.','esperm'],
+ ['Centriolos','Están en el cuello; dirigen el movimiento de los cromosomas.','esperm'],
+ ['Espermatogénesis: inicio y fin','Empieza en la pubertad (testosterona) y nunca termina.','esperm'],
+ ['¿Cuánto viven los espermatozoides dentro de la mujer?','Aproximadamente 5 días.','esperm'],
+ ['¿Dónde ocurre la fecundación?','En la ámpula de la trompa de Falopio.','fem'],
+ ['Hormonas de los ovarios','Estrógeno y progesterona.','fem'],
+ ['Miometrio vs. endometrio','Miometrio: capa de músculo. Endometrio: capa interna con sangre que se desprende.','fem'],
+ ['Fimbrias','Prolongaciones al final de la trompa que atrapan al ovocito.','fem'],
+ ['Vulva','Labios mayores, labios menores y clítoris.','fem'],
+ ['Meato urinario vs. orificio vaginal','Meato: sale la orina. Orificio vaginal: sangre menstrual, bebé y entrada del pene.','fem'],
+ ['Glándulas de Bartolino y Skene','Bartolino: vestíbulo vaginal. Skene: junto al meato urinario.','fem'],
+ ['¿Dónde se detiene la ovogénesis?','En la meiosis I, al terminar la profase I (cuando la mujer es embrión).','ovo'],
+ ['¿Con cuántos ovocitos nace una mujer?','Con aproximadamente 400 mil ovocitos I.','ovo'],
+ ['¿Qué resulta de la ovogénesis?','1 ovocito II (haploide) + 3 cuerpos polares.','ovo'],
+ ['¿Cuándo termina el ovocito II su meiosis?','Con la fecundación.','ovo'],
+ ['Ovocito II','Sin flagelo, de las células más grandes; zona pelúcida + células foliculares; núcleo haploide.','ovo'],
+ ['Recombinación genética','Ocurre en la profase I; hace que todos los gametos sean diferentes.','ovo'],
+ ['Define ovulación','La liberación del ovocito II por la ruptura del folículo.','ciclo'],
+ ['¿Qué le pasa a la temperatura en la ovulación?','Sube 1 °C: de ~36 °C a ~37 °C.','ciclo'],
+ ['¿En qué se transforma el folículo después de ovular?','En el cuerpo lúteo.','ciclo'],
+ ['Hormona principal de la fase lútea','La progesterona, la hormona del embarazo.','ciclo'],
+ ['Menopausia','1 año entero sin menstruación.','ciclo'],
+ ['Menarquia','La primera menstruación.','ciclo'],
+ ['Ovarios poliquísticos','Los folículos se endurecen y forman quistes; los ovocitos no maduran y se pierde fertilidad.','ciclo'],
+ ['Fases del ciclo','Menstruación → folicular → ovulación → lútea.','ciclo'],
+ ['FSH y LH','Hormonas hipofisarias; LH tiene su pico en la ovulación.','ciclo'],
+ ['Días fértiles','2 días antes y 2 días después de la ovulación.','calc'],
+ ['¿Cómo se calcula la ovulación?','Duración del ciclo ÷ 2, contando el día 1 como el primer día de la regla.','calc'],
+ ['Próxima menstruación','Día 1 + duración del ciclo.','calc'],
+ ['¿Qué par de cromosomas define el sexo?','El par 23: XX mujer, XY hombre.','fec'],
+ ['Univitelinos vs. bivitelinos','Univitelinos: idénticos, un óvulo que se divide en 2. Bivitelinos: mellizos, la mujer ovula varios.','fec'],
+ ['¿Por qué baja el sistema inmune en el embarazo?','Para no reconocer al bebé como extraño.','fec'],
+ ['Fecundación','Célula masculina + célula femenina = nueva célula. Interna, en la ámpula.','fec']
+];
+
+/* repaso tapado: [término, frase, tema] */
+const REV=[
+ ['Reproducción humana','Proceso por el cual la especie humana se perpetúa.','base'],
+ ['Uretra (hombre)','Conducto común para la orina y el semen.','base'],
+ ['Gameto','Célula sexual: espermatozoide u ovocito.','base'],
+ ['Testículos','Gónadas masculinas: espermatozoides (Sertoli) y testosterona (Leydig).','masc'],
+ ['Epidídimo','Termina la maduración y almacena los espermatozoides.','masc'],
+ ['Conducto deferente','Lleva los espermatozoides en contra de la gravedad hasta la uretra.','masc'],
+ ['Vesículas seminales','Fructosa (ATP) y prostaglandinas (contracciones).','masc'],
+ ['Próstata','La más grande; facilita el movimiento de los espermatozoides.','masc'],
+ ['Bulbouretral','La más pequeña; sustancia alcalina que neutraliza la acidez.','masc'],
+ ['Semen','Espermatozoides + lo que secretan todas las glándulas.','masc'],
+ ['Escroto','Piel que guarda los testículos fuera, a menor temperatura.','masc'],
+ ['Glande','Parte final del pene, con muchas terminaciones nerviosas.','masc'],
+ ['Espermatogénesis','Producción de células haploides funcionales; empieza en la pubertad y nunca termina.','esperm'],
+ ['Espermiogénesis','Diferenciación de la espermátida en espermatozoide.','esperm'],
+ ['Acrosoma','Enzimas hidrolíticas que degradan la zona pelúcida.','esperm'],
+ ['Pieza media','Mitocondrias que producen ATP para la cola.','esperm'],
+ ['Ámpula','Parte de la trompa donde ocurre la fecundación.','fem'],
+ ['Fimbrias','Atrapan al ovocito cuando sale del ovario.','fem'],
+ ['Endometrio','Capa interna del útero que se desprende en la menstruación.','fem'],
+ ['Miometrio','Capa de músculo del útero.','fem'],
+ ['Vulva','Labios mayores, labios menores y clítoris.','fem'],
+ ['Ovogénesis','Empieza en el embrión, se detiene en la profase I y se retoma en la pubertad.','ovo'],
+ ['Ovocito II','Haploide, sin flagelo, con zona pelúcida; termina la meiosis al ser fecundado.','ovo'],
+ ['Cuerpos polares','Las 3 células que acompañan al ovocito II.','ovo'],
+ ['Folículo de Graaf','Folículo maduro que contiene y libera al ovocito II.','ciclo'],
+ ['Ovulación','Liberación del ovocito II por la ruptura del folículo; la temperatura sube 1 °C.','ciclo'],
+ ['Cuerpo lúteo','Lo que queda del folículo; produce progesterona.','ciclo'],
+ ['Menarquia','Primera menstruación.','ciclo'],
+ ['Menopausia','1 año entero sin menstruación.','ciclo'],
+ ['Perimenopausia','Etapa en la que se acerca la menopausia.','ciclo'],
+ ['Fase folicular','Suben FSH y estrógeno; madura el folículo de Graaf.','ciclo'],
+ ['Fase lútea','Sube la progesterona; el endometrio se prepara.','ciclo'],
+ ['Días fértiles','Ovulación ± 2 días.','calc'],
+ ['Ovulación (cálculo)','Duración del ciclo ÷ 2, contando desde el día 1.','calc'],
+ ['Univitelinos','Gemelos idénticos: un óvulo que se divide en 2.','fec'],
+ ['Bivitelinos','Mellizos: la mujer ovula varios ovocitos.','fec'],
+ ['Par 23','XX mujer, XY hombre.','fec']
+];
+
+/* ---------- configuración: temas y forma de estudiar ---------- */
+const norm=t=>(t||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let selTopics=store.get('repro-topics',Object.keys(TOPICS)).filter(k=>TOPICS[k]);if(!selTopics.length)selTopics=Object.keys(TOPICS);
+let studyMode=store.get('repro-mode','guiada');
+const setupEl=document.getElementById('setup'),panels={tarjetas:'p-cards',guiada:'p-quiz',examen:'p-quiz',repaso:'p-rev'};
+function countFor(k){return BANK.filter(q=>q[1]===k).length}
+function renderChips(){
+  const box=document.getElementById('tchips'),all=selTopics.length===Object.keys(TOPICS).length;
+  box.innerHTML=`<button type="button" class="tchip all${all?' on':''}" data-t="__all">Todos los temas <small>${BANK.length}</small></button>`+
+    Object.entries(TOPICS).map(([k,[n,href]])=>{const i=selTopics.indexOf(k);return `<span class="tchip-wrap"><button type="button" class="tchip${i>=0?' on':''}" data-t="${k}">${i>=0&&!all?`<b class="ord">${i+1}</b>`:''}${n} <small>${countFor(k)}</small></button><a class="tread" href="${href}" title="Leer el tema ${n}">leer</a></span>`}).join('');
+  box.querySelectorAll('.tchip').forEach(b=>b.onclick=()=>{const t=b.dataset.t;
+    if(t==='__all')selTopics=all?[]:Object.keys(TOPICS);
+    else if(all)selTopics=[t];
+    else{const i=selTopics.indexOf(t);if(i>=0)selTopics.splice(i,1);else selTopics.push(t)}
+    store.set('repro-topics',selTopics);renderChips();summary()});
+}
+function renderModes(){
+  document.querySelectorAll('#modes .mode').forEach(b=>{b.classList.toggle('on',b.dataset.m===studyMode);b.setAttribute('aria-pressed',b.dataset.m===studyMode);
+    b.onclick=()=>{studyMode=b.dataset.m;store.set('repro-mode',studyMode);renderModes();summary()}});
+  document.getElementById('qopts').hidden=!(studyMode==='guiada'||studyMode==='examen');
+}
+const selTypes=()=>[...document.querySelectorAll('#types input:checked')].map(i=>i.value);
+function poolNow(){const ty=selTypes();return BANK.filter(q=>selTopics.includes(q[1])&&ty.includes(q[0]))}
+function summary(){
+  const el=document.getElementById('setup-sum'),go=document.getElementById('go');
+  if(!selTopics.length){el.textContent='Elige al menos un tema.';go.disabled=true;return}
+  const names=selTopics.map(k=>TOPICS[k][0]);
+  let txt;
+  if(studyMode==='tarjetas')txt=`${CARDS.filter(c=>selTopics.includes(c[2])).length} tarjetas`;
+  else if(studyMode==='repaso')txt=`${REV.filter(c=>selTopics.includes(c[2])).length} términos para repasar`;
+  else{const n=poolNow().length,c=document.getElementById('qcount').value;txt=`${c==='all'?n:Math.min(n,+c)} preguntas (de ${n} disponibles)`;if(!n){el.textContent='No hay preguntas con esos tipos en estos temas.';go.disabled=true;return}}
+  el.innerHTML=`<b>${txt}</b> · ${names.length===Object.keys(TOPICS).length?'todos los temas':names.join(' → ')}`;go.disabled=false;
+}
+document.querySelectorAll('#types input,#qcount,#qorder').forEach(i=>i.addEventListener('change',summary));
+function openPanel(){
+  Object.values(panels).forEach(id=>document.getElementById(id).hidden=true);
+  setupEl.hidden=true;const pid=panels[studyMode],p=document.getElementById(pid);p.hidden=false;
+  if(studyMode==='tarjetas')startCards();else if(studyMode==='repaso')buildRev();else startQuiz();
+  document.getElementById('practica').scrollIntoView({behavior:RM?'auto':'smooth',block:'start'});
+}
+document.getElementById('go').onclick=openPanel;
+document.querySelectorAll('.pback').forEach(b=>b.onclick=()=>{Object.values(panels).forEach(id=>document.getElementById(id).hidden=true);setupEl.hidden=false;clearTimeout(idleT);summary();setupEl.scrollIntoView({behavior:RM?'auto':'smooth',block:'start'})});
+function quickStart(topics,mode){selTopics=topics;studyMode=mode;store.set('repro-topics',selTopics);store.set('repro-mode',mode);renderChips();renderModes();openPanel()}
 
 /* ---------- tarjetas ---------- */
-const CARDS=[
- ['¿Qué órgano comparten el sistema urinario y el reproductor masculino?','La uretra: lleva orina y semen.'],
- ['¿Qué producen las células de Leydig?','Testosterona.'],
- ['¿Qué hacen las células de Sertoli?','Apoyan la producción de espermatozoides en el testículo.'],
- ['¿Por qué los testículos bajan al escroto?','Para estar a una temperatura menor que la corporal; si no bajan, hay infertilidad.'],
- ['Función del epidídimo','Termina la maduración de los espermatozoides y los almacena.'],
- ['¿Qué aportan las vesículas seminales?','Fructosa (energía/ATP) y prostaglandinas (contracciones).'],
- ['¿Qué hace la glándula bulbouretral?','Secreta una sustancia alcalina que neutraliza la acidez de la orina en la uretra.'],
- ['¿Cuál es la glándula anexa más grande?','La próstata: facilita el movimiento de los espermatozoides.'],
- ['¿Qué pasa si los espermatozoides no salen?','Los testículos los reabsorben y los vuelven a usar.'],
- ['Espermátida vs. espermatogonio','Espermatogonio: diploide. Espermátida: haploide, pero aún debe pasar por la espermiogénesis.'],
- ['¿Qué tiene la pieza media del espermatozoide?','Mitocondrias, que dan el ATP para mover la cola.'],
- ['¿Qué es el acrosoma?','Enzimas hidrolíticas en la cabeza que degradan la zona pelúcida del ovocito.'],
- ['¿Cuánto viven los espermatozoides dentro de la mujer?','Aproximadamente 5 días.'],
- ['¿Dónde ocurre la fecundación?','En la ámpula de la trompa de Falopio.'],
- ['Hormonas de los ovarios','Estrógeno y progesterona.'],
- ['Miometrio vs. endometrio','Miometrio: capa de músculo. Endometrio: capa interna con sangre que se desprende.'],
- ['¿Dónde se detiene la ovogénesis?','En la meiosis I, al terminar la profase I (cuando la mujer es embrión).'],
- ['¿Con cuántos ovocitos nace una mujer?','Con aproximadamente 400 mil ovocitos I.'],
- ['¿Qué resulta de la ovogénesis?','1 ovocito II (haploide) + 3 cuerpos polares.'],
- ['¿Cuándo termina el ovocito II su meiosis?','Con la fecundación.'],
- ['Define ovulación','La liberación del ovocito II por la ruptura del folículo.'],
- ['¿Qué le pasa a la temperatura en la ovulación?','Sube 1 °C: de ~36 °C a ~37 °C.'],
- ['¿En qué se transforma el folículo después de ovular?','En el cuerpo lúteo.'],
- ['Hormona principal de la fase lútea','La progesterona, la hormona del embarazo.'],
- ['Menopausia','1 año entero sin menstruación.'],
- ['Ovarios poliquísticos','Los folículos se endurecen y forman quistes; los ovocitos no maduran y se pierde fertilidad.'],
- ['¿Qué par de cromosomas define el sexo?','El par 23: XX mujer, XY hombre.'],
- ['Univitelinos vs. bivitelinos','Univitelinos: idénticos, un óvulo que se divide en 2. Bivitelinos: mellizos, la mujer ovula varios.'],
- ['¿Por qué baja el sistema inmune en el embarazo?','Para no reconocer al bebé como extraño.'],
- ['Días fértiles','2 días antes y 2 días después de la ovulación.'],
-];
-let noRow=0,order=CARDS.map((_,i)=>i),ci=0,known=new Set(store.get('repro-known',[]));
+let noRow=0,order=[],ci=0,known=new Set(store.get('repro-known2',[]));
 const fc=document.getElementById('fcard');
-function fillCard(){const [q,a]=CARDS[order[ci]];document.getElementById('ffront').textContent=q;document.getElementById('fback').textContent=a;
-  document.getElementById('fcount').textContent=(ci+1)+' / '+CARDS.length;
-  document.getElementById('fknown').textContent=`Te sabes ${known.size} de ${CARDS.length} tarjetas.`+(known.has(order[ci])?' Esta ya la marcaste.':'')}
+function startCards(){order=CARDS.map((_,i)=>i).filter(i=>selTopics.includes(CARDS[i][2]));order.sort((a,b)=>selTopics.indexOf(CARDS[a][2])-selTopics.indexOf(CARDS[b][2]));ci=0;fc.classList.remove('flipped');fillCard();
+  react('stage-cards','idle',SP+`Tenemos ${order.length} tarjetas de ${selTopics.length===Object.keys(TOPICS).length?'todos los temas':selTopics.map(k=>TOPICS[k][0]).join(', ')}. ¡Voltea la primera!`)}
+function fillCard(){if(!order.length)return;const [q,a,t]=CARDS[order[ci]];document.getElementById('ffront').textContent=q;document.getElementById('fback').textContent=a;
+  document.getElementById('fcount').textContent=(ci+1)+' / '+order.length;
+  const k=order.filter(i=>known.has(i)).length;
+  document.getElementById('fknown').textContent=`${TOPICS[t][0]} · Te sabes ${k} de ${order.length} tarjetas.`+(known.has(order[ci])?' Esta ya la marcaste.':'')}
 function go(delta){seen++;if(seen%5===0)react('stage-cards','happy',pick([SP+`¡Ya van ${seen} tarjetas! Sigue nadando.`,OV+`${seen} tarjetas repasadas. ¡Qué disciplina!`,BOTH+`¡${seen} tarjetas! La profe Yaisel aprueba.`]));
-  if(RM){fc.classList.remove('flipped');ci=(ci+delta+CARDS.length)%CARDS.length;fillCard();return}
+  const L=order.length;
+  if(RM){fc.classList.remove('flipped');ci=(ci+delta+L)%L;fillCard();return}
   fc.classList.add('out');
-  setTimeout(()=>{fc.classList.remove('out','flipped');fc.style.transition='none';ci=(ci+delta+CARDS.length)%CARDS.length;fillCard();void fc.offsetWidth;fc.style.transition='';fc.classList.add('in');setTimeout(()=>fc.classList.remove('in'),360)},260);
+  setTimeout(()=>{fc.classList.remove('out','flipped');fc.style.transition='none';ci=(ci+delta+L)%L;fillCard();void fc.offsetWidth;fc.style.transition='';fc.classList.add('in');setTimeout(()=>fc.classList.remove('in'),360)},260);
 }
 let seen=0;fc.addEventListener('click',()=>{fc.classList.toggle('flipped');if(fc.classList.contains('flipped')&&Math.random()<.6)react('stage-cards','idle',pick(FLIP))});
 document.getElementById('fnext').addEventListener('click',()=>go(1));
 document.getElementById('fprev').addEventListener('click',()=>go(-1));
 document.getElementById('fshuf').addEventListener('click',()=>{react('stage-cards','happy',pick([SP+'¡Mezcladas! Ahora sin trampa.',OV+'Nuevo orden, ¡a ver si te las sabes de verdad!']));shuffle(order);ci=-1;go(1)});
-document.getElementById('fyes').addEventListener('click',e=>{known.add(order[ci]);store.set('repro-known',[...known]);
-  const r=e.currentTarget.getBoundingClientRect();confetti(r.left+r.width/2,r.top,known.size===CARDS.length?120:18);noRow=0;react('stage-cards','happy*',pick([SP+'¡Una menos! Siguiente.',OV+'¡Te la sabes! Qué bien.',SP+'Esa ya es tuya.',OV+'¡Eso! Sigue así.']));go(1)});
-document.getElementById('fno').addEventListener('click',()=>{known.delete(order[ci]);store.set('repro-known',[...known]);noRow++;react('stage-cards',noRow>=3?'angry':'sad',noRow>=3?pick(YAI.cards):pick([OV+'La repasamos otra vez, tranqui.',SP+'Ya te saldrá. Hasta yo tardé en madurar.']));go(1)});
-document.addEventListener('keydown',e=>{if(document.getElementById('p-cards').hidden||['INPUT','TEXTAREA'].includes(document.activeElement.tagName))return;
+document.getElementById('fyes').addEventListener('click',e=>{known.add(order[ci]);store.set('repro-known2',[...known]);
+  const all=order.every(i=>known.has(i));const r=e.currentTarget.getBoundingClientRect();confetti(r.left+r.width/2,r.top,all?120:18);noRow=0;
+  react('stage-cards',all?'dance':'happy*',all?BOTH+'¡Te sabes todas las tarjetas de estos temas!':pick([SP+'¡Una menos! Siguiente.',OV+'¡Te la sabes! Qué bien.',SP+'Esa ya es tuya.',OV+'¡Eso! Sigue así.']));go(1)});
+document.getElementById('fno').addEventListener('click',()=>{known.delete(order[ci]);store.set('repro-known2',[...known]);noRow++;react('stage-cards',noRow>=3?'angry':'sad',noRow>=3?pick(YAI.cards):pick([OV+'La repasamos otra vez, tranqui.',SP+'Ya te saldrá. Hasta yo tardé en madurar.']));go(1)});
+document.addEventListener('keydown',e=>{if(document.getElementById('p-cards').hidden||['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName))return;
   if(e.key==='ArrowRight')go(1);else if(e.key==='ArrowLeft')go(-1)});
-fillCard();
 
-/* ---------- quiz ---------- */
-const Q=[
- ['¿Qué estructura es común al sistema urinario y al reproductor masculino?',['Uretra','Uréter','Conducto deferente','Epidídimo'],'La uretra lleva tanto la orina de la vejiga como el semen.'],
- ['¿Qué células del testículo producen testosterona?',['Células de Leydig','Células de Sertoli','Células foliculares','Células de Skene'],'Leydig = testosterona. Sertoli = apoyan la producción de espermatozoides.'],
- ['Los testículos descienden al escroto porque…',['necesitan una temperatura menor que la corporal','así producen más testosterona','el epidídimo los empuja','así se protegen de golpes'],'La producción de espermatozoides necesita menos temperatura que la corporal. Si no bajan, hay infertilidad.'],
- ['¿Qué glándula aporta fructosa al semen?',['Vesículas seminales','Próstata','Bulbouretral','Bartolino'],'La fructosa de las vesículas seminales da el ATP para el recorrido.'],
- ['La orina en la uretra es ácida. ¿Qué glándula neutraliza esa acidez?',['Bulbouretral','Vesículas seminales','Próstata','Skene'],'La bulbouretral secreta una sustancia alcalina para que los espermatozoides no mueran.'],
- ['¿Cuál es la función del epidídimo?',['Terminar de madurar y almacenar los espermatozoides','Producir testosterona','Producir el líquido con fructosa','Neutralizar el pH'],'El epidídimo es la parte inicial del conducto deferente: madura y almacena.'],
- ['¿Qué pasa con los espermatozoides que no salen por eyaculación?',['Los testículos los reabsorben y reutilizan','Se quedan para siempre en el epidídimo','Salen con la orina','Se convierten en espermátidas'],'Según tus apuntes, se reabsorben y se vuelven a usar.'],
- ['La pieza media del espermatozoide contiene…',['mitocondrias','el acrosoma','el núcleo haploide','la zona pelúcida'],'Las mitocondrias producen el ATP que mueve la cola (flagelo).'],
- ['El acrosoma sirve para…',['degradar la zona pelúcida del ovocito con enzimas','mover la cola','producir ATP','guardar los cromosomas'],'Sus enzimas hidrolíticas abren paso a través de la zona pelúcida.'],
- ['La espermátida es…',['haploide, pero aún debe diferenciarse (espermiogénesis)','diploide y sale del testículo','el espermatozoide ya maduro','un cuerpo polar'],'El espermatogonio es diploide; la espermátida ya es haploide pero le falta la espermiogénesis.'],
- ['¿Cuándo deja el hombre de producir espermatozoides?',['Nunca','A los 40 años','En la andropausia, como la menopausia','Al terminar la pubertad'],'La espermatogénesis empieza en la pubertad y nunca se detiene.'],
- ['¿En qué parte de la trompa ocurre la fecundación?',['Ámpula','Fimbrias','Útero','Ovario'],'La ámpula es la parte media y ancha de la trompa.'],
- ['¿Qué capa del útero se desprende en la menstruación?',['Endometrio','Miometrio','Zona pelúcida','Cuerpo lúteo'],'El endometrio es la capa interna con sangre; el miometrio es músculo.'],
- ['La ovogénesis se detiene por primera vez…',['en la profase I de la meiosis I, cuando la mujer es embrión','en la pubertad','en la menopausia','después de la fecundación'],'Se detiene en el embrión y se retoma en la pubertad.'],
- ['¿Qué produce la ovogénesis a partir de un ovocito I?',['1 ovocito II y 3 cuerpos polares','4 ovocitos II','2 ovocitos y 2 espermátidas','1 folículo de Graaf'],'Solo una célula queda como gameto; las otras tres son cuerpos polares.'],
- ['El ovocito II termina su meiosis…',['con la fecundación','en la ovulación','en la menstruación','en la pubertad'],'Si no es fecundado, no termina la meiosis.'],
- ['¿Cuál es la definición de ovulación?',['La liberación del ovocito II por la ruptura del folículo','El desprendimiento del endometrio','La unión del óvulo con el espermatozoide','La formación del cuerpo lúteo'],'Así está en tus apuntes; el folículo se queda en el ovario.'],
- ['En la ovulación, la temperatura corporal…',['sube 1 °C (de ~36 a ~37 °C)','baja 1 °C','no cambia','sube 3 °C'],'Por eso medir la temperatura ayuda a saber si ya ovulaste.'],
- ['¿Qué hormona alcanza su pico justo en la ovulación?',['LH (luteinizante)','Progesterona','Testosterona','Melatonina'],'En la ovulación hay el mayor nivel de LH y FSH.'],
- ['¿Qué hormona domina la fase lútea y prepara al cuerpo para el embarazo?',['Progesterona','FSH','LH','Estrógeno'],'El cuerpo lúteo produce progesterona.'],
- ['Si no hay embarazo, ¿qué pasa al final de la fase lútea?',['Se degrada el cuerpo lúteo y empieza la menstruación','Se forma un nuevo folículo de Graaf en la trompa','Sube la temperatura a 38 °C','El ovocito II termina la meiosis'],'Baja la progesterona, se desprende el endometrio y empieza otro ciclo.'],
- ['Ciclo de 28 días que empieza el 1 de marzo. ¿Cuáles son los días fértiles?',['12 al 16 de marzo','1 al 5 de marzo','14 al 20 de marzo','26 al 28 de marzo'],'Mitad = día 14 (14 de marzo). Fértiles: 2 días antes y después → 12 al 16.'],
- ['Menopausia es…',['1 año entero sin menstruación','la primera menstruación','la etapa en la que se está acercando','un ciclo de más de 35 días'],'La primera es la menarquia; la etapa previa es la perimenopausia.'],
- ['En los ovarios poliquísticos…',['los folículos forman quistes y los ovocitos no maduran','se produce demasiado endometrio','no hay trompas de Falopio','los ovocitos maduran más rápido'],'Por eso se pierde fertilidad.'],
- ['Los gemelos idénticos son…',['univitelinos: un óvulo fecundado que se divide en 2','bivitelinos: varios óvulos fecundados','siempre de distinto sexo','resultado de dos espermatozoides en un óvulo'],'Bivitelinos son mellizos: la mujer ovula varios ovocitos.'],
- ['¿Qué define si el bebé es mujer u hombre?',['El par 23: XX o XY','El par 1','La temperatura del útero','La cantidad de fructosa'],'XX = mujer, XY = hombre.'],
- ['¿Qué glándula está en el vestíbulo vaginal y facilita la penetración?',['Bartolino','Skene','Próstata','Bulbouretral'],'Skene está junto al meato urinario.'],
- ['El ovocito II se diferencia del espermatozoide porque…',['no tiene flagelo y es de las células más grandes del cuerpo','es diploide','tiene acrosoma','tiene pieza media con mitocondrias'],'Es grande y no se mueve solo; el núcleo es haploide.'],
-];
-const qbox=document.getElementById('quiz');let qs=[],qi=0,score=0,missed=[],answered=false,streak=0,bad=0;
+/* ---------- práctica guiada y examen ---------- */
+const qbox=document.getElementById('quiz');
+let QS=[],qi=0,res=[],answered=false,streak=0,bad=0,exam=false,idleT=null;
 const best=()=>store.get('repro-best',0);
-function startQuiz(subset){react('stage-quiz','idle',OV+'¡Tú puedes! Elige una respuesta.');qs=shuffle((subset||Q.map((_,i)=>i)).slice()).map(i=>({i,q:Q[i][0],o:shuffle(Q[i][1].map((t,k)=>({t,ok:k===0}))),ex:Q[i][2]}));qi=0;score=0;missed=[];streak=0;bad=0;renderQ()}
-let idleT=null;
+function prep(raw){const [t,topic,q]=raw,o={t,topic,q,raw};
+  if(t==='mc')o.opts=shuffle(raw[3].map((x,k)=>({t:x,ok:k===0}))),o.ex=raw[4];
+  if(t==='tf')o.opts=[{t:'Verdadero',ok:raw[3]===true},{t:'Falso',ok:raw[3]===false}],o.ex=raw[4];
+  if(t==='open')o.model=raw[3],o.keys=raw[4];
+  if(t==='order')o.items=raw[3],o.ex=raw[4],o.pool=shuffle(raw[3].map((x,k)=>({t:x,k}))),o.ans=[];
+  if(t==='match')o.pairs=raw[3],o.right=shuffle(raw[3].map((p,k)=>({t:p[1],k}))),o.link={},o.sel=null;
+  return o}
+function buildSet(src){
+  const ord=document.getElementById('qorder').value,cnt=document.getElementById('qcount').value;
+  let pool=src||poolNow();
+  const groups=selTopics.map(k=>shuffle(pool.filter(q=>q[1]===k)));
+  const max=src?pool.length:(cnt==='all'?pool.length:Math.min(+cnt,pool.length));
+  const out=[];let gi=0;
+  while(out.length<max&&groups.some(g=>g.length)){const g=groups[gi%groups.length];if(g.length)out.push(g.shift());gi++}
+  if(ord==='temas')out.sort((a,b)=>selTopics.indexOf(a[1])-selTopics.indexOf(b[1]));else shuffle(out);
+  return out.map(prep);
+}
+function startQuiz(src){
+  exam=studyMode==='examen';QS=buildSet(src);qi=0;res=[];streak=0;bad=0;
+  react('stage-quiz','idle',exam?SP+'Modo examen: no te digo nada hasta el final. ¡Concéntrate!':OV+'¡Tú puedes! Te explico cada respuesta.');
+  renderQ();
+}
+function head(c){const sc=res.reduce((s,r)=>s+r.score,0);
+  return `<div class="qhead"><span class="counter" style="text-align:left">Pregunta ${qi+1} de ${QS.length}</span><span class="streak" id="streak">${streak>=2&&!exam?'racha ×'+streak:''}</span><span class="counter">${exam?'Modo examen':'Puntos: '+(Math.round(sc*10)/10)}</span></div>
+  <div class="bar"><i style="width:${qi/QS.length*100}%"></i></div>
+  <div class="qtags"><span class="qtype t-${c.t}">${TYPES[c.t]}</span><span class="qtopic">${TOPICS[c.topic][0]}</span></div>
+  <div class="qtext">${esc(c.q)}</div>`}
 function renderQ(){
-  answered=false;clearTimeout(idleT);if(qi>=qs.length)return renderEnd();const c=qs[qi];
-  if(qi>0){const pct=Math.round(qi/qs.length*100),n=qs.length;
-    let m=null;if(qi===n-1)m='last';else if(qi===Math.round(n*.75))m=75;else if(qi===Math.round(n*.5))m=50;else if(qi===Math.round(n*.25))m=25;
-    if(m)react('stage-quiz','happy',pick(MILE[m]));else react('stage-quiz','idle',pick(NEXTQ));}
-  idleT=setTimeout(()=>{if(!answered)react('stage-quiz','sad',pick(IDLEQ))},20000);
-  qbox.innerHTML=`<div class="qhead"><span class="counter" style="text-align:left">Pregunta ${qi+1} de ${qs.length}</span><span class="streak" id="streak">${streak>=2?'racha ×'+streak:''}</span><span class="counter">Aciertos: ${score}</span></div>
-  <div class="bar"><i style="width:${qi/qs.length*100}%"></i></div><div class="qtext">${c.q}</div>
-  <div class="opts">${c.o.map((o,k)=>`<button class="opt" data-k="${k}"><span class="k">${'abcd'[k]})</span><span>${o.t}</span></button>`).join('')}</div><div id="qfb"></div>`;
-  qbox.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>answer(+b.dataset.k,b)));
+  answered=false;clearTimeout(idleT);if(qi>=QS.length)return renderEnd();const c=QS[qi];
+  if(qi>0&&!exam){const n=QS.length;let m=null;if(qi===n-1)m='last';else if(qi===Math.round(n*.75))m=75;else if(qi===Math.round(n*.5))m=50;else if(qi===Math.round(n*.25))m=25;
+    if(m)react('stage-quiz','happy',pick(MILE[m]));else react('stage-quiz','idle',pick(NEXTQ))}
+  else if(qi>0&&qi%5===0)react('stage-quiz','idle',pick(NEXTQ));
+  idleT=setTimeout(()=>{if(!answered)react('stage-quiz','sad',pick(IDLEQ))},c.t==='open'?60000:25000);
+  let body='';
+  if(c.t==='mc'||c.t==='tf')body=`<div class="opts${c.t==='tf'?' tf':''}">${c.opts.map((o,k)=>`<button class="opt" data-k="${k}"><span class="k">${c.t==='tf'?(k?'F':'V'):'abcd'[k]+')'}</span><span>${esc(o.t)}</span></button>`).join('')}</div>`;
+  if(c.t==='open')body=`<textarea class="openans" id="openans" rows="4" placeholder="Escribe tu respuesta con tus palabras…"></textarea><div class="qact"><button class="btn primary" id="qcheck">${exam?'Guardar y seguir':'Comprobar'}</button></div>`;
+  if(c.t==='order')body=`<p class="hint">Toca los pasos en el orden correcto. Toca uno de arriba para quitarlo.</p><ol class="ord-ans" id="ordans"></ol><div class="ord-pool" id="ordpool"></div><div class="qact"><button class="btn primary" id="qcheck" disabled>${exam?'Guardar y seguir':'Comprobar'}</button></div>`;
+  if(c.t==='match')body=`<p class="hint">Toca un elemento de la izquierda y luego su pareja de la derecha. Toca una pareja para deshacerla.</p><div class="match"><div class="mcol" id="mleft"></div><div class="mcol" id="mright"></div></div><div class="qact"><button class="btn primary" id="qcheck" disabled>${exam?'Guardar y seguir':'Comprobar'}</button></div>`;
+  qbox.innerHTML=head(c)+body+'<div id="qfb"></div>';
+  if(c.t==='mc'||c.t==='tf')qbox.querySelectorAll('.opt').forEach(b=>b.onclick=()=>gradeChoice(+b.dataset.k,b));
+  if(c.t==='open'){document.getElementById('qcheck').onclick=gradeOpen;}
+  if(c.t==='order')drawOrder(c);
+  if(c.t==='match')drawMatch(c);
 }
-function answer(k,btn){
-  if(answered)return;answered=true;clearTimeout(idleT);const c=qs[qi],ok=c.o[k].ok;
-  {const ns=ok?streak+1:0,nb=ok?0:bad+1;bad=nb;
-  const right='<br><span style="font-weight:400">La correcta: '+c.o.find(o=>o.ok).t+'.</span>';
-  react('stage-quiz',ok?(ns>=5&&ns%5===0?'dance':ns>=3&&ns%3===0?'love':'happy*'):(nb>=3?'angry':'sad'),ok?(ns>=3&&ns%3===0?pick(YAI.good):(ns===2||ns%5===0)?BOTH+`¡Racha de ${ns}! Estamos bailando.`:pick(PHR.happy)):(nb>=3?pick(YAI.bad):pick(PHR.sad))+right);}
-  if(ok){score++;streak++;const r=btn.getBoundingClientRect();confetti(r.left+40,r.top+r.height/2,streak>=3?36:16)}else{missed.push(c.i);streak=0}
-  qbox.querySelectorAll('.opt').forEach((b,j)=>{b.disabled=true;if(c.o[j].ok)b.classList.add('right');else if(j===k)b.classList.add('wrong')});
-  const st=document.getElementById('streak');st.textContent=streak>=2?'racha ×'+streak:'';st.classList.remove('pop');void st.offsetWidth;st.classList.add('pop');
-  document.getElementById('qfb').innerHTML=`<div class="explain"><b>${ok?(streak>=3?'¡Imparable!':'¡Correcto!'):'Casi.'}</b> ${c.ex}</div><div style="margin-top:14px;text-align:right"><button class="btn primary" id="qnext">${qi+1<qs.length?'Siguiente →':'Ver resultado'}</button></div>`;
-  const nb=document.getElementById('qnext');nb.addEventListener('click',()=>{qi++;renderQ()});nb.focus({preventScroll:true});
+/* ordenar */
+function drawOrder(c){
+  const a=document.getElementById('ordans'),p=document.getElementById('ordpool');
+  a.innerHTML=c.ans.map((it,i)=>`<li><button type="button" class="ochip in" data-i="${i}">${esc(it.t)}</button></li>`).join('')||'<li class="ph">Toca abajo el primer paso…</li>';
+  const used=new Set(c.ans.map(x=>x.k));
+  p.innerHTML=c.pool.filter(x=>!used.has(x.k)).map(x=>`<button type="button" class="ochip" data-k="${x.k}">${esc(x.t)}</button>`).join('');
+  a.querySelectorAll('.ochip').forEach(b=>b.onclick=()=>{if(answered)return;c.ans.splice(+b.dataset.i,1);drawOrder(c)});
+  p.querySelectorAll('.ochip').forEach(b=>b.onclick=()=>{if(answered)return;c.ans.push(c.pool.find(x=>x.k===+b.dataset.k));drawOrder(c)});
+  const btn=document.getElementById('qcheck');btn.disabled=c.ans.length!==c.items.length;btn.onclick=gradeOrder;
 }
+/* pareo */
+const PCOL=['#E07A5F','#5E958A','#8B6CC7','#D9A13B','#4F86C6','#C2457A'];
+function drawMatch(c){
+  const L=document.getElementById('mleft'),R=document.getElementById('mright');
+  const colOf=k=>{const ks=Object.keys(c.link).map(Number).sort((a,b)=>a-b);return PCOL[ks.indexOf(k)%PCOL.length]};
+  L.innerHTML=c.pairs.map((p,k)=>{const linked=k in c.link;return `<button type="button" class="mitem${c.sel===k?' sel':''}${linked?' linked':''}" data-k="${k}" style="${linked?'--pc:'+colOf(k):''}">${esc(p[0])}</button>`}).join('');
+  R.innerHTML=c.right.map(r=>{const owner=Object.keys(c.link).find(k=>c.link[k]===r.k);return `<button type="button" class="mitem r${owner!==undefined?' linked':''}" data-r="${r.k}" style="${owner!==undefined?'--pc:'+colOf(+owner):''}">${esc(r.t)}</button>`}).join('');
+  L.querySelectorAll('.mitem').forEach(b=>b.onclick=()=>{if(answered)return;const k=+b.dataset.k;if(k in c.link){delete c.link[k];c.sel=null}else c.sel=c.sel===k?null:k;drawMatch(c)});
+  R.querySelectorAll('.mitem').forEach(b=>b.onclick=()=>{if(answered)return;const r=+b.dataset.r,owner=Object.keys(c.link).find(k=>c.link[k]===r);
+    if(owner!==undefined){delete c.link[owner];drawMatch(c);return}
+    if(c.sel===null){b.classList.add('nudge');setTimeout(()=>b.classList.remove('nudge'),400);return}
+    c.link[c.sel]=r;c.sel=null;drawMatch(c)});
+  const btn=document.getElementById('qcheck');btn.disabled=Object.keys(c.link).length!==c.pairs.length;btn.onclick=gradeMatch;
+}
+/* calificación */
+function finish(score,detail){
+  if(answered)return;answered=true;clearTimeout(idleT);const c=QS[qi];res.push({c,score,detail});
+  if(exam){qi++;setTimeout(renderQ,c.t==='mc'||c.t==='tf'?250:0);return}
+  const ok=score>=.99,half=score>=.5&&!ok;
+  const ns=ok?streak+1:0,nb=ok||half?0:bad+1;streak=ns;bad=nb;
+  react('stage-quiz',ok?(ns>=5&&ns%5===0?'dance':ns>=3&&ns%3===0?'love':'happy*'):half?'happy':(nb>=3?'angry':'sad'),
+    ok?(ns>=3&&ns%3===0?pick(YAI.good):(ns===2||ns%5===0)?BOTH+`¡Racha de ${ns}! Estamos bailando.`:pick(PHR.happy)):half?pick([OV+'¡Casi completa! Mira lo que te faltó.',SP+'Vas bien, pero te faltó un poquito.']):(nb>=3?pick(YAI.bad):pick(PHR.sad)));
+  if(ok){const r=qbox.querySelector('.qtext').getBoundingClientRect();confetti(r.left+60,r.top+10,ns>=3?36:16)}
+  const st=document.getElementById('streak');if(st){st.textContent=streak>=2?'racha ×'+streak:'';st.classList.remove('pop');void st.offsetWidth;st.classList.add('pop')}
+  document.getElementById('qfb').innerHTML=`<div class="explain"><b>${ok?(streak>=3?'¡Imparable!':'¡Correcto!'):half?'Casi.':'Incorrecto.'}</b> ${detail}</div><div style="margin-top:14px;text-align:right"><button class="btn primary" id="qnext">${qi+1<QS.length?'Siguiente →':'Ver resultado'}</button></div>`;
+  const nbtn=document.getElementById('qnext');nbtn.onclick=()=>{qi++;renderQ()};nbtn.focus({preventScroll:true});
+}
+function gradeChoice(k,btn){if(answered)return;const c=QS[qi],ok=c.opts[k].ok;c.pick=k;
+  if(!exam)qbox.querySelectorAll('.opt').forEach((b,j)=>{b.disabled=true;if(c.opts[j].ok)b.classList.add('right');else if(j===k)b.classList.add('wrong')});
+  else{btn.classList.add('chosen');qbox.querySelectorAll('.opt').forEach(b=>b.disabled=true)}
+  finish(ok?1:0,(ok?'':'La correcta: <b>'+esc(c.opts.find(o=>o.ok).t)+'</b>. ')+esc(c.ex))}
+function keyHits(c,txt){const n=norm(txt);return c.keys.map(k=>({k:k.split('|')[0],hit:k.split('|').some(a=>n.includes(norm(a)))}))}
+function gradeOpen(){const c=QS[qi],txt=document.getElementById('openans').value.trim();c.text=txt;
+  const hits=keyHits(c,txt),r=hits.filter(h=>h.hit).length/hits.length,score=txt.length<3?0:r>=.75?1:r>=.4?.5:0;
+  document.getElementById('openans').disabled=true;
+  finish(score,`Ideas clave: ${hits.map(h=>`<span class="kw ${h.hit?'y':'n'}">${h.hit?'✓':'✗'} ${esc(h.k)}</span>`).join(' ')}<br><b>Respuesta modelo:</b> ${esc(c.model)}`)}
+function gradeOrder(){const c=QS[qi];let good=0;c.ans.forEach((it,i)=>{if(it.k===i)good++});const score=good===c.items.length?1:good/c.items.length>=.5?.5:0;
+  if(!exam){document.querySelectorAll('#ordans .ochip').forEach((b,i)=>b.classList.add(c.ans[i].k===i?'ok':'bad'));document.getElementById('ordpool').innerHTML=''}
+  finish(score,`${good} de ${c.items.length} en su lugar. <b>Orden correcto:</b><ol class="sol">${c.items.map(t=>`<li>${esc(t)}</li>`).join('')}</ol>${c.ex?esc(c.ex):''}`)}
+function gradeMatch(){const c=QS[qi];let good=0;for(const k in c.link)if(c.link[k]===+k)good++;const n=c.pairs.length,score=good===n?1:good/n>=.5?.5:0;
+  if(!exam){document.querySelectorAll('#mleft .mitem').forEach(b=>{const k=+b.dataset.k;b.classList.add(c.link[k]===k?'ok':'bad')})}
+  finish(score,`${good} de ${n} parejas bien. <b>Parejas correctas:</b><ul class="sol">${c.pairs.map(p=>`<li>${esc(p[0])} → ${esc(p[1])}</li>`).join('')}</ul>`)}
+/* resultado */
 function renderEnd(){
-  const pct=Math.round(score/qs.length*100),nota=(1+4*score/qs.length).toFixed(1);if(qs.length===Q.length&&pct>best())store.set('repro-best',pct);
-  const msg=pct>=90?'¡Lista/o para el examen!':pct>=70?'Vas muy bien; repasa las que fallaste.':'Repasa las tarjetas y vuelve a intentarlo.';
-  qbox.innerHTML=`<div class="score"><div class="big" id="bignum">0/${qs.length}</div><p class="hand" style="font-size:26px">${msg}</p>
-  <p style="text-align:center;margin:6px 0"><span class="chip ${nota>=4?'c-ok':nota>=3?'c-extra':'c-hot'}" style="font-size:15px;padding:4px 14px">Tu nota: ${nota} / 5</span></p><p class="counter" style="text-align:center">${pct}% de aciertos · Mejor puntaje en el quiz completo: ${best()}%</p>
-  <div class="card-ctrl">${missed.length?'<button class="btn primary" id="qretry">Repetir solo las falladas ('+missed.length+')</button>':''}<button class="btn" id="qall">Hacer todo de nuevo</button></div>
-  ${missed.length?'<ul class="missed">'+missed.map(i=>`<li><b>${Q[i][0]}</b><br>${Q[i][1][0]}</li>`).join('')+'</ul>':''}</div>`;
-  const bn=document.getElementById('bignum');let n=0;const tick=()=>{bn.textContent=n+'/'+qs.length;if(n<score){n++;setTimeout(tick,RM?0:45)}};tick();
+  clearTimeout(idleT);const n=QS.length,sc=res.reduce((s,r)=>s+r.score,0),pct=Math.round(sc/n*100),nota=(1+4*sc/n).toFixed(1);
+  if(selTopics.length===Object.keys(TOPICS).length&&pct>best())store.set('repro-best',pct);
+  const byT={},byTy={};res.forEach(r=>{(byT[r.c.topic]=byT[r.c.topic]||[0,0]);byT[r.c.topic][0]+=r.score;byT[r.c.topic][1]++;(byTy[r.c.t]=byTy[r.c.t]||[0,0]);byTy[r.c.t][0]+=r.score;byTy[r.c.t][1]++});
+  const bars=(o,lab)=>Object.entries(o).map(([k,[a,b]])=>{const p=Math.round(a/b*100);return `<div class="rbar"><span>${lab(k)}</span><i><b style="width:${p}%;background:${p>=80?'var(--ok)':p>=60?'var(--extra)':'var(--bad)'}"></b></i><em>${p}%</em></div>`}).join('');
+  const weak=Object.entries(byT).filter(([k,[a,b]])=>a/b<.7).map(([k])=>k);
+  const wrong=res.filter(r=>r.score<.99);
+  qbox.innerHTML=`<div class="score"><div class="big" id="bignum">0</div><p class="counter" style="text-align:center">puntos de ${n}</p>
+    <p style="text-align:center;margin:6px 0"><span class="chip ${nota>=4?'c-ok':nota>=3?'c-extra':'c-hot'}" style="font-size:16px;padding:5px 16px">Tu nota: ${nota} / 5</span></p>
+    <p class="counter" style="text-align:center">${pct}% · ${exam?'Examen':'Práctica guiada'}${selTopics.length===Object.keys(TOPICS).length?' · Mejor puntaje con todos los temas: '+best()+'%':''}</p></div>
+    <div class="rgrid"><div><h4>Por tema</h4>${bars(byT,k=>TOPICS[k][0])}</div><div><h4>Por tipo de pregunta</h4>${bars(byTy,k=>TYPES[k])}</div></div>
+    ${weak.length?`<div class="weak"><b>Temas para reforzar:</b> ${weak.map(k=>`<a href="${TOPICS[k][1]}">${TOPICS[k][0]}</a>`).join(', ')}</div>`:''}
+    <div class="card-ctrl">${wrong.length?`<button class="btn primary" id="qretry">Repetir las que fallé (${wrong.length})</button>`:''}${weak.length?'<button class="btn" id="qweak">Practicar solo los temas débiles</button>':''}<button class="btn" id="qall">Otra ronda</button><button class="btn" id="qsetup">Cambiar tema o modo</button></div>
+    ${wrong.length?`<h4 style="margin:18px 0 6px">${exam?'Revisión del examen':'Para repasar'}</h4><ol class="review">${wrong.map(r=>`<li><span class="qtype t-${r.c.t}">${TYPES[r.c.t]}</span> <b>${esc(r.c.q)}</b><br>${reviewAns(r)}</li>`).join('')}</ol>`:''}`;
+  const bn=document.getElementById('bignum');let k=0;const target=Math.round(sc*10)/10;const tick=()=>{bn.textContent=Math.min(k,target).toString().replace('.',',');if(k<target){k=Math.round((k+Math.max(.5,target/20))*10)/10;setTimeout(tick,RM?0:45)}};tick();
   react('stage-quiz',nota>=4.6?'dance':nota>=3.8?'happy':nota>=3?'sad':'angry',(nota>=4.6?YAI.end.top:nota>=3.8?YAI.end.ok:YAI.end.low)+`<br><span style="font-weight:400">Nota: ${nota} de 5.</span>`);
-  if(pct>=70){const r=bn.getBoundingClientRect();setTimeout(()=>confetti(r.left+r.width/2,r.top+r.height/2,pct>=90?180:90),RM?0:score*45)}
-  const rr=document.getElementById('qretry');if(rr){const m=missed.slice();rr.addEventListener('click',()=>startQuiz(m))}
-  document.getElementById('qall').addEventListener('click',()=>startQuiz());
+  if(pct>=70){const r=bn.getBoundingClientRect();setTimeout(()=>confetti(r.left+r.width/2,r.top+r.height/2,pct>=90?180:90),RM?0:600)}
+  const g=id=>document.getElementById(id);
+  if(g('qretry'))g('qretry').onclick=()=>startQuiz(wrong.map(r=>r.c.raw));
+  if(g('qweak'))g('qweak').onclick=()=>{selTopics=weak;store.set('repro-topics',selTopics);renderChips();startQuiz()};
+  g('qall').onclick=()=>startQuiz();
+  g('qsetup').onclick=()=>document.querySelector('#p-quiz .pback').click();
 }
-startQuiz();
+function reviewAns(r){const c=r.c;
+  if(c.t==='mc'||c.t==='tf')return `Tu respuesta: ${c.pick!=null?esc(c.opts[c.pick].t):'—'} · Correcta: <b>${esc(c.opts.find(o=>o.ok).t)}</b>. ${esc(c.ex)}`;
+  if(c.t==='open')return `Tu respuesta: <i>${esc(c.text||'(vacía)')}</i><br>Modelo: ${esc(c.model)}`;
+  if(c.t==='order')return `Orden correcto: ${c.items.map(esc).join(' → ')}`;
+  if(c.t==='match')return `Parejas: ${c.pairs.map(p=>esc(p[0])+' → '+esc(p[1])).join(' · ')}`;}
 
 /* ---------- repaso tapado ---------- */
-const REV=[
- ['Reproducción humana','Proceso por el cual la especie humana se perpetúa.'],
- ['Uretra (hombre)','Conducto común para la orina y el semen.'],
- ['Testículos','Gónadas masculinas: espermatozoides (Sertoli) y testosterona (Leydig).'],
- ['Epidídimo','Termina la maduración y almacena los espermatozoides.'],
- ['Vesículas seminales','Fructosa (ATP) y prostaglandinas (contracciones).'],
- ['Próstata','La más grande; facilita el movimiento de los espermatozoides.'],
- ['Bulbouretral','La más pequeña; sustancia alcalina que neutraliza la acidez.'],
- ['Semen','Espermatozoides + lo que secretan todas las glándulas.'],
- ['Espermatogénesis','Producción de células haploides funcionales; empieza en la pubertad y nunca termina.'],
- ['Acrosoma','Enzimas hidrolíticas que degradan la zona pelúcida.'],
- ['Ámpula','Parte de la trompa donde ocurre la fecundación.'],
- ['Endometrio','Capa interna del útero que se desprende en la menstruación.'],
- ['Ovogénesis','Empieza en el embrión, se detiene en la profase I y se retoma en la pubertad.'],
- ['Ovocito II','Haploide, sin flagelo, con zona pelúcida; termina la meiosis al ser fecundado.'],
- ['Folículo de Graaf','Folículo maduro que contiene y libera al ovocito II.'],
- ['Ovulación','Liberación del ovocito II por la ruptura del folículo; la temperatura sube 1 °C.'],
- ['Cuerpo lúteo','Lo que queda del folículo; produce progesterona.'],
- ['Menopausia','1 año entero sin menstruación.'],
- ['Días fértiles','Ovulación ± 2 días.'],
- ['Univitelinos','Gemelos idénticos: un óvulo que se divide en 2.'],
- ['Bivitelinos','Mellizos: la mujer ovula varios ovocitos.'],
-];
-const rb=document.getElementById('revbody');
-rb.innerHTML=REV.map(([a,b])=>`<tr><td>${a}</td><td tabindex="0"><span>${b}</span></td></tr>`).join('');
-let revN=0;rb.querySelectorAll('td:last-child').forEach(td=>{const f=()=>{td.classList.toggle('shown');if(td.classList.contains('shown')){revN++;const all=rb.querySelectorAll('td.shown').length===REV.length;react('stage-rev',all?'dance':revN%4===0?'happy*':'idle',all?BOTH+'¡Destapaste todo! Ya estás para el examen de la profe Yaisel.':pick(REVP))}};td.addEventListener('click',f);td.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();f()}})});
+const rb=document.getElementById('revbody');let revN=0;
+function buildRev(){const rows=REV.filter(r=>selTopics.includes(r[2])).sort((a,b)=>selTopics.indexOf(a[2])-selTopics.indexOf(b[2]));
+  rb.innerHTML=rows.map(([a,b,t])=>`<tr><td>${a}<br><small style="color:var(--muted);font-weight:400">${TOPICS[t][0]}</small></td><td tabindex="0"><span>${b}</span></td></tr>`).join('');
+  revN=0;rb.querySelectorAll('td:last-child').forEach(td=>{const f=()=>{td.classList.toggle('shown');if(td.classList.contains('shown')){revN++;const all=rb.querySelectorAll('td.shown').length===rows.length;react('stage-rev',all?'dance':revN%4===0?'happy*':'idle',all?BOTH+'¡Destapaste todo! Ya estás para el examen de la profe Yaisel.':pick(REVP))}};td.addEventListener('click',f);td.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();f()}})});
+  react('stage-rev','idle',OV+`${rows.length} términos. Di la respuesta en voz alta antes de destaparla.`)}
 const rp=document.getElementById('p-rev'),rt=document.getElementById('revtoggle');
 rt.addEventListener('click',()=>{const c=rp.classList.toggle('covered');rt.textContent=c?'Destapar todo':'Tapar todo';rb.querySelectorAll('td').forEach(t=>t.classList.remove('shown'))});
+
+renderChips();renderModes();summary();
+
+document.querySelectorAll('.tprac').forEach(b=>b.onclick=()=>quickStart([b.dataset.prac],'guiada'));
 </script>
 
 </body>
