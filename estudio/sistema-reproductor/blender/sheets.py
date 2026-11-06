@@ -4,12 +4,12 @@ from PIL import Image
 
 OUT = sys.argv[1]
 DEST = sys.argv[2]
-SIZE = 240
+SIZE = 200
 os.makedirs(DEST, exist_ok=True)
 for char in ('spermi', 'ovulina'):
-    for anim in ('idle', 'happy', 'sad'):
+    for anim in ('idle', 'happy', 'sad', 'dance', 'spin', 'love', 'angry'):
         frames = sorted(glob.glob(os.path.join(OUT, f"{char}_{anim}", "f_*.png")))
-        assert len(frames) == 24, (char, anim, len(frames))
+        assert len(frames) == 48, (char, anim, len(frames))
         sheet = Image.new('RGBA', (SIZE * len(frames), SIZE), (0, 0, 0, 0))
         for i, fp in enumerate(frames):
             im = Image.open(fp).convert('RGBA').resize((SIZE, SIZE), Image.LANCZOS)

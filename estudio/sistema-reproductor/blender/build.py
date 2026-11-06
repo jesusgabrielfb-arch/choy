@@ -8,8 +8,8 @@ from mathutils import Vector
 CHAR = sys.argv[1]
 OUT = sys.argv[2]
 PREVIEW = len(sys.argv) > 3 and sys.argv[3] == 'preview'
-FR = 24          # frames por animación
-RES = 360
+FR = 48          # frames por animación (24 fps)
+RES = 300
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
 scene = bpy.context.scene
@@ -301,7 +301,37 @@ tong_bot = arc(mw * 0.6, mz - 0.1, -0.055, 0, 12)
 tong = strip_mesh("m_tongue", H, tong_top, tong_bot, M_TONGUE, 0.02, root)
 mouths['smile'] = strip_mesh("m_smile", H, arc(mw * 0.75, mz + 0.01, -0.03, 0, 16), arc(mw * 0.75, mz + 0.01, -0.1, 0, 16), M_MOUTH, 0.012, root)
 mouths['sad'] = strip_mesh("m_sad", H, arc(mw * 0.62, mz - 0.1, 0.09, 0, 16), arc(mw * 0.62, mz - 0.1, 0.035, 0, 16), M_MOUTH, 0.012, root)
-C['mouths'], C['tongue'] = mouths, tong
+mouths['angry'] = strip_mesh("m_angry", H, arc(mw * 0.7, mz - 0.04, 0, 0, 16, -0.04), arc(mw * 0.7, mz - 0.13, 0, 0, 16, -0.03), M_MOUTH, 0.012, root)
+M_TEETH = mat("teeth", (0.98, 0.98, 0.96), 0.3)
+teeth = strip_mesh("m_teeth", H, arc(mw * 0.62, mz - 0.065, 0, 0, 16, -0.038), arc(mw * 0.62, mz - 0.1, 0, 0, 16, -0.032), M_TEETH, 0.02, root)
+C['mouths'], C['tongue'], C['teeth'] = mouths, tong, teeth
+# ojos de corazón (enamorado)
+M_HEART = mat("heart", (0.95, 0.05, 0.15), 0.25, coat=0.8, emit=0.3)
+C['hearts'] = []
+for side, s in (('L', -1), ('R', 1)):
+    x = s * ex
+    hy = H.y(x, ez, -0.035) - er[1] - 0.05
+    if CHAR == 'spermi':
+        hy = gy - 0.05
+    me = bpy.data.meshes.new(f"heart{side}")
+    bm = bmesh.new()
+    sc = er[0] * (0.088 if CHAR == 'spermi' else 0.075)
+    vs = []
+    for i in range(48):
+        t = i / 48 * 2 * math.pi
+        hx = 16 * math.sin(t) ** 3
+        hz = 13 * math.cos(t) - 5 * math.cos(2 * t) - 2 * math.cos(3 * t) - math.cos(4 * t)
+        vs.append(bm.verts.new((hx * sc, 0, hz * sc)))
+    bm.faces.new(vs)
+    bm.to_mesh(me); bm.free()
+    hobj = bpy.data.objects.new(f"heart{side}", me)
+    scene.collection.objects.link(hobj)
+    hobj.location = (x, hy, ez + 0.02)
+    hobj.data.materials.append(M_HEART)
+    sol = hobj.modifiers.new("sol", 'SOLIDIFY'); sol.thickness = 0.05
+    bev = hobj.modifiers.new("bev", 'BEVEL'); bev.width = 0.02; bev.segments = 3
+    set_parent(hobj, root)
+    C['hearts'].append(hobj)
 
 # lágrima
 tear = ellipsoid("tear", (-ex - 0.02, H.y(-ex - 0.02, ez - er[2] - 0.05, 0.03), ez - er[2] - 0.05), (0.04, 0.03, 0.055), M_TEAR, root)
@@ -355,7 +385,7 @@ scene.world = world
 r = scene.render
 r.engine = 'CYCLES'
 scene.cycles.device = 'CPU'
-scene.cycles.samples = 12 if PREVIEW else 28
+scene.cycles.samples = 12 if PREVIEW else 16
 scene.cycles.use_denoising = True
 r.film_transparent = True
 r.resolution_x = r.resolution_y = RES
@@ -388,6 +418,7 @@ def set_mouth(name):
     for k, o in C['mouths'].items():
         o.hide_render = k != name
     C['tongue'].hide_render = name != 'happy'
+    C['teeth'].hide_render = name != 'angry'
 
 def tail_keys(f, amp, speed, droop=0.0):
     sp = C['tail']
@@ -396,94 +427,138 @@ def tail_keys(f, amp, speed, droop=0.0):
         t = i / (n - 1)
         x = -0.18 - 1.15 * t
         y = 0.18 + 0.35 * t
-        z = 0.82 - 0.3 * t - droop * t + amp * t * math.sin(speed * f / FR * 2 * math.pi - 2.6 * t * math.pi)
+        z = 0.82 - 0.3 * t - droop * t + amp * t * math.sin(speed * (f - 1) / FR * 2 * math.pi - 2.6 * t * math.pi)
         p.co = (x, y, z, 1)
         p.radius = 1.0 - 0.8 * t
         p.keyframe_insert('co', frame=f)
 
+C['brow_rest'] = {s: C['brow' + s].location.z for s in ('L', 'R')}
+C['look_rest'] = {s: C['look' + s].location.z for s in ('L', 'R')}
+
 def brows(f, lift=0.0, tilt=0.0):
     for side, s in (('L', -1), ('R', 1)):
         b = C['brow' + side]
-        K(b, 'location', f, b.location.z if False else C['brow_rest'][side] + lift, 2)
+        K(b, 'location', f, C['brow_rest'][side] + lift, 2)
         K(b, 'rotation_euler', f, s * tilt, 1)
-
-C['brow_rest'] = {s: C['brow' + s].location.z for s in ('L', 'R')}
 
 def eyes(f, blink=1.0, look_z=0.0):
     for side in ('L', 'R'):
         K(C['eye' + side], 'scale', f, blink, 2)
         K(C['look' + side], 'location', f, C['look_rest'][side] + look_z, 2)
 
-C['look_rest'] = {s: C['look' + s].location.z for s in ('L', 'R')}
-
 def arms(f, l, rr):
     K(C['armL'], 'rotation_euler', f, l, 1)
     K(C['armR'], 'rotation_euler', f, -rr, 1)
 
-def body(f, z=0.0, sq=0.0, rx=0.0, rz=0.0):
-    K(root, 'location', f, z, 2)
+def body(f, z=0.0, sq=0.0, rx=0.0, rz=0.0, x=0.0, ry=0.0):
+    K(root, 'location', f, (x, 0, z))
     K(root, 'scale', f, (1 + sq * 0.5, 1 + sq * 0.5, 1 - sq))
-    K(root, 'rotation_euler', f, (rx, 0, rz + 0.12))
+    K(root, 'rotation_euler', f, (rx, ry, rz + 0.12))
 
 def tear_keys(f, vis, drop=0.0):
     C['tear'].hide_render = not vis
     C['tear'].keyframe_insert('hide_render', frame=f)
     K(C['tear'], 'location', f, C['tear_z'] - drop, 2)
 
+def heart_keys(f, vis, sc=1.0):
+    for h in C['hearts']:
+        h.hide_render = not vis
+        h.keyframe_insert('hide_render', frame=f)
+        K(h, 'scale', f, (sc, sc, sc))
+
+def extras(f, glasses=0.0, bow=0.0):
+    if 'glasses' in C: K(C['glasses'], 'location', f, C['glasses_z'] + glasses, 2)
+    if 'bow' in C: K(C['bow'], 'rotation_euler', f, -0.25 + bow, 1)
+
+def smooth01(t):
+    t = min(1.0, max(0.0, t))
+    return t * t * (3 - 2 * t)
+
 def anim(name):
     clear()
     for f in range(1, FR + 1):
+        g = 1 + (f - 1) * 24 / FR          # tiempo en "frames de 24" (para reutilizar tiempos)
         ph = (f - 1) / FR * 2 * math.pi
+        tear_vis, hearts, hsc = False, False, 1.0
         if name == 'idle':
             body(f, 0.035 * math.sin(ph), 0.015 * math.sin(2 * ph))
             arms(f, ARM_REST + 0.1 * math.sin(ph), WAVE + 0.35 * math.sin(2 * ph))
-            blink = {17: 0.55, 18: 0.1, 19: 0.55}.get(f, 1.0)
-            eyes(f, blink, 0)
-            brows(f, 0.0, 0.0)
-            tear_keys(f, False)
+            blink = 1.0 - 0.9 * max(0.0, 1 - abs(g - 18) / 1.6)
+            eyes(f, blink, 0); brows(f)
             if 'tail' in C: tail_keys(f, 0.18, 1)
-            if 'glasses' in C: K(C['glasses'], 'location', f, C['glasses_z'], 2)
-            if 'bow' in C: K(C['bow'], 'rotation_euler', f, -0.25 + 0.08 * math.sin(2 * ph), 1)
+            extras(f, 0, 0.08 * math.sin(2 * ph))
         elif name == 'happy':
-            # brinco con brazos arriba
-            keys = {1: (0, 0), 3: (-0.05, 0.12), 5: (-0.06, 0.14), 8: (0.35, -0.08), 11: (0.55, -0.04), 14: (0.5, 0), 17: (0.15, -0.05), 19: (0, 0.15), 21: (0, -0.04), 24: (0, 0)}
-            ks = sorted(keys)
+            keys = {1: (0, 0), 3: (-0.05, 0.12), 5: (-0.06, 0.14), 8: (0.35, -0.08), 11: (0.55, -0.04), 14: (0.5, 0), 17: (0.15, -0.05), 19: (0, 0.15), 21: (0, -0.04), 25: (0, 0)}
+            ks = sorted(keys); z = sq = 0
             for a, b in zip(ks, ks[1:]):
-                if a <= f <= b:
-                    t = (f - a) / (b - a)
-                    t = t * t * (3 - 2 * t)
+                if a <= g <= b:
+                    t = smooth01((g - a) / (b - a))
                     z = keys[a][0] + (keys[b][0] - keys[a][0]) * t
                     sq = keys[a][1] + (keys[b][1] - keys[a][1]) * t
-            up = min(1.0, max(0.0, (f - 4) / 4)) * (1 - max(0.0, (f - 18) / 6))
+            up = smooth01((g - 4) / 4) * (1 - smooth01((g - 18) / 6))
             body(f, z, sq)
             arms(f, ARM_REST + up * RAISE + 0.15 * math.sin(3 * ph), ARM_REST + up * RAISE + 0.15 * math.sin(3 * ph + 1))
-            eyes(f, 1.0 if f < 9 or f > 16 else 0.9, 0.01)
-            brows(f, 0.045, -0.1)
-            tear_keys(f, False)
+            eyes(f, 1.0, 0.01); brows(f, 0.045, -0.1)
             if 'tail' in C: tail_keys(f, 0.3, 3)
-            if 'glasses' in C: K(C['glasses'], 'location', f, C['glasses_z'] + (0.04 if 10 <= f <= 15 else 0), 2)
-            if 'bow' in C: K(C['bow'], 'rotation_euler', f, -0.25 + 0.25 * math.sin(3 * ph), 1)
+            extras(f, 0.04 * smooth01((g - 9) / 2) * (1 - smooth01((g - 15) / 2)), 0.25 * math.sin(3 * ph))
         elif name == 'sad':
-            s = min(1.0, (f - 1) / 6)
+            s = smooth01((g - 1) / 6)
             body(f, -0.06 * s, 0.05 * s, 0.1 * s, 0.16 * math.sin(2 * ph) * s)
             arms(f, ARM_REST - 0.35 * s, ARM_REST - 0.35 * s)
-            eyes(f, 1.0 - 0.12 * s, -0.045 * s)
-            brows(f, 0.02 * s, 0.32 * s)
-            tear_keys(f, f >= 6, max(0.0, (f - 6) / 18) * 0.42)
+            eyes(f, 1.0 - 0.12 * s, -0.045 * s); brows(f, 0.02 * s, 0.32 * s)
+            tear_vis = g >= 6
+            tear_keys(f, tear_vis, max(0.0, (g - 6) / 18) * 0.42)
             if 'tail' in C: tail_keys(f, 0.06, 1, 0.25 * s)
-            if 'glasses' in C: K(C['glasses'], 'location', f, C['glasses_z'] - 0.08 * s, 2)
-            if 'bow' in C: K(C['bow'], 'rotation_euler', f, -0.25 - 0.25 * s, 1)
-    # bocas
-    set_mouth({'idle': 'smile', 'happy': 'happy', 'sad': 'sad'}[name])
+            extras(f, -0.08 * s, -0.25 * s)
+        elif name == 'dance':
+            sw = math.sin(2 * ph)
+            body(f, 0.1 * abs(math.sin(4 * ph)), -0.05 * math.cos(8 * ph), 0, 0.25 * sw, 0.16 * sw, 0.14 * sw)
+            arms(f, ARM_REST + RAISE * (0.55 + 0.45 * sw), ARM_REST + RAISE * (0.55 - 0.45 * sw))
+            eyes(f, 1.0, 0.01); brows(f, 0.04, -0.08)
+            if 'tail' in C: tail_keys(f, 0.35, 4)
+            extras(f, 0.02 * math.sin(4 * ph), 0.3 * math.sin(4 * ph))
+        elif name == 'spin':
+            t = smooth01((g - 3) / 18)
+            hop = 0.3 * math.sin(math.pi * t)
+            body(f, hop, -0.06 * math.sin(math.pi * t), 0, 2 * math.pi * t)
+            arms(f, ARM_REST + RAISE * 0.8 * math.sin(math.pi * t), ARM_REST + RAISE * 0.8 * math.sin(math.pi * t))
+            eyes(f, 1.0, 0); brows(f, 0.03, -0.05)
+            if 'tail' in C: tail_keys(f, 0.25, 2)
+            extras(f, 0, 0.2 * math.sin(2 * ph))
+        elif name == 'love':
+            hearts, hsc = True, 1.0 + 0.18 * abs(math.sin(3 * ph))
+            body(f, 0.12 + 0.07 * math.sin(ph), 0.02 * math.sin(2 * ph), 0, 0, 0, 0.12 * math.sin(ph))
+            arms(f, ARM_REST + 0.5 + 0.2 * math.sin(2 * ph), ARM_REST + 0.5 + 0.2 * math.sin(2 * ph + 1))
+            eyes(f, 1.0, 0); brows(f, 0.05, -0.12)
+            if 'tail' in C: tail_keys(f, 0.22, 1.5)
+            extras(f, 0, 0.12 * math.sin(2 * ph))
+        elif name == 'angry':
+            s = smooth01((g - 1) / 3)
+            shake = 0.035 * math.sin(14 * ph) * s
+            stomp = -0.05 * abs(math.sin(4 * ph)) * s
+            body(f, stomp, 0.04 * s, 0.06 * s, 0.05 * math.sin(14 * ph) * s, shake)
+            arms(f, ARM_REST + (0.9 + 0.35 * math.sin(8 * ph)) * s, ARM_REST + (0.9 + 0.35 * math.sin(8 * ph + 2)) * s)
+            eyes(f, 1.0 - 0.25 * s, -0.01); brows(f, (-0.05 if CHAR == 'spermi' else -0.08) * s, (-0.42 if CHAR == 'spermi' else -0.6) * s)
+            if 'tail' in C: tail_keys(f, 0.12, 6)
+            extras(f, -0.03 * s, -0.15 * s + 0.1 * math.sin(14 * ph) * s)
+        if name != 'sad':
+            tear_keys(f, False)
+        heart_keys(f, hearts, hsc)
+    set_mouth({'idle': 'smile', 'happy': 'happy', 'sad': 'sad', 'dance': 'happy', 'spin': 'smile', 'love': 'happy', 'angry': 'angry'}[name])
+    for k, o in C['mouths'].items():
+        o.hide_render = o.hide_render
     scene.frame_start, scene.frame_end = 1, FR
 
+ANIMS = ('idle', 'happy', 'sad', 'dance', 'spin', 'love', 'angry')
+ONLY = [a for a in sys.argv[4:]] if len(sys.argv) > 4 else ANIMS
 os.makedirs(OUT, exist_ok=True)
-for name in ('idle', 'happy', 'sad'):
+for name in ONLY:
     anim(name)
     if PREVIEW:
-        scene.frame_set(12 if name != 'idle' else 6)
-        r.filepath = os.path.join(OUT, f"{CHAR}_{name}_preview.png")
-        bpy.ops.render.render(write_still=True)
+        for fr in (14, 30):
+            scene.frame_set(fr)
+            r.filepath = os.path.join(OUT, f"{CHAR}_{name}_p{fr}.png")
+            bpy.ops.render.render(write_still=True)
     else:
         d = os.path.join(OUT, f"{CHAR}_{name}")
         os.makedirs(d, exist_ok=True)
