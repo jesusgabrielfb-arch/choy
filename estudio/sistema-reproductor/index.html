@@ -302,7 +302,7 @@ input[type=range]{width:100%;accent-color:var(--coral);margin-top:6px}
 .mascot{--w:150px;width:var(--w);height:var(--w);background-repeat:no-repeat;background-size:calc(var(--w)*48) var(--w);
   animation:sprite 2s steps(48) infinite}
 .mascot[data-who="ovulina"]{animation-delay:-.6s}
-.mascot:not([data-state="idle"]){animation-iteration-count:1;animation-fill-mode:forwards;animation-delay:0s}
+.mascot:not([data-state="idle"]){animation:spriteOnce 2s steps(48,jump-none) 1 both}
 .mascot[data-who="spermi"][data-state="idle"]{background-image:url(mascotas/spermi_idle.webp)}
 .mascot[data-who="spermi"][data-state="happy"]{background-image:url(mascotas/spermi_happy.webp)}
 .mascot[data-who="spermi"][data-state="sad"]{background-image:url(mascotas/spermi_sad.webp)}
@@ -321,6 +321,7 @@ input[type=range]{width:100%;accent-color:var(--coral);margin-top:6px}
 .stage.paused .mascot{animation-play-state:paused}
 .mascot{contain:strict}
 @keyframes sprite{to{background-position:calc(var(--w)*-48) 0}}
+@keyframes spriteOnce{from{background-position:0 0}to{background-position:calc(var(--w)*-47) 0}}
 @media (prefers-reduced-motion:reduce){.mascot{animation:none!important}.mascot:not([data-state="idle"]){background-position:calc(var(--w)*-22) 0}}
 .bubble{position:absolute;top:0;left:50%;transform:translateX(-50%);max-width:min(92%,340px);width:max-content;background:var(--page);border:1.5px solid var(--line2);border-radius:16px;padding:8px 14px;font-size:14.5px;font-weight:600;line-height:1.3;text-align:center;box-shadow:var(--hard);z-index:2}
 .bubble::after{content:"";position:absolute;left:50%;bottom:-8px;width:14px;height:14px;background:var(--page);border-right:1.5px solid var(--line2);border-bottom:1.5px solid var(--line2);transform:translateX(-50%) rotate(45deg)}
@@ -1197,6 +1198,7 @@ const pick=a=>{if(a.length<2)return a[0];a._u=a._u||[];let v,t=0;do{v=a[Math.flo
 const SPR=new Map();
 function ensure(mood){return Promise.all(['spermi','ovulina'].map(w=>{const src=`mascotas/${w}_${mood}.webp`;if(!SPR.has(src)){const i=new Image();i.src=src;SPR.set(src,(i.decode?i.decode():Promise.resolve()).catch(()=>{}))}return SPR.get(src)}))}
 function play(m,mood){m.dataset.state=mood;m.style.animation='none';void m.offsetWidth;m.style.animation=''}
+document.querySelectorAll('.mascot').forEach(m=>m.addEventListener('animationend',e=>{if(e.animationName==='spriteOnce'&&m.dataset.state!=='idle')play(m,'idle')}));
 const HAPPY_V=()=>{const r=Math.random();return r<.55?'happy':r<.8?'dance':r<.92?'love':'spin'};
 function react(id,mood,text){if(mood==='happy*')mood=HAPPY_V();
   const st=document.getElementById(id);if(!st)return;
@@ -1229,7 +1231,7 @@ document.querySelectorAll('.stage .mascot').forEach(m=>m.addEventListener('click
   else{mood='angry';txt=pick(T.angry)}
   // solo reacciona el que tocaste; el otro comenta si se enoja
   const tok=st._tok=(st._tok||0)+1;ensure(mood).then(()=>{if(st._tok===tok)play(m,mood)});
-  const other=[...st.querySelectorAll('.mascot')].find(x=>x!==m);
+  const other=[...st.querySelectorAll('.mascot')].find(x=>x!==m);if(other&&other.dataset.state!=='idle')play(other,'idle');
   if(mood==='angry'&&other&&Math.random()<.5){ensure('love').then(()=>{if(st._tok===tok)play(other,'love')});
     txt+=`<br><span style="font-weight:400">${who==='spermi'?OV+'Jaja, ya lo hiciste enojar.':SP+'Uy, la hiciste enojar. Yo me salgo de esto.'}</span>`}
   const b=st.querySelector('.bubble');b.innerHTML=tag+txt;b.className='bubble'+(mood==='angry'||mood==='sad'?' sad':' happy');void b.offsetWidth;b.classList.add('pop');
