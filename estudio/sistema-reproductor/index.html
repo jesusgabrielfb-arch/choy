@@ -38,11 +38,16 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--page);border-bottom:1px solid var(--line);contain:layout paint}
 .nav-row{display:flex;gap:4px;align-items:center;padding-block:9px;overflow-x:auto;scrollbar-width:none;position:relative}
 .nav-row::-webkit-scrollbar{display:none}
-.nav .brand{font-family:var(--f-hand);font-size:21px;margin-right:10px;white-space:nowrap;color:var(--coral)}
-.nav a{position:relative;white-space:nowrap;text-decoration:none;color:var(--muted);font-size:14px;font-weight:600;padding:6px 11px;border-radius:999px;transition:color .2s}
+.nav .brand{font-family:var(--f-hand);margin-right:12px;white-space:nowrap;color:var(--coral);display:grid;line-height:1;text-decoration:none;padding:0}
+.nav .brand .b1{font-size:21px}
+.nav .brand .b2{font-size:15px;color:var(--muted);margin-top:2px}
+.nav a.brand:hover{color:var(--coral)}
+.nav a{position:relative;white-space:nowrap;text-decoration:none;color:var(--muted);font-size:13.5px;font-weight:600;padding:6px 8px;border-radius:999px;transition:color .2s}
+.nav .nav-row{max-width:1240px}
+@media (min-width:1000px){.nav-row{justify-content:space-between}}
 .nav a:hover{color:var(--ink)}
 .nav a.active{color:var(--ink)}
-.nav a.active::after{content:"";position:absolute;left:10px;right:10px;bottom:2px;height:7px;border-radius:4px;background:var(--hl);z-index:-1;animation:swipe .35s ease-out}
+.nav a.active::after{content:"";position:absolute;left:8px;right:8px;bottom:2px;height:7px;border-radius:4px;background:var(--hl);z-index:-1;animation:swipe .35s ease-out}
 .nav a .tick{display:inline-block;width:0;overflow:hidden;color:var(--ok);transition:width .3s}
 .nav a.done .tick{width:1em}
 .nav a.practice{background:var(--coral);color:#fff}
@@ -528,6 +533,17 @@ input[type=range]{width:100%;accent-color:var(--coral);margin-top:6px}
   body.print-sim .sim-case,body.print-sim .sim-img,body.print-sim .sim-high{break-inside:avoid}
   .reveal.pre{transform:none!important;opacity:1!important}
 }
+/* cursor de óvulo (solo portada, solo con mouse) */
+#ovo-cursor{position:fixed;left:0;top:0;width:52px;height:52px;margin:-26px 0 0 -26px;pointer-events:none;z-index:70;opacity:0;transition:opacity .2s;will-change:transform}
+#ovo-cursor.on{opacity:1}
+#ovo-cursor svg{display:block;filter:drop-shadow(0 3px 6px rgba(160,70,100,.35));transition:transform .15s}
+#ovo-cursor .corona{fill:#FFD3C4;animation:ovoSpin 9s linear infinite;transform-origin:0 0}
+#ovo-cursor.down svg{transform:scale(.85)}
+#ovo-cursor.hit svg{animation:ovoHit .35s ease-out}
+@keyframes ovoSpin{to{transform:rotate(360deg)}}
+@keyframes ovoHit{40%{transform:scale(1.22)}}
+.hero-card.ovo-on,.hero-card.ovo-on *{cursor:none!important}
+@media (prefers-reduced-motion:reduce){#ovo-cursor .corona{animation:none}}
 #confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
 footer{color:var(--muted);font-size:14px;padding-block:10px 60px;text-align:center}
 footer .hand{font-size:22px}
@@ -536,10 +552,17 @@ footer .hand{font-size:22px}
 <body>
 
 <canvas id="confetti" aria-hidden="true"></canvas>
+<div id="ovo-cursor" aria-hidden="true"><svg viewBox="-30 -30 60 60" width="52" height="52">
+  <g class="corona"><circle cx="23.0" cy="0.0" r="4.2"/><circle cx="20.72" cy="9.98" r="4.2"/><circle cx="14.34" cy="17.98" r="4.2"/><circle cx="5.12" cy="22.42" r="4.2"/><circle cx="-5.12" cy="22.42" r="4.2"/><circle cx="-14.34" cy="17.98" r="4.2"/><circle cx="-20.72" cy="9.98" r="4.2"/><circle cx="-23.0" cy="-0.0" r="4.2"/><circle cx="-20.72" cy="-9.98" r="4.2"/><circle cx="-14.34" cy="-17.98" r="4.2"/><circle cx="-5.12" cy="-22.42" r="4.2"/><circle cx="5.12" cy="-22.42" r="4.2"/><circle cx="14.34" cy="-17.98" r="4.2"/><circle cx="20.72" cy="-9.98" r="4.2"/></g>
+  <circle r="17.5" fill="#fff" stroke="#F4B6C8" stroke-width="3.5"/>
+  <circle r="14" fill="#F6C3D3"/><circle r="14" fill="url(#ovoG)"/>
+  <circle cx="-3.5" cy="-2.5" r="5.2" fill="#E06B80"/><circle cx="-5" cy="-4" r="1.6" fill="#fff" opacity=".8"/>
+  <defs><radialGradient id="ovoG" cx="35%" cy="30%" r="70%"><stop offset="0" stop-color="#FFF" stop-opacity=".7"/><stop offset="1" stop-color="#E9A6C0" stop-opacity=".3"/></radialGradient></defs>
+</svg></div>
 
 <nav class="nav" aria-label="Secciones">
   <div class="wrap nav-row" id="navrow">
-    <span class="brand">reproductor ✿</span>
+    <a class="brand" href="#" aria-label="Sistema Reproductor, by Jesús Fuentes. Ir al inicio"><span class="b1">Sistema Reproductor ✿</span><span class="b2">by: Jesús Fuentes</span></a>
     <a href="#base" data-sec="base"><span class="tick">✓</span>Base</a>
     <a href="#masculino" data-sec="masculino"><span class="tick">✓</span>Masculino</a>
     <a href="#espermatogenesis" data-sec="espermatogenesis"><span class="tick">✓</span>Espermatozoide</a>
@@ -548,7 +571,7 @@ footer .hand{font-size:22px}
     <a href="#ciclo" data-sec="ciclo"><span class="tick">✓</span>Ciclo</a>
     <a href="#calculo" data-sec="calculo"><span class="tick">✓</span>Cálculo</a>
     <a href="#fecundacion" data-sec="fecundacion"><span class="tick">✓</span>Fecundación</a>
-    <a href="#confusiones" data-sec="confusiones"><span class="tick">✓</span>Ojo</a>
+    
     <a href="#practica" class="practice">Practicar →</a>
     <a href="#simulacro" class="practice sim-nav">Simulacro</a>
   </div>
@@ -1267,11 +1290,12 @@ const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()
 /* ---------- hero: espermatozoides nadando hacia el ovocito ---------- */
 (function(){
   const cv=document.getElementById('swim'),ctx=cv.getContext('2d');let W,H,dpr,sp=[],t=0,vis=true,raf,COL={},EGG=null,skip=0;
+  const FINE=matchMedia('(hover: hover) and (pointer: fine)').matches,M={on:false,x:0,y:0},cur=document.getElementById('ovo-cursor'),card=cv.closest('.hero-card');
   function cols(){COL={ink:css('--ink'),coral:css('--coral'),hl:css('--hl'),est:css('--est'),page:css('--page')}}
   function measure(){const o=document.querySelector('#stage-hero .mascot[data-who="ovulina"]');if(o){const a=o.getBoundingClientRect(),c=cv.getBoundingClientRect();EGG={x:a.left-c.left+a.width*.5,y:a.top-c.top+a.height*.45,r:a.width*.22,hide:true}}else EGG=null}
   function size(){dpr=Math.min(devicePixelRatio||1,1.5);W=cv.clientWidth;H=cv.clientHeight;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}
-  function egg(){return EGG||{x:W*.86,y:H*.2,r:Math.max(46,Math.min(W,H)*.11)}}
-  function spawn(s,init){const e=egg();s.x=init?Math.random()*W*.7:-40-Math.random()*200;s.y=H*.15+Math.random()*H*.8;s.v=.55+Math.random()*.6;s.ph=Math.random()*6.28;s.tx=e.x;s.ty=e.y;return s}
+  function egg(){if(M.on)return{x:M.x,y:M.y,r:13,hide:true};return EGG||{x:W*.86,y:H*.2,r:Math.max(46,Math.min(W,H)*.11)}}
+  function spawn(s,init){const e=egg();if(M.on&&!init){const side=Math.floor(Math.random()*4);s.x=side===0?-30:side===1?W+30:Math.random()*W;s.y=side===2?-30:side===3?H+30:Math.random()*H}else{s.x=init?Math.random()*W*.7:-40-Math.random()*200;s.y=H*.15+Math.random()*H*.8}s.a=undefined;s.v=.55+Math.random()*.6;s.ph=Math.random()*6.28;s.tx=e.x;s.ty=e.y;return s}
   function init(){size();cols();measure();sp=[];const n=W<600?8:14;for(let i=0;i<n;i++)sp.push(spawn({},true))}
   function draw(){
     const ink=COL.ink,coral=COL.coral,hl=COL.hl,est=COL.est;
@@ -1285,19 +1309,29 @@ const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()
     ctx.restore();}
     // espermatozoides
     sp.forEach(s=>{
-      const dx=s.tx-s.x,dy=s.ty-s.y,d=Math.hypot(dx,dy),ang=Math.atan2(dy,dx)+Math.sin(t*.03+s.ph)*.25;
+      s.tx=e.x;s.ty=e.y;const dx=s.tx-s.x,dy=s.ty-s.y,d=Math.hypot(dx,dy),ta=Math.atan2(dy,dx);if(s.a===undefined)s.a=ta;let da=ta-s.a;da=Math.atan2(Math.sin(da),Math.cos(da));s.a+=da*(M.on?.09:.05);const ang=s.a+Math.sin(t*.03+s.ph)*.25;
       ctx.save();ctx.translate(s.x,s.y);ctx.rotate(ang);ctx.globalAlpha=.38;
       ctx.beginPath();ctx.moveTo(-6,0);
       for(let i=0;i<=26;i++){const xx=-6-i*1.6;ctx.lineTo(xx,Math.sin(t*.25+s.ph-i*.45)*(i*.22))}
       ctx.strokeStyle=ink;ctx.lineWidth=1.4;ctx.stroke();
       ctx.beginPath();ctx.ellipse(0,0,6.5,4.2,0,0,6.283);ctx.fillStyle=coral;ctx.fill();
       ctx.restore();
-      if(!RM){const k=slow?2:1;s.x+=Math.cos(ang)*s.v*k;s.y+=Math.sin(ang)*s.v*k}
-      if(d<e.r+18)spawn(s,false);
+      if(!RM){const k=(slow?2:1)*(M.on?1.9:1);s.x+=Math.cos(ang)*s.v*k;s.y+=Math.sin(ang)*s.v*k}
+      if(d<e.r+18){if(M.on&&cur){cur.classList.remove('hit');void cur.offsetWidth;cur.classList.add('hit')}spawn(s,false)}
     });
   }
   const slow=innerWidth<700;function loop(){if(!slow||(skip^=1)){t+=slow?2:1;draw()}if(vis&&!RM)raf=requestAnimationFrame(loop)}
   init();draw();if(!RM)loop();
+  if(FINE&&card&&cur){
+    card.classList.add('ovo-on');
+    const move=e=>{const r=cv.getBoundingClientRect();M.x=e.clientX-r.left;M.y=e.clientY-r.top;cur.style.transform=`translate3d(${e.clientX}px,${e.clientY}px,0)`};
+    card.addEventListener('pointerenter',e=>{if(e.pointerType!=='mouse')return;M.on=true;move(e);cur.classList.add('on')});
+    card.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;if(!M.on){M.on=true;cur.classList.add('on')}move(e)});
+    card.addEventListener('pointerleave',()=>{M.on=false;cur.classList.remove('on','down')});
+    card.addEventListener('pointerdown',()=>cur.classList.add('down'));
+    addEventListener('pointerup',()=>cur.classList.remove('down'));
+    addEventListener('scroll',()=>{if(M.on){M.on=false;cur.classList.remove('on')}},{passive:true});
+  }
   let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>{init();draw()},150)});addEventListener('load',()=>{measure()});
   new IntersectionObserver(es=>{vis=es[0].isIntersecting;cancelAnimationFrame(raf);if(vis&&!RM)loop()}).observe(cv);
 })();
