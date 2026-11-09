@@ -544,6 +544,52 @@ input[type=range]{width:100%;accent-color:var(--coral);margin-top:6px}
 @keyframes ovoHit{40%{transform:scale(1.22)}}
 .hero-card.ovo-on,.hero-card.ovo-on *{cursor:none!important}
 @media (prefers-reduced-motion:reduce){#ovo-cursor .corona{animation:none}}
+/* test tipo Daypo */
+.nav a.dp-nav{background:#7656B8;margin-left:4px}
+.dp-wrap{position:relative;margin-block:44px;background:var(--page);border-radius:24px;padding:30px clamp(14px,4vw,40px);box-shadow:var(--shadow)}
+.dp-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:end}
+@media (max-width:760px){.dp-head{grid-template-columns:1fr}}
+.dp-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(34px,5vw,48px);margin:2px 0 6px}
+.dp-meta{display:flex;flex-wrap:wrap;gap:6px 16px;color:var(--muted);font-size:14px;margin:0 0 8px}
+#stage-dp .mascot{--w:120px}
+.dp-controls{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin-top:14px;font-size:14px;font-weight:600}
+.dp-controls select{font:inherit;padding:6px 9px;border:1.5px solid var(--line2);border-radius:10px;background:var(--page);color:var(--ink);margin-left:4px}
+.dp-controls .btn[aria-pressed="true"]{background:var(--bad-soft);border-color:var(--bad)}
+.dp-stats{position:sticky;top:calc(env(safe-area-inset-top,0px) + 62px);z-index:5;margin-top:14px;background:color-mix(in srgb,var(--page) 96%,transparent);border:1.5px solid var(--line2);border-radius:14px;padding:10px 14px;box-shadow:var(--hard)}
+.dp-nums{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;color:var(--muted)}
+.dp-nums b{color:var(--ink);font-size:16px}.dp-nums .g b{color:var(--ok)}.dp-nums .r b{color:var(--bad)}
+.dp-prog{height:7px;background:var(--line);border-radius:4px;overflow:hidden;margin-top:8px}.dp-prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,#7656B8,var(--coral));transition:width .4s}
+.dp-gridbox summary{cursor:pointer;font-size:13.5px;font-weight:700;color:#7656B8;margin-top:6px}
+.dp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(34px,1fr));gap:4px;margin-top:8px;max-height:180px;overflow:auto}
+.dp-grid a{display:grid;place-items:center;height:28px;border-radius:7px;border:1px solid var(--line2);font-size:12px;font-weight:700;color:var(--muted);text-decoration:none;font-variant-numeric:tabular-nums}
+.dp-grid a.ok{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}.dp-grid a.bad{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+.dp-list{display:grid;gap:14px;margin-top:16px}
+.dp-q{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;background:var(--page);border:1.5px solid var(--line2);border-radius:16px;padding:14px 16px;content-visibility:auto;contain-intrinsic-size:auto 360px;transition:border-color .3s,box-shadow .3s;scroll-margin-top:180px}
+.dp-q.ok{border-color:#9FD8BC;box-shadow:inset 5px 0 0 var(--ok)}.dp-q.bad{border-color:#F0B9B2;box-shadow:inset 5px 0 0 var(--bad)}
+.dp-q.flash{animation:dpFlash 1s}
+@keyframes dpFlash{30%{box-shadow:0 0 0 4px var(--hl)}}
+.dp-num{width:40px;height:40px;border-radius:12px;background:#EFE7FB;color:#7656B8;display:grid;place-items:center;font-weight:800;font-variant-numeric:tabular-nums}
+.dp-q.ok .dp-num{background:var(--ok-soft);color:var(--ok)}.dp-q.bad .dp-num{background:var(--bad-soft);color:var(--bad)}
+.dp-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:4px}
+.dp-text{font-family:var(--f-display);font-size:22px;line-height:1.2;margin:2px 0 8px;text-wrap:balance}
+.dp-anim{max-width:340px;background:#FFFCF8;border:1px dashed var(--line2);border-radius:12px;padding:6px;margin-bottom:10px;min-height:120px}
+.dp-anim.off{display:none}
+.dp-anim{position:relative}
+.dp-q:not(.ok):not(.bad) .dp-anim svg text:not(.qmark){opacity:0}
+.dp-q:not(.ok):not(.bad) .dp-anim::after{content:"Pista visual · los nombres aparecen al responder";position:absolute;left:8px;bottom:6px;font-size:11.5px;font-weight:700;color:#7656B8;background:#F6F1FD;border-radius:999px;padding:1px 8px}
+.dp-anim svg text{transition:opacity .5s}
+.dp-q.ok .qmark,.dp-q.bad .qmark{display:none}
+.dp-anim svg{width:100%;height:auto;display:block}
+.dp-opts{display:grid;gap:7px}
+.dp-opt{display:flex;gap:10px;align-items:flex-start;text-align:left;border:1.5px solid var(--line2);background:var(--page);border-radius:12px;padding:9px 12px;font-size:15.5px;cursor:pointer;transition:border-color .15s,background .15s}
+.dp-opt:hover:not([disabled]){border-color:#7656B8;background:#F6F1FD}
+.dp-radio{flex:none;width:18px;height:18px;border-radius:50%;border:2px solid var(--line2);margin-top:2px;position:relative}
+.dp-opt.right{border-color:var(--ok);background:var(--ok-soft)}.dp-opt.right .dp-radio{border-color:var(--ok);background:var(--ok)}
+.dp-opt.wrong{border-color:var(--bad);background:var(--bad-soft)}.dp-opt.wrong .dp-radio{border-color:var(--bad);background:var(--bad)}
+.dp-opt[disabled]{cursor:default}
+.dp-fb{font-size:14.5px;margin-top:8px}.dp-fb:empty{display:none}
+.dp-fb b.g{color:var(--ok)}.dp-fb b.r{color:var(--bad)}
+@media (max-width:520px){.dp-q{grid-template-columns:1fr}.dp-num{width:34px;height:34px}.dp-text{font-size:20px}}
 #confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
 footer{color:var(--muted);font-size:14px;padding-block:10px 60px;text-align:center}
 footer .hand{font-size:22px}
@@ -574,6 +620,7 @@ footer .hand{font-size:22px}
     
     <a href="#practica" class="practice">Practicar →</a>
     <a href="#simulacro" class="practice sim-nav">Simulacro</a>
+    <a href="#test" class="practice dp-nav">Test</a>
   </div>
   <div class="progress" aria-hidden="true"><i id="progbar"></i></div>
 </nav>
@@ -1276,6 +1323,36 @@ footer .hand{font-size:22px}
   </div>
   <div class="sim-listbox"><h3>Mis simulacros <small>se guardan en este navegador</small></h3><div id="sim-list"></div></div>
   <div class="sim-sheet" id="sim-sheet" hidden></div>
+</section>
+
+<section class="dp-wrap" id="test">
+  <div class="dp-head">
+    <div>
+      <div class="eyebrow">Test tipo Daypo</div>
+      <h2>Test: Sistema Reproductor</h2>
+      <p class="dp-meta"><span><b id="dp-count">0</b> preguntas</span><span>by: Jesús Fuentes</span><span>Biología · Prof. Yaisel</span></p>
+      <p class="lede">Todas las preguntas están en una sola lista: contestas tocando una opción, se corrige al momento y <b>sigue visible</b> para que puedas repasarla. Cada pregunta trae una animación de lo que te preguntan para que lo memorices mejor.</p>
+    </div>
+    <div class="stage" id="stage-dp">
+      <div class="bubble" aria-live="polite"><b class="ov">Ovulina:</b>Mira la animación antes de contestar: ¡se te queda mejor!</div>
+      <figure class="mfig"><div class="mascot" data-who="spermi" data-state="idle" role="img" aria-label="Spermi"></div><figcaption>Spermi</figcaption></figure>
+      <figure class="mfig"><div class="mascot" data-who="ovulina" data-state="idle" role="img" aria-label="Ovulina"></div><figcaption>Ovulina</figcaption></figure>
+    </div>
+  </div>
+  <div class="dp-controls">
+    <label>Tema <select id="dp-topic"><option value="all">Todos los temas</option><option value="base">Ideas base</option><option value="masc">Aparato masculino</option><option value="esperm">Espermatogénesis</option><option value="fem">Aparato femenino</option><option value="ovo">Ovogénesis</option><option value="ciclo">Ciclo menstrual</option><option value="calc">Cálculo de la ovulación</option><option value="fec">Fecundación y gestación</option></select></label>
+    <label>Tipo <select id="dp-type"><option value="all">Selección múltiple y V/F</option><option value="mc">Solo selección múltiple</option><option value="tf">Solo verdadero o falso</option></select></label>
+    <label>Orden <select id="dp-order"><option value="orden">En orden</option><option value="rand">Aleatorio</option></select></label>
+    <button class="btn small" type="button" id="dp-onlybad" aria-pressed="false">Solo falladas</button>
+    <button class="btn small" type="button" id="dp-anims">Ocultar animaciones</button>
+    <button class="btn small" type="button" id="dp-reset">Reiniciar respuestas</button>
+  </div>
+  <div class="dp-stats">
+    <div class="dp-nums"><span>Respondidas <b id="dp-done">0</b></span><span class="g">Aciertos <b id="dp-ok">0</b></span><span class="r">Fallos <b id="dp-bad">0</b></span><span>Nota <b id="dp-nota">—</b>/5</span></div>
+    <div class="dp-prog"><i id="dp-bar"></i></div>
+    <details class="dp-gridbox"><summary>Ver todas las preguntas por número</summary><nav class="dp-grid" id="dp-grid" aria-label="Ir a una pregunta"></nav></details>
+  </div>
+  <div class="dp-list" id="dp-list"></div>
 </section>
 
 <footer><span class="hand">¡tú puedes! ✿</span><br>Guía hecha con tus apuntes. Lo que agregué o aclaré está en los post-its amarillos.</footer>
@@ -2659,6 +2736,169 @@ document.getElementById('sim-printkey').onclick=()=>doPrint(true);
 renderList();
 if(list.length)render(list[list.length-1]);
 })();
+/* ---------- test estilo Daypo: todas las preguntas a la vista + animación de cada concepto ---------- */
+(function(){
+const root=document.getElementById('dp-list');if(!root)return;
+const C={ink:'#45403F',mut:'#8A8381',coral:'#E07A5F',pink:'#E58BA0',rose:'#F6C3D3',sage:'#5E958A',yel:'#E0A146',blue:'#6A9FD0',lil:'#A58BDB',red:'#D0665E',cream:'#FFE9DF'};
+const F='font-family="Figtree,sans-serif"';
+const T=(x,y,s,o='')=>`<text x="${x}" y="${y}" ${F} font-size="11" font-weight="700" fill="${C.mut}" ${o}>${s}</text>`;
+const SV=i=>`<svg viewBox="0 0 240 130" role="img" aria-hidden="true">${i}</svg>`;
+const mv=(path,dur,begin=0,extra='')=>`<animateMotion dur="${dur}s" begin="${begin}s" repeatCount="indefinite" path="${path}" ${extra}/>`;
+const spermIcon=(fill=C.coral)=>`<g><path d="M-4,0 q-6,-4 -12,0 t-12,0" stroke="${C.ink}" stroke-width="1.3" fill="none"><animate attributeName="d" dur=".5s" repeatCount="indefinite" values="M-4,0 q-6,-4 -12,0 t-12,0;M-4,0 q-6,4 -12,0 t-12,0;M-4,0 q-6,-4 -12,0 t-12,0"/></path><ellipse rx="5" ry="3.4" fill="${fill}"/></g>`;
+const egg=(cx,cy,r)=>`<circle cx="${cx}" cy="${cy}" r="${r+4}" fill="none" stroke="${C.rose}" stroke-width="4" stroke-dasharray="3 3"/><circle cx="${cx}" cy="${cy}" r="${r}" fill="#FCE3EB" stroke="#D993AE" stroke-width="1.5"/><circle cx="${cx-2}" cy="${cy-1}" r="${r*.32}" fill="${C.pink}"/>`;
+const S={
+ uretra:()=>SV(`<path id="u1" d="M14,24 C70,24 86,66 120,66" stroke="#F1D27A" stroke-width="12" fill="none" stroke-linecap="round" opacity=".55"/><path d="M14,108 C70,108 86,66 120,66" stroke="#E7E3F5" stroke-width="12" fill="none" stroke-linecap="round"/><path d="M120,66 L226,66" stroke="${C.cream}" stroke-width="16" stroke-linecap="round"/>
+  <circle r="5" fill="${C.yel}">${mv('M14,24 C70,24 86,66 120,66 L226,66',3)}</circle><circle r="5" fill="#fff" stroke="${C.lil}" stroke-width="1.5">${mv('M14,108 C70,108 86,66 120,66 L226,66',3,1.5)}</circle>
+  ${T(14,14,'orina (S. urinario)')}${T(14,126,'semen (S. reproductor)')}${T(150,50,'URETRA',`fill="${C.coral}"`)}${T(132,90,'conducto común')}`),
+ temp:()=>SV(`<rect x="10" y="8" width="130" height="62" rx="12" fill="#FFF3EE" stroke="${C.coral}" stroke-dasharray="4 3"/>${T(18,24,'cuerpo · 37 °C')}
+  <path d="M40,74 q40,58 80,0" fill="#FBE0D6" stroke="${C.coral}"/>${T(56,124,'escroto · más frío')}
+  <ellipse cx="80" cy="44" rx="13" ry="10" fill="${C.pink}"><animate attributeName="cy" dur="3.5s" repeatCount="indefinite" values="40;40;96;96" keyTimes="0;.3;.7;1"/></ellipse>
+  <rect x="190" y="14" width="14" height="88" rx="7" fill="#fff" stroke="${C.ink}"/><circle cx="197" cy="110" r="11" fill="${C.red}"/><rect x="193" y="30" width="6" height="76" fill="${C.red}"><animate attributeName="y" dur="3.5s" repeatCount="indefinite" values="30;30;58;58" keyTimes="0;.3;.7;1"/><animate attributeName="height" dur="3.5s" repeatCount="indefinite" values="76;76;48;48" keyTimes="0;.3;.7;1"/></rect>`),
+ leydig:()=>SV(`<circle cx="60" cy="68" r="34" fill="#FFE3D8" stroke="${C.coral}"/>${T(8,124,'Leydig → testosterona')}<circle cx="60" cy="68" r="10" fill="${C.coral}"/>
+  <g><polygon points="0,-9 8,-4 8,5 0,10 -8,5 -8,-4" fill="${C.yel}"/><text y="4" text-anchor="middle" ${F} font-size="9" font-weight="800" fill="#fff">T</text><animateMotion dur="2.4s" repeatCount="indefinite" path="M60,60 C70,30 90,20 100,6"/><animate attributeName="opacity" dur="2.4s" repeatCount="indefinite" values="1;1;0"/></g>
+  <circle cx="180" cy="68" r="34" fill="#E6F3EE" stroke="${C.sage}"/>${T(132,124,'Sertoli → esperma')}<g transform="translate(180,68)">${spermIcon()}<animateTransform attributeName="transform" type="translate" dur="2.4s" repeatCount="indefinite" values="180,68;214,30"/></g>`),
+ glands:()=>SV(`<rect x="8" y="98" width="224" height="16" rx="8" fill="${C.cream}" stroke="${C.coral}"/>${T(80,126,'conducto → uretra (semen)')}
+  ${[['vesículas','fructosa',30,'#F3C969'],['próstata','movimiento',105,C.pink],['bulbouretral','alcalina',178,C.blue]].map(([n,d,x,c],i)=>`<ellipse cx="${x+18}" cy="34" rx="26" ry="16" fill="${c}" opacity=".85"/>${T(x-8,12,n,`fill="${C.ink}"`)}${T(x-8,64,d)}<circle cx="${x+18}" cy="72" r="4" fill="${c}"><animate attributeName="cy" dur="1.6s" begin="${i*.4}s" repeatCount="indefinite" values="72;104"/><animate attributeName="opacity" dur="1.6s" begin="${i*.4}s" repeatCount="indefinite" values="1;1;0"/></circle>`).join('')}`),
+ recorrido:()=>{const p='M22,104 C50,104 52,78 70,78 C90,78 80,52 100,52 L150,52 C170,52 170,30 196,30 L226,30';
+  return SV(`<path d="${p}" stroke="${C.cream}" stroke-width="12" fill="none" stroke-linecap="round"/><path d="${p}" stroke="${C.coral}" stroke-width="1.4" fill="none" stroke-dasharray="4 4"/>
+  <circle cx="22" cy="104" r="14" fill="${C.pink}" opacity=".8"/>${T(4,126,'1 testículo')}${T(56,98,'2 epidídimo')}${T(104,44,'3 deferente')}${T(150,72,'4 eyaculador')}${T(186,20,'5 uretra')}
+  <g>${spermIcon()}<animateMotion dur="4s" repeatCount="indefinite" rotate="auto" path="${p}"/></g>`)},
+ sperm:(part)=>{const hl=k=>part===k?`stroke="${C.coral}" stroke-width="3"`:`stroke="${C.ink}" stroke-width="1.2"`,pulse=k=>part===k?`<animate attributeName="opacity" dur="1s" repeatCount="indefinite" values="1;.45;1"/>`:'';
+  return SV(`<path d="M128,65 q12,-10 24,0 t24,0 t24,0 t24,0" fill="none" ${hl('tail')}><animate attributeName="d" dur=".7s" repeatCount="indefinite" values="M128,65 q12,-10 24,0 t24,0 t24,0 t24,0;M128,65 q12,10 24,0 t24,0 t24,0 t24,0;M128,65 q12,-10 24,0 t24,0 t24,0 t24,0"/>${pulse('tail')}</path>
+  <rect x="88" y="58" width="42" height="14" rx="6" fill="#F2B9A6" ${hl('mid')}>${pulse('mid')}</rect>${[94,102,110,118].map(x=>`<ellipse cx="${x}" cy="65" rx="2.5" ry="6" fill="#D67E66" transform="rotate(25 ${x} 65)"/>`).join('')}
+  <circle cx="84" cy="65" r="4" fill="${C.ink}" ${hl('neck')}>${pulse('neck')}</circle>
+  <ellipse cx="54" cy="65" rx="28" ry="19" fill="#DCE0F8" ${hl('head')}>${pulse('head')}</ellipse><ellipse cx="58" cy="65" rx="17" ry="12" fill="#6F7CC9" ${hl('nuc')}>${pulse('nuc')}</ellipse>
+  <path d="M28,65 C28,48 46,46 62,47 C50,53 46,59 45,65 C46,71 50,77 62,83 C46,84 28,82 28,65Z" fill="#F0A9C7" opacity=".9" ${hl('acro')}>${pulse('acro')}</path>
+  ${T(14,22,'acrosoma')}${T(44,118,'núcleo')}${T(86,22,'centriolos')}${T(86,104,'pieza media')}${T(158,104,'cola (flagelo)')}`)},
+ fecund:()=>SV(`<rect x="0" y="40" width="240" height="50" rx="25" fill="#FFF0EB"/>${T(8,30,'ámpula de la trompa')}${egg(180,65,24)}
+  <g>${spermIcon()}<animateMotion dur="3s" repeatCount="indefinite" path="M10,70 C60,60 110,72 152,66" keyTimes="0;1"/></g>
+  <circle cx="157" cy="65" r="3" fill="${C.yel}"><animate attributeName="r" dur="3s" repeatCount="indefinite" values="0;0;12;0" keyTimes="0;.85;.93;1"/><animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="0;0;.8;0" keyTimes="0;.85;.93;1"/></circle>
+  ${T(10,122,'el acrosoma abre la zona pelúcida')}`),
+ trompa:()=>SV(`<path d="M20,90 C60,40 140,40 200,70" stroke="#F29A82" stroke-width="16" fill="none" stroke-linecap="round"/><path d="M90,56 C110,46 130,46 150,52" stroke="#E36D55" stroke-width="22" fill="none" stroke-linecap="round" opacity=".55"/>
+  ${[0,1,2,3,4].map(i=>`<path d="M20,90 q${-8+i*4},${10+i*2} ${-12+i*3},${18}" stroke="#E36D55" stroke-width="3" fill="none"/>`).join('')}<ellipse cx="22" cy="118" rx="16" ry="9" fill="#F0BFCF"/>${T(40,124,'ovario')}${T(4,70,'fimbrias')}${T(100,30,'ámpula: fecundación')}${T(196,100,'útero →')}
+  <circle r="5" fill="#FCE3EB" stroke="#D993AE">${mv('M22,112 C20,98 22,92 24,88 C60,44 140,44 200,70',4)}</circle>`),
+ ovulacion:()=>SV(`<ellipse cx="70" cy="70" rx="56" ry="40" fill="#F0BFCF" stroke="#C47D99"/>${T(30,124,'ovario')}
+  <circle cx="92" cy="58" r="14" fill="#FFF6F9" stroke="#D27F9F"><animate attributeName="r" dur="4s" repeatCount="indefinite" values="8;18;18;6" keyTimes="0;.45;.55;1"/></circle>
+  <circle r="5" fill="${C.pink}">${mv('M92,58 C110,40 130,30 150,26',4,0,'keyPoints="0;0;1;1" keyTimes="0;.5;.8;1" calcMode="linear"')}</circle>${T(118,16,'sale el ovocito II')}
+  <rect x="196" y="20" width="14" height="80" rx="7" fill="#fff" stroke="${C.ink}"/><circle cx="203" cy="106" r="11" fill="${C.red}"/><rect x="199" y="70" width="6" height="34" fill="${C.red}"><animate attributeName="y" dur="4s" repeatCount="indefinite" values="70;70;50;50" keyTimes="0;.5;.6;1"/><animate attributeName="height" dur="4s" repeatCount="indefinite" values="34;34;54;54" keyTimes="0;.5;.6;1"/></rect>${T(122,124,'+1 °C · pico de LH')}`),
+ ciclo:()=>{const seg=(a0,a1,c)=>{const r=44,cx=70,cy=65,p=a=>[cx+r*Math.cos(a),cy+r*Math.sin(a)];const [x0,y0]=p(a0),[x1,y1]=p(a1);return `<path d="M${cx},${cy} L${x0.toFixed(1)},${y0.toFixed(1)} A${r},${r} 0 ${a1-a0>Math.PI?1:0} 1 ${x1.toFixed(1)},${y1.toFixed(1)} Z" fill="${c}"/>`};const A=d=>(d/28)*2*Math.PI-Math.PI/2;
+  return SV(`${seg(A(0),A(5),'#F5B7B1')}${seg(A(5),A(13),'#CFE6F5')}${seg(A(13),A(14.5),'#A8DCC4')}${seg(A(14.5),A(28),'#FBE3B5')}<circle cx="70" cy="65" r="18" fill="#fff"/>
+  <line x1="70" y1="65" x2="70" y2="25" stroke="${C.ink}" stroke-width="3" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" from="0 70 65" to="360 70 65" dur="7s" repeatCount="indefinite"/></line>
+  ${T(130,30,'1 · menstruación',`fill="${C.red}"`)}${T(130,52,'2 · folicular',`fill="${C.blue}"`)}${T(130,74,'3 · ovulación',`fill="${C.sage}"`)}${T(130,96,'4 · lútea',`fill="${C.yel}"`)}${T(130,120,'28 a 35 días')}`)},
+ hormonas:()=>{const X=d=>14+d*7.6,line=(f,c)=>{let p='';for(let d=1;d<=28;d+=.5)p+=(d===1?'M':'L')+X(d).toFixed(1)+','+(100-f(d)*80).toFixed(1);return `<path d="${p}" stroke="${c}" stroke-width="2.4" fill="none" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"><animate attributeName="stroke-dashoffset" dur="4s" repeatCount="indefinite" values="1;0;0" keyTimes="0;.6;1"/></path>`},g=(d,m,s)=>Math.exp(-((d-m)**2)/(2*s*s));
+  return SV(`<line x1="14" y1="100" x2="230" y2="100" stroke="#ddd"/>${line(d=>.3+.4*g(d,14,1.3),C.blue)}${line(d=>.08+.9*g(d,14,1),C.lil)}${line(d=>.1+.6*g(d,12.5,2)+.3*g(d,21,3),C.pink)}${line(d=>.04+.75*g(d,21,3),C.sage)}
+  ${T(14,116,'día 1')}${T(110,116,'día 14')}${T(206,116,'día 28')}${T(118,14,'LH',`fill="${C.lil}"`)}${T(80,30,'estrógeno',`fill="${C.pink}"`)}${T(156,22,'progesterona',`fill="${C.sage}"`)}${T(40,48,'FSH',`fill="${C.blue}"`)}`)},
+ endometrio:()=>SV(`<g transform="translate(-18,0)"><path d="M60,14 C60,-2 180,-2 180,14 C180,60 150,90 130,104 L110,104 C90,90 60,60 60,14Z" fill="#F6B9A6" stroke="#C97560"/>
+  <path d="M80,20 C100,10 140,10 160,20 C150,50 132,74 122,92 L118,92 C108,74 90,50 80,20Z" fill="#D4566F"><animate attributeName="opacity" dur="4s" repeatCount="indefinite" values=".35;1;1;.35" keyTimes="0;.5;.7;1"/></path></g>${T(170,44,'endometrio',`fill="${C.red}"`)}${T(176,20,'miometrio')}
+  ${[0,1,2].map(i=>`<circle cx="${114+i*6}" cy="104" r="3" fill="${C.red}"><animate attributeName="cy" dur="4s" begin="${i*.2}s" repeatCount="indefinite" values="96;96;128" keyTimes="0;.7;1"/></circle>`).join('')}${T(8,124,'crece y se desprende (menstruación)')}`),
+ ovogenesis:()=>SV(`<circle cx="40" cy="62" r="28" fill="#F6C3D3" stroke="#C47D99"/>${T(14,112,'ovocito I (2n)')}
+  <path d="M74,62 L100,62" stroke="${C.coral}" stroke-width="2.5"/><circle cx="130" cy="62" r="24" fill="#F6C3D3" stroke="#C47D99"><animate attributeName="r" dur="4s" repeatCount="indefinite" values="0;24;24" keyTimes="0;.3;1"/></circle>${T(104,112,'ovocito II (n)')}
+  ${[[166,38,.35],[190,60,.55],[170,86,.75]].map(([x,y,b])=>`<circle cx="${x}" cy="${y}" r="7" fill="#FBE0EA" stroke="#C47D99"><animate attributeName="r" dur="4s" repeatCount="indefinite" values="0;0;7;7" keyTimes="0;${b};${b+.1};1"/></circle>`).join('')}${T(130,126,'3 cuerpos polares')}${T(6,16,'nace con ~400 mil ovocitos I')}`),
+ espermato:()=>SV(`<circle cx="34" cy="62" r="22" fill="#DCE0F8" stroke="#7680C4"/>${T(4,104,'espermatogonio 2n')}<path d="M60,62 L84,62" stroke="${C.coral}" stroke-width="2.5"/>
+  <circle cx="108" cy="62" r="16" fill="#DCE0F8" stroke="#7680C4"/>${T(80,120,'espermátida n')}<path d="M128,62 L150,62" stroke="${C.coral}" stroke-width="2.5"/>
+  <g transform="translate(178,62)"><ellipse rx="10" ry="7" fill="#DCE0F8" stroke="#7680C4"/><path d="M10,0 q8,-6 16,0 t16,0" stroke="${C.ink}" stroke-width="1.4" fill="none" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"><animate attributeName="stroke-dashoffset" dur="3s" repeatCount="indefinite" values="1;0;0" keyTimes="0;.6;1"/></path></g>${T(146,104,'espermiogénesis')}${T(6,16,'empieza en la pubertad · nunca termina')}`),
+ meiosis:()=>SV(`<g><rect x="70" y="20" width="12" height="80" rx="6" fill="${C.blue}"/><rect x="100" y="20" width="12" height="80" rx="6" fill="${C.pink}"/>
+  <rect x="70" y="20" width="12" height="30" rx="6" fill="${C.pink}"><animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;.4;.6;1"/></rect><rect x="100" y="20" width="12" height="30" rx="6" fill="${C.blue}"><animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;.4;.6;1"/></rect>
+  <path d="M82,40 L100,40 M82,30 L100,48" stroke="${C.ink}" stroke-width="1.5"><animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="0;1;1;0" keyTimes="0;.3;.5;.6"/></path></g>
+  ${T(126,36,'profase I:')}${T(126,52,'recombinación')}${T(126,68,'genética →')}${T(126,84,'gametos')}${T(126,100,'diferentes')}`),
+ gemelos:()=>SV(`${egg(50,50,16)}<path d="M50,72 L32,88 M50,72 L68,88" stroke="${C.coral}" stroke-width="2"/>${egg(28,100,9)}${egg(72,100,9)}${T(4,14,'univitelinos (1 óvulo)')}
+  <g><animateTransform attributeName="transform" type="translate" dur="2.5s" repeatCount="indefinite" values="0,0;0,-3;0,0"/>${egg(160,62,14)}${egg(206,62,14)}</g><g transform="translate(140,96)">${spermIcon()}</g><g transform="translate(222,96)">${spermIcon()}</g>${T(142,14,'bivitelinos (2)')}${T(150,124,'mellizos')}${T(20,128,'idénticos')}`),
+ xy:()=>SV(`<text x="40" y="72" ${F} font-size="40" font-weight="800" fill="${C.pink}">XX<animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="1;.4;1"/></text><text x="140" y="72" ${F} font-size="40" font-weight="800" fill="${C.blue}">XY<animate attributeName="opacity" dur="3s" begin="1.5s" repeatCount="indefinite" values="1;.4;1"/></text>
+  ${T(52,96,'mujer')}${T(150,96,'hombre')}${T(70,120,'par 23 de cromosomas')}`),
+ meno:()=>SV(`${Array.from({length:12},(_,i)=>`<rect x="${12+(i%6)*37}" y="${16+Math.floor(i/6)*44}" width="31" height="36" rx="6" fill="#FFF0EB" stroke="#E7B3A1"><animate attributeName="fill" dur="6s" begin="${i*.4}s" repeatCount="indefinite" values="#FFF0EB;#E9E5E2;#E9E5E2" keyTimes="0;.1;1"/></rect><text x="${27+(i%6)*37}" y="${39+Math.floor(i/6)*44}" text-anchor="middle" ${F} font-size="10" fill="${C.mut}">${i+1}</text>`).join('')}${T(30,122,'12 meses sin menstruación = menopausia')}`),
+ calc:()=>SV(`${Array.from({length:28},(_,i)=>{const d=i+1,c=d===1?'#F5B7B1':d===14?'#7CC7A4':(d>=12&&d<=16)?'#D9F1E6':'#fff';return `<rect x="${8+(i%7)*32}" y="${8+Math.floor(i/7)*24}" width="28" height="20" rx="4" fill="${c}" stroke="#E7E2DC">${d===14?'<animate attributeName="opacity" dur="1.2s" repeatCount="indefinite" values="1;.5;1"/>':''}</rect><text x="${22+(i%7)*32}" y="${22+Math.floor(i/7)*24}" text-anchor="middle" ${F} font-size="9.5" fill="${C.ink}">${d}</text>`}).join('')}${T(8,124,'día 1 · ovulación = mitad · fértiles ±2')}`),
+ sop:()=>SV(`<ellipse cx="90" cy="64" rx="70" ry="44" fill="#F0BFCF" stroke="#C47D99"/>${[[50,50],[80,40],[112,52],[66,80],[100,82],[130,70]].map(([x,y],i)=>`<circle cx="${x}" cy="${y}" r="9" fill="#FFF6F9" stroke="#C47D99"><animate attributeName="r" dur="2s" begin="${i*.25}s" repeatCount="indefinite" values="8;11;8"/></circle>`).join('')}
+  <path d="M180,40 L220,80 M220,40 L180,80" stroke="${C.red}" stroke-width="4" stroke-linecap="round"/>${T(166,100,'no ovula')}${T(8,124,'quistes: los ovocitos no maduran')}`),
+ inmune:()=>SV(`<circle cx="120" cy="66" r="22" fill="#FCE3EB"/><circle cx="120" cy="60" r="8" fill="${C.pink}"/>${T(106,102,'bebé')}
+  <path d="M120,14 C150,22 170,22 176,26 C176,74 150,100 120,112 C90,100 64,74 64,26 C70,22 90,22 120,14Z" fill="none" stroke="${C.blue}" stroke-width="4"><animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="1;.2;.2;1" keyTimes="0;.4;.8;1"/></path>${T(54,126,'el sistema inmune baja')}`),
+ orificios:()=>SV(`<ellipse cx="120" cy="66" rx="70" ry="52" fill="#FBE3DA" stroke="#E7B3A1"/><ellipse cx="120" cy="44" rx="6" ry="4" fill="${C.yel}"/><ellipse cx="120" cy="80" rx="10" ry="14" fill="#E9798F"/>
+  <path d="M126,44 L150,36" stroke="${C.ink}" stroke-width="1"/>${T(152,38,'meato: orina')}<path d="M130,84 L150,92" stroke="${C.ink}" stroke-width="1"/>${T(152,96,'vagina: sangre,')}${T(152,110,'bebé')}
+  <circle cx="120" cy="44" r="3" fill="${C.yel}"><animate attributeName="cy" dur="1.6s" repeatCount="indefinite" values="44;10"/></circle><circle cx="120" cy="84" r="3" fill="${C.red}"><animate attributeName="cy" dur="1.6s" begin=".8s" repeatCount="indefinite" values="84;126"/></circle>${T(4,16,'2 orificios separados')}`),
+ card:(word)=>SV(`<rect x="20" y="22" width="200" height="86" rx="14" fill="#FFF0B5" stroke="#E6CF77"><animate attributeName="y" dur="3s" repeatCount="indefinite" values="22;18;22"/></rect><text class="qmark" x="120" y="80" text-anchor="middle" ${F} font-size="40" font-weight="800" fill="#E6CF77">?</text><text x="120" y="70" text-anchor="middle" ${F} font-size="${word.length>22?13:17}" font-weight="800" fill="#5A4A16">${word.length>34?word.slice(0,32)+'…':word}</text>${T(84,124,'recuerda esta idea')}`)
+};
+function scene(q){const c=q[0]==='tf'?(q[3]?'':''):q[3][0],t=norm(q[2]+' '+(q[0]==='mc'?q[3][0]:'')+' '+(q[4]||''));
+  const has=r=>r.test(t);
+  if(has(/acrosoma|pieza media|mitocondria|centriolo|flagelo|cola del|tres partes|3 partes|nucleo del espermatozoide/)){const part=has(/acrosoma/)?'acro':has(/pieza media|mitocondria/)?'mid':has(/centriolo/)?'neck':has(/flagelo|cola/)?'tail':has(/nucleo/)?'nuc':'head';return S.sperm(part)}
+  if(has(/bulbouretral|vesicula|prostat|fructosa|alcalin|prostaglandina|glandula anexa/))return S.glands();
+  if(has(/uretra/))return S.uretra();
+  if(has(/escroto|desciend|testiculos bajan|temperatura menor|feto/))return S.temp();
+  if(has(/leydig|sertoli|testosterona/))return S.leydig();
+  if(has(/deferente|epididimo|eyacul|recorrido/))return S.recorrido();
+  if(has(/espermatogonio|espermatida|espermiogenesis|espermatogenesis|deja el hombre/))return S.espermato();
+  if(has(/recombinacion/))return S.meiosis();
+  if(has(/ovogenesis|cuerpos polares|ovocito i\b|400 mil|ovocito ii|zona pelucida/)&&!has(/acrosoma/))return S.ovogenesis();
+  if(has(/fecund/)&&!has(/ampula|trompa/))return S.fecund();
+  if(has(/fimbria|ampula|trompa|oviducto|cilios/))return S.trompa();
+  if(has(/univitelino|bivitelino|gemelo|mellizo/))return S.gemelos();
+  if(has(/par 23|\bxx\b|\bxy\b|sexo del bebe|hombre u mujer|mujer u hombre/))return S.xy();
+  if(has(/dias fertiles|ciclo de \d+|mitad del ciclo|proxima menstruacion|dia 1 del ciclo/))return S.calc();
+  if(has(/poliquistic|quiste/))return S.sop();
+  if(has(/menopausia|menarquia|perimenopausia/))return S.meno();
+  if(has(/ovulacion|graaf|temperatura/))return S.ovulacion();
+  if(has(/\blh\b|fsh|progesterona|estrogeno|hormona/))return S.hormonas();
+  if(has(/fase|ciclo menstrual/))return S.ciclo();
+  if(has(/endometrio|miometrio|menstruacion|utero/))return S.endometrio();
+  if(has(/inmune/))return S.inmune();
+  if(has(/meato|orificio|vulva|labios|clitoris|bartolino|skene|vagina/))return S.orificios();
+  return S.card(q[0]==='mc'?q[3][0]:(q[3]?'Verdadero':'Falso'));
+}
+
+/* ---------- datos y estado ---------- */
+const ALL=BANK.map((q,i)=>({q,i})).filter(x=>x.q[0]==='mc'||x.q[0]==='tf');
+let saved=store.get('repro-dp',{});
+let view=[],onlyBad=false,anims=store.get('repro-dp-anim',true);
+const $=id=>document.getElementById(id);
+function opts(q){if(q[0]==='tf')return[{t:'Verdadero',ok:q[3]===true},{t:'Falso',ok:q[3]===false}];return q[3].map((t,k)=>({t,ok:k===0}))}
+function cardHTML(x,n){const q=x.q,id='q'+x.i,s=saved[id],os=x.o;
+  const st=s?(s.ok?'ok':'bad'):'';
+  return `<article class="dp-q ${st}" id="dq-${x.i}" data-i="${x.i}"><div class="dp-num">${n}</div><div class="dp-body">
+    <div class="dp-tags"><span class="qtopic">${TOPICS[q[1]][0]}</span><span class="qtype t-${q[0]}">${TYPES[q[0]]}</span></div>
+    <p class="dp-text">${esc(q[2])}</p>
+    <div class="dp-anim${anims?'':' off'}" data-pending="1"></div>
+    <div class="dp-opts">${os.map((o,k)=>{const chosen=s&&s.t===o.t;return `<button type="button" class="dp-opt${s?(o.ok?' right':chosen?' wrong':''):''}" data-k="${k}" ${s?'disabled':''}><span class="dp-radio"></span><span>${esc(o.t)}</span></button>`}).join('')}</div>
+    <div class="dp-fb">${s?fbHTML(x,s.ok):''}</div></div></article>`}
+function fbHTML(x,ok){const q=x.q,right=x.o.find(o=>o.ok).t;return `<b class="${ok?'g':'r'}">${ok?'¡Correcto!':'Incorrecto.'}</b> ${ok?'':'Respuesta: <b>'+esc(right)+'</b>. '}${esc(q[4]||'')}`}
+function build(){
+  const tsel=$('dp-topic').value,ty=$('dp-type').value,ord=$('dp-order').value;
+  view=ALL.filter(x=>(tsel==='all'||x.q[1]===tsel)&&(ty==='all'||x.q[0]===ty));
+  if(ord==='rand'){view=shuffle(view.slice())}
+  view.forEach(x=>{if(!x.o){const o=opts(x.q);x.o=x.q[0]==='tf'?o:shuffle(o.slice())}});
+  root.innerHTML=view.map((x,n)=>cardHTML(x,n+1)).join('');
+  root.querySelectorAll('.dp-q').forEach(el=>io.observe(el));
+  grid();stats();applyFilter();
+}
+/* animaciones solo cuando se ven */
+const io=new IntersectionObserver(es=>es.forEach(e=>{const box=e.target.querySelector('.dp-anim');if(!box)return;
+  if(e.isIntersecting){if(box.dataset.pending&&anims){const x=ALL.find(z=>z.i===+e.target.dataset.i);box.innerHTML=scene(x.q);delete box.dataset.pending}
+    const sv=box.querySelector('svg');if(sv&&sv.unpauseAnimations&&!RM)sv.unpauseAnimations()}
+  else{const sv=box.querySelector('svg');if(sv&&sv.pauseAnimations)sv.pauseAnimations()}}),{rootMargin:'250px 0px'});
+root.addEventListener('click',e=>{const b=e.target.closest('.dp-opt');if(!b||b.disabled)return;const card=b.closest('.dp-q'),i=+card.dataset.i,x=ALL.find(z=>z.i===i),o=x.o[+b.dataset.k];
+  saved['q'+i]={t:o.t,ok:o.ok};store.set('repro-dp',saved);
+  card.classList.add(o.ok?'ok':'bad');card.querySelectorAll('.dp-opt').forEach((bb,k)=>{bb.disabled=true;if(x.o[k].ok)bb.classList.add('right');else if(bb===b)bb.classList.add('wrong')});
+  card.querySelector('.dp-fb').innerHTML=fbHTML(x,o.ok);
+  const sv=card.querySelector('.dp-anim svg');if(sv&&sv.setCurrentTime){sv.setCurrentTime(0)}
+  if(o.ok){const r=b.getBoundingClientRect();confetti(r.left+30,r.top+r.height/2,14)}
+  stats();grid();
+});
+function stats(){const ids=view.map(x=>'q'+x.i),done=ids.filter(id=>saved[id]),ok=done.filter(id=>saved[id].ok).length,bad=done.length-ok;
+  $('dp-done').textContent=`${done.length}/${view.length}`;$('dp-ok').textContent=ok;$('dp-bad').textContent=bad;
+  $('dp-nota').textContent=done.length?(1+4*ok/done.length).toFixed(1):'—';
+  $('dp-bar').style.width=(view.length?done.length/view.length*100:0)+'%';
+  if(done.length===view.length&&view.length&&!stats._cel){stats._cel=1;const n=(1+4*ok/done.length);react('stage-dp',n>=4.5?'dance':n>=3.5?'happy':'sad',n>=4.5?BOTH+'¡Terminaste el test completo! La profe Yaisel estaría orgullosa.':OV+`¡Terminaste! Nota ${n.toFixed(1)}. Usa "Solo falladas" para repasarlas.`)}
+}
+function grid(){$('dp-grid').innerHTML=view.map((x,n)=>{const s=saved['q'+x.i];return `<a href="#dq-${x.i}" class="${s?(s.ok?'ok':'bad'):''}">${n+1}</a>`}).join('')}
+function applyFilter(){root.querySelectorAll('.dp-q').forEach(el=>{el.hidden=onlyBad&&!el.classList.contains('bad')})}
+$('dp-grid').addEventListener('click',e=>{const a=e.target.closest('a');if(!a)return;e.preventDefault();const el=document.querySelector(a.getAttribute('href'));if(el){el.hidden=false;el.scrollIntoView({behavior:RM?'auto':'smooth',block:'center'});el.classList.remove('flash');void el.offsetWidth;el.classList.add('flash')}});
+['dp-topic','dp-type','dp-order'].forEach(id=>$(id).addEventListener('change',()=>{stats._cel=0;build()}));
+$('dp-reset').addEventListener('click',e=>{const b=e.currentTarget;if(b.dataset.sure!=='1'){b.dataset.sure='1';b.textContent='¿Seguro? Toca otra vez';setTimeout(()=>{b.dataset.sure='';b.textContent='Reiniciar respuestas'},2500);return}
+  view.forEach(x=>delete saved['q'+x.i]);store.set('repro-dp',saved);stats._cel=0;b.dataset.sure='';b.textContent='Reiniciar respuestas';build();react('stage-dp','idle',SP+'Hoja limpia. ¡Vamos otra vez!')});
+$('dp-onlybad').addEventListener('click',e=>{onlyBad=!onlyBad;e.currentTarget.setAttribute('aria-pressed',onlyBad);e.currentTarget.textContent=onlyBad?'Ver todas':'Solo falladas';applyFilter()});
+$('dp-anims').addEventListener('click',e=>{anims=!anims;store.set('repro-dp-anim',anims);e.currentTarget.textContent=anims?'Ocultar animaciones':'Mostrar animaciones';root.querySelectorAll('.dp-anim').forEach(a=>{a.classList.toggle('off',!anims);if(anims&&!a.innerHTML)a.dataset.pending='1'});root.querySelectorAll('.dp-q').forEach(el=>{io.unobserve(el);io.observe(el)})});
+$('dp-anims').textContent=anims?'Ocultar animaciones':'Mostrar animaciones';
+$('dp-count').textContent=ALL.length;
+build();
+})();
+
 
 </script>
 
