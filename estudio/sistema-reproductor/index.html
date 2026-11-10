@@ -91,6 +91,9 @@ h1 em{font-style:italic;color:var(--coral)}
 
 .c-ok{color:var(--ok);background:var(--ok-soft)}
 .c-extra{color:var(--extra);background:var(--extra-soft)}
+.c-ppt{color:#fff;background:#7656B8}
+.fix{border-left:4px solid #7656B8;background:#F3EEFC;border-radius:0 12px 12px 0;padding:10px 14px;margin:14px 0;font-size:15px}
+.fix b.t{color:#7656B8;display:block;font-family:var(--f-hand);font-weight:400;font-size:19px;line-height:1.1}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 color-mix(in srgb,var(--bad) 55%,transparent)}50%{box-shadow:0 0 0 5px transparent}}
 button{font:inherit;color:inherit}
 .btn{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--line2);background:var(--page);border-radius:14px;padding:9px 16px;font-weight:700;font-size:15px;cursor:pointer;text-decoration:none;color:var(--ink);
@@ -197,6 +200,7 @@ figcaption{font-size:13px;color:var(--muted);margin-top:8px;display:flex;justify
 /* reveal */
 .reveal{transition:transform .8s cubic-bezier(.2,.8,.2,1),opacity .8s}
 .reveal.pre{transform:translateY(34px) rotate(.6deg);opacity:.3}
+html,body{overflow-x:clip}
 .draw-pre{stroke-dashoffset:var(--len)}
 .drawn{transition:stroke-dashoffset 1.6s cubic-bezier(.4,.1,.2,1)}
 
@@ -634,14 +638,14 @@ footer .hand{font-size:22px}
       <div>
         <span class="eyebrow">mi guía de bio ~</span>
         <h1><span class="w">Sistema</span><br><span class="w"><em>Reproductor</em></span></h1>
-        <p class="lede">Tus 5 páginas de apuntes pasadas en limpio: aparato masculino y femenino, gametos, ciclo menstrual, cómo calcular la ovulación, fecundación y gemelos. Marca cada tema cuando lo domines y termina con el quiz.</p>
+        <p class="lede">Tus apuntes y el PPT de clase en un solo lugar (cuando no coinciden, manda el PPT): aparato masculino y femenino, gametos, ciclo menstrual, cálculo de la ovulación, fecundación, gestación y nacimiento, ITS y métodos anticonceptivos. Marca cada tema cuando lo domines y termina con el quiz.</p>
         <div class="cta">
           <a class="btn primary" href="#base">Empezar a estudiar</a>
           <a class="btn" href="#practica">Ir directo al quiz</a>
           <a class="btn" href="guia-de-estudio.pdf" download="Sistema_Reproductor_Guia_de_Estudio.pdf">Descargar guía PDF</a>
         </div>
         <div class="stats">
-          <span><b>9</b>temas</span>
+          <span><b>11</b>temas</span>
           <span><b>30</b>tarjetas</span>
           <span><b>28</b>preguntas</span>
           <span><b>~40</b>min</span>
@@ -659,7 +663,7 @@ footer .hand{font-size:22px}
           <svg viewBox="0 0 84 84" aria-hidden="true">
             <circle class="bg" cx="42" cy="42" r="34" fill="none" stroke-width="9"/>
             <circle class="fg" id="ringfg" cx="42" cy="42" r="34" fill="none" stroke-width="9" stroke-linecap="round" transform="rotate(-90 42 42)" stroke-dasharray="213.6" stroke-dashoffset="213.6"/>
-            <text id="ringtxt" x="42" y="48" text-anchor="middle">0/9</text>
+            <text id="ringtxt" x="42" y="48" text-anchor="middle">0/11</text>
           </svg>
           <p id="ringmsg">Marca "Lo tengo" al final de cada tema.</p>
         </div>
@@ -680,7 +684,8 @@ footer .hand{font-size:22px}
   <div class="topic-head"><span class="num">1</span><h2>Ideas base</h2><span class="chip c-ok">Seguro</span></div>
   <div class="cols">
     <div>
-      <div class="def"><b>Reproducción humana:</b> proceso por el cual la especie humana se puede <mark>perpetuar</mark>.</div>
+      <div class="def"><b>Sistema reproductor humano:</b> conjunto de órganos encargados de <mark>mantener la generación humana en la Tierra</mark>. <span class="chip c-ppt">PPT</span></div>
+      <div class="def"><b>Reproducción humana:</b> es una <b>reproducción sexual</b>: necesita una célula sexual masculina y una femenina. Así la especie se puede <mark>perpetuar</mark>.</div>
       <ul class="dots">
         <li>El conjunto de órganos reproductores se llama <b>genitales</b>.</li>
         <li>Cada sexo produce su <b>gameto</b> (célula sexual): gameto masculino (espermatozoide) y gameto femenino (ovocito).</li>
@@ -695,7 +700,7 @@ footer .hand{font-size:22px}
         <li>Uretra<small>conducto común</small></li><li class="arr" aria-hidden="true" style="animation-direction:reverse">←</li>
         <li>Semen<small>S. reproductor</small></li>
       </ul>
-      <p>En la mujer <b>no</b> se comparte: la uretra (orina) y la vagina (reproducción) tienen <b>orificios separados</b>.</p>
+      <p>En la mujer <b>no</b> se comparte: el sistema reproductor femenino es <b>independiente del aparato urinario</b> <span class="chip c-ppt">PPT</span>; la uretra (orina) y la vagina (reproducción) tienen <b>orificios separados</b>.</p>
     </div>
   </div>
   <div class="done-row"><button class="btn small tprac" type="button" data-prac="base">Practicar este tema</button><button class="donebtn" data-done="base"><span class="box"></span>Lo tengo</button></div>
@@ -706,15 +711,15 @@ footer .hand{font-size:22px}
   <span class="stamp">¡dominado!</span>
   <div class="topic-head"><span class="num">2</span><h2>Aparato masculino</h2></div>
 
-  <h3>Genitales internos <span class="chip c-ok">Seguro</span></h3>
+  <h3>Genitales internos (parte interna) <span class="chip c-ok">Seguro</span> <span class="chip c-ppt">PPT</span></h3>
   <div class="tbl"><table>
     <thead><tr><th>Órgano</th><th>Qué es / qué hace</th></tr></thead>
     <tbody>
-      <tr><td>Testículos</td><td>Gónadas masculinas (dos, uno a cada lado). Producen los <b>espermatozoides</b>, con apoyo de las <mark>células de Sertoli</mark>, y la <b>testosterona</b>, en las <mark class="g">células de Leydig</mark>.</td></tr>
+      <tr><td>Testículos</td><td>Gónadas masculinas (dos, uno a cada lado). Producen los <b>espermatozoides</b> (<mark>células de Sertoli</mark>) y la hormona <b>testosterona</b> (<mark class="g">células de Leydig</mark>). Están en el escroto y se comunican con la uretra por el conducto deferente.</td></tr>
       <tr><td>Epidídimo</td><td>Parte inicial del conducto deferente. <b>Termina la maduración</b> de los gametos y los <b>almacena</b> hasta que salen.</td></tr>
-      <tr><td>Conducto deferente</td><td>Lleva y almacena espermatozoides; desemboca en la uretra. El recorrido va <b>en contra de la gravedad</b>.</td></tr>
+      <tr><td>Conducto deferente</td><td>Allí se <b>almacenan</b> los espermatozoides y se <b>transportan al exterior</b>; desemboca en la uretra. El recorrido va <b>en contra de la gravedad</b>.</td></tr>
       <tr><td>Conducto eyaculador</td><td>Por donde salen los espermatozoides.</td></tr>
-      <tr><td>Uretra</td><td>Conducto común para orina y semen.</td></tr>
+      <tr><td>Uretra</td><td>Conducto encargado de <b>conducir los espermatozoides durante la eyaculación</b>; también lleva la orina (es el conducto común con el sistema urinario).</td></tr>
     </tbody>
   </table></div>
 
@@ -736,13 +741,13 @@ footer .hand{font-size:22px}
     </div>
   </div>
 
-  <h3>Glándulas anexas (3) <span class="chip c-hot">Muy probable</span></h3>
+  <h3>Glándulas anexas (3) <span class="chip c-hot">Muy probable</span> <span class="chip c-ppt">PPT</span></h3>
   <div class="tbl"><table>
     <thead><tr><th>Glándula</th><th>Qué aporta</th><th>¿Para qué?</th></tr></thead>
     <tbody>
       <tr><td>Vesículas seminales</td><td>Líquido alto en azúcar (sobre todo <mark>fructosa</mark>) y <b>prostaglandinas</b></td><td>La fructosa da el ATP para el recorrido. Las prostaglandinas favorecen las contracciones que mueven a los espermatozoides dentro del cuerpo de la mujer.</td></tr>
-      <tr><td>Próstata <span class="hand">(la + grande)</span></td><td>Líquido prostático</td><td>Facilita el movimiento de los espermatozoides; es esencial por la gran distancia que deben recorrer.</td></tr>
-      <tr><td>Bulbouretral <span class="hand">(la + pequeña)</span></td><td>Sustancia <mark class="g">alcalina</mark></td><td>Neutraliza el pH. La uretra tiene restos de orina, que es <b>ácida</b> y puede matar muchos espermatozoides.</td></tr>
+      <tr><td>Próstata <span class="hand">(la + grande)</span></td><td>Un líquido que se mezcla con el esperma antes de la eyaculación</td><td>Facilita el <b>movimiento</b> de las células sexuales, algo importante para la fecundación (deben recorrer una gran distancia).</td></tr>
+      <tr><td>Bulbouretrales o <b>glándulas de Cowper</b> <span class="hand">(la + pequeña)</span></td><td>Sustancia <b>viscosa</b> y <mark class="g">débilmente alcalina</mark></td><td>Neutraliza los <b>residuos de orina</b> de la uretra (ácida, puede matar espermatozoides) y le da al semen su <b>olor característico</b>.</td></tr>
     </tbody>
   </table></div>
   <ul class="dots">
@@ -751,13 +756,13 @@ footer .hand{font-size:22px}
     <li><b>Prostatitis:</b> inflamación de la próstata. Se recomienda el examen de próstata desde los ~40 años.</li>
   </ul>
 
-  <h3>Genitales externos <span class="chip c-ok">Seguro</span></h3>
+  <h3>Genitales externos (parte externa) <span class="chip c-ok">Seguro</span> <span class="chip c-ppt">PPT</span></h3>
   <div class="tbl"><table>
     <thead><tr><th>Parte</th><th>Descripción</th></tr></thead>
     <tbody>
-      <tr><td>Escroto</td><td>Capa de piel que guarda a los testículos fuera de la cavidad del cuerpo.</td></tr>
-      <tr><td>Pene</td><td>Protegido por el <b>prepucio</b> (piel con la que se nace, de protección). Se puede retirar por <b>circuncisión</b>.</td></tr>
-      <tr><td>Glande</td><td>Parte final del pene. Tiene muchas terminaciones nerviosas; es importante en el placer sexual.</td></tr>
+      <tr><td>Escroto</td><td>Una <b>bolsa formada por la piel que cubre los testículos</b>, fuera de la cavidad del cuerpo.</td></tr>
+      <tr><td>Pene</td><td><b>Órgano copulador</b>, capaz de llevar los espermatozoides hasta la vagina de la mujer. Está protegido por el <b>prepucio</b>, que se puede retirar por <b>circuncisión</b>.</td></tr>
+      <tr><td>Glande</td><td><b>Parte terminal del pene</b>. Tiene muchas terminaciones nerviosas; es importante en el placer sexual.</td></tr>
     </tbody>
   </table></div>
   <div class="vs">
@@ -780,11 +785,13 @@ footer .hand{font-size:22px}
   <div class="topic-head"><span class="num">3</span><h2>Espermatogénesis</h2><span class="chip c-hot">Muy probable</span></div>
   <div class="cols">
     <div>
-      <div class="def"><b>Espermatogénesis:</b> proceso en el que se producen los espermatozoides, es decir, <mark>células haploides funcionales</mark>.</div>
+      <div class="def"><b>Espermatogénesis:</b> proceso en el que se producen los espermatozoides (<mark>células haploides funcionales</mark>). Tiene lugar en los <mark class="g">tubos seminíferos</mark>, que forman parte de los testículos. <span class="chip c-ppt">PPT</span></div>
       <ol class="steps">
-        <li><div><b>Espermatogonio</b>: célula <b>diploide</b> del testículo.</div></li>
-        <li><div><b>Espermátida</b>: ya es <b>haploide</b>, pero todavía no puede funcionar.</div></li>
-        <li><div><b>Espermiogénesis</b>: la espermátida se <b>diferencia</b> en espermatozoide (le sale cola, acrosoma…).</div></li>
+        <li><div><b>Espermatogonia (2n)</b>: 46 cromosomas (44 + XY). Se divide por <b>mitosis</b>.</div></li>
+        <li><div><b>Espermatocito primario (2n)</b>: 44 + XY. Entra en la <b>meiosis I</b>.</div></li>
+        <li><div><b>Espermatocitos secundarios (n)</b>: 23 cromosomas, unos con <b>22 + X</b> y otros con <b>22 + Y</b>. Entran en la <b>meiosis II</b>.</div></li>
+        <li><div><b>Espermátidas (n)</b>: ya son haploides, pero todavía no funcionan. Pasan por la <b>diferenciación</b> (espermiogénesis).</div></li>
+        <li><div><b>Espermatozoides (n)</b>: 22 + X o 22 + Y. De cada espermatocito primario salen <b>4 espermatozoides</b>.</div></li>
       </ol>
       <ul class="dots">
         <li><b>Empieza:</b> en la pubertad, impulsada por la testosterona.</li>
@@ -839,7 +846,8 @@ footer .hand{font-size:22px}
         <div class="anat-row"><div class="anat-info" aria-live="polite">Toca una parte del espermatozoide para ver qué es.</div><div class="stage mini-stage" id="stage-sperm"><figure class="mfig"><div class="mascot" data-who="spermi" data-state="idle" role="img" aria-label="Spermi"></div></figure><figure class="mfig"><div class="mascot" data-who="ovulina" data-state="idle" role="img" aria-label="Ovulina"></div></figure></div></div>
         <div class="anat-foot"></div>
       </div>
-      <div class="sticky"><span class="t">ojo, lo aclaré</span>En tus apuntes el lugar quedó entre el epidídimo y el conducto deferente. Según los libros, los espermatozoides se <b>forman en los túbulos seminíferos</b> del testículo y <b>terminan de madurar en el epidídimo</b>. Confirma cómo lo dio tu profe.</div>
+      <div class="fix"><b class="t">corregido según el PPT</b>La espermatogénesis tiene lugar en los <b>tubos seminíferos</b> de los testículos (no entre el epidídimo y el deferente, como quedó en los apuntes). En el epidídimo terminan de madurar y se almacenan.</div>
+      <div class="def"><b>El espermatozoide (gameto masculino):</b> son <b>células móviles</b> cuya función es <mark>alcanzar el óvulo y fecundarlo</mark>. Están formados por <b>cabeza, parte media y cola</b>.</div>
     </div>
   </div>
   <h3>Partes del espermatozoide</h3>
@@ -969,13 +977,14 @@ footer .hand{font-size:22px}
       <div class="anat-foot"></div>
     </div>
     <div>
-      <h3 style="margin-top:0">Genitales internos <span class="chip c-ok">Seguro</span></h3>
+      <h3 style="margin-top:0">Genitales internos <span class="chip c-ok">Seguro</span> <span class="chip c-ppt">PPT</span></h3>
+      <p style="margin-top:0">Es <b>independiente del aparato urinario</b>.</p>
       <ul class="dots">
-        <li><b>Ovarios</b> (gónadas, ~15 g): producen los ovocitos y las hormonas <mark>estrógeno y progesterona</mark>. <b>No tocan</b> a las trompas; las fimbrias atrapan al ovocito.</li>
-        <li><b>Trompas de Falopio u oviductos:</b> por ahí se mueven los óvulos. Tienen <b>cilios</b> que también ayudan a mover a los espermatozoides.</li>
-        <li><b>Ámpula:</b> la parte media/ancha de la trompa; es el <mark class="g">lugar de la fecundación</mark>.</li>
-        <li><b>Útero:</b> órgano muscular y fuerte que permite el desarrollo del embarazo y puede expandirse. Afuera tiene el <b>miometrio</b> (capa de músculo) y adentro el <b>endometrio</b>, una capa con sangre que se desprende en la menstruación (se forma desde la pubertad).</li>
-        <li><b>Vagina:</b> tubo muscular que se expande.</li>
+        <li><b>Ovarios</b> (gónadas, <b>~15 g</b> cada uno): producen los ovocitos y las hormonas sexuales femeninas <mark>estrógeno y progesterona</mark>. Cada ovario <b>se comunica con una trompa de Falopio</b>, que desemboca en el útero; las fimbrias atrapan al ovocito.</li>
+        <li><b>Trompas de Falopio u oviductos:</b> tubos que <b>comunican los ovarios con el útero</b>. Tienen <b>cilios</b> que mueven al ovocito y ayudan a los espermatozoides.</li>
+        <li><b>Ámpula:</b> la parte media y ancha de la trompa; es el <mark class="g">lugar de la fecundación</mark>.</li>
+        <li><b>Útero:</b> su función es <b>albergar al embrión durante 9 meses, nutrirlo y protegerlo</b>. Es un órgano muscular <b>hueco, de paredes gruesas</b>, que se expande en el embarazo. Afuera tiene el <b>miometrio</b> (músculo) y adentro el <b>endometrio</b>, una capa con sangre que se desprende en la menstruación.</li>
+        <li><b>Vagina:</b> tubo musculoso que <b>comunica el cuello del útero con el exterior</b>; se expande.</li>
       </ul>
     </div>
   </div>
@@ -986,8 +995,8 @@ footer .hand{font-size:22px}
     <div><h4>Útero → vagina</h4><p>Sale por el <b>orificio vaginal</b>: por ahí sale la sangre menstrual y el bebé, y entra el pene.</p></div>
   </div>
 
-  <h3>Genitales externos: la vulva <span class="chip c-ok">Seguro</span></h3>
-  <p><b>Vulva</b> = conjunto de labios mayores, labios menores y clítoris.</p>
+  <h3>Genitales externos: la vulva <span class="chip c-ok">Seguro</span> <span class="chip c-ppt">PPT</span></h3>
+  <p><b>Vulva</b>: la parte exterior del aparato reproductor femenino, formada por los <b>labios mayores, labios menores y el clítoris</b>.</p>
   <div class="tbl"><table>
     <thead><tr><th>Parte</th><th>Características</th></tr></thead>
     <tbody>
@@ -997,13 +1006,13 @@ footer .hand{font-size:22px}
     </tbody>
   </table></div>
 
-  <h3>Glándulas accesorias <span class="chip c-extra">Extra</span></h3>
+  <h3>Glándulas accesorias <span class="chip c-ok">Seguro</span> <span class="chip c-ppt">PPT</span></h3>
   <div class="tbl"><table>
-    <thead><tr><th>Glándula</th><th>Dónde</th><th>Función</th></tr></thead>
+    <thead><tr><th>Glándula</th><th>Dónde y cómo es</th><th>Función</th></tr></thead>
     <tbody>
-      <tr><td>Bartolino</td><td>Parte inicial de la vagina (vestíbulo)</td><td>Lubrica y facilita la penetración, lo que ayuda al éxito del embarazo.</td></tr>
-      <tr><td>Vestibulares menores</td><td>También al inicio de la vagina</td><td>Igual que Bartolino.</td></tr>
-      <tr><td>Skene</td><td>Junto al orificio externo de la uretra (meato urinario)</td><td>Igual: ayudan a la lubricación.</td></tr>
+      <tr><td>Vestibulares mayores (de <b>Bartolino</b>)</td><td>Son <b>dos</b>, de <b>0,5 cm</b>, en el vestíbulo de la vagina</td><td><b>Lubrican el vestíbulo</b> de la vagina durante la excitación sexual.</td></tr>
+      <tr><td>Vestibulares menores</td><td>Pequeñas, a cada lado del vestíbulo de la vagina</td><td>Secretan <b>moco</b> que lubrica los labios y el vestíbulo.</td></tr>
+      <tr><td>Parauretrales (de <b>Skene</b>)</td><td>Desembocan a cada lado del <b>orificio externo de la uretra</b></td><td>Secreción <b>mucosa lubricante</b>.</td></tr>
     </tbody>
   </table></div>
   <div class="done-row"><button class="btn small tprac" type="button" data-prac="fem">Practicar este tema</button><button class="donebtn" data-done="femenino"><span class="box"></span>Lo tengo</button></div>
@@ -1015,6 +1024,14 @@ footer .hand{font-size:22px}
   <div class="topic-head"><span class="num">5</span><h2>Ovogénesis y ovocito II</h2><span class="chip c-hot">Muy probable</span></div>
   <div class="cols">
     <div>
+      <div class="def"><b>Ovogénesis:</b> formación del gameto femenino. Tiene lugar en los <mark>ovarios</mark>. <span class="chip c-ppt">PPT</span></div>
+      <ol class="steps">
+        <li><div><b>Ovogonia (2n)</b> → por <b>mitosis</b> → <b>ovocito primario (2n)</b>.</div></li>
+        <li><div><b>Meiosis I</b> → <b>ovocito secundario (n)</b> + el <b>primer cuerpo polar</b>.</div></li>
+        <li><div><b>Meiosis II</b> (solo si hay fecundación) → <b>óvulo</b> + cuerpos polares: en total <b>3 cuerpos polares</b>.</div></li>
+      </ol>
+      <div class="fix"><b class="t">importante (PPT)</b>Solo se llama <b>óvulo</b> si es <b>fecundado</b> por el espermatozoide; antes de eso sigue siendo <b>ovocito II</b>.</div>
+      <h3>En la vida de la mujer</h3>
       <ol class="steps">
         <li><div>Empieza cuando la mujer <b>todavía es un embrión</b>.</div></li>
         <li><div>Se <mark>detiene en la meiosis I</mark>, al terminar la profase I. En esa etapa ocurre la <b>recombinación genética</b>, que asegura que todos los gametos sean diferentes (variabilidad genética).</div></li>
@@ -1025,18 +1042,19 @@ footer .hand{font-size:22px}
       </ol>
     </div>
     <div>
-      <h3 style="margin-top:0">Ovocito II</h3>
+      <h3 style="margin-top:0">Ovocito II (gameto femenino) <span class="chip c-ppt">PPT</span></h3>
       <ul class="dots">
-        <li><b>No tiene flagelo</b> (no se mueve solo).</li>
-        <li>Es de las <mark>células más grandes</mark> del cuerpo humano.</li>
-        <li>Tiene 2 zonas:
+        <li>Son células <b>grandes e inmóviles</b> (no tienen flagelo).</li>
+        <li>Son las <mark>células más voluminosas en el cuerpo de la mujer</mark>.</li>
+        <li>Están formados por:
           <ul class="dots">
-            <li><b>Parte externa:</b> la <b>zona pelúcida</b>, rodeada de <b>células foliculares</b>.</li>
-            <li><b>Núcleo:</b> contenido <b>haploide</b>.</li>
+            <li>La <b>membrana</b>, cubierta por la <b>zona pelúcida</b> (con células foliculares). <b>El espermatozoide tiene que atravesarla para fecundarlo.</b></li>
+            <li>El <b>núcleo</b>, con contenido <b>haploide</b>.</li>
           </ul>
         </li>
-        <li>Cuando el espermatozoide llega, las enzimas de su acrosoma abren la zona pelúcida y le dan paso.</li>
+        <li>Las enzimas del acrosoma del espermatozoide abren la zona pelúcida y le dan paso.</li>
       </ul>
+      <div class="fix"><b class="t">corregido según el PPT</b>En los apuntes decía "las células más grandes del cuerpo humano"; el PPT dice <b>las más voluminosas en el cuerpo de la mujer</b>.</div>
       <p class="scribble">nace con ~400 mil y no hace más ✎</p>
     </div>
   </div>
@@ -1048,7 +1066,9 @@ footer .hand{font-size:22px}
       <tr><td>¿Cuándo termina?</td><td>Nunca</td><td>En la menopausia</td></tr>
       <tr><td>¿Cuántos gametos?</td><td>Se producen todo el tiempo</td><td>Nace con ~400 mil ovocitos I</td></tr>
       <tr><td>Resultado</td><td>Espermatozoides haploides</td><td>1 ovocito II + 3 cuerpos polares</td></tr>
-      <tr><td>Movimiento</td><td>Con flagelo</td><td>Sin flagelo</td></tr>
+      <tr><td>Movimiento</td><td>Móviles (con flagelo)</td><td>Inmóviles (sin flagelo)</td></tr>
+      <tr><td>¿Dónde ocurre?</td><td>Tubos seminíferos de los testículos</td><td>Ovarios</td></tr>
+      <tr><td>Etapas</td><td>Espermatogonia → espermatocito I → espermatocitos II → espermátidas → 4 espermatozoides</td><td>Ovogonia → ovocito I → ovocito II + cuerpo polar → óvulo (si hay fecundación) + 3 cuerpos polares</td></tr>
     </tbody>
   </table></div>
   <div class="done-row"><button class="btn small tprac" type="button" data-prac="ovo">Practicar este tema</button><button class="donebtn" data-done="ovogenesis"><span class="box"></span>Lo tengo</button></div>
@@ -1059,9 +1079,10 @@ footer .hand{font-size:22px}
   <span class="stamp">¡dominado!</span>
   <div class="topic-head"><span class="num">6</span><h2>Ciclo menstrual</h2><span class="chip c-hot">Muy probable</span></div>
   <div class="def"><b>Ciclo menstrual:</b> proceso cíclico en el que la mujer tiene una serie de cambios en su anatomía y sus componentes. Dura <mark>28 a 35 días</mark>, depende de cada mujer.</div>
+  <div class="fix"><b class="t">corregido según el PPT</b>Los apuntes definían la menopausia como "1 año entero sin menstruación"; el PPT la define como el <b>último sangrado</b>, cuando la mujer deja de menstruar, <b>entre los 45 y 55 años</b>.</div>
   <div class="vs">
-    <div><h4>Menarquia</h4><p>La primera menstruación; llega a una edad distinta para cada una. La cantidad de sangrado depende del grosor del endometrio, que a su vez depende del estado físico, la nutrición y las hormonas.</p></div>
-    <div><h4>Menopausia y perimenopausia</h4><p><b>Menopausia:</b> 1 año entero sin menstruación.<br><b>Perimenopausia:</b> la etapa en la que se está acercando.</p></div>
+    <div><h4>Menarquia <span class="chip c-ppt">PPT</span></h4><p>La <b>primera menstruación</b>. La cantidad de sangre que se pierde está en torno a los <b>35 mL</b>, pero es normal entre <b>10 y 80 mL</b>. Depende del grosor del endometrio (estado físico, nutrición y hormonas).</p></div>
+    <div><h4>Menopausia y perimenopausia <span class="chip c-ppt">PPT</span></h4><p><b>Menopausia:</b> cuando con la edad los ciclos ya no se suceden y la mujer <b>deja de menstruar</b>: es su <b>último sangrado</b>. La edad cambia en cada mujer (genética y ambiente), pero por lo general ocurre <b>entre los 45 y los 55 años</b>.<br><b>Perimenopausia:</b> la etapa en la que se está acercando.</p></div>
   </div>
   <p>Hay cambios a 4 niveles: <b>ovarios</b>, <b>temperatura corporal</b>, <b>hormonas</b> y <b>útero (endometrio)</b>. Mueve el control o dale a "Reproducir" para recorrer un ciclo de 28 días:</p>
 
@@ -1093,18 +1114,25 @@ footer .hand{font-size:22px}
     </div>
   </div>
 
+  <h3>Las fases y sus días <span class="chip c-ppt">PPT</span></h3>
+  <div class="vs" style="grid-template-columns:repeat(4,minmax(0,1fr))">
+    <div><h4>Fase menstrual</h4><p><b>Días 1–5</b>: sangrado.</p></div>
+    <div><h4>Fase folicular</h4><p><b>Días 1–13</b>: madura el folículo. En el útero se llama <b>fase proliferativa</b>.</p></div>
+    <div><h4>Ovulación</h4><p><b>Días 14–15</b>: sale el ovocito II.</p></div>
+    <div><h4>Fase lútea</h4><p><b>Días 15–28</b>: cuerpo lúteo. En el útero se llama <b>fase secretora</b>.</p></div>
+  </div>
   <h3>Las 4 fases en una tabla</h3>
   <div class="tbl"><table>
     <thead><tr><th>Fase</th><th>Ovarios</th><th>Temperatura</th><th>Hormonas</th><th>Útero</th></tr></thead>
     <tbody>
       <tr><td>1. Menstruación<br><small>día 1 = primer día del periodo</small></td><td>Crecen muchos folículos, sobre todo el <b>de Graaf</b> (el maduro, que contiene al ovocito II)</td><td>~36 °C (normal)</td><td>Bajas, menos la FSH; el estrógeno sube un poco</td><td>Se desprende el endometrio (sangrado)</td></tr>
-      <tr><td>2. Fase folicular</td><td>El folículo de Graaf madura</td><td>~36 °C</td><td><b>Suben FSH y estrógeno</b></td><td>El endometrio se vuelve a formar</td></tr>
-      <tr><td>3. Ovulación<br><small>mitad del ciclo</small></td><td>Se rompe el folículo y <b>sale el ovocito II</b> hacia la trompa; las fimbrias lo atrapan</td><td><mark>Sube 1 °C → ~37 °C</mark></td><td>Pico de <b>LH</b> y FSH; el estrógeno baja</td><td>Aumenta el grosor del endometrio</td></tr>
-      <tr><td>4. Fase lútea</td><td>El folículo vacío se transforma en el <b>cuerpo lúteo</b></td><td>Se mantiene alta</td><td>Bajan las hipofisarias (FSH, LH); suben las ováricas, sobre todo la <mark class="g">progesterona</mark>, la hormona del embarazo</td><td>El endometrio se prepara para un embarazo</td></tr>
+      <tr><td>2. Fase folicular<br><small>días 1–13 (proliferativa)</small></td><td>El folículo de Graaf madura</td><td>~36 °C</td><td><b>Suben FSH y estrógeno</b></td><td>El endometrio se vuelve a formar</td></tr>
+      <tr><td>3. Ovulación<br><small>días 14–15</small></td><td>Se rompe el folículo y <b>sale el ovocito II</b> hacia la trompa; las fimbrias lo atrapan</td><td><mark>Sube 1 °C → ~37 °C</mark></td><td>Pico de <b>LH</b> y FSH; el estrógeno baja</td><td>Aumenta el grosor del endometrio</td></tr>
+      <tr><td>4. Fase lútea<br><small>días 15–28 (secretora)</small></td><td>El folículo vacío se transforma en el <b>cuerpo lúteo</b></td><td>Se mantiene alta y baja al final, cuando degenera el cuerpo lúteo</td><td>Bajan las hipofisarias (FSH, LH); suben las ováricas, sobre todo la <mark class="g">progesterona</mark>, la hormona del embarazo</td><td>El endometrio se prepara para un embarazo</td></tr>
     </tbody>
   </table></div>
   <div class="def"><b>Ovulación:</b> liberación del ovocito II por la ruptura del folículo. El ovocito pasa a la <b>trompa</b>; el folículo de Graaf se queda <b>dentro del ovario</b>.</div>
-  <div class="def"><b>Si no hay embarazo:</b> el cuerpo lúteo se degrada, baja la progesterona, el endometrio se desprende y empieza la <b>menstruación</b>: termina un ciclo y empieza el otro.</div>
+  <div class="def"><b>Si no hay embarazo:</b> el cuerpo lúteo <b>degenera</b>, baja la progesterona, el endometrio se desprende y empieza la <b>menstruación</b>: termina un ciclo y empieza el otro.</div>
   <p class="scribble">los cambios de humor = las hormonas suben y bajan ↑↓</p>
   <h3>Irregularidades: ovarios poliquísticos <span class="chip c-ok">Seguro</span></h3>
   <p>Los folículos de Graaf se <b>endurecen y forman quistes</b>; los ovocitos no maduran y se <b>pierde fertilidad</b>.</p>
@@ -1172,45 +1200,113 @@ footer .hand{font-size:22px}
 <!-- 8 FECUNDACION -->
 <section class="topic reveal" id="fecundacion">
   <span class="stamp">¡dominado!</span>
-  <div class="topic-head"><span class="num">8</span><h2>Fecundación y gestación</h2></div>
+  <div class="topic-head"><span class="num">8</span><h2>Fecundación, gestación y nacimiento</h2><span class="chip c-ppt">PPT</span></div>
   <div class="cols">
     <div>
       <h3 style="margin-top:0">Fecundación <span class="chip c-hot">Muy probable</span></h3>
-      <div class="def"><b>Fecundación:</b> célula masculina + célula femenina = <mark>nueva célula</mark>. Es <b>interna</b> y ocurre en las <b>trompas</b> (en la ámpula).</div>
+      <div class="def"><b>Fecundación:</b> la acción durante la cual el espermatozoide y el ovocito II <b>fusionan sus núcleos</b> para formar un <mark>cigoto diploide</mark>. En los humanos es <b>interna</b>: ocurre dentro del cuerpo de la mujer, en las <b>trompas de Falopio</b> (en la ámpula).</div>
       <ol class="steps">
-        <li><div>El semen eyaculado entra a la vagina.</div></li>
-        <li><div>Los espermatozoides recorren el útero hasta la trompa, ayudados por las contracciones y los cilios.</div></li>
-        <li><div>Llegan al <b>ovocito II</b>. Las enzimas del <b>acrosoma</b> degradan la <b>zona pelúcida</b>.</div></li>
-        <li><div>Un espermatozoide entra y el ovocito II termina su meiosis.</div></li>
+        <li><div>Para que ocurra se necesita el <b>coito</b>: la introducción del pene en la vagina y la posterior <b>eyaculación</b> del semen.</div></li>
+        <li><div>Si no hay obstáculos, el semen pasa por la <b>vagina</b>, asciende por el <b>útero</b> y llega a las <b>trompas de Falopio</b> (ayudan las contracciones y los cilios).</div></li>
+        <li><div>De los <b>cientos de miles</b> de espermatozoides, solo <b>unos pocos</b> llegan hasta el ovocito II; los demás se <b>degradan</b> en el viaje.</div></li>
+        <li><div><b>Solo uno</b> logra atravesar la <b>zona (capa) pelúcida</b>, gracias a las enzimas del acrosoma, y produce la fecundación. El ovocito II termina su meiosis y ya se llama <b>óvulo</b> fecundado.</div></li>
       </ol>
-      <p>El <b>sexo</b> se define en el <mark class="g">par 23</mark>: <b>XX</b> = mujer, <b>XY</b> = hombre.</p>
+      <p>Desde la fecundación se define el <b>género</b> del embrión: depende del cromosoma del <mark class="g">par 23</mark> que porte el <b>espermatozoide</b> (X o Y). <b>XX</b> = mujer, <b>XY</b> = hombre.</p>
       <p>Las <b>cicatrices</b> en los órganos reproductores pueden dificultar la fecundación.</p>
     </div>
     <div>
       <h3 style="margin-top:0">Gestación <span class="chip c-ok">Seguro</span></h3>
+      <div class="def"><b>Gestación:</b> periodo en que el <b>cigoto</b> (etapa posterior al óvulo fecundado) se desarrolla a <b>embrión</b> (los <b>tres primeros meses</b>) y después a <b>feto</b> (del <b>cuarto mes</b> en adelante). Dura aproximadamente <mark>40 semanas</mark>.</div>
+      <ul class="flow" aria-label="Etapas de la gestación">
+        <li>Cigoto<small>óvulo fecundado</small></li><li class="arr" aria-hidden="true">→</li>
+        <li>Embrión<small>meses 1–3</small></li><li class="arr" aria-hidden="true">→</li>
+        <li>Feto<small>mes 4 en adelante</small></li><li class="arr" aria-hidden="true">→</li>
+        <li>Nacimiento<small>~40 semanas</small></li>
+      </ul>
       <p>Durante el embarazo el <b>sistema inmune baja</b>; si no, podría reconocer al bebé como extraño.</p>
+      <h3>Embarazos múltiples</h3>
       <div class="vs" style="grid-template-columns:1fr">
-        <div><h4>Univitelinos</h4><p><b>Gemelos idénticos.</b> Un solo óvulo fecundado que <b>se divide en 2</b>.</p></div>
-        <div><h4>Bivitelinos</h4><p><b>Mellizos.</b> La mujer <b>ovula varios ovocitos</b> y cada uno se fecunda por separado.</p></div>
+        <div><h4>Univitelinos (monocigóticos)</h4><p><b>Gemelos idénticos.</b> Un solo óvulo fecundado que <b>se divide en 2</b>.</p></div>
+        <div><h4>Bivitelinos (dicigóticos)</h4><p><b>Mellizos o gemelos fraternos.</b> La mujer <b>ovula varios ovocitos</b> y cada uno se fecunda por separado.</p></div>
       </div>
     </div>
   </div>
-  <div class="done-row"><button class="btn small tprac" type="button" data-prac="fec">Practicar este tema</button><button class="donebtn" data-done="fecundacion"><span class="box"></span>Lo tengo</button></div>
+  <h3>Nacimiento <span class="chip c-ok">Seguro</span></h3>
+  <p><b>No se sabe qué genera el nacimiento</b> de la criatura. Puede darse por <b>parto natural (vaginal)</b> o por <b>cesárea</b>.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Cesárea</th><th>Parto vaginal</th></tr></thead>
+    <tbody>
+      <tr><td>Regularmente la <b>programan</b>.</td><td><b>No se sabe cuándo</b> ocurrirá con exactitud.</td></tr>
+      <tr><td>Es una <b>operación quirúrgica</b>; se usa <b>anestesia</b> y no hay dolor durante el parto.</td><td>Es un <b>proceso natural</b>; se puede tener sin medicamentos o con <b>anestesia epidural</b>. Puede usarse <b>pitocina</b> para acelerarlo.</td></tr>
+      <tr><td>No siempre puede entrar un acompañante.</td><td>Es más probable que dejen entrar a uno o varios acompañantes.</td></tr>
+      <tr><td>Se reducen las probabilidades de contacto piel con piel con el bebé.</td><td>Son altas las probabilidades de contacto piel con piel inmediato.</td></tr>
+      <tr><td>La recuperación es <b>más dolorosa y lenta</b>.</td><td>La recuperación es <b>menos dolorosa y más rápida</b>; puede haber un desgarre.</td></tr>
+      <tr><td>El bebé <b>no se expone a las bacterias buenas</b> del canal vaginal, que fortalecen su sistema inmunológico.</td><td>Los dolores son por las <b>contracciones</b>, antes y durante el parto.</td></tr>
+      <tr><td>Dificulta (aunque no imposibilita) la <b>lactancia</b>.</td><td><b>Facilita la lactancia</b> materna.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="done-row"><button class="btn small tprac" type="button" data-prac="fec">Practicar este tema</button><button class="btn small tprac" type="button" data-prac="gest">Practicar gestación y nacimiento</button><button class="donebtn" data-done="fecundacion"><span class="box"></span>Lo tengo</button></div>
 </section>
 
-<!-- 9 CONFUSIONES -->
+<!-- 9 ITS -->
+<section class="topic reveal" id="its">
+  <span class="stamp">¡dominado!</span>
+  <div class="topic-head"><span class="num">9</span><h2>Infecciones de transmisión sexual (ITS)</h2><span class="chip c-ppt">PPT</span><span class="chip c-hot">Muy probable</span></div>
+  <div class="def"><b>ITS:</b> las enfermedades que se transmiten por el <b>contacto sexual</b>.</div>
+  <div class="tbl"><table>
+    <thead><tr><th>ITS</th><th>Causante</th><th>Lo que hay que saber</th></tr></thead>
+    <tbody>
+      <tr><td>Verrugas genitales (<b>condilomas</b>)</td><td><b>Virus</b> del papiloma humano (<b>VPH</b>)</td><td>Los síntomas aparecen entre <b>1 y 6 meses</b> después de tener relaciones: pequeñas <b>verrugas</b> en el epitelio de los órganos sexuales y el ano.</td></tr>
+      <tr><td><b>Sífilis</b></td><td><b>Bacteria</b> <i>Treponema pallidum</i></td><td>Primero, una pequeña <b>úlcera</b> en los órganos sexuales <b>2 o 3 semanas</b> después del contacto. De <b>6 semanas a 6 meses</b> después (cuando la llaga ya desapareció) pueden salir <b>erupciones en la piel</b>. Etapas: 1) lesión, 2) sarpullido en el cuerpo, 3) afecta órganos internos (años después).</td></tr>
+      <tr><td><b>Gonorrea</b></td><td><b>Bacteria</b> <i>Neisseria gonorrhoeae</i></td><td>Muy común. Sin tratamiento causa problemas <b>graves y permanentes</b> en hombres y mujeres: puede pasar a la <b>sangre y las articulaciones</b> y ser <b>potencialmente mortal</b>. Facilita infectarse con el virus que causa el <b>SIDA</b>.</td></tr>
+      <tr><td><b>Herpes</b> genital</td><td><b>Virus</b> del herpes simple tipo 1 (<b>VHS-1</b>) y tipo 2 (<b>VHS-2</b>)</td><td>Ampollas o llagas en la zona genital.</td></tr>
+      <tr><td><b>Clamidia</b></td><td><b>Bacteria</b> <i>Chlamydia trachomatis</i></td><td>Más frecuente en jóvenes de <b>15 a 24 años</b>. Muchas personas <b>no tienen síntomas</b> (≈50 % de los hombres y ≈70 % de las mujeres). Hombres: dolor al orinar, secreción del pene, dolor testicular. Mujeres: dolor al orinar, flujo, dolor en el sexo, sangrado entre periodos. Sin tratar: <b>infertilidad</b> (mujeres) y complicaciones uretrales (hombres). Se trata con <b>antibióticos</b>.</td></tr>
+      <tr><td><b>Candidiasis</b> vaginal</td><td><b>Hongo</b> <i>Candida albicans</i></td><td>Aumento del hongo por cambios del <b>pH</b> vaginal, humedad, uso de <b>antibióticos</b> o mucha glucosa (diabetes, carbohidratos, alcohol). Síntomas: ardor y picor, dolor al orinar y en las relaciones, flujo espeso y blanquecino. Prevención: zona seca, ropa no ajustada, limpiarse de adelante hacia atrás.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="vs">
+    <div><h4>Causadas por virus</h4><p>VPH (verrugas o condilomas) y herpes (VHS-1 y VHS-2).</p></div>
+    <div><h4>Por bacterias y hongos</h4><p>Bacterias: sífilis, gonorrea y clamidia. Hongo: candidiasis.</p></div>
+  </div>
+  <p class="scribble">factores de riesgo: promiscuidad y no usar métodos de barrera (condón)</p>
+  <div class="done-row"><button class="btn small tprac" type="button" data-prac="its">Practicar este tema</button><button class="donebtn" data-done="its"><span class="box"></span>Lo tengo</button></div>
+</section>
+
+<!-- 10 METODOS -->
+<section class="topic reveal" id="metodos">
+  <span class="stamp">¡dominado!</span>
+  <div class="topic-head"><span class="num">10</span><h2>Métodos anticonceptivos</h2><span class="chip c-ppt">PPT</span><span class="chip c-hot">Muy probable</span></div>
+  <div class="def"><b>Métodos anticonceptivos:</b> métodos o procedimientos que <b>previenen un embarazo</b> en mujeres sexualmente activas, ya sean ellas o sus parejas quienes los usen. Pueden ser <b>hormonales o no hormonales</b>, <b>transitorios o definitivos</b>, y basados en tecnología o en conductas.</div>
+  <div class="tbl"><table>
+    <thead><tr><th>Clasificación</th><th>Cuáles son</th></tr></thead>
+    <tbody>
+      <tr><td><b>Hormonales</b></td><td>Combinan <b>estrógeno y progestágeno</b>: píldoras, inyecciones, anillo vaginal, parche transdérmico, implantes o dispositivo intrauterino (DIU) hormonal.</td></tr>
+      <tr><td><b>No hormonales reversibles</b></td><td>Dispositivos intrauterinos (<b>DIU</b>). <b>De barrera</b>: condón masculino y femenino, diafragma y espermicidas. Método de la <b>amenorrea de lactancia</b>. <b>Abstinencia periódica</b>: moco cervical (Billings), calendario, temperatura basal y sintotérmico.</td></tr>
+      <tr><td><b>No hormonales permanentes</b></td><td>Anticoncepción quirúrgica voluntaria (esterilización): <b>femenina</b> (en el PPT: histerectomía) y <b>masculina</b> (<b>vasectomía</b>).</td></tr>
+    </tbody>
+  </table></div>
+  <p>Ejemplos de la lámina: condón masculino, condón femenino, píldoras anticonceptivas, anillo hormonal, inyección anticonceptiva, cirugía esterilizadora, implante, calendario de días fértiles, parche anticonceptivo y DIU.</p>
+  <div class="sticky"><span class="t">dato</span>El <b>condón</b> es el único método de la lista que además protege de las <b>ITS</b>. El método del <b>calendario</b> usa justo el cálculo de días fértiles que practicaste.</div>
+  <div class="done-row"><button class="btn small tprac" type="button" data-prac="metodos">Practicar este tema</button><button class="donebtn" data-done="metodos"><span class="box"></span>Lo tengo</button></div>
+</section>
+
+<!-- 11 CONFUSIONES -->
 <section class="topic reveal" id="confusiones">
   <span class="stamp">¡dominado!</span>
-  <div class="topic-head"><span class="num">9</span><h2>No te confundas</h2></div>
+  <div class="topic-head"><span class="num">11</span><h2>No te confundas</h2></div>
   <div class="tbl"><table>
     <thead><tr><th>Esto…</th><th>…no es lo mismo que esto</th></tr></thead>
     <tbody>
       <tr><td>Sertoli: apoyan la formación de espermatozoides</td><td>Leydig: producen testosterona</td></tr>
-      <tr><td>Vesículas seminales: fructosa (energía)</td><td>Bulbouretral: alcalina (neutraliza el pH)</td></tr>
+      <tr><td>Vesículas seminales: fructosa (energía)</td><td>Bulbouretral (Cowper): débilmente alcalina, olor del semen</td></tr>
       <tr><td>Epidídimo: madura y almacena</td><td>Conducto eyaculador: por donde salen</td></tr>
       <tr><td>Folículo de Graaf: antes de ovular</td><td>Cuerpo lúteo: lo que queda después de ovular</td></tr>
       <tr><td>FSH y LH: hipofisarias (cerebro)</td><td>Estrógeno y progesterona: ováricas</td></tr>
-      <tr><td>Menopausia: 1 año sin menstruación</td><td>Perimenopausia: se está acercando</td></tr>
+      <tr><td>Menopausia: último sangrado (45–55 años)</td><td>Perimenopausia: se está acercando</td></tr>
+      <tr><td>Ovocito II: antes de la fecundación</td><td>Óvulo: solo cuando ya fue fecundado</td></tr>
+      <tr><td>Embrión: meses 1 a 3</td><td>Feto: del mes 4 en adelante</td></tr>
+      <tr><td>VPH y herpes: virus</td><td>Sífilis, gonorrea y clamidia: bacterias; candidiasis: hongo</td></tr>
+      <tr><td>Vasectomía: esterilización masculina</td><td>Esterilización femenina: permanente en la mujer</td></tr>
       <tr><td>Univitelinos: idénticos, 1 óvulo</td><td>Bivitelinos: mellizos, varios óvulos</td></tr>
       <tr><td>Meato urinario: sale orina</td><td>Orificio vaginal: sangre, bebé</td></tr>
       <tr><td>Endometrio: capa interna que se desprende</td><td>Miometrio: capa de músculo</td></tr>
@@ -1341,7 +1437,7 @@ footer .hand{font-size:22px}
     </div>
   </div>
   <div class="dp-controls">
-    <label>Tema <select id="dp-topic"><option value="all">Todos los temas</option><option value="base">Ideas base</option><option value="masc">Aparato masculino</option><option value="esperm">Espermatogénesis</option><option value="fem">Aparato femenino</option><option value="ovo">Ovogénesis</option><option value="ciclo">Ciclo menstrual</option><option value="calc">Cálculo de la ovulación</option><option value="fec">Fecundación y gestación</option></select></label>
+    <label>Tema <select id="dp-topic"><option value="all">Todos los temas</option><option value="base">Ideas base</option><option value="masc">Aparato masculino</option><option value="esperm">Espermatogénesis</option><option value="fem">Aparato femenino</option><option value="ovo">Ovogénesis</option><option value="ciclo">Ciclo menstrual</option><option value="calc">Cálculo de la ovulación</option><option value="fec">Fecundación</option><option value="gest">Gestación y nacimiento</option><option value="its">ITS</option><option value="metodos">Métodos anticonceptivos</option></select></label>
     <label>Tipo <select id="dp-type"><option value="all">Selección múltiple y V/F</option><option value="mc">Solo selección múltiple</option><option value="tf">Solo verdadero o falso</option></select></label>
     <label>Orden <select id="dp-order"><option value="orden">En orden</option><option value="rand">Aleatorio</option></select></label>
     <button class="btn small" type="button" id="dp-onlybad" aria-pressed="false">Solo falladas</button>
@@ -1492,10 +1588,10 @@ const YAI={
   end:{top:BOTH+'¡Un 5 seguro! La profe Yaisel te va a felicitar.',ok:OV+'¡Muy bien! Repasa las falladas y vas por el 5.',low:SP+'Uy… con esa nota la profe Yaisel se va a molestar. Repasa las falladas y lo intentamos otra vez.'},
   cards:[SP+'Ya van varias "todavía no"… la profe Yaisel pregunta justo esas. ¡Repásalas!',OV+'Tranqui, pero no las dejes: la profe Yaisel las va a preguntar.']
 };
-const TIPS=[OV+'Nací con unos 400 mil ovocitos. ¡Y no hago más!',SP+'Puedo vivir unos 5 días dentro del cuerpo de la mujer.',OV+'Soy de las células más grandes del cuerpo humano.',
+const TIPS=[OV+'Nací con unos 400 mil ovocitos. ¡Y no hago más!',SP+'Puedo vivir unos 5 días dentro del cuerpo de la mujer.',OV+'Soy la célula más voluminosa del cuerpo de la mujer.',
   SP+'Mi pieza media está llena de mitocondrias: es mi motor.',OV+'Nos encontramos en la ámpula de la trompa de Falopio.',SP+'Los testículos bajan al escroto porque necesito menos calor.',
   OV+'En la ovulación la temperatura sube 1 °C.',SP+'Mi acrosoma tiene enzimas para abrir tu zona pelúcida, Ovulina.',OV+'Si no hay embarazo, el cuerpo lúteo se degrada y llega la regla.',
-  SP+'La bulbouretral me protege de la acidez de la orina.',OV+'Yo no tengo flagelo: me mueven los cilios de la trompa.',SP+'Las vesículas seminales me dan fructosa para el viaje.',OV+'La profe Yaisel siempre pregunta el ciclo menstrual. ¡Dale al botón Reproducir!',SP+'Termina los 9 temas y la profe Yaisel no te agarra desprevenida/o.'];
+  SP+'La bulbouretral me protege de la acidez de la orina.',OV+'Yo no tengo flagelo: me mueven los cilios de la trompa.',SP+'Las vesículas seminales me dan fructosa para el viaje.',OV+'La profe Yaisel siempre pregunta el ciclo menstrual. ¡Dale al botón Reproducir!',SP+'Termina los 11 temas y la profe Yaisel no te agarra desprevenida/o.',OV+'Solo me llamo óvulo si me fecundan. Antes soy ovocito II.',SP+'Me formo en los tubos seminíferos de los testículos.',OV+'La gestación dura unas 40 semanas.',SP+'El condón también protege de las ITS.',OV+'La menopausia suele llegar entre los 45 y 55 años.',SP+'La bulbouretral también se llama glándula de Cowper.'];
 const pick=a=>{if(a.length<2)return a[0];a._u=a._u||[];let v,t=0;do{v=a[Math.floor(Math.random()*a.length)];t++}while(a._u.includes(v)&&t<20);a._u.push(v);if(a._u.length>Math.min(6,a.length-1))a._u.shift();return v};
 const SPR=new Map();
 function ensure(mood){return Promise.all(['spermi','ovulina'].map(w=>{const src=`mascotas/${w}_${mood}.webp`;if(!SPR.has(src)){const i=new Image();i.src=src;SPR.set(src,(i.decode?i.decode():Promise.resolve()).catch(()=>{}))}return SPR.get(src)}))}
@@ -1544,7 +1640,7 @@ ensure('idle');addEventListener('load',()=>setTimeout(()=>{ensure('happy');ensur
 if('IntersectionObserver' in window){const pio=new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle('paused',!e.isIntersecting)));document.querySelectorAll('.stage').forEach(x=>pio.observe(x))}
 
 /* ---------- progreso por tema ---------- */
-const SECS=['base','masculino','espermatogenesis','femenino','ovogenesis','ciclo','calculo','fecundacion','confusiones'];
+const SECS=['base','masculino','espermatogenesis','femenino','ovogenesis','ciclo','calculo','fecundacion','its','metodos','confusiones'];
 let done=new Set(store.get('repro-done',[]));
 function paintProgress(){
   SECS.forEach(s=>{document.getElementById(s).classList.toggle('done',done.has(s));
@@ -1552,13 +1648,13 @@ function paintProgress(){
     const b=document.querySelector(`[data-done="${s}"] .box`);if(b)b.textContent=done.has(s)?'✓':''});
   const n=done.size;document.getElementById('progbar').style.width=(n/SECS.length*100)+'%';
   document.getElementById('ringfg').setAttribute('stroke-dashoffset',213.6*(1-n/SECS.length));
-  document.getElementById('ringtxt').textContent=n+'/9';
+  document.getElementById('ringtxt').textContent=n+'/'+SECS.length;
   document.getElementById('ringmsg').textContent=n===0?'Marca "Lo tengo" al final de cada tema.':n<5?'¡Buen comienzo! Sigue así.':n<9?'Ya vas más de la mitad.':'¡Todo dominado! Ahora el quiz.';
 }
 document.querySelectorAll('[data-done]').forEach(b=>b.addEventListener('click',e=>{
-  const s=b.dataset.done;if(done.has(s))done.delete(s);else{done.add(s);const r=b.getBoundingClientRect();confetti(r.left+r.width/2,r.top,done.size===9?140:40)}
+  const s=b.dataset.done;if(done.has(s))done.delete(s);else{done.add(s);const r=b.getBoundingClientRect();confetti(r.left+r.width/2,r.top,done.size===SECS.length?140:40)}
   store.set('repro-done',[...done]);paintProgress();
-  if(done.has(s))tipPause=Date.now()+9000;react('stage-hero',done.size===9?'dance':'happy*',done.size===9?BOTH+'¡Dominaste los 9 temas! Ahora ve por el quiz.':pick([SP+`¡${done.size} de 9! Vas a toda velocidad.`,OV+`¡${done.size} de 9 temas! Qué orgullo.`]));
+  if(done.has(s))tipPause=Date.now()+9000;react('stage-hero',done.size===SECS.length?'dance':'happy*',done.size===SECS.length?BOTH+`¡Dominaste los ${SECS.length} temas! Ahora ve por el quiz.`:pick([SP+`¡${done.size} de ${SECS.length}! Vas a toda velocidad.`,OV+`¡${done.size} de ${SECS.length} temas! Qué orgullo.`]));
 }));
 paintProgress();
 
@@ -1624,7 +1720,7 @@ function makeAnat(boxId,P,ACCEPT,opts){
   setMode('ver');
 }
 makeAnat('anat-fem',{
-  ovario:{n:'Ovario',d:'Gónada femenina (~15 g). Produce los ovocitos y las hormonas estrógeno y progesterona. No toca a la trompa.',a:[96,190],l:[4,214]},
+  ovario:{n:'Ovario',d:'Gónada femenina (~15 g). Produce los ovocitos y las hormonas estrógeno y progesterona. Se comunica con una trompa de Falopio.',a:[96,190],l:[4,214]},
   foliculo:{n:'Folículo de Graaf',d:'Folículo maduro que contiene al ovocito II. En la ovulación se rompe y lo libera.',a:[108,192],l:[20,254]},
   luteo:{n:'Cuerpo lúteo',d:'Lo que queda del folículo después de ovular. Produce progesterona; si no hay embarazo, se degrada.',a:[146,194],l:[106,290]},
   fimbrias:{n:'Fimbrias',d:'Prolongaciones en forma de dedos al final de la trompa. Atrapan al ovocito cuando sale del ovario.',a:[64,112],l:[2,146]},
@@ -1664,7 +1760,7 @@ const xd=d=>X0+(d-1)*STEP;
 const g=(d,m,s)=>Math.exp(-((d-m)**2)/(2*s*s));
 const curves={fsh:d=>.30+.22*g(d,3,3)+.42*g(d,14,1.2),lh:d=>.10+.85*g(d,14,1.0),est:d=>.10+.70*g(d,12.6,2.0)+.32*g(d,21,3),prog:d=>.04+.78*g(d,21,3.2)};
 function el(tag,attrs,parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);(parent||chart).appendChild(e);return e}
-[[1,5,'Menstruación','var(--bad-soft)'],[6,13,'Folicular','var(--blue-soft)'],[14,14,'Ovul.','var(--ok-soft)'],[15,28,'Lútea','var(--extra-soft)']].forEach(([a,b,name,fill])=>{
+[[1,5,'Menstrual','var(--bad-soft)'],[6,13,'Folicular','var(--blue-soft)'],[14,15,'Ovulación','var(--ok-soft)'],[16,28,'Lútea','var(--extra-soft)']].forEach(([a,b,name,fill])=>{
   const x=Math.max(X0,xd(a)-STEP/2),x2=Math.min(X1,xd(b)+STEP/2);
   el('rect',{x,y:8,width:x2-x,height:26,rx:6,fill});
   const t=el('text',{x:(x+x2)/2,y:26,'text-anchor':'middle'});t.textContent=name;t.style.fill='var(--ink)';t.style.fontWeight='700';
@@ -1686,10 +1782,10 @@ const cur=el('g',{style:'transition:transform .35s cubic-bezier(.2,.8,.2,1)'});
 el('line',{x1:0,y1:8,x2:0,y2:TT+TH,stroke:'var(--ink)','stroke-width':1.5,'stroke-dasharray':'4 4'},cur);
 const dot=el('circle',{r:6,cx:0,fill:'var(--temp)',stroke:'var(--page)','stroke-width':2,style:'transition:cy .35s'},cur);
 const info=d=>{
-  if(d<=5)return{p:'Menstruación',ov:'Crecen los folículos, sobre todo el de Graaf.',t:'~36 °C (normal)',h:'Bajas, menos la FSH; el estrógeno sube un poco.',u:'Se desprende el endometrio: sangrado.'};
-  if(d<=13)return{p:'Fase folicular',ov:'El folículo de Graaf madura y contiene al ovocito II.',t:'~36 °C',h:'Suben la FSH y el estrógeno.',u:'El endometrio se vuelve a formar y engrosa.'};
-  if(d===14)return{p:'Ovulación',ov:'Se rompe el folículo y sale el ovocito II hacia la trompa.',t:'Sube 1 °C → ~37 °C',h:'Pico de LH (y FSH); el estrógeno baja.',u:'Endometrio grueso.'};
-  return{p:'Fase lútea',ov:'El folículo vacío se vuelve cuerpo lúteo.'+(d>=26?' Si no hubo embarazo, se degrada.':''),t:'Se mantiene alta (~37 °C)',h:'Bajan FSH y LH; sube la progesterona'+(d>=26?' (y luego cae si no hay embarazo)':'')+'.',u:d>=26?'Sin embarazo, se prepara para desprenderse.':'Se prepara para un posible embarazo.'};
+  if(d<=5)return{p:'Fase menstrual (días 1–5, dentro de la folicular)',ov:'Crecen los folículos, sobre todo el de Graaf.',t:'~36 °C (normal)',h:'Bajas, menos la FSH; el estrógeno sube un poco.',u:'Se desprende el endometrio: sangrado.'};
+  if(d<=13)return{p:'Fase folicular / proliferativa (días 1–13)',ov:'El folículo de Graaf madura y contiene al ovocito II.',t:'~36 °C',h:'Suben la FSH y el estrógeno.',u:'El endometrio se vuelve a formar y engrosa.'};
+  if(d===14||d===15)return{p:'Ovulación (días 14–15)',ov:'Se rompe el folículo y sale el ovocito II hacia la trompa.',t:'Sube 1 °C → ~37 °C',h:'Pico de LH (y FSH); el estrógeno baja.',u:'Endometrio grueso.'};
+  return{p:'Fase lútea / secretora (días 15–28)',ov:'El folículo vacío se vuelve cuerpo lúteo.'+(d>=26?' Si no hubo embarazo, se degrada.':''),t:'Se mantiene alta (~37 °C)',h:'Bajan FSH y LH; sube la progesterona'+(d>=26?' (y luego cae si no hay embarazo)':'')+'.',u:d>=26?'Sin embarazo, se prepara para desprenderse.':'Se prepara para un posible embarazo.'};
 };
 const dayIn=document.getElementById('day'),dbox=document.getElementById('daybox');let lastPhase='';
 function setDay(d){
@@ -1763,7 +1859,7 @@ function calc(){
 })();
 
 /* ---------- banco de preguntas por tema ---------- */
-const TOPICS={base:['Ideas base','#base'],masc:['Aparato masculino','#masculino'],esperm:['Espermatogénesis','#espermatogenesis'],fem:['Aparato femenino','#femenino'],ovo:['Ovogénesis','#ovogenesis'],ciclo:['Ciclo menstrual','#ciclo'],calc:['Cálculo de la ovulación','#calculo'],fec:['Fecundación y gestación','#fecundacion']};
+const TOPICS={base:['Ideas base','#base'],masc:['Aparato masculino','#masculino'],esperm:['Espermatogénesis','#espermatogenesis'],fem:['Aparato femenino','#femenino'],ovo:['Ovogénesis','#ovogenesis'],ciclo:['Ciclo menstrual','#ciclo'],calc:['Cálculo de la ovulación','#calculo'],fec:['Fecundación','#fecundacion'],gest:['Gestación y nacimiento','#fecundacion'],its:['ITS','#its'],metodos:['Métodos anticonceptivos','#metodos']};
 const TYPES={mc:'Selección múltiple',tf:'Verdadero o falso',open:'Desarrollo',order:'Ordenar procesos',match:'Pareo'};
 /* mc: [tipo, tema, pregunta, [correcta, …incorrectas], explicación]
    tf: [tipo, tema, afirmación, verdadero?, explicación]
@@ -1841,10 +1937,10 @@ const BANK=[
 /* ===== ESPERMATOGÉNESIS ===== */
 ["mc","esperm","La pieza media del espermatozoide contiene…",["mitocondrias","el acrosoma","el núcleo haploide","la zona pelúcida"],"Las mitocondrias producen el ATP que mueve la cola."],
 ["mc","esperm","El acrosoma sirve para…",["degradar la zona pelúcida del ovocito con enzimas","mover la cola","producir ATP","guardar los cromosomas"],"Sus enzimas hidrolíticas abren paso."],
-["mc","esperm","La espermátida es…",["haploide, pero aún debe diferenciarse (espermiogénesis)","diploide","el espermatozoide maduro","un cuerpo polar"],"El espermatogonio es diploide; la espermátida ya es haploide."],
+["mc","esperm","La espermátida es…",["haploide, pero aún debe diferenciarse (espermiogénesis)","diploide","el espermatozoide maduro","un cuerpo polar"],"La espermatogonia es diploide (2n); la espermátida ya es haploide."],
 ["mc","esperm","¿Cuándo deja el hombre de producir espermatozoides?",["Nunca","A los 40 años","En la andropausia","Al terminar la pubertad"],"Empieza en la pubertad y nunca se detiene."],
 ["mc","esperm","La espermatogénesis produce…",["células haploides funcionales (espermatozoides)","células diploides","óvulos","hormonas"],"Definición de tus apuntes."],
-["mc","esperm","El espermatogonio es…",["diploide","haploide","un cuerpo polar","el espermatozoide maduro"],"Del espermatogonio diploide se llega a espermátidas haploides."],
+["mc","esperm","La espermatogonia es…",["diploide (2n): 44 + XY","haploide (n): 22 + X","un cuerpo polar","el espermatozoide maduro"],"Según el PPT, la espermatogonia tiene 46 cromosomas (44 + XY) = 2n."],
 ["mc","esperm","La espermiogénesis es…",["la diferenciación de la espermátida en espermatozoide","la división del ovocito","la salida del semen","la producción de testosterona"],"Ahí se forman cola, acrosoma, etc."],
 ["mc","esperm","¿Qué hormona impulsa la espermatogénesis desde la pubertad?",["Testosterona","Progesterona","Estrógeno","Insulina"],"Según tus apuntes, sale por la testosterona."],
 ["mc","esperm","¿Cuáles son las 3 partes del espermatozoide?",["Cabeza, pieza media y cola","Cabeza, tronco y patas","Núcleo, zona pelúcida y cola","Acrosoma, ovocito y flagelo"],"Cabeza (acrosoma y núcleo), pieza media (mitocondrias) y cola."],
@@ -1855,15 +1951,15 @@ const BANK=[
 ["mc","esperm","¿Dónde está el acrosoma?",["En la cabeza","En la cola","En la pieza media","En el cuello"],"Es como un gorro en la parte delantera de la cabeza."],
 ["mc","esperm","El núcleo del espermatozoide es…",["haploide","diploide","triploide","no tiene núcleo"],"Lleva 23 cromosomas."],
 ["tf","esperm","La espermatogénesis empieza en la pubertad.",true,"Y nunca termina."],
-["tf","esperm","El espermatogonio ya es haploide.",false,"Es diploide; la espermátida es la que ya es haploide."],
+["tf","esperm","La espermatogonia ya es haploide.",false,"Es diploide (2n, 44 + XY); las espermátidas son las haploides."],
 ["tf","esperm","Las mitocondrias de la pieza media producen ATP.",true,"Esa energía mueve la cola."],
 ["tf","esperm","El acrosoma está en la cola del espermatozoide.",false,"Está en la cabeza."],
 ["tf","esperm","Los espermatozoides pueden vivir unos 5 días dentro de la mujer.",true,"Según tus apuntes."],
 ["tf","esperm","El hombre deja de producir espermatozoides en la menopausia.",false,"El hombre nunca deja de producirlos."],
 ["open","esperm","¿Qué es la espermatogénesis, cuándo empieza y cuándo termina?","Es el proceso en el que se producen los espermatozoides, células haploides funcionales. Empieza en la pubertad (por la testosterona) y nunca termina.",["haploide","pubertad","nunca"]],
 ["open","esperm","Describe las partes del espermatozoide y la función de cada una.","Cabeza: acrosoma (enzimas que degradan la zona pelúcida) y núcleo haploide. Cuello: centriolos. Pieza media: mitocondrias que dan ATP. Cola o flagelo: movimiento.",["cabeza","acrosoma","mitocondria","cola|flagelo"]],
-["open","esperm","¿Qué diferencia hay entre espermatogonio y espermátida?","El espermatogonio es diploide; la espermátida ya es haploide pero todavía debe pasar por la espermiogénesis para diferenciarse en espermatozoide.",["diploide","haploide","espermiogenesis|diferencia"]],
-["order","esperm","Ordena las etapas de la espermatogénesis.",["Espermatogonio (diploide)","Espermátida (haploide)","Espermiogénesis (diferenciación)","Espermatozoide maduro"],"De diploide a haploide y luego se diferencia."],
+["open","esperm","¿Qué diferencia hay entre la espermatogonia y la espermátida?","La espermatogonia es diploide (2n, 44 + XY); la espermátida ya es haploide (n, 22 + X o 22 + Y) pero todavía debe diferenciarse en espermatozoide.",["diploide|2n","haploide|n","diferencia|espermiogenesis"]],
+["order","esperm","Ordena las etapas de la espermatogénesis (PPT).",["Espermatogonia (2n)","Espermatocito primario (2n)","Espermatocitos secundarios (n)","Espermátidas (n)","Espermatozoides (n)"],"De diploide a haploide y luego se diferencia."],
 ["order","esperm","Ordena las partes del espermatozoide de adelante hacia atrás.",["Acrosoma","Núcleo","Cuello (centriolos)","Pieza media","Cola"],"El acrosoma va delante, cubriendo el núcleo."],
 ["match","esperm","Une cada parte del espermatozoide con su función.",[["Acrosoma","Enzimas que degradan la zona pelúcida"],["Núcleo","Material genético haploide"],["Centriolos","Dirigen el movimiento de los cromosomas"],["Pieza media","Mitocondrias que dan ATP"],["Cola","Movimiento (flagelo)"]]],
 
@@ -1873,7 +1969,7 @@ const BANK=[
 ["mc","fem","¿Qué glándula está en el vestíbulo vaginal y facilita la penetración?",["Bartolino","Skene","Próstata","Bulbouretral"],"Skene está junto al meato urinario."],
 ["mc","fem","¿Qué hormonas producen los ovarios?",["Estrógeno y progesterona","FSH y LH","Testosterona","Insulina"],"FSH y LH son hipofisarias."],
 ["mc","fem","¿Cuánto pesa aproximadamente un ovario?",["15 g","1 kg","150 g","1 g"],"Según tus apuntes."],
-["mc","fem","Los ovarios y las trompas de Falopio…",["no se tocan: las fimbrias atrapan al ovocito","están pegados","son el mismo órgano","se unen en la vagina"],"Por eso el ovocito debe ser atrapado."],
+["mc","fem","Según el PPT, cada ovario…",["se comunica con una trompa de Falopio que desemboca en el útero","desemboca directamente en la vagina","está dentro del útero","se comunica con la vejiga"],"Las fimbrias de la trompa atrapan al ovocito cuando sale."],
 ["mc","fem","Otro nombre de las trompas de Falopio es…",["oviductos","uréteres","conductos deferentes","vesículas"],"Por ahí se mueven los óvulos."],
 ["mc","fem","Los cilios de las trompas…",["ayudan a mover el óvulo y a los espermatozoides","producen hormonas","forman el endometrio","protegen la vagina"],"Según tus apuntes, ayudan a mover espermatozoides."],
 ["mc","fem","¿Qué órgano permite el desarrollo del embarazo?",["Útero","Ovario","Vagina","Vejiga"],"Es muscular, fuerte y se expande."],
@@ -1892,7 +1988,7 @@ const BANK=[
 ["tf","fem","El endometrio se desprende durante la menstruación.",true,"Es la capa interna con sangre."],
 ["tf","fem","El miometrio es la capa interna del útero.",false,"El miometrio es músculo; la interna es el endometrio."],
 ["tf","fem","Los ovarios producen estrógeno y progesterona.",true,"Son hormonas ováricas."],
-["tf","fem","Los ovarios están pegados a las trompas.",false,"No se tocan; las fimbrias atrapan al ovocito."],
+["tf","fem","Cada ovario se comunica con una trompa de Falopio que desemboca en el útero.",true,"Así lo dice el PPT; las fimbrias atrapan al ovocito."],
 ["tf","fem","Los labios menores tienen vello púbico.",false,"Los que tienen vello son los mayores."],
 ["tf","fem","El útero puede expandirse.",true,"Por eso permite el embarazo."],
 ["tf","fem","Las glándulas de Bartolino facilitan la penetración.",true,"Están en el vestíbulo vaginal."],
@@ -1908,7 +2004,7 @@ const BANK=[
 ["mc","ovo","La ovogénesis se detiene por primera vez…",["en la profase I de la meiosis I, cuando la mujer es embrión","en la pubertad","en la menopausia","después de la fecundación"],"Se detiene en el embrión y se retoma en la pubertad."],
 ["mc","ovo","¿Qué produce la ovogénesis a partir de un ovocito I?",["1 ovocito II y 3 cuerpos polares","4 ovocitos II","2 ovocitos y 2 espermátidas","1 folículo de Graaf"],"Solo una célula queda como gameto."],
 ["mc","ovo","El ovocito II termina su meiosis…",["con la fecundación","en la ovulación","en la menstruación","en la pubertad"],"Si no es fecundado, no la termina."],
-["mc","ovo","El ovocito II se diferencia del espermatozoide porque…",["no tiene flagelo y es de las células más grandes del cuerpo","es diploide","tiene acrosoma","tiene pieza media"],"Es grande y no se mueve solo."],
+["mc","ovo","El ovocito II se diferencia del espermatozoide porque…",["es inmóvil y es la célula más voluminosa del cuerpo de la mujer","es diploide","tiene acrosoma","tiene pieza media"],"Es grande y no se mueve solo."],
 ["mc","ovo","¿Con cuántos ovocitos I nace aproximadamente una mujer?",["400 mil","400","4 millones","40"],"Nace con todos los que va a tener."],
 ["mc","ovo","¿Qué ocurre en la profase I que hace que todos los gametos sean diferentes?",["Recombinación genética","Ovulación","Fecundación","Menstruación"],"Así hay variabilidad genética."],
 ["mc","ovo","La ovogénesis se retoma en…",["la pubertad","la menopausia","el nacimiento","la fecundación"],"Y continúa hasta la menopausia."],
@@ -1921,12 +2017,12 @@ const BANK=[
 ["tf","ovo","La mujer nace con todos los ovocitos que va a tener.",true,"Aproximadamente 400 mil ovocitos I."],
 ["tf","ovo","La ovogénesis empieza en la pubertad.",false,"Empieza en el embrión; en la pubertad se retoma."],
 ["tf","ovo","El ovocito II tiene flagelo.",false,"No tiene flagelo."],
-["tf","ovo","El ovocito II es de las células más grandes del cuerpo humano.",true,"Según tus apuntes."],
+["tf","ovo","El ovocito II es la célula más voluminosa del cuerpo de la mujer.",true,"Así lo dice el PPT (los apuntes decían 'del cuerpo humano')."],
 ["tf","ovo","De la ovogénesis salen 4 óvulos iguales.",false,"Sale 1 ovocito II y 3 cuerpos polares."],
 ["tf","ovo","La recombinación genética ocurre en la profase I.",true,"Asegura que los gametos sean diferentes."],
 ["open","ovo","Explica la ovogénesis: cuándo empieza, dónde se detiene y cuándo termina.","Empieza cuando la mujer es embrión, se detiene en la profase I de la meiosis I, se retoma en la pubertad y sigue hasta la menopausia. Produce 1 ovocito II y 3 cuerpos polares; el ovocito II termina la meiosis con la fecundación.",["embrion","profase","pubertad","menopausia"]],
 ["open","ovo","Compara la espermatogénesis y la ovogénesis.","La espermatogénesis empieza en la pubertad y nunca termina, y produce espermatozoides todo el tiempo. La ovogénesis empieza en el embrión, se detiene y se retoma en la pubertad hasta la menopausia; la mujer nace con ~400 mil ovocitos I y cada uno da 1 ovocito II y 3 cuerpos polares.",["pubertad","nunca","embrion","menopausia","cuerpos polares"]],
-["open","ovo","Describe el ovocito II.","No tiene flagelo, es de las células más grandes del cuerpo, tiene una parte externa (zona pelúcida con células foliculares) y un núcleo haploide.",["flagelo","grande","zona pelucida","haploide"]],
+["open","ovo","Describe el ovocito II (PPT).","Son células grandes e inmóviles, las más voluminosas del cuerpo de la mujer. Están formadas por la membrana, cubierta por la zona pelúcida (que el espermatozoide tiene que atravesar para fecundarlo), y por el núcleo haploide.",["inmovil","voluminos|grande","zona pelucida","nucleo"]],
 ["order","ovo","Ordena las etapas de la ovogénesis.",["Empieza cuando la mujer es embrión","Se detiene en la profase I de la meiosis I","Se retoma en la pubertad","En cada ciclo se libera un ovocito II","El ovocito II termina la meiosis si hay fecundación"],"Así lo tienes en tus apuntes."],
 ["match","ovo","Une cada término con su significado.",[["~400 mil ovocitos I","Con los que nace la mujer"],["Cuerpos polares","Células que acompañan al ovocito II (3)"],["Zona pelúcida","Capa externa del ovocito II"],["Recombinación genética","Ocurre en la profase I"]]],
 ["match","ovo","Une cada característica con el proceso correcto.",[["Empieza en la pubertad y nunca termina","Espermatogénesis"],["Empieza en el embrión y termina en la menopausia","Ovogénesis"],["Produce 1 ovocito II y 3 cuerpos polares","Ovogénesis femenina (resultado)"],["Produce espermatozoides todo el tiempo","Espermatogénesis masculina (resultado)"]]],
@@ -1937,7 +2033,7 @@ const BANK=[
 ["mc","ciclo","¿Qué hormona alcanza su pico justo en la ovulación?",["LH (luteinizante)","Progesterona","Testosterona","Melatonina"],"En la ovulación hay el mayor nivel de LH y FSH."],
 ["mc","ciclo","¿Qué hormona domina la fase lútea y prepara al cuerpo para el embarazo?",["Progesterona","FSH","LH","Estrógeno"],"La produce el cuerpo lúteo."],
 ["mc","ciclo","Si no hay embarazo, al final de la fase lútea…",["se degrada el cuerpo lúteo y empieza la menstruación","se forma un folículo en la trompa","sube la temperatura a 38 °C","el ovocito II termina la meiosis"],"Baja la progesterona y se desprende el endometrio."],
-["mc","ciclo","La menopausia es…",["1 año entero sin menstruación","la primera menstruación","la etapa en que se está acercando","un ciclo de más de 35 días"],"La primera es la menarquia; la etapa previa, la perimenopausia."],
+["mc","ciclo","Según el PPT, la menopausia es…",["cuando la mujer deja de menstruar: su último sangrado","la primera menstruación","la etapa en que se está acercando","un ciclo de más de 35 días"],"Por lo general ocurre entre los 45 y 55 años. La primera menstruación es la menarquia."],
 ["mc","ciclo","En los ovarios poliquísticos…",["los folículos forman quistes y los ovocitos no maduran","hay demasiado endometrio","no hay trompas","los ovocitos maduran más rápido"],"Se pierde fertilidad."],
 ["mc","ciclo","El ciclo menstrual dura entre…",["28 y 35 días","7 y 10 días","50 y 60 días","1 y 5 días"],"Depende de cada mujer."],
 ["mc","ciclo","La menarquia es…",["la primera menstruación","la última menstruación","1 año sin regla","la ovulación"],"Es diferente para cada una."],
@@ -1967,13 +2063,13 @@ const BANK=[
 ["tf","ciclo","Durante la menstruación se desprende el miometrio.",false,"Se desprende el endometrio."],
 ["open","ciclo","¿Qué es la ovulación y qué cambios ocurren en ella?","Es la liberación del ovocito II por la ruptura del folículo. La temperatura sube 1 °C (a ~37 °C), hay el mayor nivel de LH y FSH, baja el estrógeno y aumenta el grosor del endometrio. El ovocito pasa a la trompa.",["ovocito","folicul","temperatura|37|1 °c","lh"]],
 ["open","ciclo","Describe qué pasa en la fase lútea y qué ocurre si no hay embarazo.","El folículo se transforma en cuerpo lúteo; bajan las hormonas hipofisarias y sube la progesterona para preparar el embarazo. Si no hay embarazo, el cuerpo lúteo se degrada, baja la progesterona, se desprende el endometrio y empieza la menstruación.",["cuerpo luteo","progesterona","degrada","menstruacion"]],
-["open","ciclo","Explica la diferencia entre menarquia, menopausia y perimenopausia.","Menarquia: primera menstruación. Menopausia: 1 año entero sin menstruación. Perimenopausia: la etapa en la que se está acercando la menopausia.",["primera","1 año|un año","acerca"]],
+["open","ciclo","Explica la diferencia entre menarquia, menopausia y perimenopausia.","Menarquia: la primera menstruación. Menopausia: cuando la mujer deja de menstruar, su último sangrado, por lo general entre los 45 y 55 años. Perimenopausia: la etapa en la que se está acercando.",["primera","ultimo sangrado|deja de menstruar","45|55","acerca"]],
 ["open","ciclo","¿Qué son los ovarios poliquísticos?","Es cuando los folículos de Graaf se endurecen y forman quistes; los ovocitos no maduran y se pierde fertilidad.",["quiste","madur","fertilidad"]],
 ["order","ciclo","Ordena las fases del ciclo menstrual.",["Menstruación","Fase folicular","Ovulación","Fase lútea"],"Empieza el día 1 con la menstruación."],
 ["order","ciclo","Ordena lo que pasa si no hay embarazo.",["El cuerpo lúteo se degrada","Baja la progesterona","El endometrio se desprende","Empieza la menstruación (nuevo ciclo)"],"Termina un ciclo y empieza el otro."],
 ["order","ciclo","Ordena lo que pasa en la ovulación.",["El folículo de Graaf madura","El folículo se rompe","Sale el ovocito II","Las fimbrias lo atrapan y pasa a la trompa"],"El folículo se queda en el ovario."],
 ["match","ciclo","Une cada fase con lo que pasa.",[["Menstruación","Se desprende el endometrio"],["Fase folicular","Suben FSH y estrógeno"],["Ovulación","Pico de LH y la temperatura sube 1 °C"],["Fase lútea","Sube la progesterona"]]],
-["match","ciclo","Une cada término con su definición.",[["Menarquia","Primera menstruación"],["Menopausia","1 año entero sin menstruación"],["Perimenopausia","Se está acercando la menopausia"],["Cuerpo lúteo","Lo que queda del folículo; produce progesterona"],["Folículo de Graaf","Folículo maduro que libera el ovocito II"]]],
+["match","ciclo","Une cada término con su definición.",[["Menarquia","Primera menstruación"],["Menopausia","Último sangrado (por lo general entre 45 y 55 años)"],["Perimenopausia","Se está acercando la menopausia"],["Cuerpo lúteo","Lo que queda del folículo; produce progesterona"],["Folículo de Graaf","Folículo maduro que libera el ovocito II"]]],
 ["match","ciclo","Une cada hormona con su tipo o función.",[["FSH","Hipofisaria; sube en la fase folicular"],["LH","Hipofisaria; pico en la ovulación"],["Progesterona","Ovárica; hormona del embarazo"],["Estrógeno","Ovárica; sube en la fase folicular y baja en la ovulación"]]],
 
 /* ===== CÁLCULO ===== */
@@ -2016,6 +2112,130 @@ const BANK=[
 ["open","fec","¿Cuál es la diferencia entre gemelos univitelinos y bivitelinos?","Univitelinos: gemelos idénticos, un óvulo fecundado que se divide en 2. Bivitelinos: mellizos, la mujer ovula varios ovocitos y cada uno se fecunda.",["identico","un ovulo|un solo","divide","varios"]],
 ["open","fec","¿Cómo se define el sexo del bebé?","Se define en el par 23 de cromosomas: XX es mujer y XY es hombre.",["23","xx","xy"]],
 ["order","fec","Ordena los pasos de la fecundación.",["El semen entra a la vagina","Los espermatozoides suben por el útero hasta la trompa","El acrosoma degrada la zona pelúcida","Un espermatozoide entra al ovocito II","El ovocito II termina la meiosis: nueva célula"],"Ocurre en la ámpula."],
+/* ===== NUEVAS SEGÚN EL PPT ===== */
+["mc","base","Según el PPT, el sistema reproductor humano es…",["el conjunto de órganos encargados de mantener la generación humana en la Tierra","el conjunto de glándulas que producen hormonas","el sistema que elimina los desechos","el conjunto de órganos que filtran la sangre"],"Definición del PPT."],
+["mc","base","La reproducción humana es una reproducción…",["sexual: necesita una célula sexual masculina y una femenina","asexual","por gemación","por esporas"],"Necesita los dos gametos."],
+["tf","base","El sistema reproductor femenino es independiente del aparato urinario.",true,"El masculino sí se relaciona con el urinario (uretra)."],
+["mc","masc","Según el PPT, ¿dónde tiene lugar la espermatogénesis?",["En los tubos seminíferos de los testículos","En el epidídimo","En la próstata","En el conducto deferente"],"Los tubos seminíferos forman parte de los testículos."],
+["tf","esperm","La espermatogénesis tiene lugar en el epidídimo.",false,"Tiene lugar en los tubos seminíferos de los testículos (corrección del PPT)."],
+["mc","esperm","¿Cuál es la fórmula cromosómica de la espermatogonia?",["44 + XY (2n, 46 cromosomas)","22 + X (n)","22 + Y (n)","44 + XX (2n)"],"Es diploide."],
+["mc","esperm","Los espermatocitos secundarios tienen…",["23 cromosomas: 22 + X o 22 + Y (n)","46 cromosomas (2n)","44 + XY","92 cromosomas"],"Salen de la meiosis I."],
+["mc","esperm","¿Qué división transforma la espermatogonia en espermatocito primario?",["Mitosis","Meiosis I","Meiosis II","Diferenciación"],"Después vienen la meiosis I y la meiosis II."],
+["mc","esperm","¿Qué proceso convierte las espermátidas en espermatozoides?",["La diferenciación","La mitosis","La meiosis I","La fecundación"],"También se llama espermiogénesis."],
+["mc","esperm","¿Cuántos espermatozoides salen de un espermatocito primario?",["4","1","2","3"],"Meiosis I da 2 espermatocitos secundarios y la meiosis II da 4 espermátidas → 4 espermatozoides."],
+["mc","esperm","Según el PPT, la función del espermatozoide es…",["alcanzar el óvulo y fecundarlo","producir testosterona","nutrir al embrión","neutralizar la orina"],"Son células móviles."],
+["tf","esperm","Los espermatozoides son células móviles.",true,"Se mueven con la cola; el ovocito II es inmóvil."],
+["order","esperm","Ordena las divisiones de la espermatogénesis.",["Mitosis","Meiosis I","Meiosis II","Diferenciación"],"Espermatogonia → (mitosis) → espermatocito I → (meiosis I) → espermatocitos II → (meiosis II) → espermátidas → (diferenciación) → espermatozoides."],
+["match","esperm","Une cada célula con su número de cromosomas.",[["Espermatogonia","2n: 44 + XY"],["Espermatocito primario","2n: 44 + XY (antes de la meiosis I)"],["Espermatocito secundario","n: 22 + X o 22 + Y"],["Espermatozoide","n: lleva X o Y"]]],
+["mc","masc","Las glándulas bulbouretrales también se llaman…",["glándulas de Cowper","glándulas de Bartolino","glándulas de Skene","vesículas seminales"],"Según el PPT."],
+["mc","masc","¿Qué glándula le da al semen su olor característico?",["Bulbouretrales (de Cowper)","Próstata","Vesículas seminales","Testículos"],"Su sustancia es viscosa y débilmente alcalina."],
+["tf","masc","La sustancia de las glándulas de Cowper es viscosa y débilmente alcalina.",true,"Neutraliza los residuos de orina de la uretra."],
+["mc","masc","Según el PPT, el líquido de la próstata…",["se mezcla con el esperma antes de la eyaculación y facilita el movimiento de las células sexuales","neutraliza la orina","aporta fructosa","produce testosterona"],"Es importante para la fecundación."],
+["mc","masc","Según el PPT, la uretra masculina es…",["el conducto encargado de conducir los espermatozoides durante la eyaculación","el lugar donde se forman los espermatozoides","una glándula anexa","parte del escroto"],"También lleva la orina."],
+["mc","masc","Según el PPT, en el conducto deferente…",["se almacenan los espermatozoides y se transportan al exterior","se forman los espermatozoides","se produce la testosterona","se produce el líquido alcalino"],"Comunica el testículo con la uretra."],
+["mc","masc","El pene es…",["un órgano copulador capaz de llevar los espermatozoides hasta la vagina","una glándula anexa","una gónada","parte del escroto"],"Está protegido por el prepucio; el glande es su parte terminal."],
+["mc","masc","El escroto es…",["una bolsa formada por la piel que cubre los testículos","una glándula","el conducto de los espermatozoides","la parte terminal del pene"],"Es parte de los genitales externos."],
+["match","masc","Une cada parte (PPT) con su descripción.",[["Escroto","Bolsa de piel que cubre los testículos"],["Pene","Órgano copulador"],["Glande","Parte terminal del pene"],["Prepucio","Piel que protege el pene"],["Uretra","Conduce los espermatozoides en la eyaculación"]]],
+["mc","fem","¿Cuál es la función del útero según el PPT?",["Albergar al embrión durante 9 meses, nutrirlo y protegerlo","Producir ovocitos","Producir estrógeno","Atrapar al ovocito"],"Es un órgano muscular hueco, de paredes gruesas."],
+["mc","fem","Según el PPT, la vagina es…",["un tubo musculoso que comunica el cuello del útero con el exterior","el lugar de la fecundación","una glándula","parte de la vulva"],"Se expande."],
+["mc","fem","¿Cuántas glándulas de Bartolino hay y de qué tamaño?",["Dos, de 0,5 cm","Una, de 5 cm","Cuatro, de 1 cm","Seis, de 0,1 cm"],"Son las vestibulares mayores."],
+["mc","fem","Las glándulas de Bartolino también se llaman…",["vestibulares mayores","parauretrales","bulbouretrales","de Cowper"],"Lubrican el vestíbulo de la vagina durante la excitación sexual."],
+["mc","fem","Las glándulas de Skene también se llaman…",["parauretrales","vestibulares mayores","de Cowper","vesículas"],"Desembocan a cada lado del orificio externo de la uretra."],
+["mc","fem","Las glándulas vestibulares menores secretan…",["moco que lubrica los labios y el vestíbulo","fructosa","una sustancia alcalina","estrógeno"],"Están a cada lado del vestíbulo."],
+["tf","fem","El útero es un órgano muscular hueco de paredes gruesas.",true,"Durante el embarazo se expande."],
+["match","fem","Une cada glándula accesoria femenina con lo que hace (PPT).",[["Bartolino (vestibulares mayores)","Dos de 0,5 cm; lubrican el vestíbulo en la excitación"],["Vestibulares menores","Moco que lubrica los labios y el vestíbulo"],["Skene (parauretrales)","Secreción mucosa a cada lado del orificio de la uretra"]]],
+["mc","ovo","Según el PPT, ¿dónde tiene lugar la ovogénesis?",["En los ovarios","En el útero","En las trompas","En la vagina"],"El gameto femenino se forma en los ovarios."],
+["mc","ovo","¿Cuándo se puede llamar óvulo al gameto femenino?",["Solo cuando ya fue fecundado por el espermatozoide","Desde que sale del ovario","Desde que la mujer es embrión","Durante la menstruación"],"Antes de la fecundación sigue siendo ovocito II (PPT)."],
+["tf","ovo","Antes de ser fecundado, el gameto femenino ya se llama óvulo.",false,"Sigue siendo ovocito II hasta que es fecundado."],
+["tf","ovo","El ovocito II es una célula móvil.",false,"Es grande e inmóvil."],
+["mc","ovo","¿Qué célula da origen al ovocito primario por mitosis?",["La ovogonia","El cuerpo polar","El cigoto","La espermatogonia"],"Ovogonia (2n) → mitosis → ovocito primario (2n)."],
+["mc","ovo","Después de la meiosis I resultan…",["un ovocito secundario (n) y el primer cuerpo polar","dos óvulos","cuatro ovocitos","un cigoto"],"La meiosis II solo se completa si hay fecundación."],
+["order","ovo","Ordena las etapas de la ovogénesis (imagen del PPT).",["Ovogonia (2n)","Ovocito primario (2n)","Ovocito secundario (n) + primer cuerpo polar","Óvulo (si hay fecundación) + 3 cuerpos polares"],"Mitosis, meiosis I y meiosis II."],
+["mc","ovo","¿Qué tiene que atravesar el espermatozoide para fecundar al ovocito II?",["La zona pelúcida","El endometrio","El miometrio","Las fimbrias"],"Cubre la membrana del ovocito II."],
+["mc","ciclo","¿Cuánta sangre se pierde aproximadamente en una menstruación?",["Unos 35 mL (es normal entre 10 y 80 mL)","Unos 500 mL","Unos 2 mL","Unos 200 mL"],"Dato del PPT."],
+["mc","ciclo","¿Entre qué edades suele ocurrir la menopausia?",["Entre los 45 y los 55 años","Entre los 12 y los 15 años","Entre los 25 y los 30 años","Después de los 70"],"Varía por genética y factores ambientales."],
+["mc","ciclo","¿De qué depende la edad de la menopausia?",["De la genética y de factores ambientales","Solo de la estatura","Del número de hijos únicamente","Del grupo sanguíneo"],"Según el PPT."],
+["mc","ciclo","Según el PPT, ¿qué días dura la fase menstrual?",["Días 1 a 5","Días 14 y 15","Días 15 a 28","Días 6 a 10"],"La fase folicular abarca los días 1 a 13."],
+["mc","ciclo","Según el PPT, ¿qué días ocurre la ovulación?",["Días 14 y 15","Días 1 a 5","Días 20 a 25","Día 28"],"Entre la fase folicular (1–13) y la lútea (15–28)."],
+["mc","ciclo","Según el PPT, ¿qué días abarca la fase lútea?",["Días 15 a 28","Días 1 a 13","Días 1 a 5","Días 10 a 14"],"Es cuando actúa el cuerpo lúteo."],
+["mc","ciclo","Según el PPT, la fase folicular abarca…",["los días 1 a 13","los días 14 y 15","los días 15 a 28","solo el día 1"],"Incluye la fase menstrual (días 1–5)."],
+["mc","ciclo","En el ciclo uterino, la fase folicular también se llama…",["fase proliferativa","fase secretora","fase menstrual","ovulación"],"El endometrio prolifera (crece)."],
+["mc","ciclo","En el ciclo uterino, la fase lútea también se llama…",["fase secretora","fase proliferativa","menarquia","fase menstrual"],"Así aparece en el diagrama circular del PPT."],
+["tf","ciclo","Al final del ciclo, si no hay embarazo, el cuerpo lúteo degenera y la temperatura vuelve a bajar.",true,"Así se ve en la gráfica del PPT."],
+["match","ciclo","Une cada fase con sus días (PPT).",[["Fase menstrual","Días 1–5"],["Fase folicular","Días 1–13"],["Ovulación","Días 14–15"],["Fase lútea","Días 15–28"]]],
+["mc","fec","Según el PPT, la fecundación es…",["la fusión de los núcleos del espermatozoide y el ovocito II, que forma un cigoto diploide","la salida del ovocito del ovario","la división del cigoto","la unión de dos óvulos"],"El cigoto es diploide (2n)."],
+["mc","fec","¿Qué determina el género del embrión?",["El cromosoma del par 23 (X o Y) que porte el espermatozoide","El cromosoma que porte el ovocito","La temperatura del útero","La cantidad de semen"],"El ovocito siempre aporta X."],
+["mc","fec","¿Qué es el coito?",["La introducción del pene en la vagina y la posterior eyaculación del semen","La salida del ovocito","La fusión de los núcleos","La menstruación"],"Es necesario para que ocurra la fecundación interna."],
+["mc","fec","De los cientos de miles de espermatozoides, ¿cuántos atraviesan la capa pelúcida?",["Solo uno","Todos","La mitad","Unos cien"],"Los demás se degradan en el viaje."],
+["tf","fec","Todos los espermatozoides que no fecundan al ovocito II se degradan en el viaje.",true,"Según el PPT."],
+["tf","fec","La fecundación forma un cigoto haploide.",false,"Forma un cigoto diploide."],
+["order","fec","Ordena el camino del semen después de la eyaculación.",["Vagina","Útero","Trompas de Falopio","Encuentro con el ovocito II"],"Si no hay ningún obstáculo, el semen sube hasta las trompas."],
+["mc","gest","¿Qué es la gestación?",["El periodo en que el cigoto se desarrolla a embrión y luego a feto","La salida del bebé","La fusión de los gametos","La primera menstruación"],"Dura aproximadamente 40 semanas."],
+["mc","gest","¿Cuánto dura aproximadamente la gestación?",["40 semanas","20 semanas","52 semanas","12 semanas"],"Unos 9 meses."],
+["mc","gest","¿Durante qué meses se le llama embrión?",["Los tres primeros meses","Del cuarto mes en adelante","Solo el último mes","Después del nacimiento"],"Del cuarto mes en adelante se llama feto."],
+["mc","gest","¿Desde cuándo se le llama feto?",["Desde el cuarto mes","Desde la fecundación","Desde el primer mes","Desde el noveno mes"],"Los tres primeros meses es embrión."],
+["mc","gest","El cigoto es…",["la etapa posterior al óvulo fecundado","un tipo de glándula","la etapa después del nacimiento","un ovocito sin fecundar"],"Luego se desarrolla a embrión."],
+["order","gest","Ordena las etapas del desarrollo.",["Cigoto","Embrión (meses 1–3)","Feto (desde el mes 4)","Nacimiento (~40 semanas)"],"Según el PPT."],
+["mc","gest","Los gemelos univitelinos también se llaman…",["monocigóticos","dicigóticos","bivitelinos","mellizos"],"Vienen de un solo cigoto."],
+["mc","gest","Los gemelos bivitelinos también se llaman…",["dicigóticos o fraternos","monocigóticos","idénticos","univitelinos"],"Vienen de dos cigotos distintos."],
+["mc","gest","Según el PPT, ¿qué genera el nacimiento?",["No se sabe qué lo genera","La menstruación","El pico de LH","La temperatura"],"Puede darse por parto natural o cesárea."],
+["mc","gest","¿De qué dos formas puede darse el nacimiento?",["Parto natural (vaginal) o cesárea","Solo por cesárea","Solo por parto natural","Por fecundación o gestación"],"Según el PPT."],
+["mc","gest","¿Cuál es una característica de la cesárea?",["Es una operación quirúrgica que regularmente se programa","Es un proceso natural","Facilita la lactancia","La recuperación es más rápida"],"Se usa anestesia."],
+["mc","gest","¿Cuál es una característica del parto vaginal?",["La recuperación es menos dolorosa y más rápida","Siempre se programa","Es una operación quirúrgica","El bebé no se expone a las bacterias buenas"],"También facilita la lactancia materna."],
+["mc","gest","¿Qué medicamento puede usarse para acelerar el trabajo de parto?",["La pitocina","La insulina","La progesterona","La testosterona"],"Según la comparación del PPT."],
+["mc","gest","¿Qué anestesia se puede usar en el parto vaginal?",["La epidural","La general siempre","Ninguna nunca","La local en la mano"],"También se puede tener sin medicamentos."],
+["tf","gest","En la cesárea el bebé se expone a las bacterias buenas del canal vaginal.",false,"No se expone; en el parto vaginal sí, y fortalecen su sistema inmunológico."],
+["tf","gest","El parto vaginal facilita la lactancia materna.",true,"La cesárea la dificulta, aunque no la imposibilita."],
+["tf","gest","En la cesárea la recuperación es más dolorosa y lenta.",true,"En el parto vaginal es menos dolorosa y más rápida."],
+["tf","gest","En el parto vaginal se sabe con exactitud cuándo ocurrirá.",false,"No se sabe; la cesárea regularmente se programa."],
+["match","gest","Une cada característica con el tipo de nacimiento.",[["Regularmente la programan","Cesárea (programada)"],["Es un proceso natural","Parto vaginal (natural)"],["Recuperación más dolorosa y lenta","Cesárea (recuperación)"],["Facilita la lactancia materna","Parto vaginal (lactancia)"]]],
+["match","gest","Une cada término con su definición.",[["Cigoto","Óvulo fecundado, diploide"],["Embrión","Primeros tres meses"],["Feto","Del cuarto mes en adelante"],["Gestación","Unas 40 semanas"]]],
+["open","gest","Compara la cesárea con el parto vaginal (al menos tres diferencias).","La cesárea es una operación quirúrgica que regularmente se programa, usa anestesia, su recuperación es más dolorosa y lenta, el bebé no se expone a las bacterias buenas del canal vaginal y dificulta la lactancia. El parto vaginal es natural, no se sabe cuándo ocurrirá, la recuperación es más rápida, permite contacto piel con piel y facilita la lactancia.",["quirurgic|operacion","program","recuperacion","lactancia","natural"]],
+["open","gest","Explica qué es la gestación y sus etapas.","Es el periodo en que el cigoto (el óvulo fecundado) se desarrolla a embrión durante los tres primeros meses y después a feto desde el cuarto mes; dura unas 40 semanas.",["cigoto","embrion","feto","40"]],
+["mc","its","¿Qué son las ITS?",["Las enfermedades que se transmiten por el contacto sexual","Enfermedades del sistema digestivo","Hormonas del ciclo","Métodos anticonceptivos"],"Infecciones de transmisión sexual."],
+["mc","its","¿Qué causa las verrugas genitales (condilomas)?",["El virus del papiloma humano (VPH)","La bacteria Treponema pallidum","El hongo Candida albicans","La bacteria Neisseria gonorrhoeae"],"Aparecen entre 1 y 6 meses después."],
+["mc","its","¿Cuándo aparecen los síntomas de las verrugas genitales?",["Entre 1 y 6 meses después de tener relaciones sexuales","Al día siguiente","Después de 10 años","Nunca aparecen"],"Pequeñas verrugas en el epitelio de los órganos sexuales y el ano."],
+["mc","its","¿Qué bacteria causa la sífilis?",["Treponema pallidum","Neisseria gonorrhoeae","Chlamydia trachomatis","Candida albicans"],"Su primera señal es una úlcera."],
+["mc","its","¿Cuál es la primera manifestación de la sífilis?",["Una pequeña úlcera en los órganos sexuales unas 2 o 3 semanas después","Verrugas al año","Fiebre inmediata","Flujo blanquecino"],"Luego pueden salir erupciones en la piel."],
+["mc","its","¿Cuándo pueden salir las erupciones en la piel en la sífilis?",["De 6 semanas a 6 meses después del contacto","El mismo día","A los 20 años","Nunca"],"Cuando la llaga ya desapareció."],
+["mc","its","En la etapa 3 de la sífilis…",["afecta a los órganos internos","aparece la primera úlcera","aparece el sarpullido","se cura sola"],"Puede ser de 3 a 15 años después."],
+["mc","its","¿Qué bacteria causa la gonorrea?",["Neisseria gonorrhoeae","Treponema pallidum","Chlamydia trachomatis","VPH"],"Es muy común."],
+["mc","its","Si la gonorrea no se trata, puede…",["propagarse a la sangre y las articulaciones y ser potencialmente mortal","curarse siempre sola","causar solo verrugas","proteger contra el VIH"],"Además facilita infectarse con el virus del SIDA."],
+["mc","its","¿Qué causa el herpes genital?",["Los virus del herpes simple tipo 1 y tipo 2 (VHS-1 y VHS-2)","Una bacteria","Un hongo","Un parásito"],"Según el PPT."],
+["mc","its","¿Qué bacteria causa la clamidia?",["Chlamydia trachomatis","Neisseria gonorrhoeae","Treponema pallidum","Candida albicans"],"Se trata con antibióticos."],
+["mc","its","¿En qué edades es más frecuente la clamidia?",["Entre los 15 y 24 años","Entre los 50 y 60","En menores de 5","Solo en mayores de 70"],"Según la infografía del PPT."],
+["mc","its","¿Qué porcentaje de mujeres con clamidia no presenta síntomas?",["Alrededor del 70 %","Alrededor del 5 %","El 100 %","Ninguna"],"En hombres es alrededor del 50 %."],
+["mc","its","¿Qué consecuencia puede causar la clamidia sin tratar en mujeres?",["Infertilidad","Más fertilidad","Menopausia temprana inmediata","Gemelos"],"En hombres: complicaciones uretrales."],
+["mc","its","¿Cómo se trata la clamidia?",["Con antibióticos","Con antivirales solamente","No tiene tratamiento","Con progesterona"],"Se recomienda abstinencia sexual mientras dura el tratamiento."],
+["mc","its","¿Qué causa la candidiasis vaginal?",["El aumento del hongo Candida albicans","El VPH","La bacteria Treponema","La falta de estrógeno"],"Es un hongo."],
+["mc","its","¿Cuál puede ser una causa de candidiasis vaginal?",["Tomar antibióticos, que bajan la flora bacteriana","Usar ropa holgada","Mantener la zona seca","Limpiarse de adelante hacia atrás"],"También el cambio de pH, la humedad o mucha glucosa."],
+["mc","its","¿Cuál es un síntoma de la candidiasis vaginal?",["Flujo vaginal espeso y blanquecino con ardor y picor","Verrugas en el ano","Úlcera indolora","Erupción en las palmas"],"También dolor al orinar y en las relaciones."],
+["mc","its","¿Cuál es una forma de prevenir la candidiasis?",["Mantener la zona seca y evitar prendas ajustadas","Usar duchas vaginales","Usar productos perfumados","Usar ropa muy ajustada"],"Y limpiarse de adelante hacia atrás."],
+["tf","its","El VPH y el herpes son causados por virus.",true,"Sífilis, gonorrea y clamidia son bacterias; candidiasis, hongo."],
+["tf","its","La sífilis es causada por un hongo.",false,"Es causada por la bacteria Treponema pallidum."],
+["tf","its","Las personas con gonorrea pueden infectarse más fácilmente con el virus que causa el SIDA.",true,"Según el PPT."],
+["tf","its","La clamidia siempre da síntomas.",false,"Muchas personas no presentan síntomas (≈50 % hombres, ≈70 % mujeres)."],
+["tf","its","La candidiasis vaginal es causada por un hongo.",true,"Candida albicans."],
+["tf","its","No usar métodos de barrera es un factor de riesgo para la clamidia.",true,"Igual que la promiscuidad."],
+["match","its","Une cada ITS con su causante.",[["Verrugas genitales","VPH (virus)"],["Sífilis","Treponema pallidum"],["Gonorrea","Neisseria gonorrhoeae"],["Herpes","VHS-1 y VHS-2"],["Clamidia","Chlamydia trachomatis"],["Candidiasis","Candida albicans (hongo)"]]],
+["match","its","Une cada ITS con un dato clave.",[["Verrugas genitales","Síntomas entre 1 y 6 meses después"],["Sífilis","Úlcera 2–3 semanas después del contacto"],["Gonorrea","Puede pasar a la sangre y las articulaciones"],["Clamidia","Más común entre los 15 y 24 años"],["Candidiasis","Flujo espeso y blanquecino"]]],
+["open","its","Clasifica las ITS que estudiaste según su causante (virus, bacteria u hongo).","Virus: verrugas genitales (VPH) y herpes (VHS-1 y VHS-2). Bacterias: sífilis (Treponema pallidum), gonorrea (Neisseria gonorrhoeae) y clamidia (Chlamydia trachomatis). Hongo: candidiasis (Candida albicans).",["vph","herpes","sifilis","gonorrea","clamidia","candid"]],
+["open","its","Describe la sífilis: causante, primera manifestación y qué pasa después.","La causa la bacteria Treponema pallidum. Primero aparece una pequeña úlcera en los órganos sexuales 2 o 3 semanas después del contacto; de 6 semanas a 6 meses después pueden salir erupciones en la piel, y en la etapa 3 afecta órganos internos.",["treponema","ulcera","erupcion|sarpullido","organos internos"]],
+["mc","metodos","¿Qué son los métodos anticonceptivos?",["Métodos o procedimientos que previenen un embarazo","Medicamentos para las ITS","Hormonas del ciclo","Tipos de nacimiento"],"Los pueden usar las mujeres o sus parejas."],
+["mc","metodos","Los métodos hormonales combinados contienen…",["estrógeno y progestágeno","testosterona","fructosa","FSH y LH"],"Se administran como píldoras, inyecciones, anillo, parche, implantes o DIU."],
+["mc","metodos","¿Cuál de estos es un método hormonal?",["Píldoras anticonceptivas","Condón","Vasectomía","Calendario"],"También inyecciones, anillo vaginal y parche."],
+["mc","metodos","¿Cuál es un método de barrera?",["Condón masculino o femenino","Píldora","Implante","Parche"],"También el diafragma y los espermicidas."],
+["mc","metodos","¿Cuál es un método no hormonal permanente masculino?",["Vasectomía","Condón","Calendario","DIU"],"Es una anticoncepción quirúrgica voluntaria."],
+["mc","metodos","¿Cuál de estos métodos es de abstinencia periódica?",["Calendario (días fértiles)","Píldora","Vasectomía","Implante"],"También moco cervical (Billings), temperatura basal y sintotérmico."],
+["mc","metodos","El método de Billings se basa en…",["observar el moco cervical","usar un condón","tomar hormonas","una cirugía"],"Es de abstinencia periódica."],
+["mc","metodos","Los métodos permanentes son…",["la anticoncepción quirúrgica voluntaria (esterilización) femenina y masculina","el condón y el diafragma","la píldora y el parche","el calendario y la temperatura basal"],"La masculina es la vasectomía."],
+["mc","metodos","¿Qué método anticonceptivo también protege de las ITS?",["El condón","La píldora","El DIU","La vasectomía"],"Por eso no usar métodos de barrera es un factor de riesgo."],
+["tf","metodos","Los métodos anticonceptivos pueden ser hormonales o no hormonales, transitorios o definitivos.",true,"Según el PPT."],
+["tf","metodos","La vasectomía es un método hormonal reversible.",false,"Es un método no hormonal permanente (esterilización masculina)."],
+["tf","metodos","El método de la amenorrea de lactancia es no hormonal reversible.",true,"Así lo clasifica el PPT."],
+["tf","metodos","El diafragma es un método de barrera.",true,"Junto con el condón y los espermicidas."],
+["match","metodos","Une cada método con su clasificación.",[["Píldora o parche","Hormonal"],["Condón","No hormonal reversible (barrera)"],["Calendario o Billings","No hormonal reversible (abstinencia periódica)"],["Vasectomía","No hormonal permanente"]]],
+["open","metodos","Explica la clasificación de los métodos anticonceptivos con un ejemplo de cada grupo.","Hormonales (estrógeno y progestágeno): píldoras, inyecciones, anillo vaginal, parche, implantes. No hormonales reversibles: DIU, condón masculino y femenino, diafragma, espermicidas, amenorrea de lactancia y abstinencia periódica (Billings, calendario, temperatura basal, sintotérmico). No hormonales permanentes: esterilización femenina y vasectomía.",["hormonal","estrogeno|progestageno","condon|barrera","calendario|billings","vasectomia|esteriliz"]],
 ["match","fec","Une cada término con su significado.",[["Univitelinos","Gemelos idénticos (un óvulo se divide)"],["Bivitelinos","Mellizos (varios óvulos)"],["XX","Mujer"],["XY","Hombre"],["Ámpula","Lugar de la fecundación"]]]
 ];
 
@@ -2037,7 +2257,7 @@ const CARDS=[
  ['Prostatitis','Inflamación de la próstata; examen desde los ~40 años.','masc'],
  ['Circuncisión','Retirar el prepucio; origen judío, hoy por costumbre.','masc'],
  ['Erección','El sistema nervioso manda la señal y la sangre llena el cuerpo cavernoso.','masc'],
- ['Espermátida vs. espermatogonio','Espermatogonio: diploide. Espermátida: haploide, pero aún debe pasar por la espermiogénesis.','esperm'],
+ ['Espermátida vs. espermatogonia','Espermatogonia: diploide (2n, 44 + XY). Espermátida: haploide (n), pero aún debe diferenciarse.','esperm'],
  ['¿Qué tiene la pieza media del espermatozoide?','Mitocondrias, que dan el ATP para mover la cola.','esperm'],
  ['¿Qué es el acrosoma?','Enzimas hidrolíticas en la cabeza que degradan la zona pelúcida del ovocito.','esperm'],
  ['Centriolos','Están en el cuello; dirigen el movimiento de los cromosomas.','esperm'],
@@ -2054,13 +2274,13 @@ const CARDS=[
  ['¿Con cuántos ovocitos nace una mujer?','Con aproximadamente 400 mil ovocitos I.','ovo'],
  ['¿Qué resulta de la ovogénesis?','1 ovocito II (haploide) + 3 cuerpos polares.','ovo'],
  ['¿Cuándo termina el ovocito II su meiosis?','Con la fecundación.','ovo'],
- ['Ovocito II','Sin flagelo, de las células más grandes; zona pelúcida + células foliculares; núcleo haploide.','ovo'],
+ ['Ovocito II','Grande e inmóvil, la célula más voluminosa del cuerpo de la mujer; membrana con zona pelúcida y núcleo haploide.','ovo'],
  ['Recombinación genética','Ocurre en la profase I; hace que todos los gametos sean diferentes.','ovo'],
  ['Define ovulación','La liberación del ovocito II por la ruptura del folículo.','ciclo'],
  ['¿Qué le pasa a la temperatura en la ovulación?','Sube 1 °C: de ~36 °C a ~37 °C.','ciclo'],
  ['¿En qué se transforma el folículo después de ovular?','En el cuerpo lúteo.','ciclo'],
  ['Hormona principal de la fase lútea','La progesterona, la hormona del embarazo.','ciclo'],
- ['Menopausia','1 año entero sin menstruación.','ciclo'],
+ ['Menopausia','Último sangrado; por lo general entre los 45 y 55 años.','ciclo'],
  ['Menarquia','La primera menstruación.','ciclo'],
  ['Ovarios poliquísticos','Los folículos se endurecen y forman quistes; los ovocitos no maduran y se pierde fertilidad.','ciclo'],
  ['Fases del ciclo','Menstruación → folicular → ovulación → lútea.','ciclo'],
@@ -2071,7 +2291,29 @@ const CARDS=[
  ['¿Qué par de cromosomas define el sexo?','El par 23: XX mujer, XY hombre.','fec'],
  ['Univitelinos vs. bivitelinos','Univitelinos: idénticos, un óvulo que se divide en 2. Bivitelinos: mellizos, la mujer ovula varios.','fec'],
  ['¿Por qué baja el sistema inmune en el embarazo?','Para no reconocer al bebé como extraño.','fec'],
- ['Fecundación','Célula masculina + célula femenina = nueva célula. Interna, en la ámpula.','fec']
+ ['Fecundación','Célula masculina + célula femenina = nueva célula. Interna, en la ámpula.','fec'],
+ ['¿Dónde ocurre la espermatogénesis? (PPT)','En los tubos seminíferos de los testículos.','esperm'],
+ ['Etapas de la espermatogénesis','Espermatogonia (2n) → espermatocito primario (2n) → espermatocitos secundarios (n) → espermátidas (n) → espermatozoides (n).','esperm'],
+ ['Glándulas de Cowper','Las bulbouretrales: sustancia viscosa y débilmente alcalina; neutraliza la orina y da el olor al semen.','masc'],
+ ['¿Cuándo se llama óvulo?','Solo cuando ya fue fecundado; antes es ovocito II.','ovo'],
+ ['Etapas de la ovogénesis','Ovogonia → ovocito primario → ovocito secundario + cuerpo polar → óvulo (si hay fecundación) + 3 cuerpos polares.','ovo'],
+ ['Sangre en la menstruación','Unos 35 mL; es normal entre 10 y 80 mL.','ciclo'],
+ ['Días de las fases (PPT)','Menstrual 1–5 · folicular 1–13 · ovulación 14–15 · lútea 15–28.','ciclo'],
+ ['Fecundación (PPT)','El espermatozoide y el ovocito II fusionan sus núcleos y forman un cigoto diploide.','fec'],
+ ['¿Quién define el sexo del bebé?','El cromosoma del par 23 (X o Y) que porta el espermatozoide.','fec'],
+ ['Gestación','El cigoto se vuelve embrión (meses 1–3) y luego feto (desde el mes 4). Dura unas 40 semanas.','gest'],
+ ['Cesárea vs. parto vaginal','Cesárea: cirugía programada, recuperación lenta. Vaginal: natural, recuperación rápida, facilita la lactancia.','gest'],
+ ['Monocigóticos y dicigóticos','Monocigóticos = univitelinos (idénticos). Dicigóticos = bivitelinos (fraternos).','gest'],
+ ['VPH','Virus del papiloma humano: verrugas genitales (condilomas), 1–6 meses después.','its'],
+ ['Sífilis','Bacteria Treponema pallidum: úlcera a las 2–3 semanas, erupciones de 6 semanas a 6 meses.','its'],
+ ['Gonorrea','Bacteria Neisseria gonorrhoeae: puede pasar a la sangre y articulaciones; facilita el VIH.','its'],
+ ['Herpes genital','Virus del herpes simple tipo 1 y 2 (VHS-1 y VHS-2).','its'],
+ ['Clamidia','Bacteria Chlamydia trachomatis; 15–24 años; muchas veces sin síntomas; antibióticos.','its'],
+ ['Candidiasis','Hongo Candida albicans: ardor, picor y flujo espeso blanquecino.','its'],
+ ['Métodos hormonales','Estrógeno + progestágeno: píldora, inyección, anillo, parche, implante.','metodos'],
+ ['Métodos de barrera','Condón masculino y femenino, diafragma y espermicidas.','metodos'],
+ ['Abstinencia periódica','Moco cervical (Billings), calendario, temperatura basal y sintotérmico.','metodos'],
+ ['Métodos permanentes','Esterilización femenina y vasectomía (masculina).','metodos']
 ];
 
 /* repaso tapado: [término, frase, tema] */
@@ -2104,7 +2346,7 @@ const REV=[
  ['Ovulación','Liberación del ovocito II por la ruptura del folículo; la temperatura sube 1 °C.','ciclo'],
  ['Cuerpo lúteo','Lo que queda del folículo; produce progesterona.','ciclo'],
  ['Menarquia','Primera menstruación.','ciclo'],
- ['Menopausia','1 año entero sin menstruación.','ciclo'],
+ ['Menopausia','La mujer deja de menstruar (último sangrado), entre 45 y 55 años.','ciclo'],
  ['Perimenopausia','Etapa en la que se acerca la menopausia.','ciclo'],
  ['Fase folicular','Suben FSH y estrógeno; madura el folículo de Graaf.','ciclo'],
  ['Fase lútea','Sube la progesterona; el endometrio se prepara.','ciclo'],
@@ -2112,7 +2354,21 @@ const REV=[
  ['Ovulación (cálculo)','Duración del ciclo ÷ 2, contando desde el día 1.','calc'],
  ['Univitelinos','Gemelos idénticos: un óvulo que se divide en 2.','fec'],
  ['Bivitelinos','Mellizos: la mujer ovula varios ovocitos.','fec'],
- ['Par 23','XX mujer, XY hombre.','fec']
+ ['Par 23','XX mujer, XY hombre; lo define el espermatozoide.','fec'],
+ ['Tubos seminíferos','Lugar de los testículos donde ocurre la espermatogénesis.','esperm'],
+ ['Glándulas de Cowper','Bulbouretrales: viscosa, débilmente alcalina, olor del semen.','masc'],
+ ['Óvulo','Solo cuando el ovocito II ya fue fecundado.','ovo'],
+ ['Cigoto','Óvulo fecundado, diploide.','fec'],
+ ['Embrión / feto','Embrión: meses 1–3. Feto: desde el mes 4.','gest'],
+ ['Gestación','Unas 40 semanas.','gest'],
+ ['Cesárea','Cirugía programada con anestesia; recuperación más lenta.','gest'],
+ ['VPH','Virus: verrugas genitales (condilomas).','its'],
+ ['Treponema pallidum','Bacteria de la sífilis.','its'],
+ ['Neisseria gonorrhoeae','Bacteria de la gonorrea.','its'],
+ ['Chlamydia trachomatis','Bacteria de la clamidia.','its'],
+ ['Candida albicans','Hongo de la candidiasis vaginal.','its'],
+ ['Método hormonal','Estrógeno + progestágeno (píldora, parche, anillo…).','metodos'],
+ ['Vasectomía','Esterilización masculina: método permanente.','metodos']
 ];
 
 /* ---------- configuración: temas y forma de estudiar ---------- */
@@ -2341,7 +2597,7 @@ terms:[
  ['Conducto eyaculador',['Por donde salen los espermatozoides hacia la uretra','Conducto por el que salen los espermatozoides junto con los líquidos de las glándulas']],
  ['Vesículas seminales',['Aportan fructosa y prostaglandinas','Su líquido da energía (ATP) para el recorrido']],
  ['Próstata',['Glándula anexa más grande','Facilita el movimiento de los espermatozoides']],
- ['Bulbouretral',['Secreta una sustancia alcalina que neutraliza la acidez','Glándula anexa más pequeña']],
+ ['Bulbouretral',['Secreta una sustancia viscosa y débilmente alcalina que neutraliza la acidez','Glándula de Cowper que da al semen su olor característico']],
  ['Semen',['Líquido en el que nadan los espermatozoides','Conjunto de lo que secretan todas las glándulas anexas']],
  ['Escroto',['Capa de piel que mantiene los testículos a menor temperatura','Genital externo que contiene a los testículos']],
  ['Prepucio',['Piel que protege el pene y se retira en la circuncisión','Si no se asea acumula sudor, sebo y restos de orina']],
@@ -2351,7 +2607,22 @@ terms:[
  ['Pieza media',['Contiene mitocondrias que producen ATP','Parte del espermatozoide entre la cabeza y la cola']],
  ['Centriolos',['Dirigen el movimiento de los cromosomas','Se ubican en el cuello del espermatozoide']],
  ['Flagelo',['Cola que permite nadar al espermatozoide','Estructura que el ovocito II no tiene']],
- ['Espermatogonio',['Célula diploide que inicia la espermatogénesis','Célula del testículo con dos juegos de cromosomas']],
+ ['Espermatogonia',['Célula diploide (44 + XY) que inicia la espermatogénesis','Se divide por mitosis y da el espermatocito primario']],
+ ['Espermatocito secundario',['Célula haploide con 22 + X o 22 + Y']],
+ ['Tubos seminíferos',['Lugar de los testículos donde ocurre la espermatogénesis']],
+ ['Cigoto',['Célula diploide que se forma en la fecundación','Etapa posterior al óvulo fecundado']],
+ ['Embrión',['Nombre del bebé en desarrollo durante los tres primeros meses']],
+ ['Feto',['Nombre del bebé en desarrollo desde el cuarto mes']],
+ ['Cesárea',['Nacimiento por operación quirúrgica que regularmente se programa']],
+ ['VPH',['Virus que causa las verrugas genitales o condilomas']],
+ ['Sífilis',['ITS causada por la bacteria Treponema pallidum','Su primera señal es una úlcera 2 o 3 semanas después del contacto']],
+ ['Gonorrea',['ITS causada por Neisseria gonorrhoeae que puede pasar a la sangre y las articulaciones']],
+ ['Clamidia',['ITS por Chlamydia trachomatis, frecuente entre los 15 y 24 años']],
+ ['Candidiasis',['Infección vaginal por el hongo Candida albicans']],
+ ['Herpes genital',['Lo causan los virus VHS-1 y VHS-2']],
+ ['Vasectomía',['Esterilización masculina: método permanente']],
+ ['Condón',['Método de barrera que también protege de las ITS']],
+ ['Métodos hormonales',['Combinan estrógeno y progestágeno']],
  ['Espermátida',['Célula haploide que todavía no es funcional','Debe pasar por la espermiogénesis']],
  ['Espermiogénesis',['Diferenciación de la espermátida en espermatozoide','Etapa en la que se forman la cola y el acrosoma']],
  ['Ovario',['Gónada femenina de unos 15 g','Produce estrógeno y progesterona']],
@@ -2377,7 +2648,7 @@ terms:[
  ['LH',['Hormona que tiene su pico en la ovulación','Hormona luteinizante']],
  ['Estrógeno',['Hormona ovárica que baja en la ovulación','Sube junto con la FSH en la fase folicular']],
  ['Menarquia',['Primera menstruación','Llega a una edad distinta para cada mujer']],
- ['Menopausia',['Un año entero sin menstruación','Momento en que termina la ovogénesis']],
+ ['Menopausia',['Último sangrado, por lo general entre los 45 y 55 años','Momento en que termina la ovogénesis']],
  ['Perimenopausia',['Etapa en la que se acerca la menopausia','Los ciclos se vuelven irregulares antes de que terminen']],
  ['Ovulación',['Liberación del ovocito II por la ruptura del folículo','Momento en que la temperatura sube 1 °C']],
  ['Univitelinos',['Gemelos idénticos que vienen de un solo óvulo','Un óvulo fecundado que se divide en dos']],
@@ -2406,7 +2677,7 @@ short:[
  ['Escribe cuatro cambios que ocurren en la ovulación.',[['Sube la temperatura 1 °C','temperatura','37','1 °c','1°c','un grado'],['Pico de LH','lh','luteinizante'],['Baja el estrógeno','estrogeno'],['Se rompe el folículo y sale el ovocito II','ovocito','rompe','foliculo']]],
  ['¿Cuáles son las dos partes del ovocito II?',[['Zona pelúcida (parte externa)','pelucida','externa'],['Núcleo haploide','nucleo']]],
  ['¿Qué dos problemas puede causar la falta de higiene del prepucio?',[['Mal olor','olor'],['Más infecciones sexuales','infecci']]],
- ['Escribe las etapas de la espermatogénesis en orden.',[['Espermatogonio','espermatogonio'],['Espermátida','espermatida'],['Espermiogénesis / espermatozoide','espermiogenesis','espermatozoide']]],
+ ['Escribe las etapas de la espermatogénesis en orden.',[['Espermatogonia','espermatogonia'],['Espermatocito primario','primario'],['Espermatocitos secundarios','secundario'],['Espermátidas','espermatida'],['Espermatozoides','espermatozoide']]],
  ['¿En qué momento se detiene la ovogénesis y cuándo se retoma?',[['Se detiene en la profase I (en el embrión)','profase','embrion'],['Se retoma en la pubertad','pubertad']]],
  ['¿Cómo se llaman los dos tipos de gemelos/mellizos?',[['Univitelinos','univitelino'],['Bivitelinos','bivitelino']]],
  ['¿Qué cromosomas tiene la mujer y cuáles el hombre en el par 23?',[['Mujer: XX','xx'],['Hombre: XY','xy']]],
@@ -2420,7 +2691,16 @@ short:[
  ['¿Qué pasa al final de la fase lútea si no hay embarazo?',[['Se degrada el cuerpo lúteo','luteo','degrad'],['Baja la progesterona','progesterona'],['Se desprende el endometrio y llega la menstruación','endometrio','menstruacion']]],
  ['¿Qué dos productos transporta la uretra en el hombre?',[['Orina','orina'],['Semen','semen']]],
  ['¿Qué funciones tiene el escroto y por qué?',[['Mantiene los testículos fuera del cuerpo','fuera','afuera','cavidad'],['A menor temperatura para producir espermatozoides','temperatura']]],
- ['¿Qué hormonas suben en la fase folicular?',[['FSH','fsh'],['Estrógeno','estrogeno']]]
+ ['¿Qué hormonas suben en la fase folicular?',[['FSH','fsh'],['Estrógeno','estrogeno']]],
+ ['¿Qué ITS son causadas por virus y cuáles por bacterias? Nombra dos de cada una.',[['VPH (virus)','vph','papiloma'],['Herpes (virus)','herpes'],['Sífilis (bacteria)','sifilis','treponema'],['Gonorrea o clamidia (bacteria)','gonorrea','clamidia','neisseria','chlamydia']]],
+ ['Nombra las tres clasificaciones de los métodos anticonceptivos del PPT.',[['Hormonales','hormonal'],['No hormonales reversibles','reversible'],['No hormonales permanentes','permanente','definitiv']]],
+ ['Escribe las etapas de la gestación en orden.',[['Cigoto','cigoto'],['Embrión','embrion'],['Feto','feto']]],
+ ['Escribe tres diferencias entre la cesárea y el parto vaginal.',[['Cesárea programada / parto no se sabe cuándo','program'],['Cesárea es cirugía / parto es natural','quirurg','cirug','operacion','natural'],['Recuperación más lenta en cesárea','recuperacion'],['La lactancia es más fácil en el parto vaginal','lactancia']].slice(0,3)],
+ ['¿Qué causa la candidiasis vaginal y cuáles son dos de sus síntomas?',[['Hongo Candida albicans','candida','hongo'],['Ardor o picor','ardor','picor'],['Flujo espeso y blanquecino','flujo','blanquecino']]],
+ ['Nombra cuatro métodos anticonceptivos de la lámina del PPT.',[['Condón','condon'],['Píldoras','pildora'],['DIU o implante','diu','implante'],['Parche, anillo o inyección','parche','anillo','inyeccion']]],
+ ['¿Cuáles son las etapas de la ovogénesis según el PPT?',[['Ovogonia','ovogonia'],['Ovocito primario','primario'],['Ovocito secundario','secundario','ovocito ii'],['Óvulo (si hay fecundación)','ovulo']]],
+ ['¿Qué dos datos da el PPT sobre la menopausia?',[['Es el último sangrado (deja de menstruar)','ultimo','deja de menstruar'],['Entre los 45 y 55 años','45','55']]],
+ ['¿Qué días dura cada fase del ciclo según el PPT? (menstrual, ovulación y lútea)',[['Menstrual: 1–5','1-5','1 a 5','1 al 5'],['Ovulación: 14–15','14-15','14 y 15','14 a 15'],['Lútea: 15–28','15-28','15 a 28','15 al 28']]]
 ],
 /* (banco anterior de llenar espacios, ya no se usa en el examen) */
 fill:[
@@ -2490,7 +2770,7 @@ cases:[
    qs:[{q:'¿En qué etapa está Carmen ahora?',type:'text',ans:['menopausia'],show:'Menopausia'},
        {q:'¿Cómo se llama la etapa de los ciclos irregulares antes de esta?',type:'text',ans:['perimenopausia'],show:'Perimenopausia'},
        {q:'¿Por qué ya no ovula? Relaciónalo con la ovogénesis.',type:'open',model:'Porque la mujer nace con todos sus ovocitos (unos 400 mil ovocitos I) y la ovogénesis solo continúa desde la pubertad hasta la menopausia; al llegar a la menopausia ya no se liberan ovocitos.',k:['400|nace','ovocito','menopausia','ovogenesis|ovula'],pts:2},
-       {q:'¿Cuál es la diferencia con la menarquia?',type:'open',model:'La menarquia es la primera menstruación; la menopausia es un año entero sin menstruación.',k:['primera','1 año|un año|12 meses'],pts:1}]})},
+       {q:'¿Cuál es la diferencia con la menarquia?',type:'open',model:'La menarquia es la primera menstruación; la menopausia es cuando la mujer deja de menstruar, su último sangrado, por lo general entre los 45 y 55 años.',k:['primera','ultimo|deja de menstruar|45'],pts:1}]})},
  {id:'prost',make:()=>({title:'Dolor al orinar',text:'Pedro tiene 45 años y siente molestias al orinar. Su médico sospecha que una de sus glándulas anexas está inflamada y le pide un examen.',
    qs:[{q:'¿Qué glándula probablemente está inflamada y cómo se llama esa inflamación?',type:'open',model:'La próstata; la inflamación se llama prostatitis.',k:['prostata','prostatitis'],pts:2},
        {q:'¿Desde qué edad aproximada se recomienda el examen de próstata?',type:'text',ans:['40','cuarenta'],show:'Desde los ~40 años'},
@@ -2510,13 +2790,39 @@ cases:[
    qs:[{q:'¿Qué ocurrió el día 14?',type:'text',ans:['ovulacion','ovulo'],show:'La ovulación'},
        {q:'¿Qué estructura se forma en el ovario después del día 14 y qué hormona produce?',type:'open',model:'Se forma el cuerpo lúteo (lo que queda del folículo), que produce progesterona.',k:['cuerpo luteo|luteo','progesterona'],pts:2},
        {q:'Explica qué pasará al final del ciclo, ya que no hubo embarazo.',type:'open',model:'El cuerpo lúteo se degrada, baja la progesterona, se desprende el endometrio y empieza la menstruación: un nuevo ciclo.',k:['degrad','progesterona','endometrio','menstruacion'],pts:2},
-       {q:'¿Qué hormonas suben durante la fase folicular (días 6 a 13)?',type:'open',model:'Suben la FSH y el estrógeno.',k:['fsh','estrogeno'],pts:1}]})}
+       {q:'¿Qué hormonas suben durante la fase folicular (días 6 a 13)?',type:'open',model:'Suben la FSH y el estrógeno.',k:['fsh','estrogeno'],pts:1}]})},
+ {id:'clamidia',make:()=>({title:'Una infección silenciosa',text:'Valeria tiene 19 años. En un control le detectan una ITS causada por una bacteria; ella no tenía ningún síntoma. Su pareja tampoco notaba nada.',
+   qs:[{q:'¿Qué ITS bacteriana, frecuente entre los 15 y 24 años, suele no dar síntomas?',type:'text',ans:['clamidia','chlamydia'],show:'Clamidia (Chlamydia trachomatis)'},
+       {q:'Escribe dos síntomas que podría tener una mujer con esta infección.',type:'open',model:'Dolor al orinar, flujo vaginal, dolor durante el sexo y sangrado entre periodos o después del sexo.',k:['dolor al orinar|orinar','flujo','dolor durante|sexo','sangrado'],pts:2},
+       {q:'¿Qué consecuencia puede tener si no se trata?',type:'text',ans:['infertilidad','infertil','esteril'],show:'Infertilidad (en mujeres)'},
+       {q:'¿Cómo se trata y qué factores aumentan el riesgo?',type:'open',model:'Se trata con antibióticos (con abstinencia durante el tratamiento). Los factores de riesgo son la promiscuidad y no usar métodos anticonceptivos de barrera, como el condón.',k:['antibiotico','promiscu|parejas','barrera|condon'],pts:2}]})},
+ {id:'candida',make:()=>({title:'Picor después de los antibióticos',text:'Andrea terminó un tratamiento con antibióticos por una infección de garganta. Días después siente ardor y picor en la vagina, dolor al orinar y nota un flujo espeso y blanquecino.',
+   qs:[{q:'¿Qué infección podría tener?',type:'text',ans:['candidiasis','candida'],show:'Candidiasis vaginal'},
+       {q:'¿Qué organismo la causa y de qué tipo es?',type:'open',model:'El hongo Candida albicans.',k:['candida','hongo'],pts:2},
+       {q:'¿Por qué los antibióticos pudieron favorecerla?',type:'open',model:'Porque disminuyen la flora bacteriana, y eso permite que el hongo Cándida aumente.',k:['flora|bacteria','aument|crec'],pts:2},
+       {q:'Escribe dos recomendaciones para prevenirla.',type:'open',model:'Mantener la zona seca, evitar prendas ajustadas, evitar duchas vaginales y productos perfumados, usar gel íntimo que respete el pH y limpiarse de adelante hacia atrás.',k:['seca','ajustad','ducha|perfum','adelante hacia atras|ph'],pts:2}]})},
+ {id:'gonorrea',make:()=>({title:'Una ITS sin tratar',text:'Un joven tuvo una ITS bacteriana muy común y no fue al médico. Meses después tiene dolor en las articulaciones.',
+   qs:[{q:'¿Qué ITS bacteriana muy común puede llegar a la sangre y las articulaciones?',type:'text',ans:['gonorrea','neisseria'],show:'Gonorrea'},
+       {q:'¿Qué bacteria la causa?',type:'text',ans:['neisseria','gonorrhoeae'],show:'Neisseria gonorrhoeae'},
+       {q:'¿Por qué es peligrosa si no se trata?',type:'open',model:'Puede causar problemas graves y permanentes: propagarse a la sangre y a las articulaciones, ser potencialmente mortal y facilitar la infección con el virus que causa el SIDA.',k:['sangre','articulacion','mortal','sida|vih'],pts:2},
+       {q:'¿Qué método anticonceptivo también ayuda a prevenir las ITS?',type:'text',ans:['condon','preservativo'],show:'El condón'}]})},
+ {id:'parto',make:()=>({title:'¿Cesárea o parto vaginal?',text:'Lucía está en la semana 39 de gestación y su médico le explica las diferencias entre la cesárea y el parto vaginal.',
+   qs:[{q:'¿Cuánto dura aproximadamente la gestación completa?',type:'text',ans:['40'],show:'Unas 40 semanas'},
+       {q:'¿Cómo se llama el bebé en desarrollo desde el cuarto mes?',type:'text',ans:['feto'],show:'Feto'},
+       {q:'Escribe dos ventajas del parto vaginal frente a la cesárea.',type:'open',model:'Recuperación menos dolorosa y más rápida, más probable el contacto piel con piel inmediato, el bebé se expone a las bacterias buenas del canal vaginal y facilita la lactancia.',k:['recuperacion','piel con piel','bacteria','lactancia'],pts:2},
+       {q:'¿Por qué en la cesárea no hay dolor durante el nacimiento?',type:'open',model:'Porque es una operación quirúrgica en la que se usa anestesia.',k:['anestesia','quirurg|operacion|cirug'],pts:1}]})},
+ {id:'metodos',make:()=>({title:'Eligiendo un método',text:'Una pareja quiere evitar un embarazo por ahora y, además, protegerse de las ITS. Más adelante, cuando ya no quieran tener hijos, el hombre piensa en un método definitivo.',
+   qs:[{q:'¿Qué método les sirve para prevenir el embarazo y también las ITS?',type:'text',ans:['condon','preservativo'],show:'El condón'},
+       {q:'¿Qué método definitivo puede usar el hombre?',type:'text',ans:['vasectomia'],show:'Vasectomía'},
+       {q:'¿Qué contienen los métodos hormonales combinados y en qué formas se pueden usar?',type:'open',model:'Contienen estrógeno y progestágeno; se usan como píldoras, inyecciones, anillo vaginal, parche transdérmico, implantes o DIU.',k:['estrogeno','progestageno','pildora|inyeccion|parche|anillo|implante'],pts:2},
+       {q:'Nombra dos métodos de abstinencia periódica.',type:'open',model:'Moco cervical (Billings), calendario, temperatura basal y sintotérmico.',k:['billings|moco','calendario','temperatura','sintotermico'],pts:2}]})},
 ],
 /* comparación hombre / mujer */
 compare:[
+ {q:'Compara la espermatogénesis y la ovogénesis según el PPT: dónde ocurren, sus etapas y cuántos gametos funcionales salen.',model:'La espermatogénesis ocurre en los tubos seminíferos de los testículos: espermatogonia (2n) → espermatocito primario (2n) → espermatocitos secundarios (n) → espermátidas → 4 espermatozoides móviles. La ovogénesis ocurre en los ovarios: ovogonia (2n) → ovocito primario (2n) → ovocito secundario (n) + cuerpo polar → óvulo (solo si hay fecundación) + 3 cuerpos polares: sale un solo gameto, grande e inmóvil.',k:['tubos seminiferos','ovario','espermatocito','ovocito','4','cuerpos polares'],pts:4},
  {q:'Compara las gónadas masculinas y femeninas: cómo se llaman, qué gametos producen y qué hormonas fabrican.',model:'Las gónadas masculinas son los testículos: producen espermatozoides y testosterona (células de Leydig). Las femeninas son los ovarios: producen ovocitos y las hormonas estrógeno y progesterona.',k:['testiculo','ovario','espermatozoide','ovocito|ovulo','testosterona','estrogeno|progesterona'],pts:4},
  {q:'Compara la espermatogénesis y la ovogénesis: cuándo empiezan, cuándo terminan y qué producen.',model:'La espermatogénesis empieza en la pubertad, nunca termina y produce espermatozoides haploides todo el tiempo. La ovogénesis empieza en el embrión, se detiene en la profase I, se retoma en la pubertad y termina en la menopausia; la mujer nace con ~400 mil ovocitos I y cada uno da 1 ovocito II y 3 cuerpos polares.',k:['pubertad','nunca','embrion','menopausia','cuerpos polares','haploide'],pts:4},
- {q:'Explica las diferencias entre el espermatozoide y el ovocito II (tamaño, movimiento y estructuras).',model:'El espermatozoide es pequeño, se mueve con su cola o flagelo gracias a las mitocondrias de la pieza media y tiene acrosoma. El ovocito II es de las células más grandes del cuerpo, no tiene flagelo (lo mueven los cilios de la trompa) y tiene zona pelúcida con células foliculares. Ambos son haploides.',k:['flagelo|cola','mitocondria','acrosoma','grande','zona pelucida','haploide'],pts:4},
+ {q:'Explica las diferencias entre el espermatozoide y el ovocito II (tamaño, movimiento y estructuras).',model:'El espermatozoide es pequeño, se mueve con su cola o flagelo gracias a las mitocondrias de la pieza media y tiene acrosoma. El ovocito II es grande e inmóvil (la célula más voluminosa del cuerpo de la mujer), no tiene flagelo (lo mueven los cilios de la trompa) y tiene una membrana cubierta por la zona pelúcida. Ambos son haploides.',k:['flagelo|cola','mitocondria','acrosoma','inmovil|voluminos|grande','zona pelucida','haploide'],pts:4},
  {q:'Compara el recorrido de los gametos en el hombre y en la mujer.',model:'En el hombre: testículo → epidídimo → conducto deferente → conducto eyaculador → uretra. En la mujer: el ovocito sale del ovario, lo atrapan las fimbrias, viaja por la trompa (ámpula, donde puede ser fecundado) y llega al útero.',k:['epididimo','deferente','uretra','fimbria','trompa|ampula','utero'],pts:4},
  {q:'Compara la uretra y los orificios de salida en el hombre y en la mujer.',model:'En el hombre la uretra es un conducto común para la orina (sistema urinario) y el semen (sistema reproductor). En la mujer no se comparte: la orina sale por el meato urinario y por el orificio vaginal sale la sangre menstrual y el bebé.',k:['comun|compart','orina','semen','meato','vagina|vaginal'],pts:4},
  {q:'Compara las glándulas accesorias masculinas y femeninas y sus funciones.',model:'Masculinas: vesículas seminales (fructosa y prostaglandinas), próstata (facilita el movimiento) y bulbouretral (sustancia alcalina). Femeninas: Bartolino (vestíbulo, facilitan la penetración), vestibulares menores y Skene (junto al meato urinario).',k:['vesicula','prostata','bulbouretral','bartolino','skene'],pts:4},
@@ -2795,9 +3101,19 @@ const S={
  ovogenesis:()=>SV(`<circle cx="40" cy="62" r="28" fill="#F6C3D3" stroke="#C47D99"/>${T(14,112,'ovocito I (2n)')}
   <path d="M74,62 L100,62" stroke="${C.coral}" stroke-width="2.5"/><circle cx="130" cy="62" r="24" fill="#F6C3D3" stroke="#C47D99"><animate attributeName="r" dur="4s" repeatCount="indefinite" values="0;24;24" keyTimes="0;.3;1"/></circle>${T(104,112,'ovocito II (n)')}
   ${[[166,38,.35],[190,60,.55],[170,86,.75]].map(([x,y,b])=>`<circle cx="${x}" cy="${y}" r="7" fill="#FBE0EA" stroke="#C47D99"><animate attributeName="r" dur="4s" repeatCount="indefinite" values="0;0;7;7" keyTimes="0;${b};${b+.1};1"/></circle>`).join('')}${T(130,126,'3 cuerpos polares')}${T(6,16,'nace con ~400 mil ovocitos I')}`),
- espermato:()=>SV(`<circle cx="34" cy="62" r="22" fill="#DCE0F8" stroke="#7680C4"/>${T(4,104,'espermatogonio 2n')}<path d="M60,62 L84,62" stroke="${C.coral}" stroke-width="2.5"/>
+ espermato:()=>SV(`<circle cx="34" cy="62" r="22" fill="#DCE0F8" stroke="#7680C4"/>${T(4,104,'espermatogonia 2n')}<path d="M60,62 L84,62" stroke="${C.coral}" stroke-width="2.5"/>
   <circle cx="108" cy="62" r="16" fill="#DCE0F8" stroke="#7680C4"/>${T(80,120,'espermátida n')}<path d="M128,62 L150,62" stroke="${C.coral}" stroke-width="2.5"/>
   <g transform="translate(178,62)"><ellipse rx="10" ry="7" fill="#DCE0F8" stroke="#7680C4"/><path d="M10,0 q8,-6 16,0 t16,0" stroke="${C.ink}" stroke-width="1.4" fill="none" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"><animate attributeName="stroke-dashoffset" dur="3s" repeatCount="indefinite" values="1;0;0" keyTimes="0;.6;1"/></path></g>${T(146,104,'espermiogénesis')}${T(6,16,'empieza en la pubertad · nunca termina')}`),
+ its:()=>SV(`<g><animateTransform attributeName="transform" type="translate" dur="3s" repeatCount="indefinite" values="0,0;0,-4;0,0"/><circle cx="44" cy="58" r="20" fill="#F3D1DC" stroke="#C47D99"/>${[0,45,90,135,180,225,270,315].map(a=>`<line x1="${44+20*Math.cos(a*Math.PI/180)}" y1="${58+20*Math.sin(a*Math.PI/180)}" x2="${44+28*Math.cos(a*Math.PI/180)}" y2="${58+28*Math.sin(a*Math.PI/180)}" stroke="#C47D99" stroke-width="2.4" stroke-linecap="round"/>`).join('')}</g>${T(14,108,'virus')}${T(4,124,'VPH · herpes')}
+  <g><animateTransform attributeName="transform" type="translate" dur="3s" begin=".6s" repeatCount="indefinite" values="0,0;0,-4;0,0"/><rect x="96" y="44" width="48" height="24" rx="12" fill="#DCE0F8" stroke="#7680C4"/><path d="M144,56 q8,-8 16,0 t14,0" stroke="#7680C4" stroke-width="1.6" fill="none"/></g>${T(96,108,'bacterias')}${T(80,124,'sífilis · gonorrea · clamidia')}
+  <g><animateTransform attributeName="transform" type="translate" dur="3s" begin="1.2s" repeatCount="indefinite" values="0,0;0,-4;0,0"/><ellipse cx="204" cy="50" rx="13" ry="10" fill="#FBE3B5" stroke="#D9A441"/><ellipse cx="220" cy="66" rx="9" ry="7" fill="#FBE3B5" stroke="#D9A441"/></g>${T(190,108,'hongo')}${T(190,124,'cándida')}${T(70,18,'ITS: 3 tipos de agentes')}`),
+ metodos:()=>SV(`<g><animate attributeName="opacity" dur="4.5s" repeatCount="indefinite" values="1;1;.35;.35;1" keyTimes="0;.3;.4;.9;1"/><rect x="12" y="34" width="62" height="44" rx="8" fill="#FCE3EB" stroke="#C47D99"/>${[0,1,2,3,4,5].map(i=>`<circle cx="${24+(i%3)*19}" cy="${48+Math.floor(i/3)*16}" r="5" fill="${C.pink}"/>`).join('')}${T(12,100,'hormonales')}${T(12,114,'píldora, inyección')}</g>
+  <g><animate attributeName="opacity" dur="4.5s" repeatCount="indefinite" values=".35;.35;1;1;.35;.35" keyTimes="0;.3;.4;.6;.7;1"/><path d="M110,30 L110,74 Q110,84 120,84 L124,84 Q134,84 134,74 L134,30 Z" fill="#DCE0F8" stroke="#7680C4"/><ellipse cx="122" cy="30" rx="16" ry="5" fill="#DCE0F8" stroke="#7680C4"/>${T(92,100,'barrera / DIU')}${T(92,114,'reversibles')}</g>
+  <g><animate attributeName="opacity" dur="4.5s" repeatCount="indefinite" values=".35;.35;1;1" keyTimes="0;.6;.7;1"/><path d="M176,58 L230,58" stroke="#7680C4" stroke-width="4"/><path d="M196,48 L210,68 M210,48 L196,68" stroke="${C.red}" stroke-width="3" stroke-linecap="round"/>${T(172,100,'permanentes')}${T(172,114,'vasectomía…')}</g>${T(56,18,'métodos anticonceptivos')}`),
+ gest:()=>SV(`<line x1="20" y1="96" x2="224" y2="96" stroke="#ddd" stroke-width="2"/><line x1="20" y1="96" x2="224" y2="96" stroke="${C.coral}" stroke-width="2.5" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"><animate attributeName="stroke-dashoffset" dur="5s" repeatCount="indefinite" values="1;0;0" keyTimes="0;.8;1"/></line>
+  <circle cx="34" cy="62" r="10" fill="#F6C3D3" stroke="#C47D99"/>${T(16,114,'cigoto')}${T(16,128,'día 1')}
+  <g><animate attributeName="opacity" dur="5s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;.25;.35;1"/><path d="M112,48 c14,-6 22,8 14,18 c-6,8 -2,14 -10,16 c-10,2 -18,-8 -14,-18 c2,-8 2,-12 10,-16z" fill="#F3B7A6" stroke="#C97560"/><circle cx="118" cy="56" r="5" fill="#F7CBBE" stroke="#C97560"/></g>${T(92,114,'embrión')}${T(88,128,'meses 1–3')}
+  <g><animate attributeName="opacity" dur="5s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;.6;.7;1"/><circle cx="200" cy="50" r="12" fill="#F7CBBE" stroke="#C97560"/><path d="M190,60 c-10,18 4,30 18,26 c10,-3 14,-14 6,-22" fill="#F3B7A6" stroke="#C97560"/></g>${T(182,114,'feto')}${T(170,128,'mes 4 → 9')}${T(64,18,'gestación: ~40 semanas')}`),
  meiosis:()=>SV(`<g><rect x="70" y="20" width="12" height="80" rx="6" fill="${C.blue}"/><rect x="100" y="20" width="12" height="80" rx="6" fill="${C.pink}"/>
   <rect x="70" y="20" width="12" height="30" rx="6" fill="${C.pink}"><animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;.4;.6;1"/></rect><rect x="100" y="20" width="12" height="30" rx="6" fill="${C.blue}"><animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;.4;.6;1"/></rect>
   <path d="M82,40 L100,40 M82,30 L100,48" stroke="${C.ink}" stroke-width="1.5"><animate attributeName="opacity" dur="3s" repeatCount="indefinite" values="0;1;1;0" keyTimes="0;.3;.5;.6"/></path></g>
@@ -2819,13 +3135,16 @@ const S={
 };
 function scene(q){const c=q[0]==='tf'?(q[3]?'':''):q[3][0],t=norm(q[2]+' '+(q[0]==='mc'?q[3][0]:'')+' '+(q[4]||''));
   const has=r=>r.test(t);
+  if(has(/\bvph\b|sifilis|gonorrea|clamidia|candid|herpes|\bits\b|treponema|neisseria|condiloma|infeccion de transmision/))return S.its();
+  if(has(/anticoncep|condon|preservativo|vasectom|pildora|\bdiu\b|billings|ligadura|esterilizacion|histerectom|metodo hormonal|metodos hormonales/))return S.metodos();
+  if(has(/gestacion|embrion|\bfeto\b|cesarea|\bparto\b|nacimiento|dicigot|monocigot/)&&!has(/testicul|escroto/))return S.gest();
   if(has(/acrosoma|pieza media|mitocondria|centriolo|flagelo|cola del|tres partes|3 partes|nucleo del espermatozoide/)){const part=has(/acrosoma/)?'acro':has(/pieza media|mitocondria/)?'mid':has(/centriolo/)?'neck':has(/flagelo|cola/)?'tail':has(/nucleo/)?'nuc':'head';return S.sperm(part)}
   if(has(/bulbouretral|vesicula|prostat|fructosa|alcalin|prostaglandina|glandula anexa/))return S.glands();
   if(has(/uretra/))return S.uretra();
   if(has(/escroto|desciend|testiculos bajan|temperatura menor|feto/))return S.temp();
   if(has(/leydig|sertoli|testosterona/))return S.leydig();
   if(has(/deferente|epididimo|eyacul|recorrido/))return S.recorrido();
-  if(has(/espermatogonio|espermatida|espermiogenesis|espermatogenesis|deja el hombre/))return S.espermato();
+  if(has(/espermatogonio|espermatogonia|espermatocito|tubos seminiferos|espermatida|espermiogenesis|espermatogenesis|deja el hombre/))return S.espermato();
   if(has(/recombinacion/))return S.meiosis();
   if(has(/ovogenesis|cuerpos polares|ovocito i\b|400 mil|ovocito ii|zona pelucida/)&&!has(/acrosoma/))return S.ovogenesis();
   if(has(/fecund/)&&!has(/ampula|trompa/))return S.fecund();
