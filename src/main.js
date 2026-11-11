@@ -2,7 +2,7 @@ import './styles/main.css';
 import { paintStaticBreads, burnFor, breadSVG } from './ui/bread.js';
 import { toastName } from './grades/toast.js';
 import { observeReveals, toast } from './ui/fx.js';
-import { subscribe, exportState, importState, resetAll, hasData } from './grades/store.js';
+import { subscribe, exportState, importState, resetAll } from './grades/store.js';
 import { renderDashboard, renderHeroStats, overview } from './ui/dashboard.js';
 import { renderReview } from './ui/review.js';
 import { openSimulator } from './ui/simulator.js';
@@ -10,8 +10,8 @@ import { initUpload } from './ui/upload.js';
 import { say } from './ui/phrases.js';
 import { startTour, tourSeen } from './ui/tour.js';
 import { fmt } from './grades/calc.js';
-import { askConfirm, askText } from './ui/dialog.js';
-import { getPin, setPin, syncNow } from './ui/sync.js';
+import { askConfirm } from './ui/dialog.js';
+import { syncNow } from './ui/sync.js';
 import { enableNotifications, registerServiceWorker } from './ui/notify.js';
 
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -119,9 +119,6 @@ function initMenu() {
       }
     } else if (act === 'tour') {
       runTour();
-    } else if (act === 'seduca') {
-      const pin = await askText('PIN para conectar con SEDUCA', 'El PIN de 6 números');
-      if (pin) { setPin(pin); syncSeduca(true); }
     } else if (act === 'notify') {
       toast('Activando notificaciones…');
       try {
@@ -132,8 +129,7 @@ function initMenu() {
         toast('No se pudieron activar: ' + err.message, 6000);
       }
     } else if (act === 'sync') {
-      if (getPin()) syncSeduca(true);
-      else toast('Primero toca "Conectar con SEDUCA" y escribe tu PIN.');
+      syncSeduca(true);
     }
   });
   document.getElementById('import-input').addEventListener('change', async (e) => {
@@ -172,8 +168,7 @@ async function syncSeduca(manual = false) {
   kitchen?.setHeat(0.35);
   syncing = false;
   if (!r.ok) {
-    if (manual || !/conectar/.test(r.error)) toast(r.error === 'PIN incorrecto' ? 'Ese PIN no es. Toca "Conectar con SEDUCA" para escribirlo de nuevo.' : r.error);
-    if (r.error === 'PIN incorrecto') setPin(null);
+    if (manual || !/conectar/.test(r.error)) toast(r.error);
     speakStatus();
     return;
   }
@@ -234,8 +229,7 @@ subscribe(renderAll);
 renderAll();
 
 initKitchen().then(() => {
-  if (getPin()) { syncSeduca(); return; }
+  // Las notas se traen solas de SEDUCA cada vez que se abre la página.
+  syncSeduca();
   if (!tourSeen()) setTimeout(runTour, reduced ? 200 : 600);
-  else if (hasData()) setTimeout(speakStatus, 300);
-  else speak('hello');
 });

@@ -1,25 +1,20 @@
-// Conexión con SEDUCA: la página le pide las notas a /api/notas (función de Vercel) con tu PIN.
+// Conexión con SEDUCA: la página le pide las notas a /api/notas (función de Vercel).
 import { applyReading } from '../grades/store.js';
 
-const PIN_KEY = 'horno-pin';
 const SEEN_KEY = 'horno-vistos';
 
 const read = (k) => { try { return localStorage.getItem(k); } catch { return null; } };
 const write = (k, v) => { try { if (v == null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch { /* sin almacenamiento */ } };
 
-export const getPin = () => read(PIN_KEY);
-export const setPin = (pin) => write(PIN_KEY, pin ? String(pin).trim() : null);
 
 /**
  * Trae las notas de SEDUCA y las guarda. Devuelve { ok, error, nuevas: [{ materia, nombre, nota }], primera }.
  * "nuevas" son las notas con calificación que no estaban la última vez.
  */
 export async function syncNow() {
-  const pin = getPin();
-  if (!pin) return { ok: false, error: 'Falta el PIN' };
   let data;
   try {
-    const res = await fetch('/api/notas', { headers: { 'x-pin': pin }, cache: 'no-store' });
+    const res = await fetch('/api/notas', { cache: 'no-store' });
     data = await res.json();
   } catch {
     return { ok: false, error: 'No pude conectar con SEDUCA desde aquí.' };

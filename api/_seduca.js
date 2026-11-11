@@ -110,10 +110,3 @@ export async function readAll() {
   for (const p of periods) bims.push({ bim: p.bim, subjects: await readPeriod(s, p.id) });
   return bims;
 }
-
-export function checkPin(req) {
-  const q = Object.fromEntries(new URL(req.url, 'http://x').searchParams);
-  const pin = process.env.NOTAS_PIN;
-  const given = req.headers['x-pin'] || q.pin || req.body?.pin;
-  return { ok: !!pin && given === pin, q };
-}

@@ -1,5 +1,4 @@
 // Notificaciones push: este dispositivo se suscribe y la revisión de cada hora le avisa de notas nuevas.
-import { getPin } from './sync.js';
 
 const isIOS = () => /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 const isStandalone = () => window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
@@ -28,7 +27,6 @@ export async function notificationsOn() {
  * En iPad/iPhone solo funciona desde la app agregada a la pantalla de inicio.
  */
 export async function enableNotifications() {
-  if (!getPin()) return { ok: false, reason: 'pin', message: 'Primero conecta SEDUCA con tu PIN (menú ⋯).' };
   if (isIOS() && !isStandalone()) {
     return { ok: false, reason: 'ios', message: 'En iPad, abre la página desde el ícono de la pantalla de inicio (Compartir → Agregar a pantalla de inicio) y activa las notificaciones desde ahí.' };
   }
@@ -46,7 +44,7 @@ export async function enableNotifications() {
   const r = await fetch('/api/suscribir', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ pin: getPin(), subscription: sub.toJSON() }),
+    body: JSON.stringify({ subscription: sub.toJSON() }),
   }).then((x) => x.json());
   return r.ok ? { ok: true } : { ok: false, reason: 'server', message: r.error || 'No se pudo guardar la suscripción.' };
 }

@@ -1,11 +1,9 @@
-// Guarda la suscripción de notificaciones de este dispositivo (protegido con el PIN).
-import { checkPin } from './_seduca.js';
+// Guarda la suscripción de notificaciones de este dispositivo.
 import { getSubs, saveSubs, notifyAll } from './_avisos.js';
 
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
   if (req.method === 'GET') return res.status(200).json({ ok: true, publicKey: process.env.VAPID_PUBLIC_KEY || null });
-  if (!checkPin(req).ok) return res.status(200).json({ ok: false, error: 'PIN incorrecto' });
   const sub = req.body?.subscription;
   if (!sub?.endpoint || !sub?.keys?.p256dh) return res.status(200).json({ ok: false, error: 'Suscripción no válida' });
   try {
