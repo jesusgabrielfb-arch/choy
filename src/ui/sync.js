@@ -21,8 +21,12 @@ export async function syncNow() {
   }
   if (!data.ok) return { ok: false, error: data.error || 'SEDUCA no respondió' };
 
+  // Sin una lista anterior con notas, es la primera vez en este dispositivo: no se avisa nada.
   let seen = null;
-  try { seen = new Set(JSON.parse(read(SEEN_KEY) || 'null')); } catch { seen = null; }
+  try {
+    const prev = JSON.parse(read(SEEN_KEY) || 'null');
+    if (Array.isArray(prev) && prev.length) seen = new Set(prev);
+  } catch { seen = null; }
   const primera = !seen;
   const now = new Set();
   const nuevas = [];
@@ -43,6 +47,8 @@ export async function syncNow() {
       }
     }
   }
-  write(SEEN_KEY, JSON.stringify([...now]));
+  if (now.size) write(SEEN_KEY, JSON.stringify([...now]));
+  // Si "todo" parece nuevo, la lista anterior no servía (otro año, datos borrados): no es noticia.
+  if (nuevas.length > 15) return { ok: true, nuevas: [], primera: true, at: data.at };
   return { ok: true, nuevas, primera, at: data.at };
 }

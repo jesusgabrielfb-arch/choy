@@ -182,7 +182,8 @@ async function syncSeduca(manual = false) {
       : `¡${r.nuevas.length} notas nuevas! La más reciente: ${n.materia} ${n.nota}.`;
     kitchen?.pancracio.talk(3);
     if (Number(n.nota) >= 3) kitchen?.pancracio.celebrate(); else kitchen?.pancracio.jump();
-    toast(r.nuevas.map((x) => `${x.materia}: ${x.nota}`).join(' · '), 6000);
+    const list = r.nuevas.slice(0, 3).map((x) => `${x.materia}: ${x.nota}`).join(' · ');
+    toast(r.nuevas.length > 3 ? `${list} y ${r.nuevas.length - 3} más` : list, 6000);
   } else {
     if (manual) toast('Todo al día: no hay notas nuevas en SEDUCA.');
     speakStatus();

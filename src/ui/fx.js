@@ -56,6 +56,7 @@ export function crumbs(x, y, count = 26) {
 let toastTimer = 0;
 export function toast(msg, ms = 3200) {
   const el = document.getElementById('toast');
+  el.onclick = () => { el.hidden = true; }; // tocarlo lo cierra
   el.textContent = msg;
   el.hidden = false;
   el.style.animation = 'none';

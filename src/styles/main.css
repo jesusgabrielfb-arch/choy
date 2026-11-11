@@ -479,7 +479,8 @@ input[type='range']::-moz-range-thumb { width: 30px; height: 30px; border-radius
 .toast {
   position: fixed; left: 50%; bottom: max(20px, env(safe-area-inset-bottom)); z-index: 80; transform: translateX(-50%);
   background: var(--paper); color: var(--ink); padding: 12px 18px; border-radius: 14px; font-weight: 700; box-shadow: var(--shadow-card);
-  animation: rise 0.4s var(--ease-spring) both; max-width: calc(100vw - 32px);
+  animation: rise 0.4s var(--ease-spring) both; max-width: min(520px, calc(100vw - 32px));
+  max-height: 30vh; overflow: auto; cursor: pointer; text-align: center;
 }
 
 /* ---------- Migas (confeti de pan) ---------- */
