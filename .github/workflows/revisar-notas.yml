@@ -1,0 +1,14 @@
+# Cada hora le pide a la página que revise SEDUCA y mande notificación si hay notas nuevas.
+# Gratis con GitHub Actions. GitHub solo corre tareas programadas desde la rama principal del repo.
+name: Revisar notas de SEDUCA
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+jobs:
+  revisar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Revisar SEDUCA y avisar
+        run: curl -fsS --max-time 90 https://en-la-puerta-del-horno.vercel.app/api/revisar

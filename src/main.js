@@ -12,6 +12,7 @@ import { startTour, tourSeen } from './ui/tour.js';
 import { fmt } from './grades/calc.js';
 import { askConfirm, askText } from './ui/dialog.js';
 import { getPin, setPin, syncNow } from './ui/sync.js';
+import { enableNotifications, registerServiceWorker } from './ui/notify.js';
 
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 let kitchen = null;
@@ -121,6 +122,15 @@ function initMenu() {
     } else if (act === 'seduca') {
       const pin = await askText('PIN para conectar con SEDUCA', 'El PIN de 6 números');
       if (pin) { setPin(pin); syncSeduca(true); }
+    } else if (act === 'notify') {
+      toast('Activando notificaciones…');
+      try {
+        const r = await enableNotifications();
+        if (r.ok) { toast('🔔 ¡Listo! Te llegará una notificación de prueba y luego un aviso por cada nota nueva.', 6000); kitchen?.pancracio.celebrate(); }
+        else toast(r.message, 8000);
+      } catch (err) {
+        toast('No se pudieron activar: ' + err.message, 6000);
+      }
     } else if (act === 'sync') {
       if (getPin()) syncSeduca(true);
       else toast('Primero toca "Conectar con SEDUCA" y escribe tu PIN.');
@@ -185,6 +195,7 @@ async function syncSeduca(manual = false) {
 }
 
 // ---------- Arranque ----------
+registerServiceWorker();
 paintStaticBreads();
 document.getElementById('toast-scale').innerHTML = [50, 45, 40, 35, 30, 25, 20].map((t) => {
   const b = burnFor(t);
