@@ -604,3 +604,78 @@ img.bread.mood-scared { animation: shiver 0.18s linear infinite; transform-origi
 .toast-scale figcaption { font-size: 12px; font-weight: 700; color: var(--ink-2); line-height: 1.2; }
 .toast-scale figcaption b { display: block; font-family: var(--font-display); font-size: 18px; color: var(--ink); }
 @media (max-width: 560px) { .toast-scale { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+/* ---------- Panadería: salvadas y por salvar ---------- */
+.cards { display: block; }
+.cards-grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); perspective: 1200px; margin-bottom: 36px; }
+.group-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; margin: 8px 0 16px; }
+.group-head h3 {
+  margin: 0; font-family: var(--font-display); font-variation-settings: 'SOFT' 100, 'WONK' 1, 'opsz' 72;
+  font-size: clamp(26px, 3vw, 36px); line-height: 1; letter-spacing: -0.01em;
+}
+.group-head h3 span {
+  display: inline-grid; place-items: center; min-width: 34px; height: 34px; padding: 0 8px; margin-left: 6px; border-radius: 999px;
+  font-family: var(--font-ui); font-size: 16px; font-weight: 800; vertical-align: 4px;
+}
+.group-head.danger h3 span { background: rgba(238, 138, 47, 0.18); color: #ffb06a; }
+.group-head.ok h3 span { background: rgba(78, 158, 92, 0.22); color: #9fe0a4; }
+.group-head p { margin: 0; color: var(--cream-2); font-size: 15px; }
+
+.card { cursor: default; }
+.card .go { background: none; border: 0; padding: 4px 0 0; cursor: pointer; width: 100%; text-align: left; font: inherit; font-size: 14px; font-weight: 800; color: var(--crust); display: flex; justify-content: space-between; align-items: center; }
+.needs-box { border-radius: 16px; background: linear-gradient(180deg, #fffaf0, #fbefd7); border: 1px solid var(--paper-edge); padding: 12px 14px; }
+.need-text { margin: 0; font-size: 14px; line-height: 1.4; color: var(--ink-2); }
+.need-text b { color: var(--ink); }
+.min-head { display: flex; justify-content: space-between; align-items: center; padding-bottom: 8px; margin-bottom: 4px; border-bottom: 2px dashed var(--paper-edge); }
+.min-head > span { font-size: 12px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+.min-head b { font-family: var(--font-display); font-size: 30px; line-height: 1; font-variant-numeric: tabular-nums; }
+.todo { list-style: none; margin: 0; padding: 0; display: grid; }
+.todo li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px dotted #e3cfa9; font-size: 14px; }
+.todo li:last-child { border-bottom: 0; }
+.todo-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink); font-weight: 650; }
+.todo b { font-family: var(--font-display); font-size: 18px; font-variant-numeric: tabular-nums; color: var(--ink); }
+.tag { font-size: 10px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 7px; border-radius: 6px; white-space: nowrap; }
+.tag-dig { background: #e6effa; color: #2f5d8a; }
+.tag-apr { background: #efe6fa; color: #5e3a8a; }
+.tag-bim { background: #fde2d3; color: #a3401f; }
+
+.cards-grid.saved { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+.saved-card {
+  position: relative; display: grid; justify-items: center; gap: 4px; padding: 16px 12px 14px; border: 0; cursor: pointer; text-align: center;
+  border-radius: 20px; color: var(--ink);
+  background: radial-gradient(120% 90% at 50% 0%, #fffaf0 0%, var(--paper) 55%, #f1e1bf 100%);
+  box-shadow: var(--shadow-card), 0 0 0 2px rgba(78, 158, 92, 0.25) inset;
+  animation: rise 0.6s var(--ease-out) both; transition: transform 0.3s var(--ease-spring);
+}
+.saved-card:hover { transform: translateY(-4px) rotate(-1deg); }
+.saved-card .bread { width: 74px; }
+.saved-name { font-weight: 800; font-size: 15px; line-height: 1.2; }
+.saved-avg { font-family: var(--font-display); font-weight: 800; font-size: 30px; line-height: 1; font-variant-numeric: tabular-nums; }
+.saved-floor { font-size: 12px; font-weight: 700; color: #2e6a35; background: #e2f0d7; border-radius: 999px; padding: 3px 10px; }
+.seal {
+  position: absolute; top: -8px; right: -6px; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center;
+  background: radial-gradient(circle at 35% 30%, #8fd890, #3f8f4d); color: #fff; font-weight: 900; font-size: 18px;
+  box-shadow: 0 3px 0 #2b6b37, 0 8px 16px -6px #000; transform: rotate(12deg);
+}
+
+.saved-meter { display: grid; grid-template-columns: 120px 1fr; grid-template-areas: "ring copy"; align-items: center; gap: 18px; position: relative; }
+.saved-meter .ring { grid-area: ring; width: 120px; height: 120px; }
+.saved-meter .ring-fill { animation: ring-in 1.2s var(--ease-out) both 0.2s; }
+.saved-meter .ring-label { grid-area: ring; display: grid; justify-items: center; align-self: center; }
+.saved-meter .ring-label b { font-family: var(--font-display); font-size: 38px; line-height: 1; font-variant-numeric: tabular-nums; }
+.saved-meter .ring-label b small { font-size: 18px; color: var(--ink-3); }
+.saved-meter .ring-label span { font-size: 12px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+.saved-copy { grid-area: copy; margin: 0; font-size: 15px; color: var(--ink-2); line-height: 1.45; }
+@keyframes ring-in { from { stroke-dashoffset: var(--c); } }
+
+/* Grano cálido sobre toda la página (textura de papel/harina, muy sutil). */
+body::after {
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 95; opacity: 0.07; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+@media (max-width: 560px) {
+  .cards-grid { grid-template-columns: 1fr; }
+  .cards-grid.saved { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .saved-meter { grid-template-columns: 96px 1fr; }
+  .saved-meter .ring { width: 96px; height: 96px; }
+}

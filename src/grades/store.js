@@ -85,6 +85,8 @@ export function applyReading(bimIndex, reading, source) {
       dig: [...r.dig], apr: [...r.apr], bim: [...r.bim],
       portal: { ...r.portal },
       flags,
+      // Nombres de cada asignación (cuando vienen de SEDUCA), en el mismo orden que las notas.
+      labels: r.labels || null,
     };
   }
   bim.source = source || null;

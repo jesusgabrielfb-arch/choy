@@ -70,3 +70,20 @@ test('materia salvada y materia perdida', () => {
   assert.equal(analyzeSubject([bad, bad, bad, { dig: ['-'], apr: [], bim: [] }], [true, true, true, false]).status.kind, 'lost');
   assert.equal(analyzeSubject([good, good, good, good], [true, true, true, true]).status.kind, 'passed');
 });
+
+test('salvada: con 1.0 en todo lo pendiente (y el bimestral) el año sigue en 3.0', () => {
+  const ok = { dig: ['4.0'], apr: ['4.0'], bim: ['4.0'] };
+  // I-III en 4.0 (suman 12.0). El IV con 1.0 en todo da 1.0 → (12.0 + 1.0) / 4 = 3.25 → salvada.
+  const a = analyzeSubject([ok, ok, ok, { dig: ['-'], apr: ['-'], bim: [] }], [true, true, true, false]);
+  assert.equal(a.status.kind, 'safe');
+  assert.ok(a.worst >= 30);
+  // Química real: I 3.7, II 3.1, III 3.0 y 2.3 en el IV → con 1.0 en lo demás no alcanza.
+  const q = analyzeSubject([
+    { dig: ['2.6', '4.4', '2.3'], apr: ['4.7', '4.3', '3.2', '5.0'], bim: ['3.7'] },
+    { dig: ['3.3', '2.3', '3.0'], apr: ['5.0', '2.0', '4.8', '3.9'], bim: ['2.7'] },
+    { dig: ['2.2', '2.3', '2.7'], apr: ['4.9', '4.8', '4.3'], bim: ['2.1'] },
+    { dig: ['2.3', '-'], apr: ['-', '-'], bim: [] },
+  ], [true, true, true, false]);
+  assert.equal(q.status.kind, 'needs');
+  assert.ok(q.worst < 30);
+});

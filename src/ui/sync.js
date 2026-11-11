@@ -32,7 +32,13 @@ export async function syncNow() {
   const now = new Set();
   const nuevas = [];
   for (const b of data.bims) {
-    applyReading(b.bim - 1, { subjects: b.subjects.map((s) => ({ ...s, portal: {}, cells: [] })) }, { name: 'SEDUCA', readAt: Date.now() });
+    const subjects = b.subjects.map((s) => ({
+      ...s,
+      portal: {},
+      cells: [],
+      labels: Object.fromEntries(['dig', 'apr', 'bim'].map((c) => [c, s.items.filter((i) => i.comp === c).map((i) => i.name || '')])),
+    }));
+    applyReading(b.bim - 1, { subjects }, { name: 'SEDUCA', readAt: Date.now() });
     for (const s of b.subjects) {
       for (const it of s.items) {
         if (!/^\d\.\d$/.test(it.value)) continue;

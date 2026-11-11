@@ -168,6 +168,15 @@ export function analyzeSubject(entries, closed) {
     status.kind = 'needs';
   }
 
+  // Peor caso: 1.0 en todo lo que falta (cada asignación pendiente y el examen bimestral, que
+  // siempre se cuenta). Si aun así el año queda en 3.0 o más, la materia ya está salvada.
+  let worst = null;
+  if (remaining) {
+    const floor = openIdx.reduce((sum, i) => sum + (entries[i] ? bimesterGrade(fillPending(entries[i], MIN)) ?? MIN : MIN), 0);
+    worst = (closedSum + floor) / 4;
+    if (worst >= PASS && status.kind !== 'lost') status.kind = 'safe';
+  }
+
   // Bimestre en curso (el primero abierto con datos): qué hace falta en lo pendiente.
   const current = openIdx.find((i) => entries[i]) ?? null;
   let currentNeed = null;
@@ -191,6 +200,7 @@ export function analyzeSubject(entries, closed) {
     needPerBim,
     needSum,
     status,
+    worst,
     current,
     currentNeed,
   };
