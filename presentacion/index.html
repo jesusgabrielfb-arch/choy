@@ -79,6 +79,35 @@ requestAnimationFrame(f)}f();
 <p data-build-in="rise 5 auto" style="position:absolute;left:128px;top:805px;width:1300px;font-size:28px;color:#B4BFCA">Profesor: José Machuca   ·   12 de noviembre de 2026</p>
 </section>
 
+<section class="slide" data-id="intro" data-transition="fade" style="background:#070A0E;color:#F7F5F0;font-family:'Inter', Arial, sans-serif">
+<img src="img/02_canal.jpg" alt="" style="position:absolute;left:0;top:0;width:1920px;height:1080px;object-fit:cover">
+<div style="position:absolute;left:0;top:0;width:1920px;height:1080px;background:linear-gradient(90deg, rgba(7,10,14,0.96) 0%, rgba(7,10,14,0.85) 45%, rgba(7,10,14,0.25) 80%)"></div>
+<iframe class="fx" data-src="&lt;style&gt;html,body{margin:0;height:100%;overflow:hidden;background:transparent}canvas{display:block;width:100%;height:100%}&lt;/style&gt;&lt;canvas id=&quot;c&quot;&gt;&lt;/canvas&gt;&lt;script&gt;
+const M=&#x27;dust&#x27;,C=[&quot;#FFE2B0&quot;,&quot;#F7F5F0&quot;],CX=0.5,CY=0.5;
+const c=document.getElementById(&#x27;c&#x27;),x=c.getContext(&#x27;2d&#x27;),r=Math.random;let W,H,k,t=0,P=[],B=[];
+function R(){W=c.width=innerWidth;H=c.height=innerHeight;k=W/1920}R();addEventListener(&#x27;resize&#x27;,R);
+const N={embers:70,dust:90,confetti:120,stars:150}[M]||0;
+for(let i=0;i&lt; N;i++)P.push({x:r()*W,y:r()*H,v:.4+r()*1.2,s:1+r()*3,a:r()*7,c:C[i%C.length],w:r()*.1-.05});
+function f(){t++;x.clearRect(0,0,W,H);x.globalAlpha=1;x.shadowBlur=0;x.globalCompositeOperation=&#x27;source-over&#x27;;
+if(M==&#x27;embers&#x27;){x.globalCompositeOperation=&#x27;lighter&#x27;;for(const p of P){p.y-=p.v*1.6*k;p.x+=Math.sin(t/45+p.a)*.7*k;if(p.y&lt;-20){p.y=H+20;p.x=r()*W}x.globalAlpha=.35+.65*Math.abs(Math.sin(t/25+p.a));x.fillStyle=p.c;x.shadowBlur=14*k;x.shadowColor=p.c;x.beginPath();x.arc(p.x,p.y,p.s*1.4*k,0,7);x.fill()}}
+else if(M==&#x27;dust&#x27;){for(const p of P){p.y+=p.v*.3*k;p.x+=Math.sin(t/90+p.a)*.5*k;if(p.y&gt;H+10){p.y=-10;p.x=r()*W}x.globalAlpha=.15+.4*Math.abs(Math.sin(t/60+p.a));x.fillStyle=p.c;x.beginPath();x.arc(p.x,p.y,p.s*k,0,7);x.fill()}}
+else if(M==&#x27;stars&#x27;){for(const p of P){x.globalAlpha=.1+.8*Math.abs(Math.sin(t/(40+p.a*10)+p.a));x.fillStyle=p.c;x.beginPath();x.arc(p.x,p.y,p.s*.7*k,0,7);x.fill()}}
+else if(M==&#x27;confetti&#x27;){for(const p of P){p.y+=p.v*2.2*k;p.x+=Math.sin(t/30+p.a)*1.2*k;p.a+=p.w;if(p.y&gt;H+20){p.y=-20;p.x=r()*W}x.save();x.translate(p.x,p.y);x.rotate(p.a);x.scale(1,Math.sin(t/12+p.a));x.fillStyle=p.c;x.globalAlpha=.9;x.fillRect(-8*k,-4*k,16*k,8*k);x.restore()}}
+else if(M==&#x27;film&#x27;){for(let i=0;i&lt;600;i++){x.fillStyle=r()&lt;.5?&#x27;#000&#x27;:&#x27;#fff&#x27;;x.globalAlpha=r()*.2;x.fillRect(r()*W,r()*H,2*k,2*k)}if(r()&lt;.3){x.globalAlpha=.3;x.fillStyle=&#x27;#e8e0d0&#x27;;x.fillRect(r()*W,0,1.5*k,H)}x.globalAlpha=r()*.1;x.fillStyle=&#x27;#000&#x27;;x.fillRect(0,0,W,H)}
+else if(M==&#x27;radar&#x27;){const cx=W*CX,cy=H*CY,R0=Math.min(W,H)*.45,a=t/50;x.strokeStyle=C[0];x.globalAlpha=.3;x.lineWidth=2*k;for(let i=1;i&lt;=4;i++){x.beginPath();x.arc(cx,cy,R0*i/4,0,7);x.stroke()}x.beginPath();x.moveTo(cx-R0,cy);x.lineTo(cx+R0,cy);x.moveTo(cx,cy-R0);x.lineTo(cx,cy+R0);x.stroke();for(let i=0;i&lt;40;i++){x.globalAlpha=.45*(1-i/40);x.fillStyle=C[0];x.beginPath();x.moveTo(cx,cy);x.arc(cx,cy,R0,a-i*.02-.02,a-i*.02);x.fill()}if(r()&lt;.05){const an=a-.05,d=r()*R0;B.push({x:cx+Math.cos(an)*d,y:cy+Math.sin(an)*d,l:1})}for(const b of B){b.l-=.006;x.globalAlpha=Math.max(b.l,0);x.fillStyle=C[1];x.shadowBlur=18*k;x.shadowColor=C[1];x.beginPath();x.arc(b.x,b.y,7*k,0,7);x.fill()}B=B.filter(b=&gt;b.l&gt;0)}
+else if(M==&#x27;water&#x27;){x.strokeStyle=C[0];x.lineWidth=2.5*k;for(let i=0;i&lt;50;i++){const y=H*(.5+.5*((i*37)%50)/50),xx=((i*173+t*(1+i%3)*k)%(W+300))-150;x.globalAlpha=.15+.45*Math.abs(Math.sin(t/30+i));x.beginPath();x.moveTo(xx,y);x.quadraticCurveTo(xx+45*k,y-5*k,xx+100*k,y);x.stroke()}}
+else if(M==&#x27;pulse&#x27;){for(let i=0;i&lt;4;i++){const q=(t/200+i/4)%1;x.globalAlpha=.55*(1-q);x.strokeStyle=C[i%C.length];x.lineWidth=5*k;x.beginPath();x.arc(W*CX,H*CY,q*W*.65,0,7);x.stroke()}}
+else if(M==&#x27;scan&#x27;){const y=(t*2.5*k)%H;const g=x.createLinearGradient(0,y-160*k,0,y);g.addColorStop(0,&#x27;rgba(0,0,0,0)&#x27;);g.addColorStop(1,C[0]);x.globalAlpha=.2;x.fillStyle=g;x.fillRect(0,y-160*k,W,160*k);x.globalAlpha=.7;x.fillStyle=C[0];x.fillRect(0,y,W,2*k);x.globalAlpha=.07;x.strokeStyle=C[0];x.lineWidth=1;x.beginPath();for(let i=0;i&lt; W;i+=80*k){x.moveTo(i,0);x.lineTo(i,H)}for(let i=0;i&lt; H;i+=80*k){x.moveTo(0,i);x.lineTo(W,i)}x.stroke()}
+else if(M==&#x27;alarm&#x27;){const s=(Math.sin(t/45)+1)/2;[[0,C[0],s],[W,C[1],1-s]].forEach(([px,col,a])=&gt;{const g=x.createRadialGradient(px,H*.4,0,px,H*.4,W*.55);g.addColorStop(0,col);g.addColorStop(1,&#x27;rgba(0,0,0,0)&#x27;);x.globalAlpha=.45*a;x.fillStyle=g;x.fillRect(0,0,W,H)});x.globalCompositeOperation=&#x27;lighter&#x27;;x.strokeStyle=&#x27;#9fb8d8&#x27;;x.lineWidth=1.5*k;for(let i=0;i&lt;90;i++){const rx=(i*211+t*3)%W,ry=((i*97+t*14*k)%(H+80))-40;x.globalAlpha=.25;x.beginPath();x.moveTo(rx,ry);x.lineTo(rx-6*k,ry+28*k);x.stroke()}}
+requestAnimationFrame(f)}f();
+&lt;/script&gt;" style="position:absolute;left:0;top:0;width:1920px;height:1080px;border:0;background:transparent;pointer-events:none" tabindex="-1" aria-hidden="true"></iframe>
+<p data-build-in="fade 1 auto" style="position:absolute;left:128px;top:150px;width:1000px;font-size:24px;font-weight:700;letter-spacing:6px;color:#E9A23B">INTRODUCCIÓN</p>
+<h2 data-build-in="rise 1 auto" style="position:absolute;left:128px;top:190px;width:1100px;font-family:'Oswald', Arial, sans-serif;font-size:80px;font-weight:600;line-height:1.1;color:#F7F5F0">¿De qué trata esta historia?</h2>
+<p data-build-in="rise 2 auto" style="position:absolute;left:128px;top:340px;width:960px;font-size:36px;line-height:1.45;color:#F3EEE3">Entre 1946 y 1984, Estados Unidos tuvo en Panamá una escuela donde entrenó a militares de toda América Latina.</p>
+<h3 data-build-in="left 3 auto" style="position:absolute;left:128px;top:600px;width:900px;font-family:'Oswald', Arial, sans-serif;font-size:48px;font-weight:600;color:#E9A23B">01  ¿Por qué estuvo aquí?</h3>
+<h3 data-build-in="left 4 auto" style="position:absolute;left:128px;top:690px;width:900px;font-family:'Oswald', Arial, sans-serif;font-size:48px;font-weight:600;color:#E9A23B">02  ¿Por qué fue tan polémica?</h3>
+<h3 data-build-in="left 5 auto" style="position:absolute;left:128px;top:780px;width:900px;font-family:'Oswald', Arial, sans-serif;font-size:48px;font-weight:600;color:#E9A23B">03  ¿Cómo Panamá la sacó?</h3>
+</section>
 <section class="slide" data-id="elenco" data-transition="magic" style="background:#070A0E;color:#F7F5F0;font-family:'Inter', Arial, sans-serif;padding:128px 128px 160px">
 <iframe class="fx" data-src="&lt;style&gt;html,body{margin:0;height:100%;overflow:hidden;background:transparent}canvas{display:block;width:100%;height:100%}&lt;/style&gt;&lt;canvas id=&quot;c&quot;&gt;&lt;/canvas&gt;&lt;script&gt;
 const M=&#x27;dust&#x27;,C=[&quot;#E9A23B&quot;,&quot;#F7F5F0&quot;],CX=0.5,CY=0.5;
@@ -552,13 +581,39 @@ requestAnimationFrame(f)}f();
 
 
 
+<section class="slide" data-id="conclusion" data-transition="fade" style="background:#070A0E;color:#F7F5F0;font-family:'Inter', Arial, sans-serif">
+<img src="img/06_flag.jpg" alt="" style="position:absolute;left:0;top:0;width:1920px;height:1080px;object-fit:cover">
+<div style="position:absolute;left:0;top:0;width:1920px;height:1080px;background:rgba(7,10,14,0.78)"></div>
+<iframe class="fx" data-src="&lt;style&gt;html,body{margin:0;height:100%;overflow:hidden;background:transparent}canvas{display:block;width:100%;height:100%}&lt;/style&gt;&lt;canvas id=&quot;c&quot;&gt;&lt;/canvas&gt;&lt;script&gt;
+const M=&#x27;embers&#x27;,C=[&quot;#E9A23B&quot;,&quot;#FF7A2B&quot;,&quot;#FFD27A&quot;],CX=0.5,CY=0.5;
+const c=document.getElementById(&#x27;c&#x27;),x=c.getContext(&#x27;2d&#x27;),r=Math.random;let W,H,k,t=0,P=[],B=[];
+function R(){W=c.width=innerWidth;H=c.height=innerHeight;k=W/1920}R();addEventListener(&#x27;resize&#x27;,R);
+const N={embers:70,dust:90,confetti:120,stars:150}[M]||0;
+for(let i=0;i&lt; N;i++)P.push({x:r()*W,y:r()*H,v:.4+r()*1.2,s:1+r()*3,a:r()*7,c:C[i%C.length],w:r()*.1-.05});
+function f(){t++;x.clearRect(0,0,W,H);x.globalAlpha=1;x.shadowBlur=0;x.globalCompositeOperation=&#x27;source-over&#x27;;
+if(M==&#x27;embers&#x27;){x.globalCompositeOperation=&#x27;lighter&#x27;;for(const p of P){p.y-=p.v*1.6*k;p.x+=Math.sin(t/45+p.a)*.7*k;if(p.y&lt;-20){p.y=H+20;p.x=r()*W}x.globalAlpha=.35+.65*Math.abs(Math.sin(t/25+p.a));x.fillStyle=p.c;x.shadowBlur=14*k;x.shadowColor=p.c;x.beginPath();x.arc(p.x,p.y,p.s*1.4*k,0,7);x.fill()}}
+else if(M==&#x27;dust&#x27;){for(const p of P){p.y+=p.v*.3*k;p.x+=Math.sin(t/90+p.a)*.5*k;if(p.y&gt;H+10){p.y=-10;p.x=r()*W}x.globalAlpha=.15+.4*Math.abs(Math.sin(t/60+p.a));x.fillStyle=p.c;x.beginPath();x.arc(p.x,p.y,p.s*k,0,7);x.fill()}}
+else if(M==&#x27;stars&#x27;){for(const p of P){x.globalAlpha=.1+.8*Math.abs(Math.sin(t/(40+p.a*10)+p.a));x.fillStyle=p.c;x.beginPath();x.arc(p.x,p.y,p.s*.7*k,0,7);x.fill()}}
+else if(M==&#x27;confetti&#x27;){for(const p of P){p.y+=p.v*2.2*k;p.x+=Math.sin(t/30+p.a)*1.2*k;p.a+=p.w;if(p.y&gt;H+20){p.y=-20;p.x=r()*W}x.save();x.translate(p.x,p.y);x.rotate(p.a);x.scale(1,Math.sin(t/12+p.a));x.fillStyle=p.c;x.globalAlpha=.9;x.fillRect(-8*k,-4*k,16*k,8*k);x.restore()}}
+else if(M==&#x27;film&#x27;){for(let i=0;i&lt;600;i++){x.fillStyle=r()&lt;.5?&#x27;#000&#x27;:&#x27;#fff&#x27;;x.globalAlpha=r()*.2;x.fillRect(r()*W,r()*H,2*k,2*k)}if(r()&lt;.3){x.globalAlpha=.3;x.fillStyle=&#x27;#e8e0d0&#x27;;x.fillRect(r()*W,0,1.5*k,H)}x.globalAlpha=r()*.1;x.fillStyle=&#x27;#000&#x27;;x.fillRect(0,0,W,H)}
+else if(M==&#x27;radar&#x27;){const cx=W*CX,cy=H*CY,R0=Math.min(W,H)*.45,a=t/50;x.strokeStyle=C[0];x.globalAlpha=.3;x.lineWidth=2*k;for(let i=1;i&lt;=4;i++){x.beginPath();x.arc(cx,cy,R0*i/4,0,7);x.stroke()}x.beginPath();x.moveTo(cx-R0,cy);x.lineTo(cx+R0,cy);x.moveTo(cx,cy-R0);x.lineTo(cx,cy+R0);x.stroke();for(let i=0;i&lt;40;i++){x.globalAlpha=.45*(1-i/40);x.fillStyle=C[0];x.beginPath();x.moveTo(cx,cy);x.arc(cx,cy,R0,a-i*.02-.02,a-i*.02);x.fill()}if(r()&lt;.05){const an=a-.05,d=r()*R0;B.push({x:cx+Math.cos(an)*d,y:cy+Math.sin(an)*d,l:1})}for(const b of B){b.l-=.006;x.globalAlpha=Math.max(b.l,0);x.fillStyle=C[1];x.shadowBlur=18*k;x.shadowColor=C[1];x.beginPath();x.arc(b.x,b.y,7*k,0,7);x.fill()}B=B.filter(b=&gt;b.l&gt;0)}
+else if(M==&#x27;water&#x27;){x.strokeStyle=C[0];x.lineWidth=2.5*k;for(let i=0;i&lt;50;i++){const y=H*(.5+.5*((i*37)%50)/50),xx=((i*173+t*(1+i%3)*k)%(W+300))-150;x.globalAlpha=.15+.45*Math.abs(Math.sin(t/30+i));x.beginPath();x.moveTo(xx,y);x.quadraticCurveTo(xx+45*k,y-5*k,xx+100*k,y);x.stroke()}}
+else if(M==&#x27;pulse&#x27;){for(let i=0;i&lt;4;i++){const q=(t/200+i/4)%1;x.globalAlpha=.55*(1-q);x.strokeStyle=C[i%C.length];x.lineWidth=5*k;x.beginPath();x.arc(W*CX,H*CY,q*W*.65,0,7);x.stroke()}}
+else if(M==&#x27;scan&#x27;){const y=(t*2.5*k)%H;const g=x.createLinearGradient(0,y-160*k,0,y);g.addColorStop(0,&#x27;rgba(0,0,0,0)&#x27;);g.addColorStop(1,C[0]);x.globalAlpha=.2;x.fillStyle=g;x.fillRect(0,y-160*k,W,160*k);x.globalAlpha=.7;x.fillStyle=C[0];x.fillRect(0,y,W,2*k);x.globalAlpha=.07;x.strokeStyle=C[0];x.lineWidth=1;x.beginPath();for(let i=0;i&lt; W;i+=80*k){x.moveTo(i,0);x.lineTo(i,H)}for(let i=0;i&lt; H;i+=80*k){x.moveTo(0,i);x.lineTo(W,i)}x.stroke()}
+else if(M==&#x27;alarm&#x27;){const s=(Math.sin(t/45)+1)/2;[[0,C[0],s],[W,C[1],1-s]].forEach(([px,col,a])=&gt;{const g=x.createRadialGradient(px,H*.4,0,px,H*.4,W*.55);g.addColorStop(0,col);g.addColorStop(1,&#x27;rgba(0,0,0,0)&#x27;);x.globalAlpha=.45*a;x.fillStyle=g;x.fillRect(0,0,W,H)});x.globalCompositeOperation=&#x27;lighter&#x27;;x.strokeStyle=&#x27;#9fb8d8&#x27;;x.lineWidth=1.5*k;for(let i=0;i&lt;90;i++){const rx=(i*211+t*3)%W,ry=((i*97+t*14*k)%(H+80))-40;x.globalAlpha=.25;x.beginPath();x.moveTo(rx,ry);x.lineTo(rx-6*k,ry+28*k);x.stroke()}}
+requestAnimationFrame(f)}f();
+&lt;/script&gt;" style="position:absolute;left:0;top:0;width:1920px;height:1080px;border:0;background:transparent;pointer-events:none" tabindex="-1" aria-hidden="true"></iframe>
+<p data-build-in="fade 1 auto" style="position:absolute;left:128px;top:250px;width:1664px;text-align:center;font-size:28px;font-weight:700;letter-spacing:12px;color:#E9A23B">CONCLUSIÓN</p>
+<h2 data-build-in="scale 2 auto" style="position:absolute;left:228px;top:340px;width:1464px;text-align:center;font-family:'Oswald', Arial, sans-serif;font-size:72px;font-weight:600;line-height:1.2;color:#F7F5F0">La escuela llegó por el Canal y la Guerra Fría, dejó un legado polémico, y su salida en 1984 fue un paso más hacia la soberanía de Panamá.</h2>
+<p data-build-in="rise 3 auto" style="position:absolute;left:228px;top:800px;width:1464px;text-align:center;font-family:'Libre Baskerville', Georgia, serif;font-style:italic;font-size:36px;color:#E9A23B">Conocer la historia nos ayuda a no repetirla.</p>
+</section>
 <section class="slide" data-id="video" data-transition="fade" style="background:#070A0E;color:#F7F5F0;font-family:'Inter', Arial, sans-serif">
 <p data-build-in="fade 1 auto" style="position:absolute;left:128px;top:70px;width:1664px;text-align:center;font-size:24px;font-weight:700;letter-spacing:8px;color:#E9A23B">PARA CERRAR</p>
 <h2 data-build-in="rise 1 auto" style="position:absolute;left:128px;top:110px;width:1664px;text-align:center;font-family:'Oswald', Arial, sans-serif;font-size:64px;font-weight:600;color:#F7F5F0">La historia en video</h2>
 <div data-build-in="scale 2 auto" style="position:absolute;left:400px;top:230px;width:1120px;height:630px;border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.7);background:#000">
-<iframe data-yt="https://www.youtube-nocookie.com/embed/lSep_kuS6Mc?rel=0&amp;playsinline=1" style="width:1120px;height:630px;border:0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen title="Video: la Escuela de las Américas"></iframe>
+<iframe data-yt="https://www.youtube-nocookie.com/embed/lSep_kuS6Mc?rel=0&amp;playsinline=1&amp;start=0&amp;end=150" style="width:1120px;height:630px;border:0" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen title="Video: la Escuela de las Américas"></iframe>
 </div>
-<p data-build-in="fade 3 auto" style="position:absolute;left:128px;top:900px;width:1664px;text-align:center;font-size:26px;color:#9AA7B4">Toquen el video para reproducirlo · youtube.com/watch?v=lSep_kuS6Mc</p>
+<p data-build-in="fade 3 auto" style="position:absolute;left:128px;top:900px;width:1664px;text-align:center;font-size:26px;color:#9AA7B4">Video de 2 minutos · toquen para reproducir</p>
 </section>
 <section class="slide" data-id="fin" data-transition="fade" style="background:#070A0E;color:#F7F5F0;font-family:'Inter', Arial, sans-serif;padding:128px">
 <img src="img/12_final.jpg" alt="" style="position:absolute;left:0;top:0;width:1920px;height:1080px;object-fit:cover;opacity:0.3">
