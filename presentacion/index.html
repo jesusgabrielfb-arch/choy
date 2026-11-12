@@ -237,36 +237,6 @@ requestAnimationFrame(f)}f();
 <p data-build-in="left 4 auto" style="position:absolute;left:128px;top:835px;width:800px;font-size:32px;color:#F7F5F0">La nueva idea de seguridad.</p>
 </section>
 
-<section class="slide" data-id="panama" data-transition="fade" style="background:#070A0E;color:#F7F5F0;font-family:'Inter', Arial, sans-serif;padding:128px">
-<img src="img/02_canal.jpg" alt="Barco cruzando las esclusas del Canal de Panamá al atardecer (recreación con IA)" style="position:absolute;left:0;top:0;width:1920px;height:1080px;object-fit:cover">
-<div style="position:absolute;left:0;top:0;width:1920px;height:1080px;background:linear-gradient(90deg, rgba(7,10,14,0.95) 0%, rgba(7,10,14,0.75) 35%, rgba(7,10,14,0) 65%)"></div>
-<iframe class="fx" data-src="&lt;style&gt;html,body{margin:0;height:100%;overflow:hidden;background:transparent}canvas{display:block;width:100%;height:100%}&lt;/style&gt;&lt;canvas id=&quot;c&quot;&gt;&lt;/canvas&gt;&lt;script&gt;
-const M=&#x27;water&#x27;,C=[&quot;#FFE2B0&quot;],CX=0.5,CY=0.5;
-const c=document.getElementById(&#x27;c&#x27;),x=c.getContext(&#x27;2d&#x27;),r=Math.random;let W,H,k,t=0,P=[],B=[];
-function R(){W=c.width=innerWidth;H=c.height=innerHeight;k=W/1920}R();addEventListener(&#x27;resize&#x27;,R);
-const N={embers:70,dust:90,confetti:120,stars:150}[M]||0;
-for(let i=0;i&lt; N;i++)P.push({x:r()*W,y:r()*H,v:.4+r()*1.2,s:1+r()*3,a:r()*7,c:C[i%C.length],w:r()*.1-.05});
-function f(){t++;x.clearRect(0,0,W,H);x.globalAlpha=1;x.shadowBlur=0;x.globalCompositeOperation=&#x27;source-over&#x27;;
-if(M==&#x27;embers&#x27;){x.globalCompositeOperation=&#x27;lighter&#x27;;for(const p of P){p.y-=p.v*1.6*k;p.x+=Math.sin(t/45+p.a)*.7*k;if(p.y&lt;-20){p.y=H+20;p.x=r()*W}x.globalAlpha=.35+.65*Math.abs(Math.sin(t/25+p.a));x.fillStyle=p.c;x.shadowBlur=14*k;x.shadowColor=p.c;x.beginPath();x.arc(p.x,p.y,p.s*1.4*k,0,7);x.fill()}}
-else if(M==&#x27;dust&#x27;){for(const p of P){p.y+=p.v*.3*k;p.x+=Math.sin(t/90+p.a)*.5*k;if(p.y&gt;H+10){p.y=-10;p.x=r()*W}x.globalAlpha=.15+.4*Math.abs(Math.sin(t/60+p.a));x.fillStyle=p.c;x.beginPath();x.arc(p.x,p.y,p.s*k,0,7);x.fill()}}
-else if(M==&#x27;stars&#x27;){for(const p of P){x.globalAlpha=.1+.8*Math.abs(Math.sin(t/(40+p.a*10)+p.a));x.fillStyle=p.c;x.beginPath();x.arc(p.x,p.y,p.s*.7*k,0,7);x.fill()}}
-else if(M==&#x27;confetti&#x27;){for(const p of P){p.y+=p.v*2.2*k;p.x+=Math.sin(t/30+p.a)*1.2*k;p.a+=p.w;if(p.y&gt;H+20){p.y=-20;p.x=r()*W}x.save();x.translate(p.x,p.y);x.rotate(p.a);x.scale(1,Math.sin(t/12+p.a));x.fillStyle=p.c;x.globalAlpha=.9;x.fillRect(-8*k,-4*k,16*k,8*k);x.restore()}}
-else if(M==&#x27;film&#x27;){for(let i=0;i&lt;600;i++){x.fillStyle=r()&lt;.5?&#x27;#000&#x27;:&#x27;#fff&#x27;;x.globalAlpha=r()*.2;x.fillRect(r()*W,r()*H,2*k,2*k)}if(r()&lt;.3){x.globalAlpha=.3;x.fillStyle=&#x27;#e8e0d0&#x27;;x.fillRect(r()*W,0,1.5*k,H)}x.globalAlpha=r()*.1;x.fillStyle=&#x27;#000&#x27;;x.fillRect(0,0,W,H)}
-else if(M==&#x27;radar&#x27;){const cx=W*CX,cy=H*CY,R0=Math.min(W,H)*.45,a=t/50;x.strokeStyle=C[0];x.globalAlpha=.3;x.lineWidth=2*k;for(let i=1;i&lt;=4;i++){x.beginPath();x.arc(cx,cy,R0*i/4,0,7);x.stroke()}x.beginPath();x.moveTo(cx-R0,cy);x.lineTo(cx+R0,cy);x.moveTo(cx,cy-R0);x.lineTo(cx,cy+R0);x.stroke();for(let i=0;i&lt;40;i++){x.globalAlpha=.45*(1-i/40);x.fillStyle=C[0];x.beginPath();x.moveTo(cx,cy);x.arc(cx,cy,R0,a-i*.02-.02,a-i*.02);x.fill()}if(r()&lt;.05){const an=a-.05,d=r()*R0;B.push({x:cx+Math.cos(an)*d,y:cy+Math.sin(an)*d,l:1})}for(const b of B){b.l-=.006;x.globalAlpha=Math.max(b.l,0);x.fillStyle=C[1];x.shadowBlur=18*k;x.shadowColor=C[1];x.beginPath();x.arc(b.x,b.y,7*k,0,7);x.fill()}B=B.filter(b=&gt;b.l&gt;0)}
-else if(M==&#x27;water&#x27;){x.strokeStyle=C[0];x.lineWidth=2.5*k;for(let i=0;i&lt;50;i++){const y=H*(.5+.5*((i*37)%50)/50),xx=((i*173+t*(1+i%3)*k)%(W+300))-150;x.globalAlpha=.15+.45*Math.abs(Math.sin(t/30+i));x.beginPath();x.moveTo(xx,y);x.quadraticCurveTo(xx+45*k,y-5*k,xx+100*k,y);x.stroke()}}
-else if(M==&#x27;pulse&#x27;){for(let i=0;i&lt;4;i++){const q=(t/200+i/4)%1;x.globalAlpha=.55*(1-q);x.strokeStyle=C[i%C.length];x.lineWidth=5*k;x.beginPath();x.arc(W*CX,H*CY,q*W*.65,0,7);x.stroke()}}
-else if(M==&#x27;scan&#x27;){const y=(t*2.5*k)%H;const g=x.createLinearGradient(0,y-160*k,0,y);g.addColorStop(0,&#x27;rgba(0,0,0,0)&#x27;);g.addColorStop(1,C[0]);x.globalAlpha=.2;x.fillStyle=g;x.fillRect(0,y-160*k,W,160*k);x.globalAlpha=.7;x.fillStyle=C[0];x.fillRect(0,y,W,2*k);x.globalAlpha=.07;x.strokeStyle=C[0];x.lineWidth=1;x.beginPath();for(let i=0;i&lt; W;i+=80*k){x.moveTo(i,0);x.lineTo(i,H)}for(let i=0;i&lt; H;i+=80*k){x.moveTo(0,i);x.lineTo(W,i)}x.stroke()}
-else if(M==&#x27;alarm&#x27;){const s=(Math.sin(t/45)+1)/2;[[0,C[0],s],[W,C[1],1-s]].forEach(([px,col,a])=&gt;{const g=x.createRadialGradient(px,H*.4,0,px,H*.4,W*.55);g.addColorStop(0,col);g.addColorStop(1,&#x27;rgba(0,0,0,0)&#x27;);x.globalAlpha=.45*a;x.fillStyle=g;x.fillRect(0,0,W,H)});x.globalCompositeOperation=&#x27;lighter&#x27;;x.strokeStyle=&#x27;#9fb8d8&#x27;;x.lineWidth=1.5*k;for(let i=0;i&lt;90;i++){const rx=(i*211+t*3)%W,ry=((i*97+t*14*k)%(H+80))-40;x.globalAlpha=.25;x.beginPath();x.moveTo(rx,ry);x.lineTo(rx-6*k,ry+28*k);x.stroke()}}
-requestAnimationFrame(f)}f();
-&lt;/script&gt;" style="position:absolute;left:0;top:0;width:1920px;height:1080px;border:0;background:transparent;pointer-events:none" tabindex="-1" aria-hidden="true"></iframe>
-<p data-build-in="fade 1 auto" style="position:absolute;left:128px;top:150px;width:900px;font-size:24px;font-weight:700;letter-spacing:6px;color:#E9A23B">CAPÍTULO 03</p>
-<h2 data-build-in="rise 1 auto" style="position:absolute;left:128px;top:190px;width:900px;font-family:'Oswald', Arial, sans-serif;font-size:80px;font-weight:600;line-height:1.1;color:#F7F5F0">¿Por qué en Panamá?</h2>
-<p data-build-in="rise 2 auto" style="position:absolute;left:128px;top:330px;width:760px;font-size:34px;line-height:1.4;color:#F3EEE3">Por el Canal: desde 1903 la Zona del Canal era de EE. UU.</p>
-<p data-build-in="left 3 auto" style="position:absolute;left:128px;top:520px;width:440px;height:70px;font-size:28px;font-weight:700;line-height:2.5;text-align:center;color:#F7F5F0;background:#1F6FB2;border-radius:16px">Océano Atlántico</p>
-<p data-build-in="pop 4 auto" style="position:absolute;left:128px;top:620px;width:500px;height:70px;font-size:32px;font-weight:700;line-height:2.2;text-align:center;color:#070A0E;background:#E9A23B;border-radius:16px;box-shadow:0 8px 30px rgba(233,162,59,0.45)">FORT GULICK · COLÓN</p>
-<p data-build-in="left 5 auto" style="position:absolute;left:128px;top:720px;width:440px;height:70px;font-size:28px;font-weight:700;line-height:2.5;text-align:center;color:#070A0E;background:#2BB3A3;border-radius:16px">Canal de Panamá</p>
-<p data-build-in="left 5 auto" style="position:absolute;left:128px;top:820px;width:440px;height:70px;font-size:28px;font-weight:700;line-height:2.5;text-align:center;color:#F7F5F0;background:#1F6FB2;border-radius:16px">Océano Pacífico</p>
-</section>
 
 <section class="slide" data-id="origenes" data-transition="fade" style="background:#070A0E;color:#F7F5F0;font-family:'Inter', Arial, sans-serif;padding:128px">
 <img src="img/11_1946.jpg" alt="Centro de entrenamiento militar en Panamá en 1946, estilo foto antigua (recreación con IA)" style="position:absolute;left:0;top:0;width:1920px;height:1080px;object-fit:cover">
