@@ -489,7 +489,12 @@ input[type=range]{width:100%;accent-color:var(--coral);margin-top:6px}
 .qtags{display:flex;gap:6px;flex-wrap:wrap;margin:-4px 0 6px}
 .qtype,.qtopic{font-size:12px;font-weight:700;padding:2px 9px;border-radius:999px;background:var(--blue-soft);color:var(--blue)}
 .qtopic{background:var(--extra-soft);color:var(--extra)}
-.qtype.t-tf{background:#EFE7FB;color:#7656B8}.qtype.t-open{background:var(--hl);color:#9A4A35}.qtype.t-order{background:var(--ok-soft);color:var(--ok)}.qtype.t-match{background:#FFE9F2;color:#C2457A}
+.qtype.t-tf{background:#EFE7FB;color:#7656B8}.qtype.t-fill{background:#E3EFFA;color:#2F6FA8}
+.fillq{font-size:20px;line-height:2.1;margin:4px 0 14px}
+.fillq input{font:inherit;font-size:18px;width:9.5em;max-width:100%;padding:2px 8px;border:0;border-bottom:2.5px solid var(--coral);background:var(--hl);border-radius:6px 6px 0 0;color:var(--ink);text-align:center;outline:none}
+.fillq input:focus{background:#FFE6D8}
+.fillq input.ok{border-color:var(--ok);background:var(--ok-soft)}.fillq input.bad{border-color:var(--bad);background:var(--bad-soft)}
+.fillq .fa{display:inline-block;font-size:14px;font-weight:700;color:var(--ok);margin:0 4px}.qtype.t-open{background:var(--hl);color:#9A4A35}.qtype.t-order{background:var(--ok-soft);color:var(--ok)}.qtype.t-match{background:#FFE9F2;color:#C2457A}
 .opts.tf{grid-template-columns:1fr 1fr}
 .opt.chosen{border-color:var(--blue);background:var(--blue-soft)}
 .openans{width:100%;font:inherit;font-size:16px;padding:12px 14px;border:1.5px solid var(--line2);border-radius:12px;background:var(--page);color:var(--ink);resize:vertical}
@@ -837,8 +842,8 @@ footer .hand{font-size:22px}
   </g>
   <!-- glándula bulbouretral (de Cowper) -->
   <g class="part" data-part="bulbouretral" filter="url(#mSoft)">
-    <circle cx="320" cy="272" r="9" fill="url(#mVs)" stroke="#B9814F" stroke-width="1.6"/>
-    <path d="M314,276 C308,280 302,282 296,282" stroke="#B9814F" stroke-width="1.4" fill="none"/>
+    <circle cx="306" cy="271" r="8" fill="url(#mVs)" stroke="#B9814F" stroke-width="1.6"/>
+    <path d="M304,263 C303,260 304,258 305,256" stroke="#B9814F" stroke-width="2.4" fill="none" stroke-linecap="round"/>
   </g>
   <!-- uretra -->
   <g class="part" data-part="uretra">
@@ -1555,7 +1560,7 @@ footer .hand{font-size:22px}
 <!-- PRACTICA -->
 <section class="practice-wrap" id="practica">
   <div class="topic-head"><span class="num">✎</span><h2>Hora de practicar</h2></div>
-  <p class="lede">Elige qué temas estudiar (y en qué orden), cómo quieres estudiarlos y qué tipo de preguntas quieres. Hay más de 350 preguntas basadas en tus apuntes y en el PPT de clase, de 5 tipos distintos.</p>
+  <p class="lede">Elige qué temas estudiar (y en qué orden), cómo quieres estudiarlos y qué tipo de preguntas quieres. Hay más de 520 preguntas basadas en tus apuntes y en el PPT de clase, de 6 tipos distintos (selección múltiple, verdadero o falso, llenar espacios, pareo, ordenar y desarrollo). Al practicar un tema se mezclan los tipos y se reparten las preguntas entre todas sus partes.</p>
   <div class="setup" id="setup">
     <div class="step">
       <h3><span class="sn">1</span>¿Qué temas quieres estudiar?</h3>
@@ -1577,12 +1582,13 @@ footer .hand{font-size:22px}
       <div class="types" id="types">
         <label><input type="checkbox" value="mc" checked> Selección múltiple</label>
         <label><input type="checkbox" value="tf" checked> Verdadero o falso</label>
+        <label><input type="checkbox" value="fill" checked> Llenar espacios</label>
         <label><input type="checkbox" value="open" checked> Desarrollo</label>
         <label><input type="checkbox" value="order" checked> Ordenar procesos</label>
         <label><input type="checkbox" value="match" checked> Pareo</label>
       </div>
       <div class="qsel">
-        <label for="qcount">Cantidad</label><select id="qcount"><option value="10">10</option><option value="20" selected>20</option><option value="40">40</option><option value="all">Todas</option></select>
+        <label for="qcount">Cantidad</label><select id="qcount"><option value="10">10</option><option value="20">20</option><option value="25" selected>25</option><option value="40">40</option><option value="all">Todas</option></select>
         <label for="qorder">Orden</label><select id="qorder"><option value="temas">Por temas, en el orden que elegí</option><option value="mezcla">Todo mezclado</option></select>
       </div>
     </div>
@@ -1970,8 +1976,8 @@ makeAnat('anat-fem',{
   vagina:{n:'Vagina',d:'Tubo muscular que se expande. Por el orificio vaginal sale la sangre menstrual y el bebé.',a:[318,362],l:[420,352]}
 },{utero:['miometrio','endometrio','cuello'],trompa:['ampula','fimbrias'],ovario:['foliculo','luteo']},
 {stage:'stage-fem',mirror:'sideL',mirrorW:560,alias:{utero:'miometrio'},hello:'Toca una parte del dibujo (o un nombre) para ver qué es.'});
-makeAnat('anat-masc',{"vejiga": {"n": "Vejiga", "d": "Guarda la orina. No es del aparato reproductor, pero en el hombre su conducto de salida (la uretra) es común con el semen.", "a": [296, 100], "l": [150, 40]}, "deferente": {"n": "Conducto deferente", "d": "Almacena los espermatozoides y los transporta al exterior. Sube desde el epidídimo, rodea la vejiga y desemboca en la uretra. Su recorrido va en contra de la gravedad.", "a": [372, 96], "l": [396, 50]}, "vesicula": {"n": "Vesícula seminal", "d": "Glándula anexa que aporta un líquido rico en fructosa (energía/ATP) y prostaglandinas (contracciones que mueven a los espermatozoides).", "a": [390, 184], "l": [418, 122]}, "prostata": {"n": "Próstata", "d": "La glándula anexa más grande. Su líquido se mezcla con el esperma y facilita el movimiento de los espermatozoides. Rodea la uretra debajo de la vejiga.", "a": [334, 232], "l": [456, 214]}, "eyaculador": {"n": "Conducto eyaculador", "d": "Une el conducto deferente con la vesícula seminal y lleva el semen a la uretra, atravesando la próstata.", "a": [340, 218], "l": [398, 250]}, "bulbouretral": {"n": "Glándula bulbouretral (de Cowper)", "d": "La más pequeña. Secreta una sustancia viscosa y débilmente alcalina que neutraliza los restos de orina de la uretra y da el olor al semen.", "a": [320, 272], "l": [300, 292]}, "uretra": {"n": "Uretra", "d": "Conducto común para la orina y el semen. Conduce los espermatozoides durante la eyaculación.", "a": [167, 290], "l": [124, 330]}, "cavernoso": {"n": "Cuerpo cavernoso", "d": "Tejido eréctil del pene: en la erección se llena de sangre.", "a": [201, 246], "l": [60, 176]}, "prepucio": {"n": "Prepucio", "d": "Piel que cubre y protege el glande. Se puede retirar con la circuncisión; hay que asearlo bien.", "a": [118, 280], "l": [96, 214]}, "glande": {"n": "Glande", "d": "Parte terminal del pene, con muchas terminaciones nerviosas. Ahí está el orificio de la uretra.", "a": [96, 300], "l": [8, 256]}, "escroto": {"n": "Escroto", "d": "Bolsa formada por la piel que cubre los testículos fuera del cuerpo, para que estén a menor temperatura.", "a": [200, 336], "l": [110, 362]}, "testiculo": {"n": "Testículo", "d": "Gónada masculina: produce los espermatozoides (con ayuda de las células de Sertoli) y la testosterona (células de Leydig).", "a": [230, 352], "l": [120, 394]}, "tubos": {"n": "Tubos seminíferos", "d": "Tubos seminíferos: dentro del testículo. Aquí ocurre la espermatogénesis (se forman los espermatozoides).", "a": [238, 372], "l": [312, 392]}, "epididimo": {"n": "Epidídimo", "d": "Parte inicial del conducto deferente. Termina la maduración de los espermatozoides y los almacena.", "a": [284, 348], "l": [330, 356]}},{testiculo:['tubos']},{stage:'stage-masc',hello:'Toca una parte del dibujo (o un nombre) para ver qué es.'});
-const MASC_P={"vejiga": [296, 100], "deferente": [372, 96], "vesicula": [390, 184], "prostata": [334, 232], "eyaculador": [340, 218], "bulbouretral": [320, 272], "uretra": [167, 290], "cavernoso": [201, 246], "prepucio": [118, 280], "glande": [96, 300], "escroto": [200, 336], "testiculo": [230, 352], "tubos": [238, 372], "epididimo": [284, 348]};
+makeAnat('anat-masc',{"vejiga": {"n": "Vejiga", "d": "Guarda la orina. No es del aparato reproductor, pero en el hombre su conducto de salida (la uretra) es común con el semen.", "a": [296, 100], "l": [150, 40]}, "deferente": {"n": "Conducto deferente", "d": "Almacena los espermatozoides y los transporta al exterior. Sube desde el epidídimo, rodea la vejiga y desemboca en la uretra. Su recorrido va en contra de la gravedad.", "a": [372, 96], "l": [396, 50]}, "vesicula": {"n": "Vesícula seminal", "d": "Glándula anexa que aporta un líquido rico en fructosa (energía/ATP) y prostaglandinas (contracciones que mueven a los espermatozoides).", "a": [390, 184], "l": [418, 122]}, "prostata": {"n": "Próstata", "d": "La glándula anexa más grande. Su líquido se mezcla con el esperma y facilita el movimiento de los espermatozoides. Rodea la uretra debajo de la vejiga.", "a": [334, 232], "l": [456, 214]}, "eyaculador": {"n": "Conducto eyaculador", "d": "Une el conducto deferente con la vesícula seminal y lleva el semen a la uretra, atravesando la próstata.", "a": [340, 218], "l": [398, 250]}, "bulbouretral": {"n": "Glándula bulbouretral (de Cowper)", "d": "La más pequeña. Secreta una sustancia viscosa y débilmente alcalina que neutraliza los restos de orina de la uretra y da el olor al semen.", "a": [306, 270], "l": [300, 292]}, "uretra": {"n": "Uretra", "d": "Conducto común para la orina y el semen. Conduce los espermatozoides durante la eyaculación.", "a": [167, 290], "l": [124, 330]}, "cavernoso": {"n": "Cuerpo cavernoso", "d": "Tejido eréctil del pene: en la erección se llena de sangre.", "a": [201, 246], "l": [60, 176]}, "prepucio": {"n": "Prepucio", "d": "Piel que cubre y protege el glande. Se puede retirar con la circuncisión; hay que asearlo bien.", "a": [118, 280], "l": [96, 214]}, "glande": {"n": "Glande", "d": "Parte terminal del pene, con muchas terminaciones nerviosas. Ahí está el orificio de la uretra.", "a": [96, 300], "l": [8, 256]}, "escroto": {"n": "Escroto", "d": "Bolsa formada por la piel que cubre los testículos fuera del cuerpo, para que estén a menor temperatura.", "a": [200, 336], "l": [110, 362]}, "testiculo": {"n": "Testículo", "d": "Gónada masculina: produce los espermatozoides (con ayuda de las células de Sertoli) y la testosterona (células de Leydig).", "a": [230, 352], "l": [120, 394]}, "tubos": {"n": "Tubos seminíferos", "d": "Tubos seminíferos: dentro del testículo. Aquí ocurre la espermatogénesis (se forman los espermatozoides).", "a": [238, 372], "l": [312, 392]}, "epididimo": {"n": "Epidídimo", "d": "Parte inicial del conducto deferente. Termina la maduración de los espermatozoides y los almacena.", "a": [284, 348], "l": [330, 356]}},{testiculo:['tubos']},{stage:'stage-masc',hello:'Toca una parte del dibujo (o un nombre) para ver qué es.'});
+const MASC_P={"vejiga": [296, 100], "deferente": [372, 96], "vesicula": [390, 184], "prostata": [334, 232], "eyaculador": [340, 218], "bulbouretral": [306, 270], "uretra": [167, 290], "cavernoso": [201, 246], "prepucio": [118, 280], "glande": [96, 300], "escroto": [200, 336], "testiculo": [230, 352], "tubos": [238, 372], "epididimo": [284, 348]};
 makeAnat('anat-ovocito',{"corona": {"n": "Corona radiada (células foliculares)", "d": "Capa de células foliculares que rodea al ovocito II por fuera. El espermatozoide tiene que pasar entre ellas.", "a": [100, 175], "l": [4, 10]}, "zona": {"n": "Zona pelúcida", "d": "Capa gruesa que cubre la membrana del ovocito. El acrosoma del espermatozoide la degrada con sus enzimas; solo uno logra atravesarla.", "a": [154, 297], "l": [4, 356]}, "membrana": {"n": "Membrana", "d": "Envoltura del ovocito, cubierta por la zona pelúcida.", "a": [342, 269], "l": [452, 262]}, "citoplasma": {"n": "Citoplasma", "d": "El interior del ovocito: es muy grande y tiene reservas. Por eso es la célula más voluminosa del cuerpo de la mujer.", "a": [300, 245], "l": [420, 214]}, "nucleo": {"n": "Núcleo (haploide)", "d": "Tiene contenido haploide (n = 23 cromosomas). Al unirse con el núcleo del espermatozoide se forma el cigoto diploide.", "a": [236, 197], "l": [396, 140]}, "polar": {"n": "Cuerpo polar", "d": "El primer cuerpo polar: célula pequeña que sale en la meiosis I junto con el ovocito II. No se fecunda y se degrada.", "a": [332, 113], "l": [420, 60]}, "esperma": {"n": "Espermatozoide (acrosoma)", "d": "Llega a la zona pelúcida: las enzimas hidrolíticas de su acrosoma la degradan para poder entrar.", "a": [390, 296], "l": [330, 368]}},{},{stage:'stage-ovocito',hello:'Toca una parte del ovocito (o un nombre) para ver qué es.'});
 const OVO_P={"corona": [100, 175], "zona": [154, 297], "membrana": [342, 269], "citoplasma": [300, 245], "nucleo": [236, 197], "polar": [332, 113], "esperma": [390, 296]};
 /* ---------- procesos animados interactivos ---------- */
@@ -2163,7 +2169,7 @@ function calc(){
 
 /* ---------- banco de preguntas por tema ---------- */
 const TOPICS={base:['Ideas base','#base'],masc:['Aparato masculino','#masculino'],esperm:['Espermatogénesis','#espermatogenesis'],fem:['Aparato femenino','#femenino'],ovo:['Ovogénesis','#ovogenesis'],ciclo:['Ciclo menstrual','#ciclo'],calc:['Cálculo de la ovulación','#calculo'],fec:['Fecundación','#fecundacion'],gest:['Gestación y nacimiento','#fecundacion'],its:['ITS','#its'],metodos:['Métodos anticonceptivos','#metodos']};
-const TYPES={mc:'Selección múltiple',tf:'Verdadero o falso',open:'Desarrollo',order:'Ordenar procesos',match:'Pareo'};
+const TYPES={mc:'Selección múltiple',tf:'Verdadero o falso',fill:'Llenar espacios',open:'Desarrollo',order:'Ordenar procesos',match:'Pareo'};
 /* mc: [tipo, tema, pregunta, [correcta, …incorrectas], explicación]
    tf: [tipo, tema, afirmación, verdadero?, explicación]
    open: [tipo, tema, pregunta, respuesta modelo, palabras clave ("a|b" = cualquiera)]
@@ -2586,6 +2592,134 @@ const BANK=[
 ["tf","metodos","El diafragma es un método de barrera.",true,"Junto con el condón y los espermicidas."],
 ["match","metodos","Une cada método con su clasificación.",[["Píldora o parche","Hormonal"],["Condón","No hormonal reversible (barrera)"],["Calendario o Billings","No hormonal reversible (abstinencia periódica)"],["Vasectomía","No hormonal permanente"]]],
 ["open","metodos","Explica la clasificación de los métodos anticonceptivos con un ejemplo de cada grupo.","Hormonales (estrógeno y progestágeno): píldoras, inyecciones, anillo vaginal, parche, implantes. No hormonales reversibles: DIU, condón masculino y femenino, diafragma, espermicidas, amenorrea de lactancia y abstinencia periódica (Billings, calendario, temperatura basal, sintotérmico). No hormonales permanentes: esterilización femenina y vasectomía.",["hormonal","estrogeno|progestageno","condon|barrera","calendario|billings","vasectomia|esteriliz"]],
+["fill", "base", "El conjunto de órganos reproductores se llama ___.", [["genitales"]], "Genitales = órganos reproductores."],
+["fill", "base", "La reproducción humana es ___: necesita una célula masculina y una femenina.", [["sexual"]], "Por eso cada sexo produce su gameto."],
+["fill", "base", "En el hombre, el sistema reproductor y el urinario comparten la ___.", [["uretra"]], "La uretra lleva orina y semen."],
+["fill", "base", "La célula sexual se llama ___: la masculina es el ___ y la femenina el ___.", [["gameto"], ["espermatozoide"], ["ovocito", "ovocito ii", "ovulo"]], "Gametos: espermatozoide y ovocito II."],
+["fill", "base", "El sistema reproductor femenino es ___ del aparato urinario.", [["independiente"]], "En la mujer no comparten conducto (PPT)."],
+["fill", "base", "Los genitales se dividen en internos y ___, más las glándulas ___.", [["externos"], ["accesorias", "anexas"]], "Internos, externos y glándulas accesorias."],
+["match", "base", "Une cada concepto con lo que corresponde.", [["Gónadas masculinas", "Testículos"], ["Gónadas femeninas", "Ovarios"], ["Gameto masculino", "Espermatozoide"], ["Gameto femenino", "Ovocito II"], ["Conducto común en el hombre", "Uretra"]]],
+["mc", "base", "Según el PPT, ¿cuál es la función del sistema reproductor humano?", ["Mantener la generación humana en la Tierra", "Eliminar la orina", "Producir jugos digestivos", "Transportar oxígeno"], "Definición del PPT."],
+["tf", "base", "En la mujer, la orina y la sangre menstrual salen por el mismo orificio.", false, "Son orificios separados: meato urinario y orificio vaginal."],
+["order", "base", "Ordena de lo más general a lo más específico.", ["Sistema reproductor", "Genitales internos", "Testículos (gónadas)", "Espermatozoide (gameto)"], "Del sistema al gameto."],
+["fill", "masc", "Las vesículas seminales aportan un líquido rico en ___ y ___.", [["fructosa"], ["prostaglandinas", "prostaglandina"]], "Fructosa = energía; prostaglandinas = contracciones.", {"any": true}],
+["fill", "masc", "La glándula anexa más grande es la ___ y la más pequeña es la ___.", [["prostata"], ["bulbouretral", "bulbouretral de cowper", "cowper", "de cowper", "glandula de cowper", "glandula bulbouretral"]], "Próstata la más grande; bulbouretral (de Cowper) la más pequeña."],
+["fill", "masc", "La glándula bulbouretral (de Cowper) secreta una sustancia viscosa y débilmente ___ que neutraliza los restos de ___.", [["alcalina"], ["orina"]], "La orina es ácida y puede matar espermatozoides."],
+["fill", "masc", "La fructosa de las vesículas seminales da la energía, en forma de ___, para el recorrido.", [["atp"]], "Fructosa → ATP."],
+["fill", "masc", "Las células de ___ producen testosterona y las de ___ apoyan la formación de espermatozoides.", [["leydig"], ["sertoli"]], "Leydig = testosterona; Sertoli = apoyo."],
+["fill", "masc", "Los testículos están en el ___ para tener una temperatura ___ que la del cuerpo.", [["escroto"], ["menor", "mas baja", "baja", "inferior"]], "La producción de espermatozoides necesita menos temperatura."],
+["fill", "masc", "El ___ es la parte inicial del conducto deferente, donde los espermatozoides terminan de madurar y se almacenan.", [["epididimo"]], "Epidídimo: maduración y almacenamiento."],
+["fill", "masc", "Durante la erección, la sangre llena el cuerpo ___.", [["cavernoso", "cavernosos"]], "El sistema nervioso manda la señal y se llena de sangre."],
+["fill", "masc", "La piel que cubre el glande se llama ___ y se puede retirar con la ___.", [["prepucio"], ["circuncision"]], "Prepucio y circuncisión."],
+["fill", "masc", "Los espermatozoides junto con los líquidos de todas las glándulas forman el ___.", [["semen"]], "Semen = espermatozoides + secreciones."],
+["fill", "masc", "Las prostaglandinas producen ___ que mueven a los espermatozoides dentro de la mujer.", [["contracciones", "contraccion"]], "Lo aportan las vesículas seminales."],
+["fill", "masc", "Cuando un testículo no baja al escroto se llama ___.", [["criptorquidia"]], "Puede causar infertilidad si no se trata."],
+["match", "masc", "Une cada glándula o sustancia con lo que hace.", [["Vesículas seminales", "Fructosa y prostaglandinas"], ["Próstata", "Líquido que facilita el movimiento"], ["Bulbouretral (de Cowper)", "Sustancia alcalina que neutraliza la orina"], ["Fructosa", "Energía (ATP) para el recorrido"], ["Prostaglandinas", "Contracciones dentro de la mujer"]]],
+["match", "masc", "Une cada estructura con su función.", [["Escroto", "Bolsa de piel que cubre los testículos"], ["Epidídimo", "Maduración y almacenamiento"], ["Conducto deferente", "Transporte al exterior, contra la gravedad"], ["Uretra", "Conducto común de orina y semen"], ["Glande", "Parte terminal del pene"], ["Prepucio", "Piel que protege el glande"]]],
+["order", "masc", "Ordena por dónde pasa el espermatozoide, desde donde se forma hasta donde sale.", ["Tubos seminíferos (testículo)", "Epidídimo", "Conducto deferente", "Conducto eyaculador", "Uretra"], "Así sale en la eyaculación."],
+["order", "masc", "Ordena las glándulas anexas de la más grande a la más pequeña.", ["Próstata", "Vesículas seminales", "Bulbouretral (de Cowper)"], "Próstata la más grande; bulbouretral la más pequeña."],
+["mc", "masc", "¿Qué glándula aporta la energía para el recorrido de los espermatozoides?", ["Vesículas seminales (fructosa)", "Próstata", "Bulbouretral (de Cowper)", "Epidídimo"], "La fructosa se usa para producir ATP."],
+["mc", "masc", "¿Para qué sirve el líquido de la próstata?", ["Facilita el movimiento de los espermatozoides, que recorren una gran distancia", "Produce testosterona", "Neutraliza la orina", "Forma la cola del espermatozoide"], "Se mezcla con el esperma antes de la eyaculación."],
+["mc", "masc", "¿Qué aportan las prostaglandinas de las vesículas seminales?", ["Contracciones que mueven a los espermatozoides dentro de la mujer", "Energía (ATP)", "Una sustancia alcalina", "El olor del semen"], "Fructosa = energía; prostaglandinas = contracciones."],
+["mc", "masc", "¿Qué pasaría si no funcionara la glándula bulbouretral (de Cowper)?", ["La acidez de la orina en la uretra podría matar a los espermatozoides", "No habría testosterona", "No habría erección", "Los espermatozoides no tendrían cola"], "Su sustancia alcalina neutraliza los restos de orina."],
+["mc", "masc", "¿Cuántas glándulas anexas tiene el aparato reproductor masculino?", ["3", "2", "4", "5"], "Vesículas seminales, próstata y bulbouretral (de Cowper)."],
+["mc", "masc", "¿Qué es la prostatitis?", ["La inflamación de la próstata", "La falta de espermatozoides", "Un testículo que no baja", "Una infección de la vejiga"], "Se recomienda el examen de próstata desde los ~40 años."],
+["mc", "masc", "¿Qué glándula le da al semen su olor característico?", ["Bulbouretral (de Cowper)", "Próstata", "Vesículas seminales", "Epidídimo"], "Según el PPT, la de Cowper también da el olor."],
+["tf", "masc", "La próstata es la glándula anexa más pequeña.", false, "Es la más grande; la más pequeña es la bulbouretral (de Cowper)."],
+["tf", "masc", "El semen está formado solo por espermatozoides.", false, "Es el conjunto de espermatozoides y lo que secretan todas las glándulas."],
+["tf", "masc", "Si los espermatozoides no salen, los testículos los reabsorben y los reutilizan.", true, "Así lo dicen tus apuntes."],
+["tf", "masc", "Las vesículas seminales aportan fructosa y prostaglandinas.", true, "Fructosa = energía; prostaglandinas = contracciones."],
+["fill", "esperm", "La espermatogénesis ocurre en los tubos ___ de los testículos.", [["seminiferos", "seminifero"]], "Según el PPT."],
+["fill", "esperm", "La espermatogonia tiene 44 + ___ cromosomas y es ___.", [["xy"], ["diploide", "2n"]], "46 cromosomas: diploide."],
+["fill", "esperm", "Los espermatocitos secundarios tienen 22 + X o 22 + ___.", [["y"]], "Son haploides (n)."],
+["fill", "esperm", "De cada espermatocito primario salen ___ espermatozoides.", [["4", "cuatro"]], "Meiosis I → 2; meiosis II → 4."],
+["fill", "esperm", "La transformación de espermátida en espermatozoide se llama ___.", [["espermiogenesis"]], "Es una diferenciación."],
+["fill", "esperm", "El acrosoma tiene enzimas ___ que degradan la zona pelúcida.", [["hidroliticas", "hidrolitica"]], "Así entra al ovocito II."],
+["fill", "esperm", "La pieza media tiene ___, que producen el ATP para mover la cola.", [["mitocondrias", "mitocondria"]], "Energía para el flagelo."],
+["fill", "esperm", "La espermatogénesis empieza en la ___ y termina ___.", [["pubertad"], ["nunca"]], "Por la testosterona; dura toda la vida."],
+["fill", "esperm", "Las espermatogonias se dividen por ___.", [["mitosis"]], "Así nunca se acaban."],
+["match", "esperm", "Une cada etapa con su descripción.", [["Espermatogonia", "2n · 44 + XY, se divide por mitosis"], ["Espermatocito I", "2n · entra en la meiosis I"], ["Espermatocito II", "n · 22 + X o 22 + Y"], ["Espermátida", "n · todavía no funciona"], ["Espermatozoide", "n · móvil y funcional"]]],
+["mc", "esperm", "¿En qué división los cromosomas pasan de 46 a 23?", ["Meiosis I", "Mitosis", "Meiosis II", "Espermiogénesis"], "La meiosis I reduce a la mitad."],
+["mc", "esperm", "¿Qué tipo de división hace la espermatogonia?", ["Mitosis", "Meiosis I", "Meiosis II", "Espermiogénesis"], "Mitosis: unas quedan de reserva y otras crecen."],
+["tf", "esperm", "Las espermátidas ya pueden nadar.", false, "Todavía no funcionan: les falta la espermiogénesis."],
+["fill", "fem", "El útero tiene dos capas: el ___ (músculo) y el ___ (capa interna que se desprende).", [["miometrio"], ["endometrio"]], "Miometrio afuera, endometrio adentro."],
+["fill", "fem", "La fecundación ocurre en la ___, la parte media de la trompa de Falopio.", [["ampula"]], "Ámpula = lugar de la fecundación."],
+["fill", "fem", "Las ___ son prolongaciones de la trompa que atrapan al ovocito.", [["fimbrias", "fimbria"]], "Están al final de la trompa."],
+["fill", "fem", "Los ovarios producen las hormonas ___ y ___.", [["estrogeno", "estrogenos"], ["progesterona"]], "Son las hormonas sexuales femeninas.", {"any": true}],
+["fill", "fem", "La vagina comunica el ___ del útero con el exterior.", [["cuello", "cervix"]], "Según el PPT."],
+["fill", "fem", "Las glándulas de ___ (vestibulares mayores) lubrican el vestíbulo de la vagina.", [["bartolino"]], "Son dos, de 0,5 cm."],
+["fill", "fem", "La vulva está formada por los labios mayores, los labios menores y el ___.", [["clitoris"]], "Partes externas."],
+["fill", "fem", "La orina sale por el ___ urinario.", [["meato"]], "Separado del orificio vaginal."],
+["fill", "fem", "El útero alberga al embrión durante ___ meses.", [["9", "nueve"]], "Lo nutre y lo protege."],
+["match", "fem", "Une cada órgano con su función.", [["Ovario", "Produce ovocitos y hormonas"], ["Trompa de Falopio", "Comunica el ovario con el útero"], ["Útero", "Alberga al embrión 9 meses"], ["Vagina", "Comunica el cuello del útero con el exterior"], ["Clítoris", "Tejido eréctil análogo al pene"], ["Glándulas de Skene", "Junto al orificio de la uretra"]]],
+["order", "fem", "Ordena el camino de los espermatozoides dentro de la mujer.", ["Vagina", "Cuello del útero", "Útero", "Trompa de Falopio", "Ámpula"], "En la ámpula se encuentran con el ovocito II."],
+["fill", "ovo", "La ovogénesis ocurre en los ___.", [["ovarios", "ovario"]], "Según el PPT."],
+["fill", "ovo", "La ovogénesis se detiene en la ___ I y se retoma en la ___.", [["profase"], ["pubertad"]], "Ahí ocurre la recombinación genética."],
+["fill", "ovo", "La mujer nace con unos ___ mil ovocitos I.", [["400", "cuatrocientos"]], "No produce más."],
+["fill", "ovo", "De cada ovocito I salen 1 óvulo y ___ cuerpos polares.", [["3", "tres"]], "Los cuerpos polares se degradan."],
+["fill", "ovo", "Solo se llama ___ si es fecundado; antes es ovocito II.", [["ovulo"]], "Dato del PPT."],
+["fill", "ovo", "La capa que el espermatozoide debe atravesar para fecundar al ovocito II es la zona ___.", [["pelucida"]], "La degradan las enzimas del acrosoma."],
+["fill", "ovo", "El ovocito II es la célula más ___ del cuerpo de la mujer.", [["voluminosa", "grande"]], "Según el PPT: la más voluminosa."],
+["fill", "ovo", "El ovocito II termina la meiosis ___ solo si hay fecundación.", [["ii", "2", "dos"]], "Entonces se forma el óvulo."],
+["match", "ovo", "Une cada célula con su descripción.", [["Ovogonia", "2n · se multiplica por mitosis"], ["Ovocito I", "2n · detenido en profase I"], ["Ovocito II", "n · sale en la ovulación"], ["Cuerpo polar", "Célula pequeña que se degrada"], ["Óvulo", "Ovocito II ya fecundado"], ["Cigoto", "2n · fusión de los núcleos"]]],
+["order", "ovo", "Ordena la ovogénesis en la vida de la mujer.", ["Embrión: empieza", "Se detiene en la profase I", "Nacimiento: ~400 mil ovocitos I", "Pubertad: se retoma cada ciclo", "Menopausia: se acaba"], "Línea de tiempo de la ovogénesis."],
+["tf", "ovo", "El ovocito II tiene flagelo.", false, "Es grande e inmóvil."],
+["fill", "ciclo", "El ciclo menstrual dura de ___ a ___ días.", [["28"], ["35"]], "Depende de cada mujer."],
+["fill", "ciclo", "La primera menstruación se llama ___.", [["menarquia"]], "Se pierden ~35 mL de sangre."],
+["fill", "ciclo", "Según el PPT, la menopausia es el último ___ y ocurre entre los 45 y 55 años.", [["sangrado", "periodo", "menstruacion"]], "Corregido según el PPT."],
+["fill", "ciclo", "En la ovulación la temperatura sube ___ °C.", [["1", "uno"]], "De ~36 °C a ~37 °C."],
+["fill", "ciclo", "El pico de la hormona ___ provoca la ovulación.", [["lh", "luteinizante", "hormona luteinizante"]], "También sube la FSH."],
+["fill", "ciclo", "El folículo vacío se transforma en el cuerpo ___, que produce ___.", [["luteo"], ["progesterona"]], "Fase lútea."],
+["fill", "ciclo", "En el útero, la fase folicular se llama fase ___ y la lútea se llama fase ___.", [["proliferativa"], ["secretora"]], "Nombres del PPT."],
+["fill", "ciclo", "En la menarquia se pierden en promedio unos ___ mL de sangre.", [["35"]], "Lo normal: de 10 a 80 mL."],
+["fill", "ciclo", "El folículo maduro que contiene al ovocito II se llama folículo de ___.", [["graaf"]], "Se rompe en la ovulación."],
+["match", "ciclo", "Une cada fase con sus días (PPT).", [["Fase menstrual", "Días 1–5"], ["Fase folicular (proliferativa)", "Días 1–13"], ["Ovulación", "Días 14–15"], ["Fase lútea (secretora)", "Días 15–28"]]],
+["fill", "calc", "Ciclo de 28 días que empieza el 1 de marzo: la ovulación es el ___ de marzo.", [["15", "quince"]], "1 de marzo + 14 días = 15 de marzo."],
+["fill", "calc", "Ciclo de 30 días que empieza el 10 de abril: la próxima menstruación es el ___ de mayo.", [["10", "diez"]], "10 de abril + 30 días = 10 de mayo."],
+["fill", "calc", "Los días fértiles son ___ días antes y ___ días después de la ovulación.", [["2", "dos"], ["2", "dos"]], "Ovulación ± 2."],
+["fill", "calc", "Ciclo de 32 días que empieza el 2 de junio: la ovulación es el ___ de junio.", [["18", "dieciocho"]], "32 ÷ 2 = 16 → 2 + 16 = 18 de junio."],
+["fill", "calc", "Si la ovulación es el 20 de agosto, los días fértiles van del ___ al ___ de agosto.", [["18"], ["22"]], "2 antes y 2 después."],
+["fill", "calc", "Para saber la ovulación se divide el ciclo entre ___ y se suma a la fecha del primer día.", [["2", "dos"]], "Mitad del ciclo."],
+["match", "calc", "Ciclo de 26 días que empieza el 5 de enero. Une cada dato con su fecha.", [["Día 1", "5 de enero"], ["Ovulación", "18 de enero"], ["Primer día fértil", "16 de enero"], ["Último día fértil", "20 de enero"], ["Próxima menstruación", "31 de enero"]]],
+["mc", "calc", "Un ciclo de 30 días empieza el 20 de enero. ¿Qué día es la ovulación?", ["4 de febrero", "3 de febrero", "5 de febrero", "19 de febrero"], "30 ÷ 2 = 15 → 20 de enero + 15 días = 4 de febrero (enero tiene 31 días)."],
+["mc", "calc", "Un ciclo de 28 días empieza el 25 de marzo. ¿Cuándo es la próxima menstruación?", ["22 de abril", "25 de abril", "21 de abril", "8 de abril"], "25 de marzo + 28 días = 22 de abril (marzo tiene 31 días)."],
+["tf", "calc", "Para calcular la ovulación se suma la mitad del ciclo a la fecha del primer día de la regla.", true, "Ej.: 19 nov + 12 = 1 dic."],
+["fill", "fec", "La fecundación forma un ___ diploide.", [["cigoto"]], "Fusión de los núcleos."],
+["fill", "fec", "La fecundación ocurre en la ___ de la trompa de Falopio.", [["ampula"]], "Es interna."],
+["fill", "fec", "El sexo del bebé depende de si el espermatozoide lleva el cromosoma ___ o el ___.", [["x"], ["y"]], "XX = mujer; XY = hombre.", {"any": true}],
+["fill", "fec", "Si no hay fecundación, el cuerpo lúteo se degrada, baja la ___ y llega la menstruación.", [["progesterona"]], "Se desprende el endometrio."],
+["fill", "fec", "Si hay fecundación, el cigoto se implanta en el ___.", [["endometrio"]], "La capa interna del útero."],
+["fill", "fec", "Solo ___ espermatozoide logra atravesar la zona pelúcida.", [["un", "uno", "1"]], "Los demás se degradan."],
+["fill", "fec", "Los gemelos idénticos son ___ y los mellizos son ___.", [["univitelinos", "monocigoticos"], ["bivitelinos", "dicigoticos"]], "Uno o varios óvulos."],
+["match", "fec", "Une cada término con lo que corresponde.", [["Univitelinos", "Un óvulo que se divide en 2"], ["Bivitelinos", "Varios ovocitos fecundados"], ["XX", "Mujer"], ["XY", "Hombre"], ["Ámpula", "Lugar de la fecundación"]]],
+["fill", "gest", "El cigoto se convierte en ___ en los meses 1 a 3 y en ___ desde el mes 4.", [["embrion"], ["feto"]], "Según el PPT."],
+["fill", "gest", "La gestación dura aproximadamente ___ semanas.", [["40", "cuarenta"]], "Unos 9 meses."],
+["fill", "gest", "El nacimiento puede ser por parto ___ o por ___.", [["natural", "vaginal"], ["cesarea"]], "Dos tipos de nacimiento."],
+["fill", "gest", "Durante el embarazo el sistema ___ baja para no atacar al bebé.", [["inmune", "inmunologico"]], "Si no, lo reconocería como extraño."],
+["fill", "gest", "La ___ es una hormona que se puede usar para acelerar el parto.", [["pitocina"]], "Dato del PPT."],
+["fill", "gest", "La anestesia que se puede usar en el parto vaginal se llama ___.", [["epidural"]], "Según el PPT."],
+["order", "gest", "Ordena del primero al último.", ["Fecundación", "Cigoto", "Embrión (meses 1–3)", "Feto (desde el mes 4)", "Nacimiento (~40 semanas)"], "Etapas de la gestación."],
+["mc", "gest", "¿Qué tipo de nacimiento facilita la lactancia?", ["Parto vaginal", "Cesárea", "Los dos igual", "Ninguno"], "La cesárea la dificulta (no la imposibilita)."],
+["tf", "gest", "Se sabe exactamente qué provoca el nacimiento.", false, "El PPT dice que no se sabe qué lo genera."],
+["fill", "its", "El VPH causa verrugas genitales llamadas ___.", [["condilomas", "condiloma"]], "Aparecen 1 a 6 meses después."],
+["fill", "its", "La sífilis la causa la bacteria Treponema ___.", [["pallidum", "palidum"]], "Empieza con una úlcera."],
+["fill", "its", "La gonorrea la causa la bacteria Neisseria ___.", [["gonorrhoeae", "gonorreae", "gonorrhoea", "gonorrea"]], "Hay cepas resistentes a antibióticos."],
+["fill", "its", "La candidiasis la causa el hongo Candida ___.", [["albicans"]], "Por cambios de pH, humedad o antibióticos."],
+["fill", "its", "El herpes genital lo causa el virus del herpes simple tipo ___ y tipo ___.", [["1", "uno"], ["2", "dos"]], "VHS-1 y VHS-2.", {"any": true}],
+["fill", "its", "La clamidia es más frecuente en jóvenes de ___ a ___ años.", [["15"], ["24"]], "Muchas veces sin síntomas."],
+["fill", "its", "El único método anticonceptivo que también protege de las ITS es el ___.", [["condon", "preservativo"]], "Método de barrera."],
+["match", "its", "Une cada ITS con su causante.", [["VPH", "Virus: condilomas (verrugas)"], ["Sífilis", "Treponema pallidum"], ["Gonorrea", "Neisseria gonorrhoeae"], ["Clamidia", "Chlamydia trachomatis"], ["Candidiasis", "Hongo Candida albicans"], ["Herpes genital", "VHS-1 y VHS-2"]]],
+["order", "its", "Ordena las etapas de la sífilis.", ["Úlcera en los órganos sexuales (2–3 semanas)", "Erupciones o sarpullido en la piel", "Daño a órganos internos (años después)"], "Tres etapas."],
+["mc", "its", "¿Cuál de estas ITS la causa un hongo?", ["Candidiasis", "Sífilis", "VPH", "Gonorrea"], "Candida albicans."],
+["fill", "metodos", "Los métodos hormonales combinan ___ y progestágeno.", [["estrogeno", "estrogenos"]], "Píldora, inyección, anillo, parche, implante."],
+["fill", "metodos", "La esterilización masculina se llama ___.", [["vasectomia"]], "Método permanente."],
+["fill", "metodos", "DIU significa dispositivo ___.", [["intrauterino"]], "Puede ser hormonal o no hormonal."],
+["fill", "metodos", "El método ___ usa el moco cervical para saber los días fértiles.", [["billings", "de billings"]], "Abstinencia periódica."],
+["fill", "metodos", "Los métodos de barrera son el condón, el diafragma y los ___.", [["espermicidas", "espermicida"]], "Impiden que el espermatozoide llegue."],
+["match", "metodos", "Une cada método con su tipo.", [["Vasectomía", "Permanente masculino"], ["Condón", "Barrera que también protege de ITS"], ["Píldora", "Hormonal"], ["Billings", "Abstinencia periódica (moco cervical)"], ["DIU", "Dispositivo intrauterino"]]],
+["mc", "metodos", "¿Cuál de estos métodos es permanente?", ["Vasectomía", "Condón", "Píldora", "Calendario"], "No es reversible."],
+["tf", "metodos", "La píldora anticonceptiva protege de las ITS.", false, "Solo el condón protege de las ITS."],
+["order", "metodos", "Ordena del método menos al más definitivo.", ["Condón (se usa cada vez)", "Píldora (cada día)", "Implante o DIU (dura años)", "Vasectomía (permanente)"], "De transitorio a definitivo."],
 ["match","fec","Une cada término con su significado.",[["Univitelinos","Gemelos idénticos (un óvulo se divide)"],["Bivitelinos","Mellizos (varios óvulos)"],["XX","Mujer"],["XY","Hombre"],["Ámpula","Lugar de la fecundación"]]]
 ];
 
@@ -2802,11 +2936,20 @@ function prep(raw){const [t,topic,q]=raw,o={t,topic,q,raw};
   if(t==='open')o.model=raw[3],o.keys=raw[4];
   if(t==='order')o.items=raw[3],o.ex=raw[4],o.pool=shuffle(raw[3].map((x,k)=>({t:x,k}))),o.ans=[];
   if(t==='match')o.pairs=raw[3],o.right=shuffle(raw[3].map((p,k)=>({t:p[1],k}))),o.link={},o.sel=null;
+  if(t==='fill')o.ans=raw[3],o.ex=raw[4],o.any=!!(raw[5]&&raw[5].any);
   return o}
+const SUBT={"base": [["urinario", "uretra|urinari|orina|orificio|independiente"], ["gametos", "gameto|espermatozoide|ovocito|gonada|testiculo|ovario"], ["def", "reproduc|perpetu|generacion|genital|sexual"]], "masc": [["dibujo", "@img"], ["glandulas", "vesicula|prostat|bulbouretral|cowper|fructosa|alcalin|semen|prostaglandin|anexa"], ["testiculo", "testicul|sertoli|leydig|testosteron|gonada"], ["escroto", "escroto|temperatura|desciend|bajan|baja |criptorquid"], ["conductos", "epididim|deferente|eyaculador|recorrido|gravedad|reabsorb"], ["uretra", "uretra|orina|vejiga"], ["pene", "pene|glande|prepucio|circuncis|ereccion|cavernoso|higiene"]], "esperm": [["dibujo", "@img"], ["etapas", "espermatogonia|espermatocito|espermatida|espermiogenesis|meiosis|mitosis|44|22"], ["partes", "acrosoma|cabeza|cuello|centriolo|pieza media|mitocondria|cola|flagelo|nucleo"], ["lugar", "seminifer|tubo|sertoli|pubertad|nunca|testosteron"], ["funcion", "movil|fecund|dias|vive"]], "fem": [["dibujo", "@img"], ["ovario", "ovario|gonada"], ["trompa", "trompa|fimbria|ampula|cilio|oviducto"], ["utero", "utero|miometrio|endometrio|cuello|cervix"], ["vulva", "vulva|labio|clitoris|meato|orificio|vagina"], ["glandulas", "bartolino|skene|vestibular|parauretral"]], "ovo": [["dibujo", "@img"], ["vs", "espermatogenesis"], ["ovocito2", "zona pelucida|voluminosa|inmovil|membrana|corona|haploide|flagelo|grande"], ["vida", "embrion|400|pubertad|menopausia|profase|recombinacion|nace|vida"], ["proceso", "ovogonia|primario|secundario|meiosis|cuerpo polar|cigoto|mitosis|ovulo|ovocito|ovarios"]], "ciclo": [["def", "28|35|dura"], ["menar", "menarquia|menopausia|perimenopausia|ml"], ["fases", "fase|folicular|lutea|proliferativa|secretora"], ["hormonas", "lh|fsh|estrogeno|progesterona|hormona"], ["temp", "temperatura|°c"], ["ovul", "ovulacion|graaf|cuerpo luteo"], ["sop", "poliquist|quiste"]], "calc": [["fert", "fertil"], ["prox", "proxima"], ["metodo", "mitad|suma|dia 1|divide|÷"], ["ovul", "ovulacion"]], "fec": [["gemelos", "gemelo|mellizo|vitelino|cigot"], ["sexo", "xx|xy|sexo|par 23|cromosoma"], ["sino", "implanta|no hay|si hay|cuerpo luteo|progesterona|menstruacion"], ["proceso", "ampula|zona|acrosoma|coito|eyacul|degradan|fecund|semen|trompa"]], "gest": [["inmune", "inmune"], ["etapas", "embrion|feto|cigoto|semanas|mes"], ["parto", "parto|cesarea|pitocina|epidural|lactancia|nacimiento|contracc"]], "its": [["vph", "vph|condiloma|papiloma"], ["sifilis", "sifilis|treponema"], ["gonorrea", "gonorrea|neisseria"], ["herpes", "herpes|vhs"], ["clamidia", "clamidia|chlamydia"], ["candida", "candid"], ["general", "its|condon|riesgo|transmision"]], "metodos": [["permanente", "vasectom|esteriliz|histerectom|permanente|ligadura"], ["natural", "billings|calendario|abstinencia|lactancia|moco|temperatura"], ["diu", "diu|intrauterino"], ["barrera", "condon|diafragma|espermicida|barrera"], ["hormonal", "hormonal|pildora|inyecc|parche|anillo|implante"]]};
+function subOf(q){if(q[5]&&q[5].img)return 'dibujo';const L=SUBT[q[1]]||[],t=norm(q[2]+' '+(q[0]==='mc'?q[3][0]:q[0]==='fill'?q[3].map(x=>x[0]).join(' '):'')+' '+(typeof q[4]==='string'?q[4]:''));
+  for(const [k,r] of L){if(r==='@img')continue;if(new RegExp(r).test(t))return k}return 'otro'}
+const TW={mc:.38,tf:.15,fill:.17,match:.1,order:.1,open:.1};
+function balanced(list){const B={};shuffle(list.slice()).forEach(q=>{(B[q[0]]=B[q[0]]||[]).push(q)});const out=[],cnt={},sub={};
+  while(Object.values(B).some(a=>a.length)){let bt=null,bs=-1e9;for(const t in B){if(!B[t].length)continue;const sc=(TW[t]||.1)*(out.length+1)-(cnt[t]||0);if(sc>bs){bs=sc;bt=t}}
+    const a=B[bt];let bi=0,bv=1e9;a.forEach((q,i)=>{const v=sub[subOf(q)]||0;if(v<bv){bv=v;bi=i}});const q=a.splice(bi,1)[0];out.push(q);cnt[bt]=(cnt[bt]||0)+1;const so=subOf(q);sub[so]=(sub[so]||0)+1}
+  return out}
 function buildSet(src){
   const ord=document.getElementById('qorder').value,cnt=document.getElementById('qcount').value;
   let pool=src||poolNow();
-  const groups=selTopics.map(k=>shuffle(pool.filter(q=>q[1]===k)));
+  const groups=selTopics.map(k=>src?shuffle(pool.filter(q=>q[1]===k)):balanced(pool.filter(q=>q[1]===k)));
   const max=src?pool.length:(cnt==='all'?pool.length:Math.min(+cnt,pool.length));
   const out=[];let gi=0;
   while(out.length<max&&groups.some(g=>g.length)){const g=groups[gi%groups.length];if(g.length)out.push(g.shift());gi++}
@@ -2827,7 +2970,7 @@ function head(c){const sc=res.reduce((s,r)=>s+r.score,0);
   return `<div class="qhead"><span class="counter" style="text-align:left">Pregunta ${qi+1} de ${QS.length}</span><span class="streak" id="streak">${streak>=2&&!exam?'racha ×'+streak:''}</span><span class="counter">${exam?'Modo examen':'Puntos: '+(Math.round(sc*10)/10)}</span></div>
   <div class="bar"><i style="width:${qi/QS.length*100}%"></i></div>
   <div class="qtags"><span class="qtype t-${c.t}">${TYPES[c.t]}</span><span class="qtopic">${TOPICS[c.topic][0]}</span></div>
-  <div class="qtext">${esc(c.q)}</div>${c.raw[5]&&c.raw[5].img?picHTML(c.raw[5]):''}`}
+  <div class="qtext">${c.t==='fill'?'Completa la frase':esc(c.q)}</div>${c.raw[5]&&c.raw[5].img?picHTML(c.raw[5]):''}`}
 function renderQ(){
   answered=false;clearTimeout(idleT);if(qi>=QS.length)return renderEnd();const c=QS[qi];
   if(qi>0&&!exam){const n=QS.length;let m=null;if(qi===n-1)m='last';else if(qi===Math.round(n*.75))m=75;else if(qi===Math.round(n*.5))m=50;else if(qi===Math.round(n*.25))m=25;
@@ -2836,12 +2979,14 @@ function renderQ(){
   idleT=setTimeout(()=>{if(!answered)react('stage-quiz','sad',pick(IDLEQ))},c.t==='open'?60000:25000);
   let body='';
   if(c.t==='mc'||c.t==='tf')body=`<div class="opts${c.t==='tf'?' tf':''}">${c.opts.map((o,k)=>`<button class="opt" data-k="${k}"><span class="k">${c.t==='tf'?(k?'F':'V'):'abcd'[k]+')'}</span><span>${esc(o.t)}</span></button>`).join('')}</div>`;
+  if(c.t==='fill')body=`<p class="hint">Escribe la palabra que falta en cada espacio.</p><div class="fillq">${esc(c.q).split('___').map((t,i,a)=>t+(i<a.length-1?`<input type="text" class="fin" data-i="${i}" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Espacio ${i+1}">`:'')).join('')}</div><div class="qact"><button class="btn primary" id="qcheck">${exam?'Guardar y seguir':'Comprobar'}</button></div>`;
   if(c.t==='open')body=`<textarea class="openans" id="openans" rows="4" placeholder="Escribe tu respuesta con tus palabras…"></textarea><div class="qact"><button class="btn primary" id="qcheck">${exam?'Guardar y seguir':'Comprobar'}</button></div>`;
   if(c.t==='order')body=`<p class="hint">Toca los pasos en el orden correcto. Toca uno de arriba para quitarlo.</p><ol class="ord-ans" id="ordans"></ol><div class="ord-pool" id="ordpool"></div><div class="qact"><button class="btn primary" id="qcheck" disabled>${exam?'Guardar y seguir':'Comprobar'}</button></div>`;
   if(c.t==='match')body=`<p class="hint">Toca un elemento de la izquierda y luego su pareja de la derecha. Toca una pareja para deshacerla.</p><div class="match"><div class="mcol" id="mleft"></div><div class="mcol" id="mright"></div></div><div class="qact"><button class="btn primary" id="qcheck" disabled>${exam?'Guardar y seguir':'Comprobar'}</button></div>`;
   qbox.innerHTML=head(c)+body+'<div id="qfb"></div>';
   if(c.t==='mc'||c.t==='tf')qbox.querySelectorAll('.opt').forEach(b=>b.onclick=()=>gradeChoice(+b.dataset.k,b));
   if(c.t==='open'){document.getElementById('qcheck').onclick=gradeOpen;}
+  if(c.t==='fill'){document.getElementById('qcheck').onclick=gradeFill;const ins=[...qbox.querySelectorAll('.fin')];ins.forEach((x,i)=>x.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();if(ins[i+1])ins[i+1].focus();else gradeFill()}}));if(ins[0]&&matchMedia('(hover:hover)').matches)ins[0].focus({preventScroll:true})}
   if(c.t==='order')drawOrder(c);
   if(c.t==='match')drawMatch(c);
 }
@@ -2897,6 +3042,14 @@ function gradeOrder(){const c=QS[qi];let good=0;c.ans.forEach((it,i)=>{if(it.k==
 function gradeMatch(){const c=QS[qi];let good=0;for(const k in c.link)if(c.link[k]===+k)good++;const n=c.pairs.length,score=good===n?1:good/n>=.5?.5:0;
   if(!exam){document.querySelectorAll('#mleft .mitem').forEach(b=>{const k=+b.dataset.k;b.classList.add(c.link[k]===k?'ok':'bad')})}
   finish(score,`${good} de ${n} parejas bien. <b>Parejas correctas:</b><ul class="sol">${c.pairs.map(p=>`<li>${esc(p[0])} → ${esc(p[1])}</li>`).join('')}</ul>`)}
+function lev(a,b){if(a===b)return 0;const m=a.length,n=b.length;let p=Array.from({length:n+1},(_,j)=>j);for(let i=1;i<=m;i++){const c=[i];for(let j=1;j<=n;j++)c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));p=c}return p[n]}
+function fillOk(v,alts){const x=norm(v).replace(/[.,;:!?¡¿"']/g,'').replace(/\s+/g,' ').trim().replace(/^(el|la|los|las|un|una) /,'');if(!x)return false;
+  return alts.some(a=>{const y=norm(a);if(x===y||x===y+'s'||x+'s'===y||x===y+'es'||x+'es'===y)return true;const tol=y.length>=9?2:y.length>=5?1:0;return tol&&lev(x,y)<=tol})}
+function gradeFill(){if(answered)return;const c=QS[qi],ins=[...qbox.querySelectorAll('.fin')],vals=ins.map(i=>i.value);c.vals=vals;
+  let okv;if(c.any){const left=c.ans.slice();okv=vals.map(v=>{const k=left.findIndex(a=>a&&fillOk(v,a));if(k<0)return false;left[k]=null;return true})}else okv=vals.map((v,i)=>fillOk(v,c.ans[i]));
+  const good=okv.filter(Boolean).length,n=c.ans.length,score=good===n?1:good/n>=.5?.5:0;
+  ins.forEach((x,i)=>{x.disabled=true;if(!exam){x.classList.add(okv[i]?'ok':'bad');if(!okv[i])x.insertAdjacentHTML('afterend',`<span class="fa">→ ${esc(c.ans[i][0])}</span>`)}});
+  finish(score,`${good} de ${n} espacios bien. <b>Respuestas:</b> ${c.ans.map(a=>esc(a[0])).join(' · ')}. ${esc(c.ex||'')}`)}
 /* resultado */
 function renderEnd(){
   clearTimeout(idleT);const n=QS.length,sc=res.reduce((s,r)=>s+r.score,0),pct=Math.round(sc/n*100),nota=(1+4*sc/n).toFixed(1);
@@ -2925,7 +3078,8 @@ function reviewAns(r){const c=r.c;
   if(c.t==='mc'||c.t==='tf')return `Tu respuesta: ${c.pick!=null?esc(c.opts[c.pick].t):'—'} · Correcta: <b>${esc(c.opts.find(o=>o.ok).t)}</b>. ${esc(c.ex)}`;
   if(c.t==='open')return `Tu respuesta: <i>${esc(c.text||'(vacía)')}</i><br>Modelo: ${esc(c.model)}`;
   if(c.t==='order')return `Orden correcto: ${c.items.map(esc).join(' → ')}`;
-  if(c.t==='match')return `Parejas: ${c.pairs.map(p=>esc(p[0])+' → '+esc(p[1])).join(' · ')}`;}
+  if(c.t==='match')return `Parejas: ${c.pairs.map(p=>esc(p[0])+' → '+esc(p[1])).join(' · ')}`;
+  if(c.t==='fill')return `${esc(c.q).replace(/___/g,'____')}<br>Tus respuestas: ${(c.vals||[]).map(v=>esc(v||'—')).join(' · ')} · Correctas: <b>${c.ans.map(a=>esc(a[0])).join(' · ')}</b>`;}
 
 /* ---------- repaso tapado ---------- */
 const rb=document.getElementById('revbody');let revN=0;
@@ -3197,7 +3351,7 @@ high:[
 const SIM_IMG={
  ovocito:{title:'Ovocito II',src:'#anat-ovocito svg',parts:[["Corona radiada (células foliculares)", 100, 175, ["corona", "folicular"]], ["Zona pelúcida", 154, 297, ["pelucida"]], ["Membrana", 342, 269, ["membrana"]], ["Citoplasma", 300, 245, ["citoplasma"]], ["Núcleo (haploide)", 236, 197, ["nucleo"]], ["Cuerpo polar", 332, 113, ["polar"]], ["Espermatozoide (acrosoma)", 390, 296, ["espermatozoide", "acrosoma"]]],pick:6,
    explain:{q:'Explica cómo el espermatozoide logra fecundar al ovocito II, nombrando las capas que atraviesa, y qué célula se forma.',model:'Pasa entre las células foliculares de la corona radiada; las enzimas hidrolíticas de su acrosoma degradan la zona pelúcida y solo uno la atraviesa. Su núcleo (haploide) se une al núcleo haploide del ovocito II, que termina la meiosis II, y se forma el cigoto diploide.',k:['corona|folicular','acrosoma|enzima','zona pelucida','haploide|nucleo','cigoto'],pts:3}},
- masc:{title:'Aparato reproductor masculino (corte lateral)',src:'#anat-masc svg',parts:[["Vejiga", 296, 100, ["vejiga"]], ["Conducto deferente", 372, 96, ["deferente"]], ["Vesícula seminal", 390, 184, ["vesicula"]], ["Próstata", 334, 232, ["prostata"]], ["Conducto eyaculador", 340, 218, ["eyaculador"]], ["Glándula bulbouretral (de Cowper)", 320, 272, ["bulbouretral", "cowper"]], ["Uretra", 167, 290, ["uretra"]], ["Cuerpo cavernoso", 201, 246, ["cavernoso"]], ["Prepucio", 118, 280, ["prepucio"]], ["Glande", 96, 300, ["glande"]], ["Escroto", 200, 336, ["escroto"]], ["Testículo", 230, 352, ["testiculo"]], ["Tubos seminíferos", 238, 372, ["seminifero"]], ["Epidídimo", 284, 348, ["epididimo"]]],pick:6,
+ masc:{title:'Aparato reproductor masculino (corte lateral)',src:'#anat-masc svg',parts:[["Vejiga", 296, 100, ["vejiga"]], ["Conducto deferente", 372, 96, ["deferente"]], ["Vesícula seminal", 390, 184, ["vesicula"]], ["Próstata", 334, 232, ["prostata"]], ["Conducto eyaculador", 340, 218, ["eyaculador"]], ["Glándula bulbouretral (de Cowper)", 306, 270, ["bulbouretral", "cowper"]], ["Uretra", 167, 290, ["uretra"]], ["Cuerpo cavernoso", 201, 246, ["cavernoso"]], ["Prepucio", 118, 280, ["prepucio"]], ["Glande", 96, 300, ["glande"]], ["Escroto", 200, 336, ["escroto"]], ["Testículo", 230, 352, ["testiculo"]], ["Tubos seminíferos", 238, 372, ["seminifero"]], ["Epidídimo", 284, 348, ["epididimo"]]],pick:6,
    explain:{q:'Explica el recorrido de los espermatozoides desde donde se forman hasta que salen, nombrando las estructuras del dibujo por las que pasan y qué glándulas aportan líquido.',model:'Se forman en los tubos seminíferos del testículo, maduran y se almacenan en el epidídimo, suben por el conducto deferente (rodea la vejiga), pasan por el conducto eyaculador (donde se une la vesícula seminal) que atraviesa la próstata y salen por la uretra del pene. Aportan líquido la vesícula seminal (fructosa), la próstata y la glándula bulbouretral (de Cowper) (alcalina).',k:['seminifero|testiculo','epididimo','deferente','eyaculador','uretra','vesicula|prostata|bulbouretral'],pts:3}},
  fem:{title:'Aparato reproductor femenino',src:'#anat-fem svg',parts:[['Ovario',96,190,['ovario']],['Folículo de Graaf',108,192,['graaf','foliculo']],['Cuerpo lúteo',146,194,['luteo']],['Fimbrias',64,112,['fimbria']],['Ámpula',124,94,['ampula']],['Trompa de Falopio',384,110,['trompa','oviducto','falopio']],['Útero',280,110,['utero']],['Miometrio',350,170,['miometrio']],['Endometrio',300,170,['endometrio']],['Cuello del útero',310,280,['cuello','cervix']],['Vagina',318,362,['vagina']]],pick:6,
    explain:{q:'Explica el camino del ovocito II desde que sale del ovario hasta el útero y en qué parte puede ser fecundado.',model:'Sale del ovario en la ovulación, lo atrapan las fimbrias, viaja por la trompa de Falopio (movido por los cilios) y en la ámpula puede ser fecundado; luego llega al útero.',k:['fimbria','trompa','ampula','utero'],pts:3}},
