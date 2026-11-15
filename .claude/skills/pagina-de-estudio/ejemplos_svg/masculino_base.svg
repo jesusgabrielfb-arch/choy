@@ -1,0 +1,92 @@
+<svg viewBox="0 0 560 420" role="img" aria-label="Aparato reproductor masculino en corte lateral: vejiga, uretra, próstata, vesícula seminal, conducto deferente, conducto eyaculador, glándula bulbouretral, testículo con tubos seminíferos, epidídimo, escroto, pene con cuerpo cavernoso, glande y prepucio">
+  <defs>
+    <filter id="mTissue" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.05 0.09" numOctaves="3" seed="11" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0.62  0 0 0 0 0.26  0 0 0 0 0.25  0 0 0 0.6 -0.16" result="nc"/><feComposite in="nc" in2="SourceGraphic" operator="in" result="tex"/><feBlend in="tex" in2="SourceGraphic" mode="multiply"/></filter>
+    <filter id="mSoft" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#8A4A3C" flood-opacity=".2"/></filter>
+    <radialGradient id="mBl" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#FFF5D9"/><stop offset="1" stop-color="#F2CF86"/></radialGradient>
+    <radialGradient id="mPr" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#F9D8BD"/><stop offset="1" stop-color="#D99A72"/></radialGradient>
+    <radialGradient id="mVs" cx="40%" cy="35%" r="75%"><stop offset="0" stop-color="#FBE2C6"/><stop offset="1" stop-color="#DDA77C"/></radialGradient>
+    <radialGradient id="mTe" cx="38%" cy="35%" r="70%"><stop offset="0" stop-color="#FCE6EE"/><stop offset="1" stop-color="#E7A3BB"/></radialGradient>
+    <radialGradient id="mEp" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#E9D4F2"/><stop offset="1" stop-color="#B18BC9"/></radialGradient>
+    <linearGradient id="mSkin" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FBE3D6"/><stop offset="1" stop-color="#F0C2AC"/></linearGradient>
+    <linearGradient id="mCav" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F2A8A0"/><stop offset="1" stop-color="#D9776F"/></linearGradient>
+    <radialGradient id="mGl" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#F9C6C0"/><stop offset="1" stop-color="#DE8A86"/></radialGradient>
+  </defs>
+  <!-- contexto: silueta, hueso púbico y recto (no interactivos) -->
+  <path d="M206,20 C214,90 214,150 222,196 C228,226 214,244 196,262" fill="none" stroke="#E6DDD4" stroke-width="3" stroke-linecap="round"/>
+  <path d="M500,20 C494,120 486,230 470,300 C462,336 450,370 428,404" fill="none" stroke="#E6DDD4" stroke-width="3" stroke-linecap="round"/>
+  <path d="M232,178 C246,166 262,170 266,186 C270,204 258,222 242,222 C230,222 222,210 224,198 Z" fill="#F1EADF" stroke="#D8CCBC" stroke-width="1.6"/>
+  <text x="226" y="244" font-size="11" fill="#A79F9C" font-family="Figtree,sans-serif">pubis</text>
+  <path d="M432,40 C448,110 448,190 432,260 C424,296 404,318 384,330 L366,316 C384,302 402,282 410,254 C424,196 424,118 410,48 Z" fill="#F3DCD2" stroke="#D9B4A6" stroke-width="1.6"/>
+  <text x="438" y="196" font-size="11" fill="#A79F9C" font-family="Figtree,sans-serif">recto</text>
+
+  <!-- escroto -->
+  <g class="part" data-part="escroto">
+    <path d="M206,300 C186,318 182,372 214,394 C240,410 290,404 304,378 C318,350 306,312 286,300 C262,288 228,288 206,300 Z" fill="url(#mSkin)" stroke="#D59A84" stroke-width="2" filter="url(#mTissue)"/>
+    <path d="M244,300 C246,330 246,370 244,398" stroke="#E1AE98" stroke-width="1.4" fill="none" stroke-dasharray="4 4"/>
+  </g>
+  <!-- testículo -->
+  <g class="part" data-part="testiculo" filter="url(#mSoft)">
+    <ellipse cx="240" cy="352" rx="34" ry="40" fill="url(#mTe)" stroke="#C47D99" stroke-width="1.8" transform="rotate(-14 240 352)"/>
+  </g>
+  <g class="part" data-part="tubos">
+    <path d="M218,334 c6,-8 12,4 18,-4 s12,4 18,-4 M214,350 c6,-8 12,4 18,-4 s12,4 18,-4 s10,4 12,0 M216,366 c6,-8 12,4 18,-4 s12,4 18,-4 M224,382 c6,-8 12,4 18,-4 s10,4 12,0" fill="none" stroke="#B5607F" stroke-width="2.2" stroke-linecap="round" opacity=".85"/>
+  </g>
+  <!-- epidídimo -->
+  <g class="part" data-part="epididimo" filter="url(#mSoft)">
+    <path d="M262,316 C284,312 294,330 290,352 C286,374 276,392 260,396 C268,384 276,368 276,352 C276,336 272,326 262,316 Z" fill="url(#mEp)" stroke="#8E6AA8" stroke-width="1.6"/>
+    <path d="M268,326 c6,4 0,8 6,12 s-2,8 4,12 s-2,8 2,12" stroke="#7E5A98" stroke-width="1.2" fill="none"/>
+  </g>
+  <!-- conducto deferente -->
+  <g class="part" data-part="deferente">
+    <path d="M266,394 C290,392 300,370 298,344 C296,310 280,282 272,250 C264,214 260,178 268,140 C276,104 312,86 344,96 C370,104 376,130 372,158 C368,182 356,198 346,210" fill="none" stroke="#9A72B8" stroke-width="5" stroke-linecap="round"/>
+    <path d="M266,394 C290,392 300,370 298,344 C296,310 280,282 272,250 C264,214 260,178 268,140 C276,104 312,86 344,96 C370,104 376,130 372,158 C368,182 356,198 346,210" fill="none" stroke="#E9D4F2" stroke-width="1.6" stroke-linecap="round" opacity=".7"/>
+    <path class="hit" d="M298,344 C296,310 280,282 272,250 C264,214 260,178 268,140 C276,104 312,86 344,96 C370,104 376,130 372,158" fill="none" stroke="transparent" stroke-width="18"/>
+  </g>
+  <!-- vejiga -->
+  <g class="part" data-part="vejiga" filter="url(#mSoft)">
+    <path d="M262,150 C254,112 276,74 318,72 C356,70 372,100 366,140 C362,170 344,192 318,196 C292,198 268,182 262,150 Z" fill="url(#mBl)" stroke="#C99A3E" stroke-width="2" filter="url(#mTissue)"/>
+    <path d="M280,104 C292,88 314,84 334,88" stroke="#FFF" stroke-width="4" opacity=".55" fill="none" stroke-linecap="round"/>
+  </g>
+  <!-- vesícula seminal -->
+  <g class="part" data-part="vesicula" filter="url(#mSoft)">
+    <path d="M352,200 C362,182 382,168 396,176 C406,184 398,200 386,206 C376,212 366,214 356,212 Z" fill="url(#mVs)" stroke="#B9814F" stroke-width="1.6"/>
+    <path d="M362,202 c6,-6 10,2 16,-6 s8,0 12,-6" stroke="#A86F42" stroke-width="1.2" fill="none"/>
+  </g>
+  <!-- próstata -->
+  <g class="part" data-part="prostata" filter="url(#mSoft)">
+    <path d="M286,206 C296,194 336,192 348,206 C358,220 352,244 330,250 C312,256 290,248 284,234 C280,224 280,214 286,206 Z" fill="url(#mPr)" stroke="#B9774E" stroke-width="1.8" filter="url(#mTissue)"/>
+  </g>
+  <!-- conducto eyaculador -->
+  <g class="part" data-part="eyaculador">
+    <path d="M350,208 C340,214 330,222 318,232" fill="none" stroke="#7E5A98" stroke-width="3.4" stroke-linecap="round"/>
+    <path class="hit" d="M352,206 L316,234" stroke="transparent" stroke-width="14"/>
+  </g>
+  <!-- glándula bulbouretral -->
+  <g class="part" data-part="bulbouretral" filter="url(#mSoft)">
+    <circle cx="320" cy="272" r="9" fill="url(#mVs)" stroke="#B9814F" stroke-width="1.6"/>
+    <path d="M314,276 C308,280 302,282 296,282" stroke="#B9814F" stroke-width="1.4" fill="none"/>
+  </g>
+  <!-- pene: cuerpo cavernoso -->
+  <g class="part" data-part="cavernoso">
+    <path d="M262,232 C250,240 226,250 196,262 C162,276 130,292 108,304 L100,290 C122,276 156,256 190,240 C222,226 246,218 262,214 Z" fill="url(#mCav)" stroke="#B85E58" stroke-width="1.6" filter="url(#mTissue)"/>
+  </g>
+  <!-- uretra (de la vejiga, por la próstata y el pene) -->
+  <g class="part" data-part="uretra">
+    <path d="M314,196 C316,212 316,228 312,244 C306,262 296,276 280,282 C258,290 230,286 204,296 C170,308 140,318 112,330" fill="none" stroke="#E7B74A" stroke-width="5.5" stroke-linecap="round"/>
+    <path d="M314,196 C316,212 316,228 312,244 C306,262 296,276 280,282 C258,290 230,286 204,296 C170,308 140,318 112,330" fill="none" stroke="#FFF2C9" stroke-width="1.6" stroke-linecap="round"/>
+    <path class="hit" d="M312,244 C306,262 296,276 280,282 C258,290 230,286 204,296" fill="none" stroke="transparent" stroke-width="16"/>
+  </g>
+  <!-- piel del pene (contorno) -->
+  <path d="M268,226 C254,234 228,244 198,256 C160,272 126,290 100,304 M282,286 C258,296 232,298 206,308 C172,320 142,332 118,344" fill="none" stroke="#D59A84" stroke-width="2"/>
+  <!-- glande -->
+  <g class="part" data-part="glande" filter="url(#mSoft)">
+    <path d="M110,296 C96,300 82,312 80,326 C78,342 94,350 108,346 C120,342 128,334 124,318 C122,308 118,300 110,296 Z" fill="url(#mGl)" stroke="#C0615D" stroke-width="1.8"/>
+    <ellipse cx="88" cy="334" rx="3" ry="2" fill="#A84A4A"/>
+  </g>
+  <!-- prepucio -->
+  <g class="part" data-part="prepucio">
+    <path d="M128,286 C114,290 104,298 100,306 C112,300 120,300 126,304 M136,340 C124,350 112,354 102,352 C114,346 122,340 126,334" fill="none" stroke="#D59A84" stroke-width="5" stroke-linecap="round"/>
+    <path class="hit" d="M132,288 C118,296 108,320 116,346" stroke="transparent" stroke-width="16" fill="none"/>
+  </g>
+  <g id="anat-labels-m"></g>
+</svg>

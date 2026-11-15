@@ -1,0 +1,744 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<title>Sistema Reproductor · Guía de estudio</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Gochi+Hand&display=swap">
+<style>
+@font-face{font-family:"Figtree";font-style:normal;font-weight:400;src:url("fonts/Figtree-400.ttf") format("truetype")}
+@font-face{font-family:"Figtree";font-style:normal;font-weight:600;src:url("fonts/Figtree-600.ttf") format("truetype")}
+@font-face{font-family:"Figtree";font-style:normal;font-weight:700;src:url("fonts/Figtree-700.ttf") format("truetype")}
+@font-face{font-family:"Figtree";font-style:normal;font-weight:800;src:url("fonts/Figtree-800.ttf") format("truetype")}
+@font-face{font-family:"Figtree";font-style:italic;font-weight:400;src:url("fonts/Figtree-400i.ttf") format("truetype")}
+@page{size:Letter;margin:11mm 9mm 13mm 9mm}
+@page:first{margin:0}
+:root{--page:#fff;--grid:#F0F3EE;--margin:#F6C9C0;--ink:#45403F;--muted:#8A8381;--line:#E7E2DC;--line2:#D9D1C9;
+ --hl:#FFDCCF;--hl2:#D4EFE2;--hl3:#E8E0F7;--coral:#E07A5F;--sage:#5E958A;--sage-soft:#EEF6F2;--sticky:#FFF0B5;--sticky-ink:#5A4A16;
+ --ok:#3E9A72;--ok-soft:#E3F5EC;--bad:#D0665E;--bad-soft:#FCEBE8;--extra:#B07A22;--extra-soft:#FDF3DF;
+ --fsh:#6A9FD0;--lh:#A58BDB;--est:#E58BA0;--prog:#55B08F;--temp:#E0A146}
+*{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+html{background:#fff;background-image:url("fonts/grid.png");background-size:216mm 282mm}
+body{margin:0;padding:0 7mm 0 19mm;font-family:"Figtree","DejaVu Sans",sans-serif;font-size:10.6pt;line-height:1.5;color:var(--ink);background:transparent}
+.cover{height:279.4mm;width:215.9mm;margin-left:-19mm;position:relative;overflow:hidden;page-break-after:always;
+ background:linear-gradient(160deg,#FFE9DF 0%,#F3ECFA 55%,#E3F4EC 100%)}
+.cover .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.75) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.75) 1px,transparent 1px);background-size:24px 24px}
+.cover .in{position:absolute;left:24mm;right:24mm;top:58mm}
+.cover .eye{font-family:"Gochi Hand",cursive;font-size:20pt;color:var(--sage);transform:rotate(-2deg);display:inline-block}
+.cover h1{font-family:"Instrument Serif",serif;font-weight:400;font-size:76pt;line-height:.88;margin:8px 0 14px;letter-spacing:-.01em}
+.cover h1 em{color:var(--coral)}
+.cover .sub{font-size:13pt;color:#6E6765;max-width:120mm}
+.toc{margin-top:16mm;background:rgba(255,255,255,.8);border-radius:14px;padding:14px 20px;width:120mm;box-shadow:0 10px 30px -18px rgba(120,100,90,.5)}
+.toc b{font-family:"Gochi Hand",cursive;font-size:17pt;font-weight:400;color:var(--coral)}
+.toc ol{margin:6px 0 0;padding-left:20px;columns:1}
+.toc li{margin:2px 0}
+.egg{position:absolute;right:22mm;top:24mm;width:62mm}
+.sticker{position:absolute;right:24mm;bottom:30mm;background:var(--sticky);color:var(--sticky-ink);padding:12px 16px;width:70mm;transform:rotate(2.5deg);font-size:10pt;box-shadow:0 10px 20px -12px rgba(0,0,0,.4)}
+.sticker b{font-family:"Gochi Hand",cursive;font-weight:400;font-size:15pt;display:block}
+
+.mline{position:fixed;top:0;bottom:0;left:12mm;width:1.6px;background:#F3A9A0;z-index:0}
+.mline::after{content:"";position:absolute;left:3px;top:0;bottom:0;width:.8px;background:#F8CFC9}
+.cover{position:relative;z-index:2}
+.legend{border:1.5px solid var(--line2);border-radius:10px;padding:8px 12px;margin-bottom:12px;font-size:9.5pt;background:#FCFBF9}
+.chip{font-family:"Figtree","DejaVu Sans",sans-serif;letter-spacing:0;display:inline-flex;align-items:center;gap:4px;font-size:8.2pt;font-weight:700;padding:1px 8px 1px 6px;border-radius:999px;vertical-align:middle;white-space:nowrap}
+.chip::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.c-ppt{color:#2F6FA8;background:#E3EFFA}.fix{border:1.5px solid #9CC3E6;background:#F2F8FD;border-radius:9px;padding:7px 11px;margin:7px 0;break-inside:avoid;font-size:9.8pt}.fix b.t{display:block;font-family:"Gochi Hand",cursive;font-weight:400;font-size:13pt;color:#2F6FA8;line-height:1.1}
+.c-hot{color:var(--bad);background:var(--bad-soft)}.c-ok{color:var(--ok);background:var(--ok-soft)}.c-extra{color:var(--extra);background:var(--extra-soft)}
+
+h2{position:relative;font-family:"Instrument Serif",serif;font-weight:400;font-size:25pt;line-height:1;margin:22px 0 8px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+ padding:8px 12px;border-radius:10px;background:linear-gradient(90deg,var(--hl) 0%,#FFF3EC 70%,transparent 100%);break-after:avoid}
+h2::before{content:"";position:absolute;top:4px;right:22px;width:96px;height:20px;background:rgba(224,122,95,.28);transform:rotate(-3deg);background-image:repeating-linear-gradient(45deg,transparent 0 6px,rgba(255,255,255,.35) 6px 12px)}
+h2:nth-of-type(3n+2)::before{background-color:rgba(160,140,210,.3);right:60px;transform:rotate(3deg)}
+h2:nth-of-type(3n)::before{background-color:rgba(94,149,138,.3);right:36px;transform:rotate(2deg)}
+h2 .n{font-family:"Gochi Hand",cursive;font-size:16pt;color:var(--coral);width:34px;height:30px;display:grid;place-items:center;border:2px solid var(--coral);border-radius:52% 46% 55% 44%/48% 55% 45% 52%;transform:rotate(-6deg)}
+h3{font-size:12pt;font-weight:800;margin:12px 0 4px;display:flex;align-items:center;gap:6px;break-after:avoid;color:#3E3836}
+h3::after{content:"";flex:1;height:1.5px;background:var(--line);margin-left:6px}
+p{margin:4px 0}
+mark{background:var(--hl);color:inherit;padding:0 .2em;border-radius:4px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+mark.g{background:var(--hl2)}
+ul{margin:4px 0;padding-left:18px}li{margin:2px 0}
+ul li::marker{color:var(--coral)}
+.cols{display:grid;grid-template-columns:1.1fr 1fr;gap:14px;align-items:start}
+.def{border-left:3.5px solid #A9CBC4;background:var(--sage-soft);border-radius:0 9px 9px 0;padding:7px 11px;margin:7px 0;break-inside:avoid}
+.def b:first-child{color:var(--sage)}
+.sticky{background:var(--sticky);color:var(--sticky-ink);padding:8px 12px;margin:8px 0;border-radius:2px;break-inside:avoid;font-size:9.8pt;transform:rotate(-.4deg)}
+.sticky b.t{font-family:"Gochi Hand",cursive;font-weight:400;font-size:13pt;display:block;line-height:1}
+.hand{font-family:"Gochi Hand",cursive;color:var(--coral);font-size:12.5pt}
+table{width:100%;border-collapse:separate;border-spacing:0;font-size:9.6pt;margin:6px 0;break-inside:avoid;border:1.2px solid var(--line2);border-radius:9px;overflow:hidden}
+th{text-align:left;background:#FFEDE5;color:#7A4A3C;font-weight:800;font-size:8.6pt;text-transform:uppercase;letter-spacing:.04em;padding:6px 9px;border-bottom:1.2px solid var(--line2)}
+td{padding:6px 9px;border-top:1px solid var(--line);vertical-align:top}
+tr:first-child td{border-top:0}
+tbody tr:nth-child(even) td{background:#FBFAF7}
+td:first-child{font-weight:700}
+.flow{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin:6px 0}
+.flow span{border:1.3px solid var(--line2);border-radius:9px;padding:4px 9px;font-weight:700;font-size:9.4pt;background:#fff}
+.flow i{color:var(--coral);font-style:normal;font-weight:800}
+ol.steps{list-style:none;padding:0;margin:6px 0;counter-reset:s}
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:22px 1fr;gap:7px;margin:4px 0;break-inside:avoid}
+ol.steps li::before{content:counter(s);width:20px;height:20px;border-radius:48% 52% 45% 55%/55% 45% 55% 45%;background:var(--hl);display:grid;place-items:center;font-family:"Gochi Hand",cursive;font-size:12pt}
+figure{margin:0;border:1.3px solid var(--line2);border-radius:12px;padding:8px;break-inside:avoid;background:#fff}
+figure svg{width:100%;height:auto;display:block}
+figcaption{font-size:8.6pt;color:var(--muted);font-style:italic;text-align:center;margin-top:4px}
+.lbl text{fill:var(--ink);font:700 13px "Figtree","DejaVu Sans",sans-serif}.lbl line,.lbl polyline{stroke:var(--muted);stroke-width:1;fill:none}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:6px 0}
+.vs>div{border:1.3px solid var(--line2);border-radius:11px;padding:7px 11px;break-inside:avoid}
+.vs h4{margin:0 0 2px;font-family:"Instrument Serif",serif;font-weight:400;font-size:15pt}
+.brk{break-before:page}
+.keep{break-inside:avoid}
+.pruebate{background:var(--ok-soft);border-radius:10px;padding:9px 13px;margin-top:10px;break-inside:avoid}
+.pruebate b{color:var(--ok)}
+.qs ol{padding-left:20px}.qs li{margin:5px 0;break-inside:avoid}
+.ans{font-size:9.2pt;color:var(--muted);columns:2;column-gap:18px}
+.lab rect{fill:#fff;stroke:#D9D1C9;stroke-width:1.2}.lab text{font:700 13px "Figtree","DejaVu Sans",sans-serif;fill:#45403F}.lab line{stroke:#8A8381;stroke-width:1;stroke-dasharray:3 3}.lab circle{fill:#E07A5F}
+.hit{fill:transparent;stroke:transparent}
+</style></head><body>
+
+<section class="cover">
+  <div class="grid"></div>
+  <svg class="egg" viewBox="0 0 200 200" aria-hidden="true">
+    <g fill="#FFDCCF">
+      <circle cx="100" cy="22" r="9"/><circle cx="139" cy="32" r="9"/><circle cx="168" cy="61" r="9"/><circle cx="178" cy="100" r="9"/><circle cx="168" cy="139" r="9"/><circle cx="139" cy="168" r="9"/><circle cx="100" cy="178" r="9"/><circle cx="61" cy="168" r="9"/><circle cx="32" cy="139" r="9"/><circle cx="22" cy="100" r="9"/><circle cx="32" cy="61" r="9"/><circle cx="61" cy="32" r="9"/>
+    </g>
+    <circle cx="100" cy="100" r="66" fill="#fff" stroke="#FFDCCF" stroke-width="8"/>
+    <circle cx="100" cy="100" r="54" fill="#E58BA0" opacity=".2"/>
+    <circle cx="88" cy="92" r="20" fill="#E58BA0" opacity=".55"/>
+  </svg>
+  <div class="in">
+    <span class="eye">guía de estudio · biología</span>
+    <h1>Sistema<br><em>Reproductor</em></h1>
+    <p class="sub">Aparatos masculino y femenino, gametos, ciclo menstrual, ovulación, fecundación, gestación y nacimiento, ITS y métodos anticonceptivos. Hecha con tus apuntes y <b>corregida con el PPT de clase</b> (si no coinciden, manda el PPT).</p>
+    <div class="toc"><b>contenido</b>
+      <ol>
+        <li>Ideas base y relación con el sistema urinario</li>
+        <li>Aparato reproductor masculino</li>
+        <li>Espermatogénesis y espermatozoide</li>
+        <li>Aparato reproductor femenino</li>
+        <li>Ovogénesis y ovocito II</li>
+        <li>Ciclo menstrual</li>
+        <li>Calcular la ovulación y los días fértiles</li>
+        <li>Fecundación, gestación y nacimiento</li>
+        <li>Infecciones de transmisión sexual</li>
+        <li>Métodos anticonceptivos</li>
+        <li>No te confundas</li>
+        <li>Repaso rápido y autoevaluación</li>
+      </ol>
+    </div>
+  </div>
+  <div class="sticker"><b>versión interactiva</b>Tarjetas, quiz y explorador del ciclo en sistema-reproductor.vercel.app</div>
+</section>
+
+<div class="mline"></div>
+<div class="legend"><b>Guía de prioridad</b> (mi estimado; ajústalo a lo que diga tu profe):
+  <span class="chip c-hot">Muy probable</span> pinta para examen ·
+  <span class="chip c-ok">Seguro</span> lo básico, casi siempre lo preguntan ·
+  <span class="chip c-extra">Extra</span> si te sobra tiempo ·
+  <span class="chip c-ppt">PPT</span> dato tomado o corregido con el PPT</div>
+
+<h2><span class="n">1</span>Ideas base <span class="chip c-ok">Seguro</span></h2>
+<div class="cols">
+  <div>
+    <div class="def"><b>Sistema reproductor humano:</b> conjunto de órganos encargados de <mark>mantener la generación humana en la Tierra</mark>. <span class="chip c-ppt">PPT</span></div>
+    <div class="def"><b>Reproducción humana:</b> reproducción <b>sexual</b> (célula masculina + femenina); así la especie se puede <mark>perpetuar</mark>.</div>
+    <ul>
+      <li>El conjunto de órganos reproductores se llama <b>genitales</b>.</li>
+      <li>Cada sexo produce su <b>gameto</b> (célula sexual): espermatozoide y ovocito.</li>
+      <li>Genitales <b>internos</b> y <b>externos</b>, más las <b>glándulas accesorias</b>, que ayudan a la reproducción.</li>
+    </ul>
+  </div>
+  <div>
+    <h3 style="margin-top:2px">Relación con el s. urinario <span class="chip c-hot">Muy probable</span></h3>
+    <p>En el hombre comparten la <mark>uretra</mark>: un conducto común para dos productos.</p>
+    <div class="flow"><span>Vejiga (orina)</span><i>→</i><span>Uretra</span><i>←</i><span>Semen</span></div>
+    <p>En la mujer <b>no</b>: el reproductor femenino es <b>independiente del aparato urinario</b> <span class="chip c-ppt">PPT</span>; uretra y vagina tienen <b>orificios separados</b>.</p>
+  </div>
+</div>
+
+<h2><span class="n">2</span>Aparato masculino</h2>
+<figure style="max-width:150mm;margin:4px auto 8px"><svg viewBox="0 0 560 420" role="img" aria-label="Aparato reproductor masculino en corte lateral: vejiga, uretra, próstata, vesícula seminal, conducto deferente, conducto eyaculador, glándula bulbouretral, testículo con tubos seminíferos, epidídimo, escroto, pene con cuerpo cavernoso, glande y prepucio">
+  <defs>
+    <filter id="mTissue" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.05 0.09" numOctaves="3" seed="11" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0.62  0 0 0 0 0.26  0 0 0 0 0.25  0 0 0 0.6 -0.16" result="nc"/><feComposite in="nc" in2="SourceGraphic" operator="in" result="tex"/><feBlend in="tex" in2="SourceGraphic" mode="multiply"/></filter>
+    <filter id="mSoft" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#8A4A3C" flood-opacity=".2"/></filter>
+    <radialGradient id="mBl" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#FFF5D9"/><stop offset="1" stop-color="#F2CF86"/></radialGradient>
+    <radialGradient id="mPr" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#F9D8BD"/><stop offset="1" stop-color="#D99A72"/></radialGradient>
+    <radialGradient id="mVs" cx="40%" cy="35%" r="75%"><stop offset="0" stop-color="#FBE2C6"/><stop offset="1" stop-color="#DDA77C"/></radialGradient>
+    <radialGradient id="mTe" cx="38%" cy="35%" r="70%"><stop offset="0" stop-color="#FCE6EE"/><stop offset="1" stop-color="#E7A3BB"/></radialGradient>
+    <radialGradient id="mEp" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#E9D4F2"/><stop offset="1" stop-color="#B18BC9"/></radialGradient>
+    <linearGradient id="mSkin" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FBE3D6"/><stop offset="1" stop-color="#F0C2AC"/></linearGradient>
+    <linearGradient id="mCav" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F2A8A0"/><stop offset="1" stop-color="#D9776F"/></linearGradient>
+    <radialGradient id="mGl" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#F9C6C0"/><stop offset="1" stop-color="#DE8A86"/></radialGradient>
+  </defs>
+  <!-- contexto: silueta, hueso púbico y recto (no interactivos) -->
+  <path d="M198,150 L232,182" stroke="#C9C0B5" stroke-width="1" stroke-dasharray="3 3"/><text x="196" y="148" text-anchor="end" font-size="11" fill="#A79F9C" font-family="Figtree,sans-serif">hueso del pubis</text>
+  <path d="M432,40 C448,110 448,190 432,260 C424,296 404,318 384,330 L366,316 C384,302 402,282 410,254 C424,196 424,118 410,48 Z" fill="#F3DCD2" stroke="#D9B4A6" stroke-width="1.6"/>
+  <text x="438" y="196" font-size="11" fill="#A79F9C" font-family="Figtree,sans-serif">recto</text>
+
+  <!-- escroto -->
+  <g>
+    <path d="M206,300 C186,318 182,372 214,394 C240,410 290,404 304,378 C318,350 306,312 286,300 C262,288 228,288 206,300 Z" fill="url(#mSkin)" stroke="#D59A84" stroke-width="2"/>
+  </g>
+  <!-- testículo -->
+  <g>
+    <ellipse cx="240" cy="352" rx="34" ry="40" fill="url(#mTe)" stroke="#C47D99" stroke-width="1.8" transform="rotate(-14 240 352)"/>
+  </g>
+  <g>
+    <path d="M218,334 c6,-8 12,4 18,-4 s12,4 18,-4 M214,350 c6,-8 12,4 18,-4 s12,4 18,-4 s10,4 12,0 M216,366 c6,-8 12,4 18,-4 s12,4 18,-4 M224,382 c6,-8 12,4 18,-4 s10,4 12,0" fill="none" stroke="#B5607F" stroke-width="2.2" stroke-linecap="round" opacity=".85"/>
+  </g>
+  <!-- epidídimo -->
+  <g>
+    <path d="M262,316 C284,312 294,330 290,352 C286,374 276,392 260,396 C268,384 276,368 276,352 C276,336 272,326 262,316 Z" fill="url(#mEp)" stroke="#8E6AA8" stroke-width="1.6"/>
+    <path d="M268,326 c6,4 0,8 6,12 s-2,8 4,12 s-2,8 2,12" stroke="#7E5A98" stroke-width="1.2" fill="none"/>
+  </g>
+  <!-- pene -->
+  <path d="M262.4,200.7 L246.8,208.2 L231.3,215.7 L215.7,223.3 L200.2,230.8 L184.7,238.3 L169.1,245.9 L153.6,253.4 L138.1,260.9 L122.5,268.5 L107.0,276.0 L129.0,324.0 L144.9,317.1 L160.7,310.2 L176.5,303.3 L192.4,296.5 L208.2,289.6 L224.1,282.7 L239.9,275.8 L255.7,268.9 L271.6,262.1 L287.4,255.2 Z" fill="url(#mSkin)" stroke="#D59A84" stroke-width="2"/>
+  <circle cx="274.9" cy="227.9" r="29" fill="#F6D2C2"/>
+  <g><path d="M252.6,210.6 L238.7,217.4 L224.7,224.1 L210.8,230.8 L196.9,237.6 L182.9,244.3 L169.0,251.0 L155.1,257.8 L141.1,264.5 L127.2,271.2 L113.3,278.0 L121.7,296.4 L135.8,289.9 L149.8,283.4 L163.9,276.9 L177.9,270.4 L192.0,264.0 L206.0,257.5 L220.1,251.0 L234.1,244.5 L248.2,238.0 L262.2,231.5 Z" fill="url(#mCav)" stroke="#B85E58" stroke-width="1.4"/>
+    <path d="M251.3,223.4 L238.9,229.2 L226.6,235.1 L214.2,241.0 L201.8,246.8 L189.5,252.7 L177.1,258.5 L164.7,264.4 L152.4,270.3 L140.0,276.1 L127.7,282.0" stroke="#F7C4BC" stroke-width="1.2" fill="none" stroke-dasharray="2 5" opacity=".9"/></g>
+  <path d="M267.3,234.7 L252.9,241.3 L238.5,247.9 L224.1,254.4 L209.8,261.0 L195.4,267.5 L181.0,274.1 L166.7,280.7 L152.3,287.2 L137.9,293.8 L123.5,300.4 L130.2,314.8 L144.6,308.4 L159.1,302.0 L173.5,295.7 L188.0,289.3 L202.5,282.9 L216.9,276.6 L231.4,270.2 L245.8,263.8 L260.3,257.4 L274.8,251.1 Z" fill="#F4C9C0" stroke="#D8988B" stroke-width="1.2"/>
+  <path d="M232,178 C246,166 262,170 266,186 C270,204 258,222 242,222 C230,222 222,210 224,198 Z" fill="#F1EADF" stroke="#D8CCBC" stroke-width="1.6"/>
+  <!-- conducto deferente -->
+  <g>
+    <path d="M266,394 C290,394 302,372 298,344 C294,318 274,306 254,298 C232,288 214,268 212,236 C210,196 220,130 254,88 C282,54 340,46 372,76 C392,96 390,150 376,180 C368,196 358,204 348,210" fill="none" stroke="#9A72B8" stroke-width="5" stroke-linecap="round"/>
+    <path d="M266,394 C290,394 302,372 298,344 C294,318 274,306 254,298 C232,288 214,268 212,236 C210,196 220,130 254,88 C282,54 340,46 372,76 C392,96 390,150 376,180 C368,196 358,204 348,210" fill="none" stroke="#E9D4F2" stroke-width="1.6" stroke-linecap="round" opacity=".7"/>
+    <path visibility="hidden" d="M266,394 C290,394 302,372 298,344 C294,318 274,306 254,298 C232,288 214,268 212,236 C210,196 220,130 254,88 C282,54 340,46 372,76 C392,96 390,150 376,180 C368,196 358,204 348,210" fill="none" stroke="transparent" stroke-width="16"/>
+  </g>
+  <!-- vejiga -->
+  <g>
+    <path d="M262,150 C254,112 276,74 318,72 C356,70 372,100 366,140 C362,170 344,192 318,196 C292,198 268,182 262,150 Z" fill="url(#mBl)" stroke="#C99A3E" stroke-width="2"/>
+    <path d="M280,104 C292,88 314,84 334,88" stroke="#FFF" stroke-width="4" opacity=".55" fill="none" stroke-linecap="round"/>
+  </g>
+  <!-- vesícula seminal -->
+  <g>
+    <path d="M352,200 C362,182 382,168 396,176 C406,184 398,200 386,206 C376,212 366,214 356,212 Z" fill="url(#mVs)" stroke="#B9814F" stroke-width="1.6"/>
+    <path d="M362,202 c6,-6 10,2 16,-6 s8,0 12,-6" stroke="#A86F42" stroke-width="1.2" fill="none"/>
+  </g>
+  <!-- próstata -->
+  <g>
+    <path d="M286,206 C296,194 336,192 348,206 C358,220 352,244 330,250 C312,256 290,248 284,234 C280,224 280,214 286,206 Z" fill="url(#mPr)" stroke="#B9774E" stroke-width="1.8"/>
+  </g>
+  <!-- conducto eyaculador -->
+  <g>
+    <path d="M350,208 C340,214 330,222 318,232" fill="none" stroke="#7E5A98" stroke-width="3.4" stroke-linecap="round"/>
+    <path visibility="hidden" d="M352,206 L316,234" stroke="transparent" stroke-width="14"/>
+  </g>
+  <!-- glándula bulbouretral -->
+  <g>
+    <circle cx="306" cy="271" r="8" fill="url(#mVs)" stroke="#B9814F" stroke-width="1.6"/>
+    <path d="M304,263 C303,260 304,258 305,256" stroke="#B9814F" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+  </g>
+  <!-- uretra -->
+  <g>
+    <path d="M314,194 C316,214 318,236 314,250 C310,264 274.0,241.5 258.7,247.3 L245.5,254.4 L231.8,260.5 L218.1,266.6 L204.4,272.8 L190.8,278.9 L177.1,285.1 L163.4,291.2 L149.8,297.3 L136.1,303.5 L122.4,309.6" fill="none" stroke="#E7B74A" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M314,194 C316,214 318,236 314,250 C310,264 274.0,241.5 258.7,247.3 L245.5,254.4 L231.8,260.5 L218.1,266.6 L204.4,272.8 L190.8,278.9 L177.1,285.1 L163.4,291.2 L149.8,297.3 L136.1,303.5 L122.4,309.6" fill="none" stroke="#FFF2C9" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <g>
+    <ellipse cx="106.1" cy="307.7" rx="26" ry="27" fill="url(#mGl)" stroke="#C0615D" stroke-width="1.8" transform="rotate(155.3 106.1 307.7)"/>
+    <ellipse cx="87.6" cy="325.0" rx="3.4" ry="2.2" fill="#A84A4A" transform="rotate(155.3 87.6 325.0)"/>
+  </g>
+  <g>
+    <ellipse cx="116.2" cy="300.8" rx="11" ry="31" fill="url(#mSkin)" stroke="#D59A84" stroke-width="1.8" transform="rotate(155.3 116.2 300.8)"/>
+    <path d="M110.8,274.7 Q128.9,295.0 132.5,322.0" stroke="#E7B7A3" stroke-width="1.2" fill="none"/>
+  </g>
+  <g><g class="lab"><line x1="296" y1="100" x2="212" y2="64" stroke="#8A8381" stroke-dasharray="3 3"/><circle cx="296" cy="100" r="3" fill="#E07A5F"/><rect x="150" y="40" width="62" height="24" rx="8" fill="#FAF8F5" stroke="#D9D1C9" stroke-width="1.2"/><text x="159" y="56.5" font="700 13px Figtree" font-family="Figtree,sans-serif" font-weight="700" font-size="13" fill="#45403F">Vejiga</text></g><g class="lab"><line x1="372" y1="96" x2="396" y2="74" stroke="#8A8381" stroke-dasharray="3 3"/><circle cx="372" cy="96" r="3" fill="#E07A5F"/><rect x="396" y="50" width="149" height="24" rx="8" fill="#FAF8F5" stroke="#D9D1C9" stroke-width="1.2"/><text x="405" y="66.5" font="700 13px Figtree" font-family="Figtree,sans-serif" font-weight="700" font-size="13" fill="#45403F">Conducto deferente</text></g><g class="lab"><line x1="390" y1="184" x2="418" y2="146" stroke="#8A8381" stroke-dasharray="3 3"/><circle cx="390" cy="184" r="3" fill="#E07A5F"/><rect x="418" y="122" width="135" height="24" rx="8" fill="#FAF8F5" stroke="#D9D1C9" stroke-width="1.2"/><text x="427" y="138.5" font="700 13px Figtree" font-family="Figtree,sans-serif" font-weight="700" font-size="13" fill="#45403F">Vesícula seminal</text></g><g class="lab"><line x1="334" y1="232" x2="456" y2="232" stroke="#8A8381" stroke-dasharray="3 3"/><circle cx="334" cy="232" r="3" fill="#E07A5F"/><rect x="456" y="214" width="76" height="24" rx="8" fill="#FAF8F5" stroke="#D9D1C9" stroke-width="1.2"/><text x="465" y="230.5" font="700 13px Figtree" font-family="Figtree,sans-serif" font-weight="700" font-size="13" fill="#45403F">Próstata</text></g><g class="lab"><line x1="340" y1="218" x2="398" y2="250" stroke="#8A8381" stroke-dasharray="3 3"/><circle cx="340" cy="218" r="3" fill="#E07A5F"/><rect x="398" y="250" width="157" height="24" rx="8" fill="#FAF8F5" stroke="#D9D1C9" stroke-width="1.2"/><text x="407" y="266.5" font="700 13px Figtree" font-family="Figtree,sans-serif" font-weight="700" font-size="13" fill="#45403F">Conducto eyaculador</text></g><g class="lab"><line x1="306" y1="270" x2="320" y2="292" stroke="#8A8381" stroke-dasharray="3 3"/><circle cx="306" cy="270" r="3" fill="#E07A5F"/><rect x="300" y="292" width="259" height="24" rx="8" fill="#FAF8F5" stroke="#D9D1C9" stroke-width="1.2"/><text x="309" y="308.5" font="700 13px Figtree" font-family="Figtree,sans-serif" font-weight="700" font-size="13" fill="#45403F">Glándula bulbouretral (de Cowper)</text></g><g class="lab"><line x1="167" y1="290" x2="167" y2="330" stroke="#8A8381" stroke-dasharray="3 3"/><circle cx="167" cy="290" r="3" fill="#E07A5F"/><rect x="124" y="330" width="62" height="24" rx="8" fill="#FAF8F5" stroke="#D9D1C9" stroke-width="1.2"/><text x="133" y="346.5" font="700 13px Figtree" font-family="Figtree,sans-serif" font-weight="700" font-size="13" fill="#45403F">Uretra</text></g><g class="lab"><line x1="201" y1="246" x2="195" y2="200" stroke="#8A8381" stroke-dasharray="3 3"/><circle cx="201" cy="246" r="3" fill="#E07A5F"/><rect x="60" y="176" width="135" height="24" rx="8" fill="#FAF8F5" stroke="#D9D1C9" stroke-width="1.2"/><text x="69" y="192.5" font="700 13px Figtree" font-family="Figtree,sans-serif" font-weight="700" font-size="13" fill="#45403F">Cuerpo cavernoso</text></g><g class="lab"><line x1="118" y1="280" x2="118" y2="238" stroke="#8A8381" stroke-dasharray="3 3"/><circle cx="118" cy="280" r="3" fill="#E07A5F"/><rect x="96" y="214" width="76" height="24" rx="8" fill="#FAF8F5" stroke="#D9D1C9" stroke-width="1.2"/><text x="105" y="230.5" font="700 13px Figtree" font-family="Figtree,sans-serif" font-weight="700" font-size="13" fill="#45403F">Prepucio</text></g><g class="lab"><line x1="96" y1="300" x2="70" y2="280" stroke="#8A8381" stroke-dasharray="3 3"/><circle cx="96" cy="300" r="3" fill="#E07A5F"/><rect x="8" y="256" width="62" height="24" rx="8" fill="#FAF8F5" stroke="#D9D1C9" stroke-width="1.2"/><text x="17" y="272.5" font="700 13px Figtree" font-family="Figtree,sans-serif" font-weight="700" font-size="13" fill="#45403F">Glande</text></g><g class="lab"><line x1="200" y1="336" x2="179" y2="362" stroke="#8A8381" stroke-dasharray="3 3"/><circle cx="200" cy="336" r="3" fill="#E07A5F"/><rect x="110" y="362" width="69" height="24" rx="8" fill="#FAF8F5" stroke="#D9D1C9" stroke-width="1.2"/><text x="119" y="378.5" font="700 13px Figtree" font-family="Figtree,sans-serif" font-weight="700" font-size="13" fill="#45403F">Escroto</text></g><g class="lab"><line x1="230" y1="352" x2="204" y2="394" stroke="#8A8381" stroke-dasharray="3 3"/><circle cx="230" cy="352" r="3" fill="#E07A5F"/><rect x="120" y="394" width="84" height="24" rx="8" fill="#FAF8F5" stroke="#D9D1C9" stroke-width="1.2"/><text x="129" y="410.5" font="700 13px Figtree" font-family="Figtree,sans-serif" font-weight="700" font-size="13" fill="#45403F">Testículo</text></g><g class="lab"><line x1="238" y1="372" x2="312" y2="392" stroke="#8A8381" stroke-dasharray="3 3"/><circle cx="238" cy="372" r="3" fill="#E07A5F"/><rect x="312" y="392" width="142" height="24" rx="8" fill="#FAF8F5" stroke="#D9D1C9" stroke-width="1.2"/><text x="321" y="408.5" font="700 13px Figtree" font-family="Figtree,sans-serif" font-weight="700" font-size="13" fill="#45403F">Tubos seminíferos</text></g><g class="lab"><line x1="284" y1="348" x2="330" y2="356" stroke="#8A8381" stroke-dasharray="3 3"/><circle cx="284" cy="348" r="3" fill="#E07A5F"/><rect x="330" y="356" width="84" height="24" rx="8" fill="#FAF8F5" stroke="#D9D1C9" stroke-width="1.2"/><text x="339" y="372.5" font="700 13px Figtree" font-family="Figtree,sans-serif" font-weight="700" font-size="13" fill="#45403F">Epidídimo</text></g></g>
+</svg>
+<figcaption>Corte lateral del aparato reproductor masculino (pubis y recto en gris como referencia).</figcaption></figure>
+<h3>Genitales internos <span class="chip c-ok">Seguro</span> <span class="chip c-ppt">PPT</span></h3>
+<table><thead><tr><th>Órgano</th><th>Qué es / qué hace</th></tr></thead><tbody>
+<tr><td>Testículos</td><td>Gónadas masculinas (dos, uno a cada lado). Producen <b>espermatozoides</b>, con apoyo de las <mark>células de Sertoli</mark>, y <b>testosterona</b>, en las <mark class="g">células de Leydig</mark>. Están en el escroto y se comunican con la uretra por el conducto deferente.</td></tr>
+<tr><td>Epidídimo</td><td>Parte inicial del conducto deferente. <b>Termina la maduración</b> de los gametos y los <b>almacena</b>.</td></tr>
+<tr><td>Conducto deferente</td><td><b>Almacena</b> los espermatozoides y los <b>transporta al exterior</b>; desemboca en la uretra. Recorrido <b>en contra de la gravedad</b>.</td></tr>
+<tr><td>Conducto eyaculador</td><td>Por donde salen los espermatozoides.</td></tr>
+<tr><td>Uretra</td><td><b>Conduce los espermatozoides durante la eyaculación</b>; también lleva la orina (conducto común).</td></tr>
+</tbody></table>
+<div class="cols">
+  <div class="keep">
+    <h3>¿Por qué los testículos están afuera? <span class="chip c-hot">Muy probable</span></h3>
+    <p>En el <b>feto</b> estaban donde los ovarios; luego <b>descienden</b> al escroto para tener una <mark>temperatura menor que la corporal</mark>, necesaria para producir espermatozoides. <span class="hand">si no bajan → infertilidad</span></p>
+    <div class="sticky"><b class="t">criptorquidia</b>Cuando uno o los dos testículos <b>no bajan</b>. Más común en prematuros; a veces bajan solos, si no se opera (orquidopexia). Sin tratar: <b>infertilidad</b> y más riesgo de <b>cáncer de testículo</b>. <i>(Extra, no está en el PPT.)</i></div>
+  </div>
+  <div class="keep">
+    <h3>Recorrido del espermatozoide</h3>
+    <div class="flow"><span>Testículo</span><i>→</i><span>Epidídimo</span><i>→</i><span>C. deferente</span><i>→</i><span>C. eyaculador</span><i>→</i><span>Uretra</span></div>
+  </div>
+</div>
+<h3>Glándulas anexas (3) <span class="chip c-hot">Muy probable</span> <span class="chip c-ppt">PPT</span></h3>
+<table><thead><tr><th>Glándula</th><th>Qué aporta</th><th>¿Para qué?</th></tr></thead><tbody>
+<tr><td>Vesículas seminales</td><td>Líquido alto en azúcar (<mark>fructosa</mark>) y prostaglandinas</td><td>Fructosa → ATP para el recorrido. Prostaglandinas → contracciones que mueven a los espermatozoides dentro de la mujer.</td></tr>
+<tr><td>Próstata <span class="hand">(la + grande)</span></td><td>Líquido que se mezcla con el esperma antes de la eyaculación</td><td>Facilita el movimiento, importante para la fecundación (gran distancia).</td></tr>
+<tr><td>Bulbouretrales o <b>de Cowper</b> <span class="hand">(la + pequeña)</span></td><td>Sustancia <b>viscosa</b> y <mark class="g">débilmente alcalina</mark></td><td>Neutraliza los <b>residuos de orina</b> (ácidos, matan espermatozoides) y da al semen su <b>olor característico</b>.</td></tr>
+</tbody></table>
+<ul>
+  <li><b>Semen:</b> líquido donde nadan los espermatozoides; conjunto de lo que secretan todas las glándulas.</li>
+  <li><b>Eyaculación:</b> salida de los espermatozoides; si no salen, los testículos los <b>reabsorben</b> y los reutilizan.</li>
+  <li><b>Prostatitis:</b> inflamación de la próstata; examen recomendado desde los ~40 años.</li>
+</ul>
+<h3>Genitales externos <span class="chip c-ok">Seguro</span> <span class="chip c-ppt">PPT</span></h3>
+<table><thead><tr><th>Parte</th><th>Descripción</th></tr></thead><tbody>
+<tr><td>Escroto</td><td><b>Bolsa formada por la piel</b> que cubre los testículos, fuera de la cavidad del cuerpo.</td></tr>
+<tr><td>Pene</td><td><b>Órgano copulador</b>: lleva los espermatozoides hasta la vagina. Protegido por el <b>prepucio</b>; se puede retirar por <b>circuncisión</b>.</td></tr>
+<tr><td>Glande</td><td><b>Parte terminal del pene</b>; muchas terminaciones nerviosas, importante en el placer sexual.</td></tr>
+</tbody></table>
+<div class="vs">
+  <div><h4>Circuncisión <span class="chip c-extra">Extra</span></h4>Origen judío (pacto entre Dios y el pueblo judío); hoy por costumbre. En un niño sana rápido; en un adulto, las erecciones duelen mientras cicatriza.</div>
+  <div><h4>Higiene del prepucio</h4>Se acumulan sudor, sebo, restos de orina y células muertas. Si no hay aseo: <b>① mal olor</b>, <b>② más probabilidad de infecciones sexuales</b>.</div>
+</div>
+<div class="def"><b>Erección:</b> por la excitación, el sistema nervioso manda la señal para que la sangre llene el <b>cuerpo cavernoso</b>.</div>
+
+<h2 class="brk"><span class="n">3</span>Espermatogénesis <span class="chip c-hot">Muy probable</span></h2>
+<figure style="margin:4px 0 8px"><svg viewBox="0 0 940 372" role="img" aria-label="Espermatogénesis interactiva: en los tubos seminíferos la espermatogonia (2n) se divide por mitosis, el espermatocito I (2n) hace la meiosis I y da 2 espermatocitos II (n, 22+X y 22+Y), la meiosis II da 4 espermátidas (n) y la espermiogénesis las convierte en 4 espermatozoides">
+<defs><radialGradient id="eCy" cx="38%" cy="35%" r="70%"><stop offset="0" stop-color="#F4F5FF"/><stop offset=".7" stop-color="#D6DBF7"/><stop offset="1" stop-color="#A9B1E4"/></radialGradient>
+<radialGradient id="eNu" cx="40%" cy="38%" r="70%"><stop offset="0" stop-color="#8E9BE0"/><stop offset="1" stop-color="#4C59A8"/></radialGradient>
+<radialGradient id="eHd" cx="38%" cy="35%" r="70%"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#AEB6EA"/></radialGradient>
+<marker id="eArr" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10Z" fill="#E07A5F"/></marker>
+<marker id="eArrS" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10Z" fill="#9AA2D8"/></marker></defs>
+<g class="pstep" data-step="0"><g class="part" data-part="tubo"><circle cx="118" cy="206" r="98" fill="#FBE9E2" stroke="#C97560" stroke-width="2.4"/><circle cx="118" cy="206" r="92" fill="none" stroke="#E7B3A1" stroke-width="1"/></g><g class="part" data-part="sertoli"><path d="M208.0,206.0 L148.0,206.0" stroke="#F3CDBB" stroke-width="15" stroke-linecap="round"/><path d="M190.8,258.9 L142.3,223.6" stroke="#F3CDBB" stroke-width="15" stroke-linecap="round"/><path d="M145.8,291.6 L127.3,234.5" stroke="#F3CDBB" stroke-width="15" stroke-linecap="round"/><path d="M90.2,291.6 L108.7,234.5" stroke="#F3CDBB" stroke-width="15" stroke-linecap="round"/><path d="M45.2,258.9 L93.7,223.6" stroke="#F3CDBB" stroke-width="15" stroke-linecap="round"/><path d="M28.0,206.0 L88.0,206.0" stroke="#F3CDBB" stroke-width="15" stroke-linecap="round"/><path d="M45.2,153.1 L93.7,188.4" stroke="#F3CDBB" stroke-width="15" stroke-linecap="round"/><path d="M90.2,120.4 L108.7,177.5" stroke="#F3CDBB" stroke-width="15" stroke-linecap="round"/><path d="M145.8,120.4 L127.3,177.5" stroke="#F3CDBB" stroke-width="15" stroke-linecap="round"/><path d="M190.8,153.1 L142.3,188.4" stroke="#F3CDBB" stroke-width="15" stroke-linecap="round"/></g><g class="part" data-part="tubo"><circle cx="118" cy="206" r="27" fill="#FFF8F4"/><circle cx="197.9" cy="224.2" r="7" fill="#DCE0F8" stroke="#7680C4" stroke-width="1.1"/><circle cx="182.1" cy="257.1" r="7" fill="#DCE0F8" stroke="#7680C4" stroke-width="1.1"/><circle cx="153.6" cy="279.9" r="7" fill="#DCE0F8" stroke="#7680C4" stroke-width="1.1"/><circle cx="118.0" cy="288.0" r="7" fill="#DCE0F8" stroke="#7680C4" stroke-width="1.1"/><circle cx="82.4" cy="279.9" r="7" fill="#DCE0F8" stroke="#7680C4" stroke-width="1.1"/><circle cx="53.9" cy="257.1" r="7" fill="#DCE0F8" stroke="#7680C4" stroke-width="1.1"/><circle cx="38.1" cy="224.2" r="7" fill="#DCE0F8" stroke="#7680C4" stroke-width="1.1"/><circle cx="38.1" cy="187.8" r="7" fill="#DCE0F8" stroke="#7680C4" stroke-width="1.1"/><circle cx="53.9" cy="154.9" r="7" fill="#DCE0F8" stroke="#7680C4" stroke-width="1.1"/><circle cx="82.4" cy="132.1" r="7" fill="#DCE0F8" stroke="#7680C4" stroke-width="1.1"/><circle cx="118.0" cy="124.0" r="7" fill="#DCE0F8" stroke="#7680C4" stroke-width="1.1"/><circle cx="153.6" cy="132.1" r="7" fill="#DCE0F8" stroke="#7680C4" stroke-width="1.1"/><circle cx="182.1" cy="154.9" r="7" fill="#DCE0F8" stroke="#7680C4" stroke-width="1.1"/><circle cx="197.9" cy="187.8" r="7" fill="#DCE0F8" stroke="#7680C4" stroke-width="1.1"/><circle cx="171.3" cy="214.4" r="5.5" fill="#E6E8FA" stroke="#7680C4" stroke-width="1"/><circle cx="156.2" cy="244.2" r="5.5" fill="#E6E8FA" stroke="#7680C4" stroke-width="1"/><circle cx="126.4" cy="259.3" r="5.5" fill="#E6E8FA" stroke="#7680C4" stroke-width="1"/><circle cx="93.5" cy="254.1" r="5.5" fill="#E6E8FA" stroke="#7680C4" stroke-width="1"/><circle cx="69.9" cy="230.5" r="5.5" fill="#E6E8FA" stroke="#7680C4" stroke-width="1"/><circle cx="64.7" cy="197.6" r="5.5" fill="#E6E8FA" stroke="#7680C4" stroke-width="1"/><circle cx="79.8" cy="167.8" r="5.5" fill="#E6E8FA" stroke="#7680C4" stroke-width="1"/><circle cx="109.6" cy="152.7" r="5.5" fill="#E6E8FA" stroke="#7680C4" stroke-width="1"/><circle cx="142.5" cy="157.9" r="5.5" fill="#E6E8FA" stroke="#7680C4" stroke-width="1"/><circle cx="166.1" cy="181.5" r="5.5" fill="#E6E8FA" stroke="#7680C4" stroke-width="1"/><path d="M132.0,206.0 q3.2,5.0 -12.0,-0.0" stroke="#5E68B4" stroke-width="1.4" fill="none"/><circle cx="132.0" cy="206.0" r="2.6" fill="#7680C4"/><path d="M125.0,218.1 q-2.8,5.3 -6.0,-10.4" stroke="#5E68B4" stroke-width="1.4" fill="none"/><circle cx="125.0" cy="218.1" r="2.6" fill="#7680C4"/><path d="M111.0,218.1 q-6.0,0.3 6.0,-10.4" stroke="#5E68B4" stroke-width="1.4" fill="none"/><circle cx="111.0" cy="218.1" r="2.6" fill="#7680C4"/><path d="M104.0,206.0 q-3.2,-5.0 12.0,-0.0" stroke="#5E68B4" stroke-width="1.4" fill="none"/><circle cx="104.0" cy="206.0" r="2.6" fill="#7680C4"/><path d="M111.0,193.9 q2.8,-5.3 6.0,10.4" stroke="#5E68B4" stroke-width="1.4" fill="none"/><circle cx="111.0" cy="193.9" r="2.6" fill="#7680C4"/><path d="M125.0,193.9 q6.0,-0.3 -6.0,10.4" stroke="#5E68B4" stroke-width="1.4" fill="none"/><circle cx="125.0" cy="193.9" r="2.6" fill="#7680C4"/></g><g class="part" data-part="leydig"><circle cx="214" cy="108" r="6" fill="#F7D27A" stroke="#C99A3E" stroke-width="1.2"/><circle cx="226" cy="120" r="6" fill="#F7D27A" stroke="#C99A3E" stroke-width="1.2"/><circle cx="210" cy="124" r="6" fill="#F7D27A" stroke="#C99A3E" stroke-width="1.2"/><circle cx="30" cy="310" r="6" fill="#F7D27A" stroke="#C99A3E" stroke-width="1.2"/><circle cx="42" cy="322" r="6" fill="#F7D27A" stroke="#C99A3E" stroke-width="1.2"/><circle cx="24" cy="326" r="6" fill="#F7D27A" stroke="#C99A3E" stroke-width="1.2"/></g><g class="plab" data-lab="tubo"><text class="nm" x="118" y="332" text-anchor="middle" font-family="Figtree,sans-serif" font-size="12" font-weight="800" fill="#C97560">Tubo seminífero (corte)</text><text class="sub" x="118" y="347" text-anchor="middle" font-family="Figtree,sans-serif" font-size="10.5" font-weight="600" fill="#8A8381">dentro del testículo</text></g><path d="M188,282 L168,262" stroke="#8A8381" stroke-width="1" stroke-dasharray="3 3"/><g class="plab" data-lab="sertoli"><text class="nm" x="192" y="296" text-anchor="start" font-family="Figtree,sans-serif" font-size="10.5" font-weight="700" fill="#B9774E">Sertoli</text></g><path d="M232,114 L250,106" stroke="#8A8381" stroke-width="1" stroke-dasharray="3 3"/><g class="plab" data-lab="leydig"><text class="nm" x="252" y="106" text-anchor="start" font-family="Figtree,sans-serif" font-size="10.5" font-weight="700" fill="#A67C1A">Leydig</text></g></g><path class="pstep pzoom" data-step="1" d="M210,176 C230,170 240,190 262,192" stroke="#B9B2AC" stroke-width="1.4" stroke-dasharray="4 4" fill="none"/><g class="pstep" data-step="1"><g class="part" data-part="gonia"><circle cx="290" cy="206" r="24" fill="url(#eCy)" stroke="#7680C4" stroke-width="1.8"/><circle cx="287.6" cy="204.1" r="10.1" fill="url(#eNu)"/><path d="M281.75,198.5 L286.25,207.5 M286.25,198.5 L281.75,207.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><path d="M290.75,203.5 L295.25,212.5 M295.25,203.5 L290.75,212.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><path d="M275.1,194.0 A19.2,19.2 0 0 1 291.2,185.6" stroke="#fff" stroke-width="2.9" fill="none" opacity=".6" stroke-linecap="round"/></g><circle cx="286" cy="136" r="12" fill="url(#eCy)" stroke="#7680C4" stroke-width="1.8"/><circle cx="284.8" cy="135.0" r="5.0" fill="url(#eNu)"/><path d="M278.6,130.0 A9.6,9.6 0 0 1 286.6,125.8" stroke="#fff" stroke-width="2.0" fill="none" opacity=".6" stroke-linecap="round"/><path d="M288,180 Q276,164 284,152" stroke="#9AA2D8" stroke-width="1.6" fill="none" marker-end="url(#eArrS)"/><text x="308" y="132" text-anchor="start" font-family="Figtree,sans-serif" font-size="10.5" font-weight="700" fill="#8A8381">mitosis</text><g class="plab" data-lab="gonia"><text class="nm" x="290" y="250" text-anchor="middle" font-family="Figtree,sans-serif" font-size="12.5" font-weight="800" fill="#45403F">Espermatogonia</text><text class="sub" x="290" y="265" text-anchor="middle" font-family="Figtree,sans-serif" font-size="11" font-weight="600" fill="#8A8381">2n · 44 + XY</text></g></g><path class="pstep parr" data-step="2" d="M318,206 L374,206" stroke="#E07A5F" stroke-width="2.4" marker-end="url(#eArr)" pathLength="1"/><g class="pstep" data-step="2"><g class="part" data-part="cito1"><circle cx="410" cy="206" r="31" fill="url(#eCy)" stroke="#7680C4" stroke-width="1.8"/><circle cx="406.9" cy="203.5" r="13.0" fill="url(#eNu)"/><path d="M395.75,198.5 L400.25,207.5 M400.25,198.5 L395.75,207.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><path d="M403.75,203.5 L408.25,212.5 M408.25,203.5 L403.75,212.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><path d="M411.75,198.5 L416.25,207.5 M416.25,198.5 L411.75,207.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><path d="M390.8,190.5 A24.8,24.8 0 0 1 411.6,179.7" stroke="#fff" stroke-width="3.7" fill="none" opacity=".6" stroke-linecap="round"/></g><g class="plab" data-lab="cito1"><text class="nm" x="410" y="258" text-anchor="middle" font-family="Figtree,sans-serif" font-size="12.5" font-weight="800" fill="#45403F">Espermatocito I</text><text class="sub" x="410" y="273" text-anchor="middle" font-family="Figtree,sans-serif" font-size="11" font-weight="600" fill="#8A8381">2n · 44 + XY</text></g></g><g class="pstep" data-step="3"><text x="481.5" y="211" text-anchor="middle" font-family="Figtree,sans-serif" font-size="12" font-weight="800" fill="#E07A5F">Meiosis I</text></g><path class="pstep parr" data-step="3" d="M440,193.04 L517,142.64" stroke="#E07A5F" stroke-width="2.4" marker-end="url(#eArr)" pathLength="1"/><path class="pstep parr" data-step="3" d="M440,218.96 L517,269.36" stroke="#E07A5F" stroke-width="2.4" marker-end="url(#eArr)" pathLength="1"/><g class="pstep" data-step="3"><g class="part" data-part="cito2"><circle cx="545" cy="134" r="24" fill="url(#eCy)" stroke="#7680C4" stroke-width="1.8"/><circle cx="542.6" cy="132.1" r="10.1" fill="url(#eNu)"/><path d="M538.75,127.5 L543.25,136.5 M543.25,127.5 L538.75,136.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><text x="550" y="139" text-anchor="middle" font-family="Figtree,sans-serif" font-size="11" font-weight="800" fill="#fff">X</text><path d="M530.1,122.0 A19.2,19.2 0 0 1 546.2,113.6" stroke="#fff" stroke-width="2.9" fill="none" opacity=".6" stroke-linecap="round"/></g><g class="plab" data-lab="cito2"><text class="nm" x="545" y="86" text-anchor="middle" font-family="Figtree,sans-serif" font-size="12.5" font-weight="800" fill="#45403F">Espermatocito II</text><text class="sub" x="545" y="101" text-anchor="middle" font-family="Figtree,sans-serif" font-size="11" font-weight="600" fill="#8A8381">n · 22 + X</text></g></g><g class="pstep" data-step="3"><g class="part" data-part="cito2"><circle cx="545" cy="278" r="24" fill="url(#eCy)" stroke="#7680C4" stroke-width="1.8"/><circle cx="542.6" cy="276.1" r="10.1" fill="url(#eNu)"/><path d="M538.75,271.5 L543.25,280.5 M543.25,271.5 L538.75,280.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><text x="550" y="283" text-anchor="middle" font-family="Figtree,sans-serif" font-size="11" font-weight="800" fill="#fff">Y</text><path d="M530.1,266.0 A19.2,19.2 0 0 1 546.2,257.6" stroke="#fff" stroke-width="2.9" fill="none" opacity=".6" stroke-linecap="round"/></g><g class="plab" data-lab="cito2"><text class="nm" x="545" y="320" text-anchor="middle" font-family="Figtree,sans-serif" font-size="12.5" font-weight="800" fill="#45403F">Espermatocito II</text><text class="sub" x="545" y="335" text-anchor="middle" font-family="Figtree,sans-serif" font-size="11" font-weight="600" fill="#8A8381">n · 22 + Y</text></g></g><g class="pstep" data-step="4"><text x="616.5" y="24" text-anchor="middle" font-family="Figtree,sans-serif" font-size="12" font-weight="800" fill="#E07A5F">Meiosis II</text></g><path class="pstep parr" data-step="4" d="M571,126.4 L660,96" stroke="#E07A5F" stroke-width="2.4" marker-end="url(#eArr)" pathLength="1"/><path class="pstep parr" data-step="4" d="M571,141.6 L660,172" stroke="#E07A5F" stroke-width="2.4" marker-end="url(#eArr)" pathLength="1"/><path class="pstep parr" data-step="4" d="M571,270.4 L660,240" stroke="#E07A5F" stroke-width="2.4" marker-end="url(#eArr)" pathLength="1"/><path class="pstep parr" data-step="4" d="M571,285.6 L660,316" stroke="#E07A5F" stroke-width="2.4" marker-end="url(#eArr)" pathLength="1"/><g class="pstep" data-step="4"><g class="part" data-part="tida"><circle cx="680" cy="96" r="17" fill="url(#eCy)" stroke="#7680C4" stroke-width="1.8"/><circle cx="678.3" cy="94.6" r="7.1" fill="url(#eNu)"/><text x="682" y="100" text-anchor="middle" font-family="Figtree,sans-serif" font-size="9.5" font-weight="800" fill="#fff">X</text><path d="M669.5,87.5 A13.6,13.6 0 0 1 680.9,81.5" stroke="#fff" stroke-width="2.0" fill="none" opacity=".6" stroke-linecap="round"/></g><g class="plab" data-lab="tida"><text class="nm" x="680" y="56" text-anchor="middle" font-family="Figtree,sans-serif" font-size="12.5" font-weight="800" fill="#45403F">Espermátida</text><text class="sub" x="680" y="71" text-anchor="middle" font-family="Figtree,sans-serif" font-size="11" font-weight="600" fill="#8A8381">n · 22 + X</text></g></g><g class="pstep" data-step="4"><g class="part" data-part="tida"><circle cx="680" cy="172" r="17" fill="url(#eCy)" stroke="#7680C4" stroke-width="1.8"/><circle cx="678.3" cy="170.6" r="7.1" fill="url(#eNu)"/><text x="682" y="176" text-anchor="middle" font-family="Figtree,sans-serif" font-size="9.5" font-weight="800" fill="#fff">X</text><path d="M669.5,163.5 A13.6,13.6 0 0 1 680.9,157.6" stroke="#fff" stroke-width="2.0" fill="none" opacity=".6" stroke-linecap="round"/></g></g><g class="pstep" data-step="4"><g class="part" data-part="tida"><circle cx="680" cy="240" r="17" fill="url(#eCy)" stroke="#7680C4" stroke-width="1.8"/><circle cx="678.3" cy="238.6" r="7.1" fill="url(#eNu)"/><text x="682" y="244" text-anchor="middle" font-family="Figtree,sans-serif" font-size="9.5" font-weight="800" fill="#fff">Y</text><path d="M669.5,231.5 A13.6,13.6 0 0 1 680.9,225.6" stroke="#fff" stroke-width="2.0" fill="none" opacity=".6" stroke-linecap="round"/></g></g><g class="pstep" data-step="4"><g class="part" data-part="tida"><circle cx="680" cy="316" r="17" fill="url(#eCy)" stroke="#7680C4" stroke-width="1.8"/><circle cx="678.3" cy="314.6" r="7.1" fill="url(#eNu)"/><text x="682" y="320" text-anchor="middle" font-family="Figtree,sans-serif" font-size="9.5" font-weight="800" fill="#fff">Y</text><path d="M669.5,307.5 A13.6,13.6 0 0 1 680.9,301.6" stroke="#fff" stroke-width="2.0" fill="none" opacity=".6" stroke-linecap="round"/></g><g class="plab" data-lab="tida"><text class="nm" x="680" y="348" text-anchor="middle" font-family="Figtree,sans-serif" font-size="12.5" font-weight="800" fill="#45403F">Espermátida</text><text class="sub" x="680" y="363" text-anchor="middle" font-family="Figtree,sans-serif" font-size="11" font-weight="600" fill="#8A8381">n · 22 + Y</text></g></g><g class="pstep" data-step="5"><text x="750.0" y="24" text-anchor="middle" font-family="Figtree,sans-serif" font-size="12" font-weight="800" fill="#E07A5F">Espermiogénesis</text></g><path class="pstep parr" data-step="5" d="M700,96 L778,96" stroke="#E07A5F" stroke-width="2.4" marker-end="url(#eArr)" pathLength="1"/><path class="pstep parr" data-step="5" d="M700,172 L778,172" stroke="#E07A5F" stroke-width="2.4" marker-end="url(#eArr)" pathLength="1"/><path class="pstep parr" data-step="5" d="M700,240 L778,240" stroke="#E07A5F" stroke-width="2.4" marker-end="url(#eArr)" pathLength="1"/><path class="pstep parr" data-step="5" d="M700,316 L778,316" stroke="#E07A5F" stroke-width="2.4" marker-end="url(#eArr)" pathLength="1"/><g class="pstep" data-step="5"><g class="part" data-part="zoide"><circle cx="822" cy="96" r="26" fill="transparent"/><g transform="translate(808,96) scale(1)"><path d="M10,0 C18,-7 26,7 34,0 S48,-7 56,0" stroke="#5E68B4" stroke-width="2.2" fill="none" stroke-linecap="round"></path><rect x="8" y="-2.6" width="9" height="5.2" rx="2" fill="#EFA48C"/><ellipse cx="0" cy="0" rx="10" ry="6.5" fill="url(#eHd)" stroke="#5E68B4" stroke-width="1.4"/><path d="M-10,0 C-10,-5 -6,-6.5 -1,-6.5 C-5,-3.5 -5,3.5 -1,6.5 C-6,6.5 -10,5 -10,0Z" fill="#F3B8D0"/></g></g><text class="sub" x="830" y="120" text-anchor="middle" font-family="Figtree,sans-serif" font-size="10.5" font-weight="700" fill="#8A8381">22 + X</text></g><g class="pstep" data-step="5"><g class="part" data-part="zoide"><circle cx="822" cy="172" r="26" fill="transparent"/><g transform="translate(808,172) scale(1)"><path d="M10,0 C18,-7 26,7 34,0 S48,-7 56,0" stroke="#5E68B4" stroke-width="2.2" fill="none" stroke-linecap="round"></path><rect x="8" y="-2.6" width="9" height="5.2" rx="2" fill="#EFA48C"/><ellipse cx="0" cy="0" rx="10" ry="6.5" fill="url(#eHd)" stroke="#5E68B4" stroke-width="1.4"/><path d="M-10,0 C-10,-5 -6,-6.5 -1,-6.5 C-5,-3.5 -5,3.5 -1,6.5 C-6,6.5 -10,5 -10,0Z" fill="#F3B8D0"/></g></g><text class="sub" x="830" y="196" text-anchor="middle" font-family="Figtree,sans-serif" font-size="10.5" font-weight="700" fill="#8A8381">22 + X</text></g><g class="pstep" data-step="5"><g class="part" data-part="zoide"><circle cx="822" cy="240" r="26" fill="transparent"/><g transform="translate(808,240) scale(1)"><path d="M10,0 C18,-7 26,7 34,0 S48,-7 56,0" stroke="#5E68B4" stroke-width="2.2" fill="none" stroke-linecap="round"></path><rect x="8" y="-2.6" width="9" height="5.2" rx="2" fill="#EFA48C"/><ellipse cx="0" cy="0" rx="10" ry="6.5" fill="url(#eHd)" stroke="#5E68B4" stroke-width="1.4"/><path d="M-10,0 C-10,-5 -6,-6.5 -1,-6.5 C-5,-3.5 -5,3.5 -1,6.5 C-6,6.5 -10,5 -10,0Z" fill="#F3B8D0"/></g></g><text class="sub" x="830" y="264" text-anchor="middle" font-family="Figtree,sans-serif" font-size="10.5" font-weight="700" fill="#8A8381">22 + Y</text></g><g class="pstep" data-step="5"><g class="part" data-part="zoide"><circle cx="822" cy="316" r="26" fill="transparent"/><g transform="translate(808,316) scale(1)"><path d="M10,0 C18,-7 26,7 34,0 S48,-7 56,0" stroke="#5E68B4" stroke-width="2.2" fill="none" stroke-linecap="round"></path><rect x="8" y="-2.6" width="9" height="5.2" rx="2" fill="#EFA48C"/><ellipse cx="0" cy="0" rx="10" ry="6.5" fill="url(#eHd)" stroke="#5E68B4" stroke-width="1.4"/><path d="M-10,0 C-10,-5 -6,-6.5 -1,-6.5 C-5,-3.5 -5,3.5 -1,6.5 C-6,6.5 -10,5 -10,0Z" fill="#F3B8D0"/></g></g><text class="sub" x="830" y="340" text-anchor="middle" font-family="Figtree,sans-serif" font-size="10.5" font-weight="700" fill="#8A8381">22 + Y</text></g><g class="pstep" data-step="5"><path d="M880,90 q10,0 10,10 L890,198 q0,8 8,8 q-8,0 -8,8 L890,312 q0,10 -10,10" stroke="#3E9A72" stroke-width="2" fill="none"/><g class="plab" data-lab="zoide"><text class="nm" x="912" y="204" text-anchor="middle" font-family="Figtree,sans-serif" font-size="22" font-weight="800" fill="#3E9A72">4</text><text class="sub" x="912" y="222" text-anchor="middle" font-family="Figtree,sans-serif" font-size="10.5" font-weight="700" fill="#3E9A72">espermato-</text><text class="sub" x="912" y="235" text-anchor="middle" font-family="Figtree,sans-serif" font-size="10.5" font-weight="700" fill="#3E9A72">zoides</text></g></g></svg><figcaption>Espermatogénesis en los tubos seminíferos: de 1 espermatogonia salen 4 espermatozoides (la mitad con X y la mitad con Y).</figcaption></figure>
+<div class="cols">
+  <div>
+    <div class="def"><b>Espermatogénesis:</b> producción de espermatozoides (<mark>células haploides funcionales</mark>) en los <mark class="g">tubos seminíferos</mark> de los testículos. <span class="chip c-ppt">PPT</span></div>
+    <ol class="steps">
+      <li><div><b>Espermatogonia (2n)</b>: 44 + XY. Mitosis.</div></li>
+      <li><div><b>Espermatocito primario (2n)</b>: 44 + XY. Meiosis I.</div></li>
+      <li><div><b>Espermatocitos secundarios (n)</b>: <b>22 + X</b> o <b>22 + Y</b>. Meiosis II.</div></li>
+      <li><div><b>Espermátidas (n)</b>: haploides, aún no funcionan → <b>espermiogénesis</b> (diferenciación).</div></li>
+      <li><div><b>Espermatozoides (n)</b>: 4 por cada espermatocito primario.</div></li>
+    </ol>
+    <div class="def"><b>Espermatozoide:</b> célula <b>móvil</b> cuya función es <mark>alcanzar el óvulo y fecundarlo</mark>. Cabeza, parte media y cola.</div>
+    <ul>
+      <li><b>Empieza</b> en la pubertad (por la testosterona). <b>Termina:</b> <mark class="g">nunca</mark>.</li>
+      <li>Dentro de la mujer duran <b>~5 días</b>.</li>
+    </ul>
+  </div>
+  <figure>
+    <svg viewBox="0 0 600 240" role="img" aria-label="Espermatozoide interactivo: cabeza con acrosoma y núcleo, cuello con centriolos, pieza media con mitocondrias y cola o flagelo">
+          <defs>
+            <filter id="tissueS" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.045 0.08" numOctaves="3" seed="7" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0.62  0 0 0 0 0.26  0 0 0 0 0.25  0 0 0 0.7 -0.18" result="nc"/><feComposite in="nc" in2="SourceGraphic" operator="in" result="tex"/><feBlend in="tex" in2="SourceGraphic" mode="multiply"/></filter>
+          <filter id="softS" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#8A4A3C" flood-opacity=".22"/></filter>
+            <radialGradient id="gHead" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#F4F5FF"/><stop offset=".6" stop-color="#D6DBF7"/><stop offset="1" stop-color="#A9B1E4"/></radialGradient>
+            <radialGradient id="gNuc" cx="40%" cy="38%" r="70%"><stop offset="0" stop-color="#8E9BE0"/><stop offset="1" stop-color="#4C59A8"/></radialGradient>
+            <linearGradient id="gAcro" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#F3B8D0" stop-opacity=".95"/><stop offset="1" stop-color="#E79ABD" stop-opacity=".75"/></linearGradient>
+            <linearGradient id="gMid" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FBD6C8"/><stop offset=".5" stop-color="#EFA48C"/><stop offset="1" stop-color="#D67E66"/></linearGradient>
+            <linearGradient id="gTail" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C9CEF2"/><stop offset="1" stop-color="#8F98D6"/></linearGradient>
+          </defs>
+          <g class="part" data-part="cola"><path id="tailRibbon" fill="url(#gTail)" stroke="#7680C4" stroke-width="1"/><path class="hit" id="tailHit" d="M268,120 L590,120" style="stroke-width:34"/></g>
+          <g class="part" data-part="media" filter="url(#softS)">
+            <rect x="168" y="110" width="102" height="20" rx="9" fill="url(#gMid)" stroke="#C26C55" stroke-width="1.4"/>
+            <g fill="#E58B71" stroke="#B85E48" stroke-width=".9" clip-path="inset(0)"><ellipse cx="176" cy="120" rx="3.6" ry="9.5" transform="rotate(28 176 120)"/><ellipse cx="182" cy="120" rx="3.6" ry="9.5" transform="rotate(28 182 120)"/><ellipse cx="188" cy="120" rx="3.6" ry="9.5" transform="rotate(28 188 120)"/><ellipse cx="194" cy="120" rx="3.6" ry="9.5" transform="rotate(28 194 120)"/><ellipse cx="200" cy="120" rx="3.6" ry="9.5" transform="rotate(28 200 120)"/><ellipse cx="206" cy="120" rx="3.6" ry="9.5" transform="rotate(28 206 120)"/><ellipse cx="212" cy="120" rx="3.6" ry="9.5" transform="rotate(28 212 120)"/><ellipse cx="218" cy="120" rx="3.6" ry="9.5" transform="rotate(28 218 120)"/><ellipse cx="224" cy="120" rx="3.6" ry="9.5" transform="rotate(28 224 120)"/><ellipse cx="230" cy="120" rx="3.6" ry="9.5" transform="rotate(28 230 120)"/><ellipse cx="236" cy="120" rx="3.6" ry="9.5" transform="rotate(28 236 120)"/><ellipse cx="242" cy="120" rx="3.6" ry="9.5" transform="rotate(28 242 120)"/><ellipse cx="248" cy="120" rx="3.6" ry="9.5" transform="rotate(28 248 120)"/><ellipse cx="254" cy="120" rx="3.6" ry="9.5" transform="rotate(28 254 120)"/><ellipse cx="260" cy="120" rx="3.6" ry="9.5" transform="rotate(28 260 120)"/></g>
+            <rect x="170" y="112" width="98" height="5" rx="2.5" fill="#FFF" opacity=".35"/>
+            <rect x="266" y="111" width="5" height="18" rx="2" fill="#B85E48"/>
+          </g>
+          <g class="part" data-part="cuello">
+            <path d="M150,112 C158,114 162,114 170,112 L170,128 C162,126 158,126 150,128 Z" fill="#C3C9EE" stroke="#8790CF" stroke-width="1.2"/>
+            <rect x="155" y="114" width="5" height="9" rx="1.5" fill="#4C59A8" transform="rotate(-20 157 118)"/><rect x="161" y="118" width="8" height="4.5" rx="1.5" fill="#4C59A8"/>
+            <circle class="hit" cx="160" cy="120" r="14"/>
+          </g>
+          <g class="part" data-part="cabeza" filter="url(#softS)">
+            <path d="M36,120 C36,90 70,80 106,82 C136,84 156,102 156,120 C156,138 136,156 106,158 C70,160 36,150 36,120 Z" fill="url(#gHead)" stroke="#7680C4" stroke-width="1.6"/>
+            <path d="M58,98 C74,88 98,86 118,90" stroke="#FFF" stroke-width="4" opacity=".6" fill="none" stroke-linecap="round"/>
+          </g>
+          <g class="part" data-part="nucleo">
+            <ellipse cx="104" cy="121" rx="40" ry="27" fill="url(#gNuc)" filter="url(#tissueS)"/>
+            <ellipse cx="104" cy="121" rx="40" ry="27" fill="none" stroke="#3E4A95" stroke-width="1.2"/>
+            <g fill="#2F3A80" opacity=".45"><circle cx="90" cy="116" r="2"/><circle cx="104" cy="128" r="2.4"/><circle cx="118" cy="114" r="1.8"/><circle cx="110" cy="134" r="1.5"/><circle cx="96" cy="130" r="1.6"/></g>
+          </g>
+          <g class="part" data-part="acrosoma">
+            <path d="M36,120 C36,90 70,80 106,82 C112,82 118,83 124,85 C102,90 82,102 80,120 C82,138 102,150 124,155 C118,157 112,158 106,158 C70,160 36,150 36,120 Z" fill="url(#gAcro)" stroke="#C86F98" stroke-width="1.4"/>
+            <path d="M48,108 C58,96 74,90 92,88" stroke="#FFF" stroke-width="2.4" opacity=".55" fill="none" stroke-linecap="round"/>
+          </g>
+          <g id="lab-sperm"></g>
+        </svg>
+    <figcaption>Espermatozoide: cabeza, pieza media y cola.</figcaption>
+  </figure>
+</div>
+<table><thead><tr><th>Parte</th><th>Contiene</th><th>Función</th></tr></thead><tbody>
+<tr><td>Cabeza</td><td><mark>Acrosoma</mark> y núcleo</td><td>El acrosoma tiene <b>enzimas hidrolíticas</b> que degradan la zona pelúcida del ovocito.</td></tr>
+<tr><td>Cuello</td><td>Centriolos</td><td>Dirigen el movimiento de los cromosomas.</td></tr>
+<tr><td>Pieza media</td><td><mark class="g">Mitocondrias</mark></td><td>Producen el ATP que usa la cola.</td></tr>
+<tr><td>Cola (flagelo)</td><td>—</td><td>Permite que se mueva.</td></tr>
+</tbody></table>
+<div class="fix"><b class="t">corregido según el PPT</b>La espermatogénesis ocurre en los <b>tubos seminíferos</b> de los testículos (no entre el epidídimo y el deferente, como quedó en los apuntes). En el epidídimo terminan de madurar y se almacenan.</div>
+
+<h2><span class="n">4</span>Aparato femenino</h2>
+<div class="cols">
+  <figure>
+    <svg viewBox="0 0 560 420" role="img" aria-label="Aparato reproductor femenino interactivo: ovarios con folículos y cuerpo lúteo, trompas de Falopio con ámpula y fimbrias, útero con miometrio y endometrio, cuello del útero y vagina">
+        <defs>
+          <filter id="tissue" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.045 0.08" numOctaves="3" seed="7" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0.62  0 0 0 0 0.26  0 0 0 0 0.25  0 0 0 0.7 -0.18" result="nc"/><feComposite in="nc" in2="SourceGraphic" operator="in" result="tex"/><feBlend in="tex" in2="SourceGraphic" mode="multiply"/></filter>
+          <filter id="soft" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#8A4A3C" flood-opacity=".22"/></filter>
+          <radialGradient id="gUt" cx="45%" cy="28%" r="80%"><stop offset="0" stop-color="#FFE3D8"/><stop offset=".55" stop-color="#F6B9A6"/><stop offset="1" stop-color="#E58E78"/></radialGradient>
+          <linearGradient id="gEndo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E9798F"/><stop offset=".6" stop-color="#D4566F"/><stop offset="1" stop-color="#B9405A"/></linearGradient>
+          <radialGradient id="gOv" cx="38%" cy="30%" r="75%"><stop offset="0" stop-color="#FCE6EC"/><stop offset=".6" stop-color="#F0BFCF"/><stop offset="1" stop-color="#D993AE"/></radialGradient>
+          <linearGradient id="gTube" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6A890"/><stop offset=".5" stop-color="#E9785F"/><stop offset="1" stop-color="#C9573F"/></linearGradient>
+          <linearGradient id="gVag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EFA592"/><stop offset="1" stop-color="#F9CFC2"/></linearGradient>
+          <radialGradient id="gFol" cx="42%" cy="38%" r="62%"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".7" stop-color="#FDEFF3"/><stop offset="1" stop-color="#F2C2D3"/></radialGradient>
+          <radialGradient id="gLut" cx="40%" cy="35%" r="65%"><stop offset="0" stop-color="#FFF0B8"/><stop offset="1" stop-color="#E9B54A"/></radialGradient>
+          <linearGradient id="gCx" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F1A994"/><stop offset="1" stop-color="#E99883"/></linearGradient>
+          <pattern id="pMus" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(32)"><path d="M0,4.5 C3,2.5 6,6.5 9,4.5" stroke="#D97C66" stroke-width=".9" fill="none" opacity=".5"/></pattern>
+          <pattern id="pEndo" width="8" height="8" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.1" fill="#FFC2CD" opacity=".55"/><circle cx="6" cy="6" r=".9" fill="#9E2F48" opacity=".35"/></pattern>
+          <clipPath id="cUt"><path d="M200,150 C197,104 363,104 360,150 C358,200 331,238 314,256 L246,256 C229,238 202,200 200,150 Z"/></clipPath>
+          <clipPath id="cEndo"><path d="M224,144 C248,131 312,131 336,144 C324,184 301,214 285,242 L275,242 C259,214 236,184 224,144 Z"/></clipPath>
+        </defs>
+        <g id="sideL">
+          <path d="M208,128 C176,108 124,98 84,106 C66,148 82,214 150,228 C190,236 224,244 248,258 L248,170 Z" fill="#FBE4DB" opacity=".55"/>
+          <path d="M150,172 C178,171 194,166 206,157" stroke="#E7B3A1" stroke-width="7" fill="none" stroke-linecap="round"/>
+          <path d="M150,172 C178,171 194,166 206,157" stroke="#F6D4C8" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <path d="M205,212 C214,206 218,196 216,184 C214,172 218,160 226,150" stroke="#C8414F" stroke-width="2.4" fill="none"/>
+          <path d="M210,218 C220,210 224,198 222,186 C220,174 224,162 232,154" stroke="#6A7FC1" stroke-width="2" fill="none" opacity=".75"/>
+          <g class="part" data-part="trompa">
+            <path d="M210,128 C190,114 170,107 150,103" stroke="#C9573F" stroke-width="10" fill="none" stroke-linecap="round"/>
+            <path d="M210,128 C190,114 170,107 150,103" stroke="url(#gTube)" stroke-width="8" fill="none" stroke-linecap="round"/>
+            <path d="M206,124 C188,112 170,106 154,103" stroke="#FBC2B2" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".9"/>
+            <path class="hit" d="M210,128 C190,114 170,107 150,103"/>
+          </g>
+          <g class="part" data-part="ampula" filter="url(#tissue)">
+            <path d="M154,103 C142,96 132,100 122,95 C112,91 104,96 98,101" stroke="#BE4F38" stroke-width="19" fill="none" stroke-linecap="round"/>
+            <path d="M154,103 C142,96 132,100 122,95 C112,91 104,96 98,101" stroke="url(#gTube)" stroke-width="16" fill="none" stroke-linecap="round"/>
+            <path d="M150,98 C140,93 130,97 120,91 C112,88 106,92 102,95" stroke="#FCC7B6" stroke-width="2.4" fill="none" stroke-linecap="round" opacity=".85"/>
+            <path d="M148,106 C138,101 128,104 118,100" stroke="#B9462F" stroke-width="1.2" fill="none" opacity=".5"/>
+            <path class="hit" d="M154,103 C142,96 132,100 122,95 C112,91 104,96 98,101"/>
+          </g>
+          <g class="part" data-part="fimbrias">
+            <path d="M104,94 C96,90 88,94 84,102 C80,112 86,120 96,118 C104,116 106,104 104,94 Z" fill="#E36D55" stroke="#BE4F38" stroke-width="1.2"/>
+            <g stroke="#D45E46" stroke-linecap="round" fill="none">
+              <path d="M88,98 C80,92 70,92 62,98" stroke-width="5"/><path d="M85,104 C76,102 66,106 60,114" stroke-width="5"/>
+              <path d="M84,110 C76,114 70,122 68,132" stroke-width="5"/><path d="M88,116 C84,124 82,134 86,144" stroke-width="5"/>
+              <path d="M94,118 C94,128 98,138 106,146" stroke-width="5"/><path d="M100,116 C106,126 116,134 126,150" stroke-width="4.5"/>
+            </g>
+            <g stroke="#F7A893" stroke-linecap="round" fill="none" stroke-width="1.6" opacity=".9">
+              <path d="M86,97 C79,93 71,93 64,98"/><path d="M83,103 C75,102 67,106 62,113"/><path d="M82,110 C75,114 71,121 69,130"/><path d="M86,117 C83,125 82,133 85,142"/><path d="M92,119 C93,128 97,136 104,144"/>
+            </g>
+            <circle class="hit" cx="86" cy="118" r="28"/>
+          </g>
+          <g class="part" data-part="ovario" filter="url(#soft)">
+            <ellipse cx="122" cy="178" rx="40" ry="26" fill="url(#gOv)" stroke="#C47D99" stroke-width="1.6" transform="rotate(-12 122 178)" filter="url(#tissue)"/>
+            <g fill="#FFF7FA" stroke="#E4A9BE" stroke-width=".8" opacity=".9">
+              <circle cx="96" cy="170" r="4"/><circle cx="102" cy="194" r="3"/><circle cx="130" cy="164" r="3.4"/><circle cx="150" cy="176" r="2.6"/><circle cx="124" cy="196" r="2.4"/>
+            </g>
+          </g>
+          <g class="part" data-part="luteo">
+            <circle cx="142" cy="187" r="8.5" fill="url(#gLut)" stroke="#C99632" stroke-width="1.2"/>
+            <path d="M137,184 l4,3 l3,-4 l3,5" stroke="#C99632" stroke-width=".9" fill="none"/>
+            <circle class="hit" cx="142" cy="187" r="12"/>
+          </g>
+          <g class="part" data-part="foliculo">
+            <circle cx="112" cy="181" r="13" fill="url(#gFol)" stroke="#D27F9F" stroke-width="1.5"/>
+            <circle cx="117" cy="177" r="5.6" fill="#F7D7E2" stroke="#E7AFC4" stroke-width="1.2" stroke-dasharray="1.5 1.2"/>
+            <circle cx="117" cy="177" r="3.2" fill="#E06B80"/>
+            <circle class="hit" cx="112" cy="181" r="16"/>
+          </g>
+        </g>
+        <g class="part" data-part="vagina" filter="url(#soft)">
+          <path d="M250,296 C244,330 240,368 236,406 L324,406 C320,368 316,330 310,296 Z" fill="url(#gVag)" stroke="#D27C64" stroke-width="2" filter="url(#tissue)"/>
+          <path d="M268,306 C264,340 262,372 262,404 M292,306 C296,340 298,372 298,404" stroke="#E79B87" stroke-width="1.2" fill="none" opacity=".7"/>
+          <g stroke="#DB8A76" stroke-width="1.5" fill="none" opacity=".85">
+            <path d="M256,318 q6,-6 12,0 q6,-6 12,0 q6,-6 12,0 q6,-6 12,0"/><path d="M253,340 q6,-6 12,0 q6,-6 12,0 q6,-6 12,0 q6,-6 12,0 q6,-6 12,0"/>
+            <path d="M250,362 q6,-6 12,0 q6,-6 12,0 q6,-6 12,0 q6,-6 12,0 q6,-6 12,0 q6,-6 12,0"/><path d="M247,384 q6,-6 12,0 q6,-6 12,0 q6,-6 12,0 q6,-6 12,0 q6,-6 12,0 q6,-6 12,0"/>
+          </g>
+          <path d="M280,302 L280,402" stroke="#B9405A" stroke-width="2.4" stroke-dasharray="6 5"/>
+        </g>
+        <g class="part" data-part="miometrio" filter="url(#soft)">
+          <path d="M200,150 C197,104 363,104 360,150 C358,200 331,238 314,256 C312,270 312,286 310,300 L250,300 C248,286 248,270 246,256 C229,238 202,200 200,150 Z" fill="#F8D8CC"/>
+          <path d="M204,150 C202,110 358,110 356,150 C354,198 328,236 311,254 L249,254 C232,236 206,198 204,150 Z" fill="url(#gUt)" filter="url(#tissue)"/>
+          <rect x="196" y="100" width="170" height="160" fill="url(#pMus)" clip-path="url(#cUt)"/>
+          <path d="M218,132 C230,116 256,111 280,111" stroke="#FFF4EF" stroke-width="6" opacity=".55" fill="none" stroke-linecap="round"/>
+          <path d="M200,150 C197,104 363,104 360,150 C358,200 331,238 314,256 C312,270 312,286 310,300 L250,300 C248,286 248,270 246,256 C229,238 202,200 200,150 Z" fill="none" stroke="#C97560" stroke-width="2"/>
+        </g>
+        <g class="part" data-part="endometrio">
+          <path d="M224,144 C248,131 312,131 336,144 C324,184 301,214 285,242 L275,242 C259,214 236,184 224,144 Z" fill="url(#gEndo)" filter="url(#tissue)"/>
+          <rect x="220" y="128" width="120" height="118" fill="url(#pEndo)" clip-path="url(#cEndo)"/>
+          <g stroke="#9E2F48" stroke-width="1.1" fill="none" opacity=".6" clip-path="url(#cEndo)">
+            <path d="M236,150 q4,6 0,12 q-4,6 0,12"/><path d="M256,146 q4,6 0,12 q-4,6 0,12 q4,6 0,12"/><path d="M304,146 q4,6 0,12 q-4,6 0,12 q4,6 0,12"/><path d="M324,150 q4,6 0,12 q-4,6 0,12"/><path d="M280,148 q4,6 0,12 q-4,6 0,12 q4,6 0,12 q-4,6 0,12"/>
+          </g>
+          <path d="M236,146 C258,138 302,138 324,146 C312,180 296,210 283,236 L277,236 C264,210 248,180 236,146 Z" fill="none" stroke="#FFD0D8" stroke-width="1.2" opacity=".7"/>
+          <path d="M224,144 C248,131 312,131 336,144 C324,184 301,214 285,242 L275,242 C259,214 236,184 224,144 Z" fill="none" stroke="#A93A53" stroke-width="2"/>
+        </g>
+        <g class="part" data-part="cuello">
+          <path d="M248,254 L312,254 C311,270 311,286 310,300 L250,300 C249,286 249,270 248,254 Z" fill="url(#gCx)" stroke="#C97560" stroke-width="1.6"/>
+          <path d="M280,242 C276,256 284,270 280,284 C277,292 280,298 280,300" stroke="#A93A53" stroke-width="3" fill="none"/>
+          <path d="M268,262 l6,4 M292,262 l-6,4 M268,280 l6,4 M292,280 l-6,4" stroke="#D88A75" stroke-width="1.2"/>
+          <ellipse cx="280" cy="300" rx="10" ry="3" fill="#A93A53" opacity=".8"/>
+        </g>
+        <g id="lab-fem"></g>
+      </svg>
+    <figcaption>Vista frontal (esquema).</figcaption>
+  </figure>
+  <div>
+    <h3 style="margin-top:0">Genitales internos <span class="chip c-ok">Seguro</span> <span class="chip c-ppt">PPT</span></h3>
+    <p style="margin-top:0">Es <b>independiente del aparato urinario</b>.</p>
+    <ul>
+      <li><b>Ovarios</b> (gónadas, ~15 g): producen ovocitos y <mark>estrógeno y progesterona</mark>. Cada uno <b>se comunica con una trompa</b>; las fimbrias atrapan al ovocito.</li>
+      <li><b>Trompas de Falopio u oviductos:</b> <b>comunican los ovarios con el útero</b>; sus <b>cilios</b> mueven al ovocito y ayudan a los espermatozoides.</li>
+      <li><b>Ámpula:</b> parte media de la trompa, <mark class="g">lugar de la fecundación</mark>.</li>
+      <li><b>Útero:</b> <b>alberga al embrión 9 meses, lo nutre y lo protege</b>. Órgano muscular hueco, de paredes gruesas, que se expande. <b>Miometrio</b> = músculo; <b>endometrio</b> = capa interna con sangre que se desprende.</li>
+      <li><b>Vagina:</b> tubo musculoso que <b>comunica el cuello del útero con el exterior</b>; se expande.</li>
+    </ul>
+  </div>
+</div>
+<div class="vs">
+  <div><h4>Vejiga → uretra <span class="chip c-hot">Muy probable</span></h4>Sale por el <b>meato urinario</b>, en la vulva.</div>
+  <div><h4>Útero → vagina</h4>Sale por el <b>orificio vaginal</b>: sangre menstrual y bebé; entra el pene.</div>
+</div>
+<div class="cols">
+  <div class="keep">
+    <h3>Vulva <span class="chip c-ok">Seguro</span> <span class="chip c-ppt">PPT</span></h3>
+    <p style="margin-top:0">Parte exterior: labios mayores, labios menores y clítoris.</p>
+    <table><tbody>
+    <tr><td>Labios mayores</td><td>Gruesos, externos, con vello púbico, de grasa.</td></tr>
+    <tr><td>Labios menores</td><td>Delicados, más delgados, sin vello.</td></tr>
+    <tr><td>Clítoris</td><td>Origen <b>análogo al pene</b>, tejido eréctil.</td></tr>
+    </tbody></table>
+  </div>
+  <div class="keep">
+    <h3>Glándulas accesorias <span class="chip c-ok">Seguro</span> <span class="chip c-ppt">PPT</span></h3>
+    <table><tbody>
+    <tr><td>Vestibulares mayores (<b>Bartolino</b>)</td><td><b>Dos</b>, de <b>0,5 cm</b>, en el vestíbulo; <b>lubrican</b> en la excitación.</td></tr>
+    <tr><td>Vestibulares menores</td><td>A cada lado del vestíbulo; <b>moco</b> que lubrica labios y vestíbulo.</td></tr>
+    <tr><td>Parauretrales (<b>Skene</b>)</td><td>A cada lado del orificio de la uretra; secreción <b>mucosa lubricante</b>.</td></tr>
+    </tbody></table>
+  </div>
+</div>
+
+<h2 class="brk"><span class="n">5</span>Ovogénesis y ovocito II <span class="chip c-hot">Muy probable</span></h2>
+<div class="def"><b>Ovogénesis:</b> formación del gameto femenino, en los <mark>ovarios</mark>. <span class="chip c-ppt">PPT</span> <b>Ovogonia (2n)</b> → mitosis → <b>ovocito I (2n)</b> → meiosis I → <b>ovocito II (n)</b> + 1.<sup>er</sup> cuerpo polar → meiosis II (solo si hay fecundación) → <b>óvulo</b> + <b>3 cuerpos polares</b> en total.</div>
+<figure style="margin:6px 0 8px"><svg viewBox="0 0 940 352" role="img" aria-label="Esquema de la ovogénesis: ovogonia (2n) por mitosis, ovocito I (2n) detenido en profase I, meiosis I en la pubertad da el ovocito II (n) y el primer cuerpo polar, meiosis II solo si hay fecundación da el óvulo y en total 3 cuerpos polares; y la línea de tiempo en la vida de la mujer">
+<defs><radialGradient id="oCy" cx="38%" cy="35%" r="70%"><stop offset="0" stop-color="#FFF0F5"/><stop offset=".7" stop-color="#F6C3D3"/><stop offset="1" stop-color="#E7A3BB"/></radialGradient>
+<radialGradient id="oNu" cx="40%" cy="38%" r="70%"><stop offset="0" stop-color="#D47D9B"/><stop offset="1" stop-color="#9C4467"/></radialGradient>
+<marker id="oArr" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#E07A5F"/></marker>
+<marker id="oArrS" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#B38FA0"/></marker></defs>
+<g class="ost" style="--i:0"><circle cx="64" cy="150" r="22" fill="url(#oCy)" stroke="#C47D99" stroke-width="1.8"/><circle cx="61.4" cy="147.8" r="7.9" fill="url(#oNu)"/><path d="M58.0,143 L62.0,151 M62.0,143 L58.0,151" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><path d="M66.0,148 L70.0,156 M70.0,148 L66.0,156" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><path d="M50.8,137.9 A17.6,17.6 0 0 1 66.2,131.3" stroke="#fff" stroke-width="2.6" fill="none" opacity=".55" stroke-linecap="round"/><circle cx="40" cy="92" r="11" fill="url(#oCy)" stroke="#C47D99" stroke-width="1.8"/><circle cx="38.7" cy="90.9" r="4.0" fill="url(#oNu)"/><path d="M33.4,86.0 A8.8,8.8 0 0 1 41.1,82.7" stroke="#fff" stroke-width="2.0" fill="none" opacity=".55" stroke-linecap="round"/><circle cx="88" cy="92" r="11" fill="url(#oCy)" stroke="#C47D99" stroke-width="1.8"/><circle cx="86.7" cy="90.9" r="4.0" fill="url(#oNu)"/><path d="M81.4,86.0 A8.8,8.8 0 0 1 89.1,82.7" stroke="#fff" stroke-width="2.0" fill="none" opacity=".55" stroke-linecap="round"/><path d="M52,124 Q46,110 42,104 M76,124 Q82,110 86,104" stroke="#B38FA0" stroke-width="1.6" fill="none" marker-end="url(#oArrS)"/><text x="64" y="72" text-anchor="middle" font-family="Figtree,sans-serif" font-size="11" font-weight="700" fill="#8A8381">mitosis</text><text x="64" y="194" text-anchor="middle" font-family="Figtree,sans-serif" font-size="13" font-weight="700" fill="#45403F">Ovogonia</text><text x="64" y="210" text-anchor="middle" font-family="Figtree,sans-serif" font-size="12" font-weight="600" fill="#8A8381">2n · 46</text></g><g class="ost" style="--i:1"><path d="M94,150 L202,150" stroke="#E07A5F" stroke-width="2.6" marker-end="url(#oArr)"/><text x="151.0" y="138" text-anchor="middle" font-family="Figtree,sans-serif" font-size="12.5" font-weight="800" fill="#E07A5F">crece</text><text x="151.0" y="170" text-anchor="middle" font-family="Figtree,sans-serif" font-size="10.5" font-weight="600" fill="#8A8381">en el embrión</text></g><g class="ost" style="--i:2"><circle cx="250" cy="150" r="34" fill="url(#oCy)" stroke="#C47D99" stroke-width="1.8"/><circle cx="245.9" cy="146.6" r="12.2" fill="url(#oNu)"/><path d="M235.5,141 L240.5,151 M240.5,141 L235.5,151" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><path d="M244.5,147 L249.5,157 M249.5,147 L244.5,157" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><path d="M253.5,141 L258.5,151 M258.5,141 L253.5,151" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><path d="M229.6,131.3 A27.2,27.2 0 0 1 253.4,121.1" stroke="#fff" stroke-width="4.1" fill="none" opacity=".55" stroke-linecap="round"/><g transform="translate(250,90)"><rect x="-66" y="-13" width="132" height="24" rx="12" fill="#FFF3C4" stroke="#E6CF77"/><rect x="-56" y="-6" width="3.5" height="11" rx="1" fill="#8A6D1A"/><rect x="-50" y="-6" width="3.5" height="11" rx="1" fill="#8A6D1A"/><text x="8" y="4" text-anchor="middle" font-family="Figtree,sans-serif" font-size="10.5" font-weight="800" fill="#8A6D1A">pausa en profase I</text></g><text x="250" y="206" text-anchor="middle" font-family="Figtree,sans-serif" font-size="13" font-weight="700" fill="#45403F">Ovocito I (primario)</text><text x="250" y="222" text-anchor="middle" font-family="Figtree,sans-serif" font-size="12" font-weight="600" fill="#8A8381">2n · 46</text></g><g class="ost" style="--i:3"><path d="M290,150 L422,150" stroke="#E07A5F" stroke-width="2.6" marker-end="url(#oArr)"/><text x="359.0" y="138" text-anchor="middle" font-family="Figtree,sans-serif" font-size="12.5" font-weight="800" fill="#E07A5F">Meiosis I</text><text x="359.0" y="170" text-anchor="middle" font-family="Figtree,sans-serif" font-size="10.5" font-weight="600" fill="#8A8381">pubertad, cada ciclo</text></g><g class="ost" style="--i:4"><circle cx="480" cy="150" r="47" fill="#FCEFF4" stroke="#E7A3BB" stroke-width="2"/><circle cx="480" cy="150" r="40" fill="url(#oCy)" stroke="#C47D99" stroke-width="1.8"/><circle cx="475.2" cy="146.0" r="14.4" fill="url(#oNu)"/><path d="M467.5,143 L472.5,153 M472.5,143 L467.5,153" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><path d="M477.5,143 L482.5,153 M482.5,143 L477.5,153" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><path d="M456.0,128.0 A32.0,32.0 0 0 1 484.0,116.0" stroke="#fff" stroke-width="4.8" fill="none" opacity=".55" stroke-linecap="round"/><circle cx="524" cy="100" r="9" fill="#FBE0EA" stroke="#C47D99" stroke-width="1.8"/><path d="M518.6,95.0 A7.2,7.2 0 0 1 524.9,92.3" stroke="#fff" stroke-width="2.0" fill="none" opacity=".55" stroke-linecap="round"/><text x="538" y="84" text-anchor="start" font-family="Figtree,sans-serif" font-size="10" font-weight="700" fill="#B5607F">1.er cuerpo polar</text><g transform="translate(460,68)"><rect x="-58" y="-13" width="116" height="24" rx="12" fill="#E3F5EC" stroke="#7CC7A4"/><text x="0" y="4" text-anchor="middle" font-family="Figtree,sans-serif" font-size="10.5" font-weight="800" fill="#2F7D5B">ovulación: sale</text></g><text x="480" y="214" text-anchor="middle" font-family="Figtree,sans-serif" font-size="13" font-weight="700" fill="#45403F">Ovocito II (secundario)</text><text x="480" y="230" text-anchor="middle" font-family="Figtree,sans-serif" font-size="12" font-weight="600" fill="#8A8381">n · 23 + 1.er cuerpo polar</text></g><g class="ost" style="--i:5"><path d="M532,150 L670,150" stroke="#E07A5F" stroke-width="2.6" marker-end="url(#oArr)"/><text x="604.0" y="138" text-anchor="middle" font-family="Figtree,sans-serif" font-size="12.5" font-weight="800" fill="#E07A5F">Meiosis II</text><text x="604.0" y="170" text-anchor="middle" font-family="Figtree,sans-serif" font-size="10.5" font-weight="600" fill="#8A8381">solo si hay fecundación</text><g transform="translate(623,198) rotate(-25)"><ellipse rx="7" ry="5" fill="#DCE0F8" stroke="#7680C4" stroke-width="1.4"/><path d="M7,0 q6,-5 12,0 t12,0" stroke="#7680C4" stroke-width="1.6" fill="none"/></g></g><g class="ost" style="--i:6"><circle cx="730" cy="150" r="49" fill="#FCEFF4" stroke="#E7A3BB" stroke-width="2"/><circle cx="730" cy="150" r="42" fill="url(#oCy)" stroke="#C47D99" stroke-width="1.8"/><circle cx="725.0" cy="145.8" r="15.1" fill="url(#oNu)"/><path d="M719.5,143 L724.5,153 M724.5,143 L719.5,153" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><path d="M733.5,145 L738.5,155 M738.5,145 L733.5,155" stroke="#7680C4" stroke-width="2.4" stroke-linecap="round"/><path d="M704.8,126.9 A33.6,33.6 0 0 1 734.2,114.3" stroke="#fff" stroke-width="5.0" fill="none" opacity=".55" stroke-linecap="round"/><circle cx="780" cy="104" r="8" fill="#FBE0EA" stroke="#C47D99" stroke-width="1.8"/><path d="M775.2,99.6 A6.4,6.4 0 0 1 780.8,97.2" stroke="#fff" stroke-width="2.0" fill="none" opacity=".55" stroke-linecap="round"/><circle cx="764" cy="84" r="8" fill="#FBE0EA" stroke="#C47D99" stroke-width="1.8"/><path d="M759.2,79.6 A6.4,6.4 0 0 1 764.8,77.2" stroke="#fff" stroke-width="2.0" fill="none" opacity=".55" stroke-linecap="round"/><circle cx="790" cy="78" r="8" fill="#FBE0EA" stroke="#C47D99" stroke-width="1.8"/><path d="M785.2,73.6 A6.4,6.4 0 0 1 790.8,71.2" stroke="#fff" stroke-width="2.0" fill="none" opacity=".55" stroke-linecap="round"/><text x="730" y="216" text-anchor="middle" font-family="Figtree,sans-serif" font-size="13" font-weight="700" fill="#45403F">Óvulo (fecundado)</text><text x="730" y="232" text-anchor="middle" font-family="Figtree,sans-serif" font-size="12" font-weight="600" fill="#8A8381">n · 23 + 3 cuerpos polares</text></g><g class="ost" style="--i:7"><path d="M782,150 L844,150" stroke="#E07A5F" stroke-width="2.6" marker-end="url(#oArr)"/></g><g class="ost" style="--i:8"><circle cx="880" cy="150" r="24" fill="url(#oCy)" stroke="#C47D99" stroke-width="1.8"/><circle cx="877.1" cy="147.6" r="8.6" fill="url(#oNu)"/><path d="M870.0,144 L874.0,152 M874.0,144 L870.0,152" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><path d="M884.0,148 L888.0,156 M888.0,148 L884.0,156" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><path d="M865.6,136.8 A19.2,19.2 0 0 1 882.4,129.6" stroke="#fff" stroke-width="2.9" fill="none" opacity=".55" stroke-linecap="round"/><text x="880" y="196" text-anchor="middle" font-family="Figtree,sans-serif" font-size="13" font-weight="700" fill="#45403F">Cigoto</text><text x="880" y="212" text-anchor="middle" font-family="Figtree,sans-serif" font-size="12" font-weight="600" fill="#8A8381">2n · 46</text></g><g class="otl"><text x="30" y="276" text-anchor="start" font-family="Figtree,sans-serif" font-size="12" font-weight="800" fill="#B5607F">En la vida de la mujer</text><line x1="40" y1="300" x2="900" y2="300" stroke="#E7E2DC" stroke-width="6" stroke-linecap="round"/><line x1="40" y1="300" x2="900" y2="300" stroke="#E58BA0" stroke-width="6" stroke-linecap="round" pathLength="1" stroke-dasharray="1" class="otl-fill"/><circle cx="80" cy="300" r="7" fill="#fff" stroke="#E58BA0" stroke-width="3"/><text x="80" y="326" text-anchor="middle" font-family="Figtree,sans-serif" font-size="12.5" font-weight="800" fill="#45403F">Embrión</text><text x="80" y="342" text-anchor="middle" font-family="Figtree,sans-serif" font-size="10.5" font-weight="600" fill="#8A8381">empieza la ovogénesis</text><circle cx="270" cy="300" r="7" fill="#fff" stroke="#E58BA0" stroke-width="3"/><text x="270" y="326" text-anchor="middle" font-family="Figtree,sans-serif" font-size="12.5" font-weight="800" fill="#45403F">Nacimiento</text><text x="270" y="342" text-anchor="middle" font-family="Figtree,sans-serif" font-size="10.5" font-weight="600" fill="#8A8381">~400 mil ovocitos I</text><circle cx="460" cy="300" r="7" fill="#fff" stroke="#E58BA0" stroke-width="3"/><text x="460" y="326" text-anchor="middle" font-family="Figtree,sans-serif" font-size="12.5" font-weight="800" fill="#45403F">Pubertad</text><text x="460" y="342" text-anchor="middle" font-family="Figtree,sans-serif" font-size="10.5" font-weight="600" fill="#8A8381">se retoma: 1 ovocito II por ciclo</text><circle cx="650" cy="300" r="7" fill="#fff" stroke="#E58BA0" stroke-width="3"/><text x="650" y="326" text-anchor="middle" font-family="Figtree,sans-serif" font-size="12.5" font-weight="800" fill="#45403F">Fecundación</text><text x="650" y="342" text-anchor="middle" font-family="Figtree,sans-serif" font-size="10.5" font-weight="600" fill="#8A8381">el ovocito II termina la meiosis</text><circle cx="840" cy="300" r="7" fill="#fff" stroke="#E58BA0" stroke-width="3"/><text x="840" y="326" text-anchor="middle" font-family="Figtree,sans-serif" font-size="12.5" font-weight="800" fill="#45403F">Menopausia</text><text x="840" y="342" text-anchor="middle" font-family="Figtree,sans-serif" font-size="10.5" font-weight="600" fill="#8A8381">se acaba</text></g></svg><figcaption>Ovogénesis paso a paso y en la vida de la mujer.</figcaption></figure>
+<div class="cols">
+  <ol class="steps">
+    <li><div>Empieza cuando la mujer <b>es un embrión</b>.</div></li>
+    <li><div>Se <mark>detiene en la meiosis I</mark> (al terminar la profase I), donde ocurre la <b>recombinación genética</b> → variabilidad.</div></li>
+    <li><div>Nace con todos sus gametos: <mark class="g">~400 mil ovocitos I</mark> (diploides).</div></li>
+    <li><div>Se <b>retoma en la pubertad</b>, cada ciclo, hasta la <b>menopausia</b>.</div></li>
+    <li><div>Resultado: <b>1 ovocito II</b> (haploide) + <b>3 cuerpos polares</b>.</div></li>
+    <li><div>El ovocito II termina la meiosis <mark>con la fecundación</mark>.</div></li>
+  </ol>
+  <div>
+    <h3 style="margin-top:0">Ovocito II</h3>
+    <ul>
+      <li>Célula <b>grande e inmóvil</b> (sin flagelo).</li>
+      <li>La <mark>más voluminosa del cuerpo de la mujer</mark>. <span class="chip c-ppt">PPT</span></li>
+      <li><b>Membrana</b> cubierta por la <b>zona pelúcida</b> (+ células foliculares), que el espermatozoide debe atravesar. Núcleo: <b>haploide</b>.</li>
+      <li>Las enzimas del acrosoma abren la zona pelúcida.</li>
+    </ul>
+    <figure style="margin-top:6px"><svg viewBox="0 0 560 400" role="img" aria-label="Ovocito II interactivo: corona radiada de células foliculares, zona pelúcida, membrana, citoplasma, núcleo haploide, primer cuerpo polar y un espermatozoide llegando con su acrosoma">
+  <defs>
+    <radialGradient id="vCy" cx="40%" cy="36%" r="70%"><stop offset="0" stop-color="#FFF4F7"/><stop offset=".7" stop-color="#F8CFDC"/><stop offset="1" stop-color="#EBA9BF"/></radialGradient>
+    <radialGradient id="vNu" cx="40%" cy="38%" r="70%"><stop offset="0" stop-color="#D88AA6"/><stop offset="1" stop-color="#99405F"/></radialGradient>
+    <radialGradient id="vCo" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#FFE8DB"/><stop offset="1" stop-color="#F3B99B"/></radialGradient>
+    <radialGradient id="vZo" cx="50%" cy="50%" r="50%"><stop offset=".86" stop-color="#FDF3F7"/><stop offset="1" stop-color="#F3D3E0"/></radialGradient>
+    <filter id="vSoft" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#8A4A3C" flood-opacity=".18"/></filter>
+    <radialGradient id="vHd" cx="38%" cy="35%" r="70%"><stop offset="0" stop-color="#F4F5FF"/><stop offset="1" stop-color="#A9B1E4"/></radialGradient>
+  </defs>
+  <g><ellipse cx="400.4" cy="205.0" rx="17" ry="12" transform="rotate(0 400.4 205.0)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1.2"/><circle cx="400.4" cy="205.0" r="3.6" fill="#C9784F"/><ellipse cx="399.0" cy="241.7" rx="17" ry="12" transform="rotate(14 399.0 241.7)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1.2"/><circle cx="399.0" cy="241.7" r="3.6" fill="#C9784F"/><ellipse cx="384.3" cy="275.5" rx="17" ry="12" transform="rotate(28 384.3 275.5)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1.2"/><circle cx="384.3" cy="275.5" r="3.6" fill="#C9784F"/><ellipse cx="365.3" cy="307.1" rx="17" ry="12" transform="rotate(42 365.3 307.1)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1.2"/><circle cx="365.3" cy="307.1" r="3.6" fill="#C9784F"/><ellipse cx="337.6" cy="332.0" rx="17" ry="12" transform="rotate(55 337.6 332.0)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1.2"/><circle cx="337.6" cy="332.0" r="3.6" fill="#C9784F"/><ellipse cx="302.7" cy="344.0" rx="17" ry="12" transform="rotate(69 302.7 344.0)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1.2"/><circle cx="302.7" cy="344.0" r="3.6" fill="#C9784F"/><ellipse cx="267.9" cy="352.1" rx="17" ry="12" transform="rotate(83 267.9 352.1)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1.2"/><circle cx="267.9" cy="352.1" r="3.6" fill="#C9784F"/><ellipse cx="231.2" cy="360.2" rx="17" ry="12" transform="rotate(97 231.2 360.2)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1.2"/><circle cx="231.2" cy="360.2" r="3.6" fill="#C9784F"/><ellipse cx="196.6" cy="345.8" rx="17" ry="12" transform="rotate(111 196.6 345.8)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1.2"/><circle cx="196.6" cy="345.8" r="3.6" fill="#C9784F"/><ellipse cx="164.6" cy="328.7" rx="17" ry="12" transform="rotate(125 164.6 328.7)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1.2"/><circle cx="164.6" cy="328.7" r="3.6" fill="#C9784F"/><ellipse cx="131.8" cy="309.7" rx="17" ry="12" transform="rotate(138 131.8 309.7)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1.2"/><circle cx="131.8" cy="309.7" r="3.6" fill="#C9784F"/><ellipse cx="114.8" cy="276.0" rx="17" ry="12" transform="rotate(152 114.8 276.0)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1.2"/><circle cx="114.8" cy="276.0" r="3.6" fill="#C9784F"/><ellipse cx="98.2" cy="242.4" rx="17" ry="12" transform="rotate(166 98.2 242.4)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1.2"/><circle cx="98.2" cy="242.4" r="3.6" fill="#C9784F"/><ellipse cx="97.2" cy="205.0" rx="17" ry="12" transform="rotate(180 97.2 205.0)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1.2"/><circle cx="97.2" cy="205.0" r="3.6" fill="#C9784F"/><ellipse cx="100.1" cy="168.1" rx="17" ry="12" transform="rotate(194 100.1 168.1)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1.2"/><circle cx="100.1" cy="168.1" r="3.6" fill="#C9784F"/><ellipse cx="117.6" cy="135.5" rx="17" ry="12" transform="rotate(208 117.6 135.5)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1.2"/><circle cx="117.6" cy="135.5" r="3.6" fill="#C9784F"/><ellipse cx="134.5" cy="102.6" rx="17" ry="12" transform="rotate(222 134.5 102.6)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1.2"/><circle cx="134.5" cy="102.6" r="3.6" fill="#C9784F"/><ellipse cx="161.0" cy="76.1" rx="17" ry="12" transform="rotate(235 161.0 76.1)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1.2"/><circle cx="161.0" cy="76.1" r="3.6" fill="#C9784F"/><ellipse cx="195.7" cy="61.7" rx="17" ry="12" transform="rotate(249 195.7 61.7)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1.2"/><circle cx="195.7" cy="61.7" r="3.6" fill="#C9784F"/><ellipse cx="231.3" cy="50.7" rx="17" ry="12" transform="rotate(263 231.3 50.7)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1.2"/><circle cx="231.3" cy="50.7" r="3.6" fill="#C9784F"/><ellipse cx="268.6" cy="51.4" rx="17" ry="12" transform="rotate(277 268.6 51.4)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1.2"/><circle cx="268.6" cy="51.4" r="3.6" fill="#C9784F"/><ellipse cx="302.7" cy="66.0" rx="17" ry="12" transform="rotate(291 302.7 66.0)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1.2"/><circle cx="302.7" cy="66.0" r="3.6" fill="#C9784F"/><ellipse cx="338.4" cy="77.0" rx="17" ry="12" transform="rotate(305 338.4 77.0)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1.2"/><circle cx="338.4" cy="77.0" r="3.6" fill="#C9784F"/><ellipse cx="365.2" cy="102.9" rx="17" ry="12" transform="rotate(318 365.2 102.9)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1.2"/><circle cx="365.2" cy="102.9" r="3.6" fill="#C9784F"/><ellipse cx="383.7" cy="134.8" rx="17" ry="12" transform="rotate(332 383.7 134.8)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1.2"/><circle cx="383.7" cy="134.8" r="3.6" fill="#C9784F"/><ellipse cx="394.0" cy="169.5" rx="17" ry="12" transform="rotate(346 394.0 169.5)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1.2"/><circle cx="394.0" cy="169.5" r="3.6" fill="#C9784F"/><ellipse cx="421.6" cy="244.2" rx="13" ry="9" transform="rotate(13 421.6 244.2)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1" opacity=".85"/><ellipse cx="387.6" cy="314.7" rx="13" ry="9" transform="rotate(39 387.6 314.7)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1" opacity=".85"/><ellipse cx="326.4" cy="363.6" rx="13" ry="9" transform="rotate(64 326.4 363.6)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1" opacity=".85"/><ellipse cx="250.0" cy="381.0" rx="13" ry="9" transform="rotate(90 250.0 381.0)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1" opacity=".85"/><ellipse cx="173.6" cy="363.6" rx="13" ry="9" transform="rotate(116 173.6 363.6)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1" opacity=".85"/><ellipse cx="112.4" cy="314.7" rx="13" ry="9" transform="rotate(141 112.4 314.7)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1" opacity=".85"/><ellipse cx="78.4" cy="244.2" rx="13" ry="9" transform="rotate(167 78.4 244.2)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1" opacity=".85"/><ellipse cx="78.4" cy="165.8" rx="13" ry="9" transform="rotate(193 78.4 165.8)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1" opacity=".85"/><ellipse cx="112.4" cy="95.3" rx="13" ry="9" transform="rotate(219 112.4 95.3)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1" opacity=".85"/><ellipse cx="173.6" cy="46.4" rx="13" ry="9" transform="rotate(244 173.6 46.4)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1" opacity=".85"/><ellipse cx="250.0" cy="29.0" rx="13" ry="9" transform="rotate(270 250.0 29.0)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1" opacity=".85"/><ellipse cx="326.4" cy="46.4" rx="13" ry="9" transform="rotate(296 326.4 46.4)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1" opacity=".85"/><ellipse cx="387.6" cy="95.3" rx="13" ry="9" transform="rotate(321 387.6 95.3)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1" opacity=".85"/><ellipse cx="421.6" cy="165.8" rx="13" ry="9" transform="rotate(347 421.6 165.8)" fill="url(#vCo)" stroke="#E2A07F" stroke-width="1" opacity=".85"/></g>
+  <g><circle cx="250" cy="205" r="134" fill="url(#vZo)" stroke="#E7A3BB" stroke-width="2"/></g>
+  <g><circle cx="250" cy="205" r="112" fill="url(#vCy)"/><circle cx="297.0" cy="151.8" r="2.7" fill="#E5A3BA" opacity=".7"/><circle cx="231.6" cy="113.5" r="1.8" fill="#E5A3BA" opacity=".7"/><circle cx="228.4" cy="111.8" r="1.7" fill="#E5A3BA" opacity=".7"/><circle cx="179.7" cy="259.7" r="2.1" fill="#E5A3BA" opacity=".7"/><circle cx="159.4" cy="238.0" r="2.5" fill="#E5A3BA" opacity=".7"/><circle cx="286.4" cy="170.2" r="1.6" fill="#E5A3BA" opacity=".7"/><circle cx="287.4" cy="247.9" r="1.9" fill="#E5A3BA" opacity=".7"/><circle cx="317.3" cy="189.9" r="1.9" fill="#E5A3BA" opacity=".7"/><circle cx="206.8" cy="161.1" r="2.7" fill="#E5A3BA" opacity=".7"/><circle cx="183.8" cy="202.1" r="2.1" fill="#E5A3BA" opacity=".7"/><circle cx="204.3" cy="267.2" r="2.8" fill="#E5A3BA" opacity=".7"/><circle cx="168.1" cy="157.3" r="1.7" fill="#E5A3BA" opacity=".7"/><circle cx="210.0" cy="117.6" r="1.9" fill="#E5A3BA" opacity=".7"/><circle cx="311.5" cy="126.7" r="2.4" fill="#E5A3BA" opacity=".7"/><circle cx="224.3" cy="157.6" r="2.8" fill="#E5A3BA" opacity=".7"/><circle cx="312.6" cy="129.5" r="2.1" fill="#E5A3BA" opacity=".7"/><circle cx="312.9" cy="161.8" r="1.8" fill="#E5A3BA" opacity=".7"/><circle cx="237.1" cy="149.9" r="1.6" fill="#E5A3BA" opacity=".7"/><circle cx="287.4" cy="138.2" r="2.2" fill="#E5A3BA" opacity=".7"/><circle cx="239.5" cy="252.3" r="1.7" fill="#E5A3BA" opacity=".7"/><circle cx="310.2" cy="125.9" r="2.7" fill="#E5A3BA" opacity=".7"/><circle cx="325.6" cy="252.0" r="2.7" fill="#E5A3BA" opacity=".7"/><circle cx="205.0" cy="233.5" r="1.7" fill="#E5A3BA" opacity=".7"/><circle cx="226.3" cy="289.0" r="1.8" fill="#E5A3BA" opacity=".7"/><circle cx="283.0" cy="170.9" r="2.7" fill="#E5A3BA" opacity=".7"/><circle cx="214.2" cy="173.8" r="2.4" fill="#E5A3BA" opacity=".7"/><circle cx="237.4" cy="143.1" r="2.7" fill="#E5A3BA" opacity=".7"/><circle cx="322.3" cy="137.5" r="2.0" fill="#E5A3BA" opacity=".7"/><circle cx="150.1" cy="201.8" r="1.6" fill="#E5A3BA" opacity=".7"/><circle cx="232.0" cy="250.8" r="1.9" fill="#E5A3BA" opacity=".7"/><circle cx="212.1" cy="177.7" r="2.7" fill="#E5A3BA" opacity=".7"/><circle cx="271.9" cy="268.8" r="1.8" fill="#E5A3BA" opacity=".7"/><circle cx="208.7" cy="170.8" r="2.0" fill="#E5A3BA" opacity=".7"/><circle cx="339.5" cy="229.4" r="2.1" fill="#E5A3BA" opacity=".7"/><circle cx="211.9" cy="295.0" r="2.1" fill="#E5A3BA" opacity=".7"/><circle cx="302.3" cy="165.1" r="2.1" fill="#E5A3BA" opacity=".7"/><circle cx="178.7" cy="223.2" r="2.9" fill="#E5A3BA" opacity=".7"/><circle cx="201.8" cy="144.0" r="1.6" fill="#E5A3BA" opacity=".7"/><circle cx="176.3" cy="176.4" r="1.4" fill="#E5A3BA" opacity=".7"/><circle cx="317.8" cy="178.2" r="2.9" fill="#E5A3BA" opacity=".7"/><circle cx="173.2" cy="240.6" r="2.8" fill="#E5A3BA" opacity=".7"/><circle cx="254.8" cy="266.4" r="3.0" fill="#E5A3BA" opacity=".7"/><circle cx="322.9" cy="194.5" r="2.1" fill="#E5A3BA" opacity=".7"/><circle cx="206.4" cy="191.4" r="2.9" fill="#E5A3BA" opacity=".7"/><circle cx="183.8" cy="244.1" r="2.9" fill="#E5A3BA" opacity=".7"/><circle cx="328.2" cy="214.9" r="1.8" fill="#E5A3BA" opacity=".7"/><circle cx="217.3" cy="169.4" r="2.6" fill="#E5A3BA" opacity=".7"/><circle cx="200.7" cy="154.4" r="2.7" fill="#E5A3BA" opacity=".7"/><circle cx="222.2" cy="146.9" r="2.5" fill="#E5A3BA" opacity=".7"/><circle cx="226.9" cy="122.6" r="2.2" fill="#E5A3BA" opacity=".7"/><circle cx="297.9" cy="211.7" r="1.9" fill="#E5A3BA" opacity=".7"/><circle cx="205.9" cy="117.5" r="1.9" fill="#E5A3BA" opacity=".7"/><circle cx="249.6" cy="275.1" r="1.8" fill="#E5A3BA" opacity=".7"/><circle cx="197.6" cy="170.7" r="1.5" fill="#E5A3BA" opacity=".7"/><circle cx="209.2" cy="252.0" r="2.3" fill="#E5A3BA" opacity=".7"/><circle cx="197.1" cy="262.0" r="1.9" fill="#E5A3BA" opacity=".7"/><circle cx="229.6" cy="267.5" r="2.7" fill="#E5A3BA" opacity=".7"/><circle cx="256.4" cy="159.0" r="1.5" fill="#E5A3BA" opacity=".7"/><circle cx="172.5" cy="169.1" r="2.8" fill="#E5A3BA" opacity=".7"/><circle cx="229.0" cy="258.2" r="2.5" fill="#E5A3BA" opacity=".7"/></g>
+  <g><circle cx="250" cy="205" r="112" fill="none" stroke="#C0577C" stroke-width="3.2"/><circle visibility="hidden" cx="250" cy="205" r="112" fill="none" stroke="transparent" stroke-width="12"/></g>
+  <g><circle cx="332" cy="113" r="14" fill="url(#vCy)" stroke="#C0577C" stroke-width="2"/><circle cx="330" cy="111" r="4.5" fill="url(#vNu)"/></g>
+  <g><circle cx="236" cy="197" r="36" fill="url(#vNu)" stroke="#86304F" stroke-width="1.6"/>
+    <path d="M220,191 l8,10 M228,191 l-8,10 M244,187 l7,10 M251,187 l-7,10 M232,209 l7,10 M239,209 l-7,10" stroke="#FFE3EC" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M212,179 A30,30 0 0 1 236,165" stroke="#fff" stroke-width="4" opacity=".4" fill="none" stroke-linecap="round"/></g>
+  <g>
+    <path d="M18,0 C34,-10 46,10 62,0 S90,-10 104,0" stroke="#6E78C2" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <rect x="12" y="-4" width="12" height="8" rx="3" fill="#EFA48C" stroke="#C26C55" stroke-width="1"/>
+    <ellipse cx="0" cy="0" rx="14" ry="9" fill="url(#vHd)" stroke="#5E68B4" stroke-width="1.6"/>
+    <path d="M-14,0 C-14,-7 -8,-9 -2,-9 C-8,-5 -9,5 -2,9 C-8,9 -14,7 -14,0 Z" fill="#F3B8D0" stroke="#C86F98" stroke-width="1"/>
+  </g>
+  <g><line x1="100" y1="175" x2="100" y2="34" stroke="#8A8381" stroke-dasharray="3 3"/><circle cx="100" cy="175" r="3" fill="#E07A5F"/><rect x="4" y="10" width="281" height="24" rx="8" fill="#FAF8F5" stroke="#D9D1C9"/><text x="13" y="26.5" font-family="Figtree,sans-serif" font-weight="700" font-size="13" fill="#45403F">Corona radiada (células foliculares)</text></g><g><line x1="154" y1="297" x2="117" y2="356" stroke="#8A8381" stroke-dasharray="3 3"/><circle cx="154" cy="297" r="3" fill="#E07A5F"/><rect x="4" y="356" width="113" height="24" rx="8" fill="#FAF8F5" stroke="#D9D1C9"/><text x="13" y="372.5" font-family="Figtree,sans-serif" font-weight="700" font-size="13" fill="#45403F">Zona pelúcida</text></g><g><line x1="342" y1="269" x2="452" y2="269" stroke="#8A8381" stroke-dasharray="3 3"/><circle cx="342" cy="269" r="3" fill="#E07A5F"/><rect x="452" y="262" width="76" height="24" rx="8" fill="#FAF8F5" stroke="#D9D1C9"/><text x="461" y="278.5" font-family="Figtree,sans-serif" font-weight="700" font-size="13" fill="#45403F">Membrana</text></g><g><line x1="300" y1="245" x2="420" y2="238" stroke="#8A8381" stroke-dasharray="3 3"/><circle cx="300" cy="245" r="3" fill="#E07A5F"/><rect x="420" y="214" width="91" height="24" rx="8" fill="#FAF8F5" stroke="#D9D1C9"/><text x="429" y="230.5" font-family="Figtree,sans-serif" font-weight="700" font-size="13" fill="#45403F">Citoplasma</text></g><g><line x1="236" y1="197" x2="396" y2="164" stroke="#8A8381" stroke-dasharray="3 3"/><circle cx="236" cy="197" r="3" fill="#E07A5F"/><rect x="396" y="140" width="142" height="24" rx="8" fill="#FAF8F5" stroke="#D9D1C9"/><text x="405" y="156.5" font-family="Figtree,sans-serif" font-weight="700" font-size="13" fill="#45403F">Núcleo (haploide)</text></g><g><line x1="332" y1="113" x2="420" y2="84" stroke="#8A8381" stroke-dasharray="3 3"/><circle cx="332" cy="113" r="3" fill="#E07A5F"/><rect x="420" y="60" width="106" height="24" rx="8" fill="#FAF8F5" stroke="#D9D1C9"/><text x="429" y="76.5" font-family="Figtree,sans-serif" font-weight="700" font-size="13" fill="#45403F">Cuerpo polar</text></g><g><line x1="390" y1="296" x2="390" y2="368" stroke="#8A8381" stroke-dasharray="3 3"/><circle cx="390" cy="296" r="3" fill="#E07A5F"/><rect x="330" y="368" width="200" height="24" rx="8" fill="#FAF8F5" stroke="#D9D1C9"/><text x="339" y="384.5" font-family="Figtree,sans-serif" font-weight="700" font-size="13" fill="#45403F">Espermatozoide (acrosoma)</text></g>
+</svg><figcaption>Ovocito II con un espermatozoide llegando.</figcaption></figure>
+    <div class="fix"><b class="t">PPT</b>Solo se llama <b>óvulo</b> cuando es <b>fecundado</b>; antes es <b>ovocito II</b>.</div>
+  </div>
+</div>
+<table><thead><tr><th></th><th>Espermatogénesis</th><th>Ovogénesis</th></tr></thead><tbody>
+<tr><td>Empieza</td><td>Pubertad</td><td>Embrión (se detiene y retoma en la pubertad)</td></tr>
+<tr><td>Termina</td><td>Nunca</td><td>Menopausia</td></tr>
+<tr><td>Gametos</td><td>Todo el tiempo</td><td>Nace con ~400 mil ovocitos I</td></tr>
+<tr><td>Resultado</td><td>Espermatozoides haploides</td><td>1 ovocito II + 3 cuerpos polares</td></tr>
+<tr><td>Movimiento</td><td>Móviles (flagelo)</td><td>Inmóviles (sin flagelo)</td></tr>
+<tr><td>Dónde</td><td>Tubos seminíferos</td><td>Ovarios</td></tr>
+</tbody></table>
+
+<h2><span class="n">6</span>Ciclo menstrual <span class="chip c-hot">Muy probable</span></h2>
+<div class="def"><b>Ciclo menstrual:</b> proceso cíclico de cambios en la anatomía de la mujer. Dura <mark>28 a 35 días</mark>. Cambia: ovarios, temperatura, hormonas y útero.</div>
+<div class="vs">
+  <div><h4>Menarquia <span class="chip c-ppt">PPT</span></h4>Primera menstruación. Se pierden ~<b>35 mL</b> de sangre (normal: <b>10–80 mL</b>); depende del grosor del endometrio.</div>
+  <div><h4>Menopausia <span class="chip c-ppt">PPT</span></h4>La mujer deja de menstruar: su <b>último sangrado</b>, por lo general <b>entre los 45 y 55 años</b>. <b>Perimenopausia:</b> se está acercando.</div>
+</div>
+<div class="fix"><b class="t">corregido según el PPT</b>Los apuntes decían "1 año entero sin menstruación"; el PPT la define como el <b>último sangrado</b> (45–55 años).</div>
+<div class="vs" style="grid-template-columns:repeat(4,1fr)">
+  <div><h4>Menstrual</h4>Días <b>1–5</b></div>
+  <div><h4>Folicular</h4>Días <b>1–13</b> (útero: <b>proliferativa</b>)</div>
+  <div><h4>Ovulación</h4>Días <b>14–15</b></div>
+  <div><h4>Lútea</h4>Días <b>15–28</b> (útero: <b>secretora</b>)</div>
+</div>
+<figure><svg id="chart" viewBox="0 0 600 330"></svg>
+<figcaption>Hormonas y temperatura en un ciclo de 28 días (curvas aproximadas, no valores reales). FSH azul · LH lila · estrógeno rosa · progesterona verde · temperatura ámbar.</figcaption></figure>
+<table><thead><tr><th>Fase</th><th>Ovarios</th><th>Temp.</th><th>Hormonas</th><th>Útero</th></tr></thead><tbody>
+<tr><td>1. Menstruación<br><small>días 1–5</small></td><td>Crecen los folículos, sobre todo el <b>de Graaf</b></td><td>~36 °C</td><td>Bajas, menos FSH; estrógeno sube un poco</td><td>Se desprende el endometrio</td></tr>
+<tr><td>2. Folicular<br><small>días 1–13</small></td><td>Madura el folículo de Graaf</td><td>~36 °C</td><td><b>Suben FSH y estrógeno</b></td><td>Se vuelve a formar</td></tr>
+<tr><td>3. Ovulación<br><small>días 14–15</small></td><td>Se rompe el folículo; <b>sale el ovocito II</b> a la trompa</td><td><mark>+1 °C → 37 °C</mark></td><td>Pico de <b>LH</b> y FSH; baja estrógeno</td><td>Más grueso</td></tr>
+<tr><td>4. Lútea<br><small>días 15–28</small></td><td>Folículo vacío → <b>cuerpo lúteo</b></td><td>Alta</td><td>Bajan FSH/LH; sube <mark class="g">progesterona</mark></td><td>Se prepara para embarazo</td></tr>
+</tbody></table>
+<div class="def"><b>Si no hay embarazo:</b> se degrada el cuerpo lúteo, baja la progesterona, se desprende el endometrio y empieza otro ciclo. <span class="hand">cambios de humor = hormonas ↑↓</span></div>
+<p><b>Ovarios poliquísticos</b> <span class="chip c-ok">Seguro</span>: los folículos se endurecen y forman quistes; los ovocitos no maduran y se pierde fertilidad.</p>
+
+<h2 class="brk"><span class="n">7</span>Calcular la ovulación <span class="chip c-hot">Muy probable</span></h2>
+<div class="cols">
+  <ol class="steps">
+    <li><div><b>Día 1</b> = primer día de la menstruación.</div></li>
+    <li><div><b>Ovulación</b> ≈ <mark>mitad del ciclo</mark> (duración ÷ 2), <b>sumada a la fecha</b> del día 1.</div></li>
+    <li><div><b>Días fértiles</b> = <mark class="g">2 días antes y 2 después</mark>.</div></li>
+    <li><div><b>Próxima regla</b> = día 1 + duración.</div></li>
+  </ol>
+  <div class="keep">
+    <h3 style="margin-top:0">Ejemplo de tu cuaderno</h3>
+    <table><tbody>
+    <tr><td>Datos</td><td>Joven de 25 años · día 1 = 19 nov · ciclo de 24 días</td></tr>
+    <tr><td>Mitad</td><td>24 ÷ 2 = 12 días</td></tr>
+    <tr><td>Ovulación</td><td>19 nov + 12 días = <mark>1 de diciembre</mark></td></tr>
+    <tr><td>Días fértiles</td><td>29 nov – 3 dic</td></tr>
+    <tr><td>Próxima regla</td><td>13 de diciembre</td></tr>
+    </tbody></table>
+  </div>
+</div>
+<div class="sticky"><b class="t">así se hace en clase</b>La mitad del ciclo se suma directo a la fecha del primer día: 19 nov + 12 = 1 dic. Con un ciclo de 34 días que empieza el 26 de mayo: 26 de mayo + 17 = 12 de junio.</div>
+
+<h2 class="brk"><span class="n">8</span>Fecundación, gestación y nacimiento <span class="chip c-ppt">PPT</span></h2>
+<div class="cols">
+  <div>
+    <div class="def"><b>Fecundación</b> <span class="chip c-hot">Muy probable</span>: espermatozoide y ovocito II <b>fusionan sus núcleos</b> y forman un <mark>cigoto diploide</mark>. Es <b>interna</b>: en la <b>ámpula</b> de la trompa de Falopio.</div>
+    <ol class="steps">
+      <li><div><b>Coito</b>: el pene entra en la vagina y hay <b>eyaculación</b>.</div></li>
+      <li><div>El semen pasa por la vagina, sube por el útero y llega a las trompas (contracciones y cilios).</div></li>
+      <li><div>De cientos de miles, <b>solo unos pocos</b> llegan; los demás se <b>degradan</b>.</div></li>
+      <li><div><b>Solo uno</b> atraviesa la <b>zona pelúcida</b> (enzimas del acrosoma); el ovocito II termina su meiosis → <b>óvulo fecundado</b>.</div></li>
+    </ol>
+    <p>El <b>sexo</b> lo define el cromosoma del <mark class="g">par 23</mark> que lleva el <b>espermatozoide</b> (X o Y): <b>XX</b> mujer, <b>XY</b> hombre. Las cicatrices en los órganos reproductores dificultan la fecundación.</p>
+  </div>
+  <div>
+    <h3 style="margin-top:0">Gestación <span class="chip c-ok">Seguro</span></h3>
+    <div class="def"><b>Gestación:</b> el <b>cigoto</b> se desarrolla a <b>embrión</b> (<b>meses 1–3</b>) y luego a <b>feto</b> (<b>desde el mes 4</b>). Dura unas <mark>40 semanas</mark>.</div>
+    <div class="flow"><span>Cigoto</span><i>→</i><span>Embrión</span><i>→</i><span>Feto</span><i>→</i><span>Nacimiento</span></div>
+    <p>El <b>sistema inmune baja</b> para no reconocer al bebé como extraño.</p>
+    <div class="vs" style="grid-template-columns:1fr">
+      <div><h4>Univitelinos (monocigóticos)</h4>Gemelos <b>idénticos</b>: un óvulo fecundado que se divide en 2.</div>
+      <div><h4>Bivitelinos (dicigóticos)</h4><b>Mellizos</b> o gemelos fraternos: la mujer ovula varios ovocitos.</div>
+    </div>
+  </div>
+</div>
+<h3>¿Qué pasa si hay fecundación y si no? <span class="chip c-hot">Muy probable</span></h3>
+<figure style="margin:4px 0 6px"><svg viewBox="0 0 800 330" role="img" aria-label="Qué pasa después de la ovulación. Si hay fecundación: se forma el cigoto, se divide, se implanta en el endometrio y el cuerpo lúteo sigue produciendo progesterona, así que no hay menstruación y empieza el embarazo. Si no hay fecundación: el ovocito II se degrada, el cuerpo lúteo se degrada, baja la progesterona, se desprende el endometrio y llega la menstruación.">
+<defs><radialGradient id="fCy" cx="38%" cy="35%" r="70%"><stop offset="0" stop-color="#FFF0F5"/><stop offset=".7" stop-color="#F6C3D3"/><stop offset="1" stop-color="#E7A3BB"/></radialGradient>
+<marker id="fA3E9A72" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10Z" fill="#3E9A72"/></marker>
+<marker id="fAD0665E" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10Z" fill="#D0665E"/></marker></defs>
+<g opacity="1"><circle cx="70" cy="172" r="24" fill="#FCEFF4" stroke="#E7A3BB" stroke-width="1.6"/><circle cx="70" cy="172" r="20" fill="url(#fCy)" stroke="#C47D99" stroke-width="1.4"/><circle cx="67" cy="170" r="7.0" fill="#B5607F"/></g><text x="70" y="214" text-anchor="middle" font-family="Figtree,sans-serif" font-size="12.5" font-weight="800" fill="#45403F">Ovulación</text><text x="70" y="230" text-anchor="middle" font-family="Figtree,sans-serif" font-size="11" font-weight="600" fill="#8A8381">el ovocito II</text><text x="70" y="244" text-anchor="middle" font-family="Figtree,sans-serif" font-size="11" font-weight="600" fill="#8A8381">llega a la trompa</text><path d="M100,160 C130,140 140,92 172,92" stroke="#3E9A72" stroke-width="2.6" fill="none" marker-end="url(#fA3E9A72)"/><path d="M100,184 C130,204 140,252 172,252" stroke="#D0665E" stroke-width="2.6" fill="none" marker-end="url(#fAD0665E)"/><rect x="150" y="18" width="190" height="26" rx="13" fill="#E3F5EC" stroke="#3E9A72"/><text x="245" y="36" text-anchor="middle" font-family="Figtree,sans-serif" font-size="13" font-weight="800" fill="#3E9A72">SÍ hay fecundación</text><rect x="150" y="176" width="190" height="26" rx="13" fill="#FBE9E7" stroke="#D0665E"/><text x="245" y="194" text-anchor="middle" font-family="Figtree,sans-serif" font-size="13" font-weight="800" fill="#D0665E">NO hay fecundación</text><g class="fst" style="--i:0"><g opacity="1"><circle cx="226" cy="92" r="19" fill="#FCEFF4" stroke="#E7A3BB" stroke-width="1.6"/><circle cx="226" cy="92" r="15" fill="url(#fCy)" stroke="#C47D99" stroke-width="1.4"/><circle cx="223" cy="90" r="5.2" fill="#B5607F"/></g><g transform="translate(252,102) rotate(200)"><ellipse rx="6" ry="4.2" fill="#DCE0F8" stroke="#7680C4" stroke-width="1.2"/><path d="M6,0 q5,-4 10,0 t10,0" stroke="#7680C4" stroke-width="1.4" fill="none"/></g><text x="226" y="134" text-anchor="middle" font-family="Figtree,sans-serif" font-size="12.5" font-weight="800" fill="#45403F">Fecundación</text><text x="226" y="150" text-anchor="middle" font-family="Figtree,sans-serif" font-size="11" font-weight="600" fill="#8A8381">en la ámpula → cigoto</text></g><path d="M270,92 L336,92" stroke="#3E9A72" stroke-width="2.4" marker-end="url(#fA3E9A72)"/><g class="fst" style="--i:1"><circle cx="373" cy="84" r="9" fill="url(#fCy)" stroke="#C47D99" stroke-width="1.2"/><circle cx="391" cy="84" r="9" fill="url(#fCy)" stroke="#C47D99" stroke-width="1.2"/><circle cx="373" cy="100" r="9" fill="url(#fCy)" stroke="#C47D99" stroke-width="1.2"/><circle cx="391" cy="100" r="9" fill="url(#fCy)" stroke="#C47D99" stroke-width="1.2"/><text x="382" y="134" text-anchor="middle" font-family="Figtree,sans-serif" font-size="12.5" font-weight="800" fill="#45403F">El cigoto se divide</text><text x="382" y="150" text-anchor="middle" font-family="Figtree,sans-serif" font-size="11" font-weight="600" fill="#8A8381">y baja por la trompa</text></g><path d="M426,92 L492,92" stroke="#3E9A72" stroke-width="2.4" marker-end="url(#fA3E9A72)"/><g class="fst" style="--i:2"><g transform="translate(508,62)"><path d="M4,6 C4,-4 56,-4 56,6 C56,30 44,44 36,52 L24,52 C16,44 4,30 4,6Z" fill="#F6B9A6" stroke="#C97560" stroke-width="1.4"/><path d="M12,8 C22,2 38,2 48,8 C44,24 36,36 31,46 L29,46 C24,36 16,24 12,8Z" fill="#E9798F"/><circle cx="40" cy="16" r="5" fill="#FBE0EA" stroke="#B5607F" stroke-width="1.2"><animate attributeName="r" values="4;6;4" dur="2.4s" repeatCount="indefinite"/></circle></g><text x="538" y="134" text-anchor="middle" font-family="Figtree,sans-serif" font-size="12.5" font-weight="800" fill="#45403F">Se implanta</text><text x="538" y="150" text-anchor="middle" font-family="Figtree,sans-serif" font-size="11" font-weight="600" fill="#8A8381">en el endometrio</text></g><path d="M582,92 L648,92" stroke="#3E9A72" stroke-width="2.4" marker-end="url(#fA3E9A72)"/><g class="fst" style="--i:3"><g><ellipse cx="680" cy="92" rx="28" ry="19" fill="#F0BFCF" stroke="#C47D99" stroke-width="1.4"/><circle cx="686" cy="92" r="10" fill="#F4C95D" stroke="#C99A3E" stroke-width="1.2"></circle></g><path d="M720,104 L720,78" stroke="#3E9A72" stroke-width="3" marker-end="url(#fA3E9A72)"/><text x="694" y="134" text-anchor="middle" font-family="Figtree,sans-serif" font-size="12.5" font-weight="800" fill="#45403F">Cuerpo lúteo sigue:</text><text x="694" y="150" text-anchor="middle" font-family="Figtree,sans-serif" font-size="11" font-weight="600" fill="#8A8381">progesterona alta → embarazo</text></g><g class="fst" style="--i:4"><g opacity="0.45"><circle cx="226" cy="252" r="19" fill="#FCEFF4" stroke="#E7A3BB" stroke-width="1.6"/><circle cx="226" cy="252" r="15" fill="url(#fCy)" stroke="#C47D99" stroke-width="1.4"/><circle cx="223" cy="250" r="5.2" fill="#B5607F"/></g><g transform="translate(246,234)"><circle r="9" fill="#fff" stroke="#8A8381" stroke-width="1.4"/><path d="M0,-5 L0,0 L4,3" stroke="#8A8381" stroke-width="1.4" fill="none"/></g><text x="226" y="292" text-anchor="middle" font-family="Figtree,sans-serif" font-size="12.5" font-weight="800" fill="#45403F">El ovocito II se degrada</text><text x="226" y="308" text-anchor="middle" font-family="Figtree,sans-serif" font-size="11" font-weight="600" fill="#8A8381">(vive ~24 horas)</text></g><path d="M270,252 L336,252" stroke="#D0665E" stroke-width="2.4" marker-end="url(#fAD0665E)"/><g class="fst" style="--i:5"><g><ellipse cx="382" cy="252" rx="28" ry="19" fill="#F0BFCF" stroke="#C47D99" stroke-width="1.4"/><circle cx="388" cy="252" r="5" fill="#F4C95D" stroke="#C99A3E" stroke-width="1.2"></circle></g><text x="382" y="292" text-anchor="middle" font-family="Figtree,sans-serif" font-size="12.5" font-weight="800" fill="#45403F">Se degrada</text><text x="382" y="308" text-anchor="middle" font-family="Figtree,sans-serif" font-size="11" font-weight="600" fill="#8A8381">el cuerpo lúteo</text></g><path d="M426,252 L492,252" stroke="#D0665E" stroke-width="2.4" marker-end="url(#fAD0665E)"/><g class="fst" style="--i:6"><text x="538" y="260" text-anchor="middle" font-family="Figtree,sans-serif" font-size="26" font-weight="800" fill="#D0665E">P</text><path d="M558,238 L558,264" stroke="#D0665E" stroke-width="3" marker-end="url(#fAD0665E)"/><text x="538" y="292" text-anchor="middle" font-family="Figtree,sans-serif" font-size="12.5" font-weight="800" fill="#45403F">Baja la progesterona</text></g><path d="M582,252 L648,252" stroke="#D0665E" stroke-width="2.4" marker-end="url(#fAD0665E)"/><g class="fst" style="--i:7"><g transform="translate(664,222)"><path d="M4,6 C4,-4 56,-4 56,6 C56,30 44,44 36,52 L24,52 C16,44 4,30 4,6Z" fill="#F6B9A6" stroke="#C97560" stroke-width="1.4"/><path d="M12,8 C22,2 38,2 48,8 C44,24 36,36 31,46 L29,46 C24,36 16,24 12,8Z" fill="#D4566F"/><circle cx="28" cy="56" r="2.6" fill="#C2334F"><animate attributeName="cy" values="52;70" dur="1.6s" begin="0.0s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0" dur="1.6s" begin="0.0s" repeatCount="indefinite"/></circle><circle cx="31" cy="56" r="2.6" fill="#C2334F"><animate attributeName="cy" values="52;70" dur="1.6s" begin="0.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0" dur="1.6s" begin="0.5s" repeatCount="indefinite"/></circle><circle cx="34" cy="56" r="2.6" fill="#C2334F"><animate attributeName="cy" values="52;70" dur="1.6s" begin="1.0s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0" dur="1.6s" begin="1.0s" repeatCount="indefinite"/></circle></g><text x="694" y="296" text-anchor="middle" font-family="Figtree,sans-serif" font-size="12.5" font-weight="800" fill="#45403F">Se desprende el endometrio:</text><text x="694" y="312" text-anchor="middle" font-family="Figtree,sans-serif" font-size="11" font-weight="600" fill="#8A8381">menstruación → nuevo ciclo</text></g></svg></figure>
+<div class="vs">
+  <div><h4>Sí hay fecundación → embarazo</h4>El cigoto se divide mientras baja por la trompa y se <b>implanta en el endometrio</b>. El <b>cuerpo lúteo sigue</b> produciendo <b>progesterona</b>: el endometrio se mantiene y <b>no hay menstruación</b>. <i>(Extra: el embrión produce hCG, la hormona que detecta la prueba de embarazo.)</i></div>
+  <div><h4>No hay fecundación → menstruación</h4>El ovocito II se degrada (~24 h), el <b>cuerpo lúteo degenera</b>, <b>baja la progesterona</b>, se <b>desprende el endometrio</b>: menstruación y nuevo ciclo.</div>
+</div>
+<h3>Nacimiento <span class="chip c-ok">Seguro</span></h3>
+<p><b>No se sabe qué genera el nacimiento.</b> Puede ser <b>parto natural (vaginal)</b> o <b>cesárea</b>.</p>
+<table><thead><tr><th>Cesárea</th><th>Parto vaginal</th></tr></thead><tbody>
+<tr><td>Regularmente se <b>programa</b>.</td><td><b>No se sabe cuándo</b> ocurrirá.</td></tr>
+<tr><td><b>Operación quirúrgica</b> con anestesia; no hay dolor durante el parto.</td><td><b>Proceso natural</b>; sin medicamentos o con <b>epidural</b>; la <b>pitocina</b> lo acelera.</td></tr>
+<tr><td>No siempre entra un acompañante; menos contacto piel con piel.</td><td>Más probable que entren acompañantes; contacto piel con piel inmediato.</td></tr>
+<tr><td>Recuperación <b>más dolorosa y lenta</b>.</td><td>Recuperación <b>menos dolorosa y más rápida</b>; puede haber desgarre.</td></tr>
+<tr><td>El bebé no recibe las <b>bacterias buenas</b> del canal vaginal.</td><td>Dolores por las <b>contracciones</b>.</td></tr>
+<tr><td>Dificulta (no imposibilita) la <b>lactancia</b>.</td><td><b>Facilita la lactancia</b>.</td></tr>
+</tbody></table>
+
+<h2 class="brk"><span class="n">9</span>Infecciones de transmisión sexual <span class="chip c-ppt">PPT</span></h2>
+<div class="def"><b>ITS:</b> enfermedades que se transmiten por el <b>contacto sexual</b>. Factores de riesgo: promiscuidad y no usar métodos de barrera (condón).</div>
+<table><thead><tr><th style="width:18%">ITS</th><th style="width:22%">Causante</th><th>Lo que hay que saber</th></tr></thead><tbody>
+<tr><td>Verrugas genitales (<b>condilomas</b>)</td><td><b>Virus</b> del papiloma humano (<b>VPH</b>)</td><td>Los síntomas aparecen entre <b>1 y 6 meses</b> después de tener relaciones: pequeñas <b>verrugas</b> en el epitelio de los órganos sexuales y el ano.</td></tr>
+      <tr><td><b>Sífilis</b></td><td><b>Bacteria</b> <i>Treponema pallidum</i></td><td>Primero, una pequeña <b>úlcera</b> en los órganos sexuales <b>2 o 3 semanas</b> después del contacto. De <b>6 semanas a 6 meses</b> después (cuando la llaga ya desapareció) pueden salir <b>erupciones en la piel</b>. Etapas: 1) lesión, 2) sarpullido en el cuerpo, 3) afecta órganos internos (años después).</td></tr>
+      <tr><td><b>Gonorrea</b></td><td><b>Bacteria</b> <i>Neisseria gonorrhoeae</i></td><td>Muy común. Sin tratamiento causa problemas <b>graves y permanentes</b> en hombres y mujeres: puede pasar a la <b>sangre y las articulaciones</b> y ser <b>potencialmente mortal</b>. Facilita infectarse con el virus que causa el <b>SIDA</b>. Existe una <b>gonorrea resistente a los antibióticos</b> (“superbacteria”) muy difícil de curar.</td></tr>
+      <tr><td><b>Herpes</b> genital</td><td><b>Virus</b> del herpes simple tipo 1 (<b>VHS-1</b>) y tipo 2 (<b>VHS-2</b>)</td><td>Ampollas o llagas en la zona genital.</td></tr>
+      <tr><td><b>Clamidia</b></td><td><b>Bacteria</b> <i>Chlamydia trachomatis</i></td><td>Más frecuente en jóvenes de <b>15 a 24 años</b>. Muchas personas <b>no tienen síntomas</b> (≈50 % de los hombres y ≈70 % de las mujeres). Hombres: dolor al orinar, secreción del pene, dolor testicular. Mujeres: dolor al orinar, flujo, dolor en el sexo, sangrado entre periodos. Sin tratar: <b>infertilidad</b> (mujeres) y complicaciones uretrales (hombres). Se trata con <b>antibióticos</b>.</td></tr>
+      <tr><td><b>Candidiasis</b> vaginal</td><td><b>Hongo</b> <i>Candida albicans</i></td><td>Aumento del hongo por cambios del <b>pH</b> vaginal, humedad, uso de <b>antibióticos</b> o mucha glucosa (diabetes, carbohidratos, alcohol). Síntomas: ardor y picor, dolor al orinar y en las relaciones, flujo espeso y blanquecino. Prevención: zona seca, ropa no ajustada, limpiarse de adelante hacia atrás.</td></tr>
+</tbody></table>
+<div class="vs">
+  <div><h4>Por virus</h4>VPH (verrugas o condilomas) y herpes (VHS-1 y VHS-2).</div>
+  <div><h4>Por bacterias y hongos</h4>Bacterias: sífilis, gonorrea, clamidia. Hongo: candidiasis.</div>
+</div>
+
+<h2><span class="n">10</span>Métodos anticonceptivos <span class="chip c-ppt">PPT</span></h2>
+<div class="def"><b>Métodos anticonceptivos:</b> métodos o procedimientos que <b>previenen un embarazo</b> en mujeres sexualmente activas, ya sean ellas o sus parejas quienes los usen. Pueden ser <b>hormonales o no hormonales</b>, <b>transitorios o definitivos</b>, y basados en tecnología o en conductas.</div>
+  <table>
+    <thead><tr><th>Clasificación</th><th>Cuáles son</th></tr></thead>
+    <tbody>
+      <tr><td><b>Hormonales</b></td><td>Combinan <b>estrógeno y progestágeno</b>: píldoras, inyecciones, anillo vaginal, parche transdérmico, implantes o dispositivo intrauterino (DIU) hormonal.</td></tr>
+      <tr><td><b>No hormonales reversibles</b></td><td>Dispositivos intrauterinos (<b>DIU</b>). <b>De barrera</b>: condón masculino y femenino, diafragma y espermicidas. Método de la <b>amenorrea de lactancia</b>. <b>Abstinencia periódica</b>: moco cervical (Billings), calendario, temperatura basal y sintotérmico.</td></tr>
+      <tr><td><b>No hormonales permanentes</b></td><td>Anticoncepción quirúrgica voluntaria (esterilización): <b>femenina</b> (en el PPT: histerectomía) y <b>masculina</b> (<b>vasectomía</b>).</td></tr>
+    </tbody>
+  </table>
+  <p>Ejemplos de la lámina: condón masculino, condón femenino, píldoras anticonceptivas, anillo hormonal, inyección anticonceptiva, cirugía esterilizadora, implante, calendario de días fértiles, parche anticonceptivo y DIU.</p>
+  <div class="sticky"><b class="t">dato</b>El <b>condón</b> es el único método de la lista que además protege de las <b>ITS</b>. El método del <b>calendario</b> usa justo el cálculo de días fértiles que practicaste.</div>
+  
+
+<h2><span class="n">11</span>No te confundas</h2>
+<table><thead><tr><th>Esto…</th><th>…no es lo mismo que esto</th></tr></thead><tbody>
+<tr><td>Sertoli: apoyan la formación de espermatozoides</td><td>Leydig: producen testosterona</td></tr>
+<tr><td>Vesículas seminales: fructosa</td><td>Bulbouretral (de Cowper): alcalina</td></tr>
+<tr><td>Folículo de Graaf: antes de ovular</td><td>Cuerpo lúteo: después de ovular</td></tr>
+<tr><td>FSH y LH: hipofisarias</td><td>Estrógeno y progesterona: ováricas</td></tr>
+<tr><td>Menopausia: último sangrado (45–55 años)</td><td>Perimenopausia: se acerca</td></tr>
+<tr><td>Ovocito II: antes de la fecundación</td><td>Óvulo: solo si es fecundado</td></tr>
+<tr><td>Embrión: meses 1–3</td><td>Feto: desde el mes 4</td></tr>
+<tr><td>VPH, herpes: virus</td><td>Sífilis, gonorrea, clamidia: bacterias · candidiasis: hongo</td></tr>
+<tr><td>Espermatogénesis: tubos seminíferos</td><td>Epidídimo: maduran y se almacenan</td></tr>
+<tr><td>Endometrio: se desprende</td><td>Miometrio: músculo</td></tr>
+</tbody></table>
+
+<h2 class="brk"><span class="n">12</span>Repaso rápido antes del examen</h2>
+<table><thead><tr><th style="width:32%">Término clave</th><th>En una frase</th></tr></thead><tbody id="rev"></tbody></table>
+<div class="pruebate"><b>Ponte a prueba:</b> tapa la columna derecha y explica cada término con tus palabras. Si dudas, vuelve a la sección.</div>
+
+<div class="qs keep">
+<h3>Autoevaluación</h3>
+<ol>
+<li>¿Qué estructura comparten el sistema urinario y el reproductor masculino?</li>
+<li>¿Qué células producen testosterona y cuáles apoyan la formación de espermatozoides?</li>
+<li>¿Por qué los testículos descienden al escroto?</li>
+<li>Nombra las 3 glándulas anexas y qué aporta cada una.</li>
+<li>¿Qué contiene la pieza media del espermatozoide y para qué sirve?</li>
+<li>¿En qué momento se detiene la ovogénesis y cuándo se retoma?</li>
+<li>Define ovulación. ¿Qué días ocurre y qué pasa con la temperatura?</li>
+<li>¿Qué hormona domina la fase lútea?</li>
+<li>Ciclo de 28 días que empieza el 1 de marzo: ¿días fértiles?</li>
+<li>Diferencia entre univitelinos y bivitelinos.</li>
+<li>¿Dónde ocurre la espermatogénesis y qué cromosomas tienen los espermatocitos secundarios?</li>
+<li>¿Cuándo pasa el cigoto a llamarse feto?</li>
+<li>Nombra una ITS por virus, una por bacteria y una por hongo.</li>
+<li>¿Qué método anticonceptivo también protege de las ITS?</li>
+</ol>
+<p class="ans"><b>Respuestas:</b> 1) La uretra. 2) Leydig; Sertoli. 3) Necesitan menos temperatura que la corporal. 4) Vesículas seminales (fructosa y prostaglandinas), próstata (movimiento), bulbouretral (de Cowper) (alcalina). 5) Mitocondrias: ATP para la cola. 6) En la profase I, en el embrión; se retoma en la pubertad. 7) Liberación del ovocito II por ruptura del folículo; días 14–15; sube 1 °C. 8) Progesterona. 9) 13 al 17 de marzo (1 de marzo + 14 = 15 de marzo). 10) Univitelinos: un óvulo que se divide (idénticos); bivitelinos: varios óvulos (mellizos). 11) En los tubos seminíferos; 22 + X o 22 + Y. 12) Desde el cuarto mes de gestación. 13) Ej.: VPH o herpes (virus); sífilis, gonorrea o clamidia (bacteria); candidiasis (hongo). 14) El condón.</p>
+</div>
+
+<script>
+(function(){
+  const NS='http://www.w3.org/2000/svg';
+  const L=document.getElementById('sideL');if(L){const R=L.cloneNode(true);R.removeAttribute('id');R.setAttribute('transform','translate(560 0) scale(-1 1)');L.after(R)}
+  function labels(id,arr){const g0=document.getElementById(id);arr.forEach(([n,ax,ay,x,y])=>{const w=Math.round(n.length*7.3+18),h=24,cx=Math.max(x,Math.min(ax,x+w)),cy=Math.max(y,Math.min(ay,y+h));
+    const g=document.createElementNS(NS,'g');g.setAttribute('class','lab');g.innerHTML=`<line x1="${ax}" y1="${ay}" x2="${cx}" y2="${cy}"/><circle cx="${ax}" cy="${ay}" r="3"/><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="8"/><text x="${x+9}" y="${y+16.5}">${n}</text>`;g0.appendChild(g)})}
+  labels('lab-fem',[['Ovario',96,190,4,214],['Folículo de Graaf',108,192,20,254],['Cuerpo lúteo',146,194,106,290],['Fimbrias',64,112,2,146],['Ámpula',124,94,40,46],['Trompa de Falopio',384,110,372,46],['Útero',280,110,246,12],['Miometrio',350,170,420,226],['Endometrio',300,170,420,260],['Cuello del útero',310,280,420,294],['Vagina',318,362,420,352]]);
+  labels('lab-sperm',[['Cabeza',70,150,10,196],['Acrosoma',52,104,6,30],['Núcleo (haploide)',110,124,86,196],['Cuello (centriolos)',160,114,118,30],['Pieza media (mitocondrias)',230,130,214,196],['Cola o flagelo',430,112,390,30]]);
+  const rib=document.getElementById('tailRibbon');if(rib){const up=[],dn=[];for(let i=0;i<=60;i++){const t=i/60,x=268+t*322,amp=4+t*20,y=120+amp*Math.sin(-t*9),w=(1-t)*6.5+1;up.push([x,y-w/2]);dn.push([x,y+w/2])}
+    rib.setAttribute('d','M'+up.map(p=>p.join(',')).join(' L')+' L'+dn.reverse().map(p=>p.join(',')).join(' L')+' Z')}
+})();
+const REV=[['Uretra (hombre)','Conducto común para la orina y el semen.'],['Testículos','Espermatozoides (Sertoli) y testosterona (Leydig).'],['Epidídimo','Termina la maduración y almacena.'],['Vesículas seminales','Fructosa (ATP) y prostaglandinas.'],['Próstata','La más grande; facilita el movimiento.'],['Bulbouretral (de Cowper)','La más pequeña; alcalina, neutraliza la acidez.'],['Espermatogénesis','En los tubos seminíferos; de la pubertad, nunca termina.'],['Acrosoma','Enzimas hidrolíticas que degradan la zona pelúcida.'],['Ámpula','Donde ocurre la fecundación.'],['Endometrio','Capa interna del útero que se desprende.'],['Ovogénesis','Embrión → se detiene en profase I → pubertad.'],['Ovocito II','Haploide, sin flagelo; termina meiosis al fecundarse.'],['Folículo de Graaf','Folículo maduro que libera al ovocito II.'],['Ovulación','Ruptura del folículo; temperatura +1 °C.'],['Cuerpo lúteo','Resto del folículo; produce progesterona.'],['Menopausia','Último sangrado; entre los 45 y 55 años.'],['Días fértiles','Ovulación ± 2 días.'],['Univitelinos / bivitelinos','Idénticos (1 óvulo) / mellizos (varios).'],['Cigoto','Célula diploide que resulta de la fecundación.'],['Embrión / feto','Meses 1–3 / desde el mes 4; gestación ~40 semanas.'],['Cesárea','Parto quirúrgico, programado, recuperación más lenta.'],['VPH','Virus; verrugas genitales (condilomas).'],['Sífilis','Bacteria Treponema pallidum; empieza con una úlcera.'],['Gonorrea','Bacteria Neisseria gonorrhoeae.'],['Clamidia','Bacteria Chlamydia trachomatis; muchas veces sin síntomas.'],['Candidiasis','Hongo Candida albicans.'],['Vasectomía','Método permanente masculino.'],['Condón','Barrera; el único que también protege de ITS.']];
+document.getElementById('rev').innerHTML=REV.map(([a,b])=>`<tr><td style="color:#C9664D">${a}</td><td>${b}</td></tr>`).join('');
+const NS='http://www.w3.org/2000/svg',c=document.getElementById('chart');
+const X0=46,X1=584,TOP=48,H=170,TT=262,TH=46,S=(X1-X0)/27,xd=d=>X0+(d-1)*S,g=(d,m,s)=>Math.exp(-((d-m)**2)/(2*s*s));
+const cu={'#6A9FD0':d=>.30+.22*g(d,3,3)+.42*g(d,14,1.2),'#A58BDB':d=>.10+.85*g(d,14,1),'#E58BA0':d=>.10+.70*g(d,12.6,2)+.32*g(d,21,3),'#55B08F':d=>.04+.78*g(d,21,3.2)};
+function el(t,a){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);c.appendChild(e);return e}
+function tx(x,y,s,o){const t=el('text',Object.assign({x,y,'font-size':12,'font-family':'Figtree',fill:'#8A8381','text-anchor':'middle'},o||{}));t.textContent=s;return t}
+[[1,5,'Menstruación','#FCEBE8'],[6,13,'Folicular','#EEF6F2'],[14,15,'Ovulación','#E3F5EC'],[16,28,'Lútea','#FDF3DF']].forEach(([a,b,n,f])=>{const x=Math.max(X0,xd(a)-S/2),x2=Math.min(X1,xd(b)+S/2);el('rect',{x,y:8,width:x2-x,height:26,rx:6,fill:f});tx((x+x2)/2,26,n,{fill:'#45403F','font-weight':700})});
+el('line',{x1:X0,y1:TOP+H,x2:X1,y2:TOP+H,stroke:'#E7E2DC'});el('line',{x1:X0,y1:TOP,x2:X0,y2:TOP+H,stroke:'#E7E2DC'});
+tx(X0-8,TOP+10,'alto',{'text-anchor':'end'});tx(X0-8,TOP+H,'bajo',{'text-anchor':'end'});
+for(const col in cu){let p='';for(let d=1;d<=28;d+=.25)p+=(d===1?'M':'L')+xd(d).toFixed(1)+' '+(TOP+(1-cu[col](d))*H).toFixed(1);el('path',{d:p,fill:'none',stroke:col,'stroke-width':2.8,'stroke-linecap':'round'})}
+[['LH',14,'#A58BDB'],['Estrógeno',11.2,'#E58BA0'],['Progesterona',21,'#55B08F'],['FSH',4.2,'#6A9FD0']].forEach(([n,d,col])=>tx(xd(d),TOP+(1-cu[col](d))*H-8,n,{fill:col,'font-weight':700}));
+const ty=v=>TT+TH-(v-35.8)/1.4*TH,tA=d=>d<14?36:(d===14?36.5:37);let tp='';for(let d=1;d<=28;d++)tp+=(d===1?'M':'L')+xd(d)+' '+ty(tA(d));
+el('line',{x1:X0,y1:TT+TH,x2:X1,y2:TT+TH,stroke:'#E7E2DC'});el('path',{d:tp,fill:'none',stroke:'#E0A146','stroke-width':2.8});
+tx(X0-8,ty(36)+4,'36°',{'text-anchor':'end'});tx(X0-8,ty(37)+4,'37°',{'text-anchor':'end'});tx(xd(21),ty(37)-8,'Temperatura',{fill:'#E0A146','font-weight':700});
+[1,7,14,21,28].forEach(d=>tx(xd(d),TT+TH+18,'día '+d));
+el('line',{x1:xd(14),y1:8,x2:xd(14),y2:TT+TH,stroke:'#45403F','stroke-dasharray':'4 4'});
+</script>
+</body></html>
