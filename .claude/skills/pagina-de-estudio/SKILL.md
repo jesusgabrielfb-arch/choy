@@ -19,19 +19,22 @@ Habla siempre en español, en tono cercano. El usuario es estudiante y la nota v
 
 ## Paso 0 — Preguntas al empezar (siempre)
 
-Apenas se invoque la skill, **antes de hacer nada**, pregunta con `AskUserQuestion`: máximo 4 preguntas por llamada, cada una con 2 a 4 opciones; pon primero la recomendada, con "(Recomendado)" al final. Haz dos rondas.
+Apenas se invoque la skill, **antes de hacer nada**, pregunta con `AskUserQuestion`: máximo 4 preguntas por llamada, cada una con 2 a 4 opciones; pon primero la recomendada, con "(Recomendado)" al final. Haz tres rondas cortas.
 
 **Ronda 1**
 1. **Tema y material:** ¿Qué tema es y qué material tienes? Opciones: "Fotos de mis apuntes", "PPT de clase", "Las dos cosas (Recomendado)", "Solo el nombre del tema". Explica que si hay PPT, **lo del PPT manda** sobre los apuntes.
 2. **Profe y escuela:** ¿Cómo se llama tu profe (para las frases de las mascotas) y qué escala de notas usan? Por defecto: 1 a 5.
 3. **Mascotas:** "Reusar a Spermi y Ovulina", "Crear 2 personajes nuevos del tema en Blender (Recomendado)", "Sin mascotas". Si son nuevos, en la ronda 2 pide sus nombres y cómo se ven.
-4. **Qué incluir** (multiSelect): resumen con dibujos interactivos, procesos animados, práctica por temas, simulacro de examen, test estilo Daypo, guía PDF, calculadora o ejercicios numéricos si el tema los tiene.
+4. **Colores y fondo:** muestra antes las vistas de `plantilla/vistas/*.jpg` con SendUserFile y ofrece 3 o 4 paletas que **no estén en `paletas-usadas.md`** y que vayan con el tema (lista en "Paso 4"). Pon primero la que mejor quede con el tema, con "(Recomendado)".
+
 
 **Ronda 2**
 1. **Personajes**, si son nuevos: nombres, aspecto (colores, accesorios como los lentes de Spermi), personalidad y si dicen malas palabras suaves cuando los tocan mucho.
-2. **Publicación:** "Vercel, proyecto nuevo (Recomendado)", "Solo artefacto de Claude", "Las dos".
-3. **Nombre del sitio:** el que va en la pantalla de inicio (ej. "Reproductor"), la firma "by: …", y si quiere un *easter egg* en la firma (como la foto de Brad Pitt).
-4. **Fecha del examen**, para decidir cuánto contenido y cuántas preguntas hacer.
+2. **Qué incluir** (multiSelect): resumen con dibujos interactivos, procesos animados, práctica por temas, simulacro, test estilo Daypo, guía PDF y calculadora o ejercicios numéricos si el tema los tiene. Como solo caben 4 opciones, agrúpalas: "Resumen + dibujos + procesos", "Práctica + test Daypo", "Simulacro + guía PDF", "Ejercicios numéricos".
+3. **Publicación:** "Vercel, proyecto nuevo (Recomendado)", "Solo artefacto de Claude", "Las dos".
+4. **Nombre del sitio:** el que va en la pantalla de inicio (ej. "Reproductor"), la firma "by: …", y si quiere un *easter egg* en la firma (como la foto de Brad Pitt).
+
+**Ronda 3** (una pregunta): la **fecha del examen**, para decidir cuánto contenido y cuántas preguntas hacer.
 
 Si el usuario manda archivos sin contestar, lee el material igual y deduce lo que puedas. No lo bloquees.
 
@@ -89,6 +92,26 @@ Si las mascotas son nuevas, usa `scripts/blender/build.py` como base (modela con
 
 ## Paso 4 — Diseño (no debe parecer hecho por IA)
 
+**Cada página tiene su propia identidad visual. Nunca repitas la del reproductor tal cual.**
+- Pega `plantilla/temas-visuales.css` al final del primer `<style>` y activa la paleta con `document.body.classList.add('paleta-…')`, al inicio del script o en el `<body>` de Vercel.
+- **Paletas** (todas claras):
+
+  | Paleta | Colores | Va bien con |
+  |---|---|---|
+  | `durazno` | coral + salvia | sistema reproductor (ya usada) |
+  | `oceano` | turquesa + durazno | agua, respiración, circulación, ecosistemas marinos |
+  | `bosque` | verde hoja + miel | plantas, fotosíntesis, ecología, célula vegetal |
+  | `lavanda` | violeta + menta | sistema nervioso, genética, células |
+  | `girasol` | mostaza + celeste | química, energía, nutrición, digestivo |
+  | `cereza` | frambuesa + azul | circulatorio, sangre, corazón, inmunidad |
+  | `arena` | caramelo + verde agua | historia, geografía, evolución |
+  | `menta` | verde menta + azul | física, matemáticas, respiratorio |
+
+  Si ninguna sirve, crea una nueva copiando el bloque de una paleta y cambiando los tokens. Mantén el contraste del texto y nada de fondos oscuros.
+- **Un fondo distinto para cada tema (sección):** pon `data-fondo` en cada `<section class="topic">` y altérnalos: `cuadricula`, `rayado`, `puntos`, `milimetrado`, `kraft`, `isometrico`, `hexagonos` (química), `acuarela`, `pentagrama`. Con `data-acento="alt"` en secciones alternas, el número y el subrayado de esa sección toman el segundo color de la paleta.
+- Cambia también los colores de las cintas washi (`--tape1..3`), el ícono y los colores de los dibujos para que combinen con la paleta.
+- Al terminar, **anota la paleta y los fondos en `paletas-usadas.md`**.
+
 - Tema claro y tranquilo: papel de cuaderno con cuadrícula, línea roja de margen, cintas washi y notas adhesivas. **Nada de azul oscuro.** Usa los tokens de `:root` de la referencia.
 - Fuentes: *Instrument Serif* (títulos), *Figtree* (texto) y *Gochi Hand* (notas a mano).
 - Animaciones suaves (reveal al hacer scroll, subrayador, confeti) que respeten `prefers-reduced-motion`.
@@ -130,8 +153,9 @@ Los scripts de `scripts/pruebas/` se corren con node y reciben la ruta absoluta 
    - `vercel.json` estático: `{"buildCommand":"echo pagina estatica","installCommand":"echo sin dependencias","outputDirectory":"."}`.
    - Crea el proyecto en Vercel con `rootDirectory` = `estudio/<tema>`, framework null y **sin protección SSO** (`ssoProtection: null`), para que se pueda abrir sin cuenta.
    - Haz commit (con las líneas de atribución que pida el sistema), push a la rama asignada y despliega con `mcp__Vercel__create_deployment` usando `gitSource` (`org`, `repo`, `ref` y `sha` del commit) y `target: "production"`. Espera a que `get_deployment` diga `READY`.
-3. Guarda también la fuente en `estudio/<tema>/fuente/`, porque el scratchpad se borra.
-4. **Al terminar, pásale SIEMPRE los links al usuario:** página, `#simulacro`, `#test`, guía PDF y artefacto.
+3. Anota la paleta y los fondos en `paletas-usadas.md` (de la skill).
+4. Guarda también la fuente en `estudio/<tema>/fuente/`, porque el scratchpad se borra.
+5. **Al terminar, pásale SIEMPRE los links al usuario:** página, `#simulacro`, `#test`, guía PDF y artefacto.
 
 ## Cosas que el usuario pidió en el reproductor (repítelas sin que las pida)
 
@@ -142,5 +166,6 @@ Los scripts de `scripts/pruebas/` se corren con node y reciben la ruta absoluta 
 - Test estilo Daypo: todas las preguntas a la vista, con una animación de cada concepto. Los nombres de la animación se ocultan hasta responder, para no regalar la respuesta.
 - Nombres alternativos siempre juntos, por ejemplo "glándula bulbouretral (de Cowper)".
 - El ícono y el nombre corto para la pantalla de inicio.
+- Colores y fondos diferentes en cada página nueva y en cada tema dentro de la página.
 - Las explicaciones de los procesos, con imágenes y animaciones que se puedan practicar ahí mismo.
 - Si el tema tiene cálculos, el método **exacto de la clase**. En el reproductor: la ovulación es la fecha del primer día **+** la mitad del ciclo, sin restar 1. Pregúntalo si no está claro.
