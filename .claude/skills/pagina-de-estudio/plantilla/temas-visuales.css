@@ -1,0 +1,81 @@
+/* =====================================================================
+   TEMAS VISUALES para páginas de estudio
+   Cada página nueva usa UNA paleta distinta (y no repetida, ver paletas-usadas.md)
+   y cada sección del resumen puede llevar un FONDO distinto.
+
+   Cómo se usa:
+   1. Pega este archivo al final del primer <style> de la página.
+   2. Pon la paleta en <body class="paleta-oceano"> (u otra).
+   3. A cada <section class="topic"> ponle data-fondo="..." (cuadricula, rayado,
+      puntos, milimetrado, kraft, isometrico, hexagonos, acuarela, pentagrama).
+      Lo ideal es alternarlos para que cada tema se vea diferente.
+   4. En la portada y el escritorio (body) el fondo sale de --desk y --desk-art.
+   Todas las paletas son CLARAS (nada de azul oscuro) y tienen buen contraste de texto.
+   ===================================================================== */
+
+/* ---------- paletas (sobrescriben los tokens de :root de la referencia) ---------- */
+body.paleta-durazno{ /* la del Sistema Reproductor */
+  --desk:#F7F6F2;--page:#FFFFFF;--grid:#EFF2EC;--margin:#F6C9C0;--ink:#45403F;--muted:#8A8381;--line:#E7E2DC;--line2:#D9D1C9;
+  --hl:#FFDCCF;--hl2:#D4EFE2;--hl3:#E8E0F7;--coral:#E07A5F;--blue:#5E958A;--blue-soft:#EEF6F2;--sticky:#FFF0B5;--sticky-ink:#5A4A16;
+  --tape1:rgba(224,122,95,.28);--tape2:rgba(160,140,210,.28);--tape3:rgba(94,149,138,.28);
+  --desk-art:radial-gradient(circle at 12% 8%,#FFE9DF 0,transparent 40%),radial-gradient(circle at 90% 30%,#EAF4EE 0,transparent 35%);}
+body.paleta-oceano{ /* agua, respiración, circulación, ecosistemas marinos */
+  --desk:#F1F7F8;--page:#FFFFFF;--grid:#E4F0F2;--margin:#9FD3DA;--ink:#2F4648;--muted:#6F8789;--line:#DCE9EB;--line2:#C6DADD;
+  --hl:#CDEFF2;--hl2:#FFE3C8;--hl3:#E3E6FA;--coral:#1F9AA8;--blue:#3B7DAA;--blue-soft:#EAF4FA;--sticky:#E6F6F0;--sticky-ink:#245247;
+  --tape1:rgba(31,154,168,.25);--tape2:rgba(255,170,110,.3);--tape3:rgba(110,130,210,.25);
+  --desk-art:radial-gradient(circle at 85% 6%,#D7F0F3 0,transparent 42%),radial-gradient(circle at 5% 70%,#FFF0E2 0,transparent 35%);}
+body.paleta-bosque{ /* plantas, ecología, célula vegetal, fotosíntesis */
+  --desk:#F4F6EE;--page:#FFFEFA;--grid:#E9EEDD;--margin:#C9DDA8;--ink:#3B4433;--muted:#7C8570;--line:#E3E8D6;--line2:#CFD8BD;
+  --hl:#E1F0C6;--hl2:#FFE7B8;--hl3:#F3DDE8;--coral:#5E8C3A;--blue:#7A6B3E;--blue-soft:#F4F1E4;--sticky:#FFF3C4;--sticky-ink:#5A4A16;
+  --tape1:rgba(94,140,58,.25);--tape2:rgba(230,170,70,.3);--tape3:rgba(200,120,150,.25);
+  --desk-art:radial-gradient(circle at 10% 10%,#E5F1D2 0,transparent 40%),radial-gradient(circle at 92% 60%,#FFF2D6 0,transparent 35%);}
+body.paleta-lavanda{ /* sistema nervioso, genética, células */
+  --desk:#F6F4FA;--page:#FFFFFF;--grid:#EEEAF6;--margin:#D4C6F0;--ink:#3F3A4F;--muted:#837D93;--line:#E7E2F0;--line2:#D6CEE6;
+  --hl:#E6DBFB;--hl2:#D7F2E8;--hl3:#FFE1EA;--coral:#7B5CC4;--blue:#4E8F9C;--blue-soft:#EEF6F7;--sticky:#FCEFD2;--sticky-ink:#5A4A16;
+  --tape1:rgba(123,92,196,.25);--tape2:rgba(90,190,160,.28);--tape3:rgba(240,140,170,.28);
+  --desk-art:radial-gradient(circle at 88% 8%,#EDE4FC 0,transparent 40%),radial-gradient(circle at 6% 55%,#E2F6EF 0,transparent 33%);}
+body.paleta-girasol{ /* química, energía, nutrición, sistema digestivo */
+  --desk:#FBF8EF;--page:#FFFFFF;--grid:#F3EEDD;--margin:#F3D27E;--ink:#47402F;--muted:#8B8270;--line:#EDE6D2;--line2:#DDD3B8;
+  --hl:#FFEAA6;--hl2:#D2EEF3;--hl3:#F9DCD0;--coral:#D9901A;--blue:#3C8DA0;--blue-soft:#EAF5F8;--sticky:#FFE4D6;--sticky-ink:#6A3B22;
+  --tape1:rgba(217,144,26,.28);--tape2:rgba(60,141,160,.25);--tape3:rgba(230,120,90,.28);
+  --desk-art:radial-gradient(circle at 12% 6%,#FFF1C4 0,transparent 42%),radial-gradient(circle at 90% 70%,#E0F2F6 0,transparent 33%);}
+body.paleta-cereza{ /* sistema circulatorio, sangre, corazón, inmunidad */
+  --desk:#FBF4F4;--page:#FFFFFF;--grid:#F5E9EA;--margin:#F2B8BE;--ink:#4A3B3D;--muted:#8E7E80;--line:#EFE2E3;--line2:#E0CBCD;
+  --hl:#FFD6DC;--hl2:#DCEFE3;--hl3:#E5E5FA;--coral:#C9455B;--blue:#4F7FA8;--blue-soft:#EDF3F9;--sticky:#FFF0C9;--sticky-ink:#5A4A16;
+  --tape1:rgba(201,69,91,.24);--tape2:rgba(79,127,168,.24);--tape3:rgba(240,170,90,.28);
+  --desk-art:radial-gradient(circle at 90% 8%,#FFE1E5 0,transparent 40%),radial-gradient(circle at 6% 65%,#E9F3FB 0,transparent 33%);}
+body.paleta-arena{ /* historia, geografía, evolución, fósiles */
+  --desk:#F7F2EA;--page:#FFFDF8;--grid:#EFE7DA;--margin:#E3C49E;--ink:#4A4034;--muted:#8D8172;--line:#ECE3D4;--line2:#DCCDB7;
+  --hl:#F6DDBA;--hl2:#D9ECE1;--hl3:#E8E1F2;--coral:#B5713A;--blue:#5D8C7B;--blue-soft:#EEF5F1;--sticky:#FFF2C2;--sticky-ink:#5A4A16;
+  --tape1:rgba(181,113,58,.26);--tape2:rgba(93,140,123,.26);--tape3:rgba(150,120,190,.24);
+  --desk-art:radial-gradient(circle at 10% 8%,#F8E7CF 0,transparent 42%),radial-gradient(circle at 92% 62%,#E5F1EA 0,transparent 33%);}
+body.paleta-menta{ /* física, matemáticas, sistema respiratorio */
+  --desk:#F2F8F5;--page:#FFFFFF;--grid:#E5F1EB;--margin:#A9DCC4;--ink:#334540;--muted:#738781;--line:#DDEBE4;--line2:#C7DCD2;
+  --hl:#CFF1E0;--hl2:#FFE0CC;--hl3:#E1E6FB;--coral:#2E9C72;--blue:#5873C2;--blue-soft:#EEF1FB;--sticky:#FFF4C8;--sticky-ink:#5A4A16;
+  --tape1:rgba(46,156,114,.25);--tape2:rgba(255,150,100,.28);--tape3:rgba(88,115,194,.24);
+  --desk-art:radial-gradient(circle at 88% 10%,#D8F3E6 0,transparent 40%),radial-gradient(circle at 6% 60%,#FFEBDD 0,transparent 33%);}
+
+body[class*="paleta-"]{background-color:var(--desk);background-image:var(--desk-art);background-attachment:fixed}
+
+/* ---------- fondos de hoja por sección ---------- */
+/* margen (línea vertical) común a todos */
+section.topic[data-fondo]{--m:calc(clamp(28px,7vw,84px) - 18px);
+  background-color:var(--page);background-image:linear-gradient(90deg,transparent var(--m),var(--margin) var(--m),var(--margin) calc(var(--m) + 2px),transparent calc(var(--m) + 2px)),var(--fondo);
+  background-size:100% 100%,var(--fondo-size,24px 24px)}
+section.topic[data-fondo="cuadricula"]{--fondo:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);--fondo-size:24px 24px,24px 24px;
+  background-size:100% 100%,24px 24px,24px 24px}
+section.topic[data-fondo="rayado"]{--fondo:linear-gradient(transparent 27px,var(--grid) 27px,var(--grid) 28px);--fondo-size:100% 28px}
+section.topic[data-fondo="puntos"]{--fondo:radial-gradient(circle,var(--line2) 1.1px,transparent 1.6px);--fondo-size:22px 22px}
+section.topic[data-fondo="milimetrado"]{--fondo:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px),linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:100% 100%,40px 40px,40px 40px,8px 8px,8px 8px}
+section.topic[data-fondo="kraft"]{background-color:color-mix(in srgb,var(--page) 82%,#E9D6B8);
+  --fondo:repeating-linear-gradient(17deg,rgba(150,110,60,.035) 0 2px,transparent 2px 7px),repeating-linear-gradient(-23deg,rgba(150,110,60,.03) 0 1px,transparent 1px 9px);--fondo-size:auto;
+  background-size:100% 100%,auto,auto}
+section.topic[data-fondo="isometrico"]{--fondo:repeating-linear-gradient(30deg,var(--grid) 0 1px,transparent 1px 26px),repeating-linear-gradient(150deg,var(--grid) 0 1px,transparent 1px 26px);--fondo-size:auto;background-size:100% 100%,auto,auto}
+section.topic[data-fondo="hexagonos"]{--fondo:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='42' height='48' viewBox='0 0 42 48'%3E%3Cpath d='M21 1 41 12.5v23L21 47 1 35.5v-23Z' fill='none' stroke='%23D9D1C9' stroke-opacity='.55'/%3E%3C/svg%3E");--fondo-size:42px 48px}
+section.topic[data-fondo="acuarela"]{--fondo:radial-gradient(ellipse at 85% 12%,color-mix(in srgb,var(--hl) 55%,transparent) 0,transparent 38%),radial-gradient(ellipse at 10% 88%,color-mix(in srgb,var(--hl2) 55%,transparent) 0,transparent 40%),radial-gradient(ellipse at 60% 55%,color-mix(in srgb,var(--hl3) 35%,transparent) 0,transparent 45%);--fondo-size:100% 100%;
+  background-size:100% 100%,100% 100%,100% 100%,100% 100%}
+section.topic[data-fondo="pentagrama"]{--fondo:repeating-linear-gradient(transparent 0 40px,var(--grid) 40px 41px,transparent 41px 48px,var(--grid) 48px 49px,transparent 49px 56px,var(--grid) 56px 57px,transparent 57px 96px);--fondo-size:100% 96px}
+
+/* acento distinto por sección: el número, el subrayado y las viñetas toman el otro color de la paleta */
+section.topic[data-acento="alt"]{--coral:var(--blue);--hl:var(--hl2)}
