@@ -60,7 +60,13 @@ Orden recomendado (detalle en `referencia.md`):
 6. **Tarjetas** (`CARDS`) y **repaso tapado** (`REV`).
 7. **Simulacro** (`SIM`, `SIM_IMG`, `LBL`).
 8. **Test estilo Daypo** (`S` = escenas animadas y `scene(q)` = qué escena va con cada pregunta).
-9. **Mascotas:** frases (`PHR`, `YAI` con el nombre del profe, `TIPS`) y reacciones.
+9. **Buscador (lupa):** pega `plantilla/buscador.css` al final del primer `<style>` y `plantilla/buscador.js` en un `<script>` al final de la página. Agrega un botón flotante con una lupa (abajo a la derecha) que también se abre con la tecla `/` o Ctrl/Cmd+K. Busca sin tildes en:
+   - todo el resumen: títulos, definiciones, listas, tablas, notas y los nombres de los dibujos;
+   - los términos clave (`REV`);
+   - las preguntas de `BANK`, que muestran la respuesta al tocarlas.
+
+   Al elegir un resultado, baja hasta ese lugar y lo resalta; si es una parte de un dibujo, además la selecciona. Funciona solo, sin configurar nada, si la página usa `section.topic`, `REV`, `BANK` y `TOPICS`.
+10. **Mascotas:** frases (`PHR`, `YAI` con el nombre del profe, `TIPS`) y reacciones.
 
 ### Preguntas (lo más importante para el usuario)
 
@@ -142,7 +148,7 @@ Los scripts de `scripts/pruebas/` se corren con node y reciben la ruta absoluta 
 
 - `shot.js`: no hay errores de JS y `scrollWidth` es igual al ancho en computadora (1200) y en celular (400).
 - `ptest.js`: el banco es válido (`bad []`) y una ronda completa recorre los 6 tipos sin errores. Si el banco crece, sube el límite del bucle.
-- `dptest.js`: el test Daypo funciona. `simtest.js`: el simulacro tiene 30 líneas de pareo, 2 casos y 3 imágenes. `proct.js`: los procesos animados funcionan. `fbal.js`: el reparto por tipo y subtema es bueno.
+- `dptest.js`: el test Daypo funciona. `simtest.js`: el simulacro tiene 30 líneas de pareo, 2 casos y 3 imágenes. `proct.js`: los procesos animados funcionan. `lupa.js`: el buscador abre, encuentra, lleva al lugar y se cierra con Esc. `fbal.js`: el reparto por tipo y subtema es bueno.
 - Mira las capturas de los dibujos nuevos con Read, en computadora y en celular (390 px).
 
 ## Paso 7 — Publicar
@@ -167,5 +173,6 @@ Los scripts de `scripts/pruebas/` se corren con node y reciben la ruta absoluta 
 - Nombres alternativos siempre juntos, por ejemplo "glándula bulbouretral (de Cowper)".
 - El ícono y el nombre corto para la pantalla de inicio.
 - Colores y fondos diferentes en cada página nueva y en cada tema dentro de la página.
+- La lupa para buscar términos en toda la página.
 - Las explicaciones de los procesos, con imágenes y animaciones que se puedan practicar ahí mismo.
 - Si el tema tiene cálculos, el método **exacto de la clase**. En el reproductor: la ovulación es la fecha del primer día **+** la mitad del ciclo, sin restar 1. Pregúntalo si no está claro.

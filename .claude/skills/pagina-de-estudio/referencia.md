@@ -48,6 +48,7 @@ Busca cada parte con `grep -n` usando los marcadores de la izquierda.
 | `/* ---------- simulacro de examen */ const SIM=` | `terms` (pareo), `short` (respuesta corta), `cases` (casos), `compare`, `high` | **Todo** |
 | `const SIM_IMG=`, `const LBL=` | Imágenes del simulacro: partes numeradas y posición de cada número | Del tema nuevo |
 | `/* ---------- test estilo Daypo */ const S={` + `function scene(q)` | Mini animaciones SVG por concepto y regex que las eligen | **Escenas del tema** |
+| `/* ---------- buscador (lupa)` (último `<script>`) | Lupa flotante y búsqueda en resumen, términos y preguntas | No (viene de `plantilla/buscador.js`) |
 | `function rng(seed)` (mulberry32), `newExam` | Simulacros con semilla, guardados en `localStorage` | Clave de guardado |
 
 ## Formatos del banco
