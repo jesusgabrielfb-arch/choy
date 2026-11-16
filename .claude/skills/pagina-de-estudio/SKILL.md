@@ -79,7 +79,7 @@ Orden recomendado (detalle en `referencia.md`):
 - **Tipos:** `mc` (selección múltiple, la correcta va **primero** en el arreglo), `tf`, `fill` (llenar espacios con `___`; respuestas como lista de alternativas; `{any:true}` si el orden de los espacios no importa), `match` (pareo; **las respuestas de la derecha deben ser todas distintas**), `order` y `open` (desarrollo, con palabras clave `"a|b"`).
 - **Preguntas con imagen:** `["mc",tema,"¿Qué parte está marcada…?",[correcta,…],explicación,{img:"<id del dibujo>",p:"<parte>"}]`. `picHTML` clona el dibujo, quita los nombres y pone un círculo que late sobre la parte. Agrega las coordenadas de esa parte en el mapa de anclas.
 - **Cantidad:** apunta a **40 o más por tema**, con todos los tipos: unas 8 de llenar espacios, 2 o 3 pareos, 2 órdenes y 2 de desarrollo por tema. Cubre **todos** los subtemas (al usuario le molestó que salieran pocas de glándulas anexas).
-- **`SUBT`:** expresiones regulares por subtema para cada tema, de la más específica a la más general. `balanced()` reparte tipos y subtemas al armar cada ronda. Revisa con `pruebas/fbal.js` que casi nada caiga en "otro".
+- **`SUBT`:** expresiones regulares por subtema para cada tema, de la más específica a la más general. `balanced()` reparte tipos y subtemas al armar cada ronda. Revisa con `pruebas/fbal.cjs` que casi nada caiga en "otro".
 - Ronda por defecto: **25 preguntas**.
 
 ## Paso 3 — Mascotas en Blender
@@ -100,7 +100,7 @@ Si las mascotas son nuevas, usa `scripts/blender/build.py` como base (modela con
   - los lentes oscuros se veían grises: usa `Specular IOR Level=0`, `coat=0`, `alpha=1` y un brillo diagonal emisivo;
   - el personaje desaparecía al terminar una animación: arréglalo con `spriteOnce` y `jump-none`;
   - lentes redondos rechazados: el usuario prefirió tipo wayfarer.
-- Haz también el **ícono** para la pantalla de inicio: un SVG con algo que tenga sentido para el tema (en el reproductor, un ovocito con espermatozoides llegando). Renderízalo a 512, 192, 180 y 32 px con `pruebas/render_svg.js` y guárdalo en `iconos/`.
+- Haz también el **ícono** para la pantalla de inicio: un SVG con algo que tenga sentido para el tema (en el reproductor, un ovocito con espermatozoides llegando). Renderízalo a 512, 192, 180 y 32 px con `pruebas/render_svg.cjs` y guárdalo en `iconos/`.
 
 ## Paso 4 — Diseño (no debe parecer hecho por IA)
 
@@ -135,7 +135,7 @@ Si las mascotas son nuevas, usa `scripts/blender/build.py` como base (modela con
 Copia `fuente/guia.html` y adapta el contenido (portada, índice, secciones, repaso y autoevaluación con respuestas). Pega los mismos SVG de la página, pero sin la textura `feTurbulence`, sin el texto "?" y sin animaciones.
 
 ```bash
-node scripts/pdf.js "$PWD/guia.html" "$PWD/guia_tmp.pdf" "Tema · Guía de estudio"
+node scripts/pdf.cjs "$PWD/guia.html" "$PWD/guia_tmp.pdf" "Tema · Guía de estudio"
 python3 scripts/optimizar_pdf.py guia_tmp.pdf guia-de-estudio.pdf
 pdffonts guia-de-estudio.pdf   # NO debe haber "Type 3"
 ```
@@ -150,11 +150,13 @@ Revisa las páginas con `pdftoppm -r 45` y una hoja de contacto.
 
 ## Paso 6 — Pruebas (siempre antes de publicar)
 
+Los scripts de node usan la extensión `.cjs` para que funcionen aunque el proyecto tenga `"type": "module"` en su `package.json`. Si copias uno, conserva esa extensión.
+
 Los scripts de `scripts/pruebas/` se corren con node y reciben la ruta absoluta de la página. Adapta los selectores si cambian los ids.
 
-- `shot.js`: no hay errores de JS y `scrollWidth` es igual al ancho en computadora (1200) y en celular (400).
-- `ptest.js`: el banco es válido (`bad []`) y una ronda completa recorre los 6 tipos sin errores. Si el banco crece, sube el límite del bucle.
-- `dptest.js`: el test Daypo funciona. `simtest.js`: el simulacro tiene 30 líneas de pareo, 2 casos y 3 imágenes. `proct.js`: los procesos animados funcionan. `lupa.js`: el buscador abre, encuentra, lleva al lugar y se cierra con Esc. `fbal.js`: el reparto por tipo y subtema es bueno.
+- `shot.cjs`: no hay errores de JS y `scrollWidth` es igual al ancho en computadora (1200) y en celular (400).
+- `ptest.cjs`: el banco es válido (`bad []`) y una ronda completa recorre los 6 tipos sin errores. Si el banco crece, sube el límite del bucle.
+- `dptest.cjs`: el test Daypo funciona. `simtest.cjs`: el simulacro tiene 30 líneas de pareo, 2 casos y 3 imágenes. `proct.cjs`: los procesos animados funcionan. `lupa.cjs`: el buscador abre, encuentra, lleva al lugar y se cierra con Esc. `fbal.cjs`: el reparto por tipo y subtema es bueno.
 - Mira las capturas de los dibujos nuevos con Read, en computadora y en celular (390 px).
 
 ## Paso 7 — Publicar

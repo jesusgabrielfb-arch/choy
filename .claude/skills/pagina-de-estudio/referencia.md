@@ -65,7 +65,7 @@ Busca cada parte con `grep -n` usando los marcadores de la izquierda.
 ## Pasos para añadir un dibujo interactivo nuevo
 
 1. Dibuja el SVG en Python (scripts generadores, como en `masc/gen.py` del reproductor): gradientes radiales, filtro `feTurbulence` para dar textura y `feDropShadow`. Envuelve cada estructura en `<g class="part" data-part="clave">`; las partes delgadas llevan una `<path class="hit" stroke="transparent" stroke-width="16">` para que sean fáciles de tocar.
-2. Elige anclas (`a`) dentro de cada parte y cajas de etiqueta (`l`) que no se crucen. El ancho de la caja es `len(nombre)*7.3+18`. Renderiza una vista previa con `pruebas/render_svg.js` y mírala.
+2. Elige anclas (`a`) dentro de cada parte y cajas de etiqueta (`l`) que no se crucen. El ancho de la caja es `len(nombre)*7.3+18`. Renderiza una vista previa con `pruebas/render_svg.cjs` y mírala.
 3. Inserta el bloque `.anat`, llama `makeAnat`, agrega las anclas a `picHTML`, preguntas de imagen al `BANK` y, si quieres, una entrada en `SIM_IMG` y `LBL`.
 4. Prueba que tocar cada ancla dé la parte correcta, con `document.elementFromPoint` en modo juego.
 
@@ -76,7 +76,7 @@ Busca cada parte con `grep -n` usando los marcadores de la izquierda.
 - Las animaciones del Daypo regalaban la respuesta: el texto del SVG se oculta hasta responder.
 - `contain-intrinsic-size` hacía que las tarjetas se salieran en celular: usa `contain-intrinsic-block-size` y `min-width:0`.
 - Un `rotate()` en `.reveal.pre` sobre secciones altas causaba desplazamiento lateral: usa `html,body{overflow-x:clip}`.
-- Una coma faltante en `SIM.cases` rompió todo el JS: revisa siempre con `shot.js`, que muestra los errores.
+- Una coma faltante en `SIM.cases` rompió todo el JS: revisa siempre con `shot.cjs`, que muestra los errores.
 - La cuadrícula del PDF con gradientes CSS generaba miles de piezas: usa una imagen.
 - Las fuentes variables y las OTF salían como Type 3 (PDF lento): usa TTF estáticas.
 - Las etiquetas que quedaban debajo de otra figura (por ejemplo "hueso del pubis") hay que moverlas y añadirles una línea guía.
