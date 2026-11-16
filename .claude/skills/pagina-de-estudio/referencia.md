@@ -81,3 +81,6 @@ Busca cada parte con `grep -n` usando los marcadores de la izquierda.
 - Las fuentes variables y las OTF salían como Type 3 (PDF lento): usa TTF estáticas.
 - Las etiquetas que quedaban debajo de otra figura (por ejemplo "hueso del pubis") hay que moverlas y añadirles una línea guía.
 - Una glándula mal conectada (bulbouretral): revisa la anatomía de cada conducto que dibujes y dónde desemboca.
+- En el iPad o el iPhone, abierta desde la pantalla de inicio (modo app), `window.print()` no hace nada. Por eso "Imprimir examen" abre el examen en una **página aparte** (`window.open` + `document.write`) con sus estilos de impresión y un botón 🖨 propio.
+- La barra de arriba: si todo se desliza junto, el título se sale de la pantalla en el iPad. Estructura correcta: marca fija a la izquierda, `.nav-links` (temas) que se desliza y `.nav-btns` (Practicar, Simulacro, Test) fijos a la derecha. En el celular (≤700 px) se desliza la fila entera. El scrollspy calcula la posición con `getBoundingClientRect`.
+- `:hover` con `transform` se queda "pegado" en pantallas táctiles: ponlo dentro de `@media (hover:hover)`.

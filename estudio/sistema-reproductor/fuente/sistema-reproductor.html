@@ -34,6 +34,13 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .nav .brand .b1{font-size:21px}
 .nav .brand .b2{font-size:15px;color:var(--muted);margin-top:2px}
 .nav a.brand:hover{color:var(--coral)}
+.nav .nav-row{overflow:visible;gap:8px}
+.nav-links{display:flex;gap:2px;align-items:center;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 18px,#000 calc(100% - 18px),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 18px,#000 calc(100% - 18px),transparent 100%);padding:0 10px}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-btns{display:flex;gap:6px;align-items:center;flex:none}
+.nav .brand{flex:none}
+@media (max-width:700px){.nav .nav-row{overflow-x:auto}.nav-links{flex:none;overflow:visible;-webkit-mask-image:none;mask-image:none;padding:0}}
 .nav .brand .b2{cursor:pointer;transition:color .2s}.nav .brand .b2:hover{color:var(--coral)}
 .nav a{position:relative;white-space:nowrap;text-decoration:none;color:var(--muted);font-size:13.5px;font-weight:600;padding:6px 8px;border-radius:999px;transition:color .2s}
 .nav .nav-row{max-width:1240px}
@@ -91,7 +98,7 @@ h1 em{font-style:italic;color:var(--coral)}
 button{font:inherit;color:inherit}
 .btn{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--line2);background:var(--page);border-radius:14px;padding:9px 16px;font-weight:700;font-size:15px;cursor:pointer;text-decoration:none;color:var(--ink);
   box-shadow:var(--hard);transition:transform .15s,box-shadow .15s,background .15s}
-.btn:hover{transform:translateY(-2px);box-shadow:0 5px 0 var(--line2)}
+@media (hover:hover){.btn:hover{transform:translateY(-2px);box-shadow:0 5px 0 var(--line2)}}
 .btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--line2)}
 .btn.primary{background:var(--coral);color:#fff;border-color:#C9664D;box-shadow:0 3px 0 #C9664D}
 .btn.primary:hover{box-shadow:0 5px 0 #C9664D}
@@ -701,8 +708,9 @@ td .tp-chip{margin:0;width:100%;box-shadow:none;background:transparent;border-co
 </svg></div>
 
 <nav class="nav" aria-label="Secciones">
-  <div class="wrap nav-row" id="navrow">
+  <div class="wrap nav-row">
     <a class="brand" href="#" aria-label="Sistema Reproductor, by Jesús Fuentes. Ir al inicio"><span class="b1">Sistema Reproductor ✿</span><span class="b2">by: Jesús Fuentes</span></a>
+    <div class="nav-links" id="navrow">
     <a href="#base" data-sec="base"><span class="tick">✓</span>Base</a>
     <a href="#masculino" data-sec="masculino"><span class="tick">✓</span>Masculino</a>
     <a href="#espermatogenesis" data-sec="espermatogenesis"><span class="tick">✓</span>Espermatozoide</a>
@@ -711,10 +719,15 @@ td .tp-chip{margin:0;width:100%;box-shadow:none;background:transparent;border-co
     <a href="#ciclo" data-sec="ciclo"><span class="tick">✓</span>Ciclo</a>
     <a href="#calculo" data-sec="calculo"><span class="tick">✓</span>Cálculo</a>
     <a href="#fecundacion" data-sec="fecundacion"><span class="tick">✓</span>Fecundación</a>
-    
+    <a href="#its" data-sec="its"><span class="tick">✓</span>ITS</a>
+    <a href="#metodos" data-sec="metodos"><span class="tick">✓</span>Métodos</a>
+    <a href="#confusiones" data-sec="confusiones"><span class="tick">✓</span>No te confundas</a>
+    </div>
+    <div class="nav-btns">
     <a href="#practica" class="practice">Practicar →</a>
     <a href="#simulacro" class="practice sim-nav">Simulacro</a>
     <a href="#test" class="practice dp-nav">Test</a>
+    </div>
   </div>
   <div class="progress" aria-hidden="true"><i id="progbar"></i></div>
 </nav>
@@ -1999,7 +2012,7 @@ paintProgress();
 (function(){
   const links=[...document.querySelectorAll('.nav a[data-sec]')];
   const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){links.forEach(a=>a.classList.toggle('active',a.dataset.sec===en.target.id));
-    const a=links.find(a=>a.dataset.sec===en.target.id);if(a){const row=document.getElementById('navrow');row.scrollTo({left:a.offsetLeft-row.clientWidth/2+a.offsetWidth/2,behavior:RM?'auto':'smooth'})}}}),{rootMargin:'-45% 0px -50% 0px'});
+    const a=links.find(a=>a.dataset.sec===en.target.id);if(a){let row=document.getElementById('navrow');if(row.scrollWidth<=row.clientWidth+2)row=row.parentElement;const rr=row.getBoundingClientRect(),ar=a.getBoundingClientRect();row.scrollTo({left:row.scrollLeft+(ar.left-rr.left)-row.clientWidth/2+ar.width/2,behavior:RM?'auto':'smooth'})}}}),{rootMargin:'-45% 0px -50% 0px'});
   SECS.forEach(s=>io.observe(document.getElementById(s)));
 })();
 
@@ -3674,8 +3687,21 @@ document.getElementById('sim-new').onclick=newExam;
 function doPrint(withKey){
   if(!cur){newExam()}
   if(window.self!==window.top){const n=document.getElementById('sim-printnote');n.hidden=false;n.scrollIntoView({behavior:'smooth',block:'center'});return}
-  document.body.classList.add('print-sim');document.body.classList.toggle('print-key',!!withKey);
-  setTimeout(()=>{window.print();setTimeout(()=>document.body.classList.remove('print-sim','print-key'),400)},60);
+  const sheet=document.getElementById('sim-sheet');if(!sheet||!sheet.innerHTML.trim()){render(cur)}
+  const css=[...document.querySelectorAll('style')].map(x=>x.textContent).join('\n');
+  const fonts=[...document.querySelectorAll('link[rel="stylesheet"]')].map(l=>`<link rel="stylesheet" href="${l.href}">`).join('');
+  const html=`<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Simulacro ${withKey?'con respuestas':''}</title>${fonts}<style>${css}
+.imp-bar{position:sticky;top:0;z-index:5;display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:12px 16px;background:#FFF7F2;border-bottom:1.5px solid #E7E2DC;font:600 15px system-ui,sans-serif}
+.imp-bar button{font:700 16px system-ui,sans-serif;padding:10px 18px;border-radius:999px;border:0;background:#E07A5F;color:#fff;cursor:pointer}
+.imp-bar small{color:#8A8381}
+@media print{.imp-bar{display:none}}
+body{background:#fff}.sim-sheet{display:block!important;max-width:860px;margin:0 auto;padding:16px}
+</style></head><body class="print-sim${withKey?' print-key':''}"><div class="imp-bar"><button type="button" onclick="window.print()">🖨 Imprimir</button><small>Si no se abre la impresión, usa el botón <b>Compartir</b> del navegador → <b>Imprimir</b>.</small></div>
+<div class="sim-sheet">${document.getElementById('sim-sheet').innerHTML}</div>
+<script>window.addEventListener('load',()=>setTimeout(()=>{try{window.print()}catch(e){}},500))<\/script></body></html>`;
+  const w=window.open('','_blank');
+  if(w){w.document.open();w.document.write(html);w.document.close();return}
+  const url=URL.createObjectURL(new Blob([html],{type:'text/html'}));location.href=url;
 }
 document.getElementById('sim-print').onclick=()=>doPrint(false);
 document.getElementById('sim-printkey').onclick=()=>doPrint(true);
