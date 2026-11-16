@@ -6,7 +6,9 @@ description: Crea una página de estudio completa e interactiva para un tema esc
 # Página de estudio (plantilla del "Sistema Reproductor")
 
 Esta skill sirve para hacer **otra página como la de Sistema Reproductor, pero de un tema nuevo**.
-La implementación de referencia, que funciona y está probada, está en el repo:
+La implementación de referencia, que funciona y está probada, está en **dos lugares**:
+- dentro de la skill, en `referencia_pagina/`, cuando se instaló desde el .zip (claude.ai u otro proyecto): `sistema-reproductor.html`, `guia.html`, `fonts/`, `mascotas/`, `iconos/`, `blender/`, `vercel.json`;
+- en el repo `jesusgabrielfb-arch/choy`, cuando trabajas ahí:
 
 - `estudio/sistema-reproductor/fuente/sistema-reproductor.html` — la página completa (fuente del artefacto, sin doctype).
 - `estudio/sistema-reproductor/fuente/guia.html` — la fuente de la guía PDF (usa `fonts/`).
@@ -181,3 +183,9 @@ Los scripts de `scripts/pruebas/` se corren con node y reciben la ruta absoluta 
 - Todos los cuadros de comparación se pueden practicar (llenar el cuadro con un banco de respuestas).
 - Las explicaciones de los procesos, con imágenes y animaciones que se puedan practicar ahí mismo.
 - Si el tema tiene cálculos, el método **exacto de la clase**. En el reproductor: la ovulación es la fecha del primer día **+** la mitad del ciclo, sin restar 1. Pregúntalo si no está claro.
+
+## Usar la skill en otro chat
+
+- **Claude Code** (web, app o terminal) con el repo `choy`: la skill vive en `.claude/skills/pagina-de-estudio/` de la rama donde se creó. Para que salga en **todas** las sesiones nuevas, esa rama tiene que estar unida a la rama principal (con un pull request). Mientras tanto, abre la sesión sobre esa rama. Se invoca con `/pagina-de-estudio` o diciendo "usa la skill de página de estudio".
+- **claude.ai** (chat normal) **u otro proyecto:** genera el .zip autónomo con `bash scripts/empaquetar.sh <repo-choy> pagina-de-estudio.zip` y súbelo en la configuración de Claude, en la sección de Skills (o cópialo a `.claude/skills/` del otro proyecto). En claude.ai hay que tener activada la ejecución de código. Allí no hay acceso al repo, así que usa `referencia_pagina/`, y para publicar en Vercel hace falta el conector de Vercel.
+- Si se cambia la skill, vuelve a generar el .zip y súbelo de nuevo.
