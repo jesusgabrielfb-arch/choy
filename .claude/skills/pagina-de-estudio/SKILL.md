@@ -66,7 +66,11 @@ Orden recomendado (detalle en `referencia.md`):
    - las preguntas de `BANK`, que muestran la respuesta al tocarlas.
 
    Al elegir un resultado, baja hasta ese lugar, lo resalta y **subraya la palabra buscada** (resaltador amarillo con línea ondulada) en toda esa sección, también en los nombres de los dibujos, durante 15 segundos; si es una parte de un dibujo, además la selecciona. Funciona solo, sin configurar nada, si la página usa `section.topic`, `REV`, `BANK` y `TOPICS`.
-10. **Mascotas:** frases (`PHR`, `YAI` con el nombre del profe, `TIPS`) y reacciones.
+10. **Cuadros para practicar** ("llena el cuadro"): pega `plantilla/tabla-practica.css` en el `<style>` y `plantilla/tabla-practica.js` en un `<script>` al final. A **cada cuadro de comparación** ponle `data-practica` en su `<div class="tbl">`. Así tiene dos botones, "Ver cuadro" y "✎ Practicar: llena el cuadro": las casillas se vacían, aparece un banco con las respuestas mezcladas, tocas una respuesta y luego su casilla, y "Comprobar" pone verde y rojo, muestra la correcta y da la nota del 1 al 5. Hay tres modos:
+   - `celdas`: la primera columna es el nombre de la fila y cada casilla tiene su lugar exacto (ej. espermatogénesis vs. ovogénesis, tabla de fases);
+   - `columna`: basta con que cada frase quede en la columna correcta (ej. cesárea vs. parto);
+   - `derecha`: solo se vacía la última columna (ej. "No te confundas").
+11. **Mascotas:** frases (`PHR`, `YAI` con el nombre del profe, `TIPS`) y reacciones.
 
 ### Preguntas (lo más importante para el usuario)
 
@@ -174,5 +178,6 @@ Los scripts de `scripts/pruebas/` se corren con node y reciben la ruta absoluta 
 - El ícono y el nombre corto para la pantalla de inicio.
 - Colores y fondos diferentes en cada página nueva y en cada tema dentro de la página.
 - La lupa para buscar términos en toda la página.
+- Todos los cuadros de comparación se pueden practicar (llenar el cuadro con un banco de respuestas).
 - Las explicaciones de los procesos, con imágenes y animaciones que se puedan practicar ahí mismo.
 - Si el tema tiene cálculos, el método **exacto de la clase**. En el reproductor: la ovulación es la fecha del primer día **+** la mitad del ciclo, sin restar 1. Pregúntalo si no está claro.
