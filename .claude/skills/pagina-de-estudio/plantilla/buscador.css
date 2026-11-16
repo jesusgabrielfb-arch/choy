@@ -26,4 +26,8 @@
 .busca-tip{padding:8px 16px 12px;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}
 .search-hit{animation:searchHit 2.6s ease}
 @keyframes searchHit{0%,60%{box-shadow:0 0 0 4px var(--hl),0 0 0 9px color-mix(in srgb,var(--coral) 35%,transparent);background-color:color-mix(in srgb,var(--hl) 60%,transparent)}100%{box-shadow:none}}
+.busca-found{background:linear-gradient(transparent 55%,color-mix(in srgb,var(--sticky,#FFF0B5) 90%,#FFD54A) 55%);text-decoration:underline wavy var(--coral);text-decoration-thickness:2px;text-underline-offset:4px;border-radius:2px;animation:buscaPop .6s ease}
+.busca-found.busca-main{background:linear-gradient(transparent 40%,#FFE066 40%);text-decoration-thickness:3px}
+@keyframes buscaPop{0%{background-size:0 100%}100%{background-size:100% 100%}}
+svg text.busca-svg{fill:var(--coral)!important;font-weight:800;text-decoration:underline;text-decoration-thickness:2px}
 @media print{.lupa-btn{display:none}}

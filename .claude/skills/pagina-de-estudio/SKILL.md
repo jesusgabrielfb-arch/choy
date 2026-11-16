@@ -65,7 +65,7 @@ Orden recomendado (detalle en `referencia.md`):
    - los términos clave (`REV`);
    - las preguntas de `BANK`, que muestran la respuesta al tocarlas.
 
-   Al elegir un resultado, baja hasta ese lugar y lo resalta; si es una parte de un dibujo, además la selecciona. Funciona solo, sin configurar nada, si la página usa `section.topic`, `REV`, `BANK` y `TOPICS`.
+   Al elegir un resultado, baja hasta ese lugar, lo resalta y **subraya la palabra buscada** (resaltador amarillo con línea ondulada) en toda esa sección, también en los nombres de los dibujos, durante 15 segundos; si es una parte de un dibujo, además la selecciona. Funciona solo, sin configurar nada, si la página usa `section.topic`, `REV`, `BANK` y `TOPICS`.
 10. **Mascotas:** frases (`PHR`, `YAI` con el nombre del profe, `TIPS`) y reacciones.
 
 ### Preguntas (lo más importante para el usuario)

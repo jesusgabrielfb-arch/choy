@@ -35,9 +35,22 @@
     for(const k in R)R[k]=R[k].sort((a,b)=>b[0]-a[0]).map(a=>a[1]);
     const seen=new Set();R.res=R.res.filter(x=>{const k=x.sec+'|'+x.t.slice(0,80);if(seen.has(k))return false;seen.add(k);return true}).slice(0,18);
     R.term=R.term.slice(0,6);R.q=R.q.slice(0,6);return {R,words}}
+  /* subrayar la palabra buscada dentro de la sección */
+  let curWords=[],clearT=null;
+  function clearFound(){clearTimeout(clearT);document.querySelectorAll('span.busca-found').forEach(sp=>{const p=sp.parentNode;sp.replaceWith(document.createTextNode(sp.textContent));if(p)p.normalize()});
+    document.querySelectorAll('.busca-svg').forEach(t=>t.classList.remove('busca-svg'))}
+  function markFound(root,words){words=words.filter(w=>w.length>=2);if(!root||!words.length)return [];const out=[];
+    const tw=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>{const p=n.parentElement;if(!p||p.closest('script,style,svg,button,input,textarea,.busca-found,.anat-tabs,.proc-ctrl'))return NodeFilter.FILTER_REJECT;return n.nodeValue.trim()?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT}});
+    const nodes=[];while(tw.nextNode())nodes.push(tw.currentNode);
+    nodes.forEach(node=>{const txt=node.nodeValue;let norm='',map=[];for(let i=0;i<txt.length;i++){const c=N(txt[i]);for(const ch of c){norm+=ch;map.push(i)}}
+      const hits=[];words.forEach(w=>{let i=0;while((i=norm.indexOf(w,i))>=0){hits.push([map[i],map[i+w.length-1]+1]);i+=w.length}});
+      if(!hits.length)return;hits.sort((a,b)=>b[0]-a[0]);let last=Infinity;
+      hits.forEach(([a,b])=>{if(b>last)return;last=a;const r=document.createRange();r.setStart(node,a);r.setEnd(node,b);const sp=document.createElement('span');sp.className='busca-found';r.surroundContents(sp);out.push(sp)})});
+    root.querySelectorAll('svg text').forEach(t=>{const n=N(t.textContent);if(words.some(w=>n.includes(w))){t.classList.add('busca-svg');out.push(t)}});
+    return out}
   function render(){const box=ov.querySelector('.busca-res'),q=ov.querySelector('input').value;const r=search(q);items=[];sel=0;
     if(!r){box.innerHTML='<div class="busca-vacio">Escribe una palabra: <i>próstata</i>, <i>haploide</i>, <i>ovulación</i>…</div>';return}
-    const {R,words}=r;let h='';
+    const {R,words}=r;curWords=words;let h='';
     const TN=k=>typeof TOPICS!=='undefined'&&TOPICS[k]?TOPICS[k][0]:'';
     if(R.term.length){h+='<h5>Términos clave</h5>'+R.term.map(x=>{items.push(x);return `<button type="button" class="busca-item" data-i="${items.length-1}"><b class="t">${mark(E(x.t),words)}</b><small>${mark(E(x.d),words)}${TN(x.topic)?' · '+E(TN(x.topic)):''}</small></button>`}).join('')}
     if(R.res.length){h+='<h5>En el resumen</h5>'+R.res.map(x=>{items.push(x);return `<button type="button" class="busca-item" data-i="${items.length-1}"><b class="t">${E(x.sec)}</b><small>${snip(x.t,words)}</small></button>`}).join('')}
@@ -47,12 +60,15 @@
   function hl(){ov.querySelectorAll('.busca-item').forEach((b,i)=>b.classList.toggle('sel',i===sel));const s=ov.querySelector('.busca-item.sel');if(s)s.scrollIntoView({block:'nearest'})}
   function go(x,b){if(x.kind==='q'){b.classList.toggle('open');return}
     let el=x.el;if(x.kind==='term'&&typeof TOPICS!=='undefined'&&TOPICS[x.topic])el=document.querySelector(TOPICS[x.topic][1]);
-    close();if(!el)return;const sec=el.closest('section');if(sec)sec.classList.remove('pre');
+    close();clearFound();if(!el)return;const sec=el.closest('section');if(sec)sec.classList.remove('pre');
+    const found=markFound(sec||el,curWords);const inEl=found.filter(f=>el.contains(f)||f===el);
     const tgt=el.closest('svg')?el.closest('.anat')||el:el;
-    setTimeout(()=>{tgt.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'center'});
+    const first=x.kind==='term'?found[0]:(inEl[0]||null);const dest=(first&&!first.closest('svg'))?first:tgt;
+    setTimeout(()=>{dest.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'center'});
       tgt.classList.remove('search-hit');void tgt.offsetWidth;tgt.classList.add('search-hit');setTimeout(()=>tgt.classList.remove('search-hit'),2700);
-      const lab=el.closest('.lab,.plab');const box=el.closest('.anat');if(lab&&box&&(box.classList.contains('m-ver')||box.classList.contains('m-paso')))setTimeout(()=>lab.dispatchEvent(new MouseEvent('click',{bubbles:true})),500)},60)}
-  function open(){if(ov)return;if(!IDX)build();
+      const lab=el.closest('.lab,.plab');const box=el.closest('.anat');if(lab&&box&&(box.classList.contains('m-ver')||box.classList.contains('m-paso')))setTimeout(()=>lab.dispatchEvent(new MouseEvent('click',{bubbles:true})),500);
+      inEl.forEach(f=>f.classList&&f.classList.add('busca-main'));clearT=setTimeout(clearFound,15000)},60)}
+  function open(){if(ov)return;clearFound();if(!IDX)build();
     ov=document.createElement('div');ov.className='busca-ov';ov.setAttribute('role','dialog');ov.setAttribute('aria-label','Buscar en la página');
     ov.innerHTML=`<div class="busca"><div class="busca-top">${ICON}<input type="search" placeholder="Buscar en la página…" aria-label="Buscar" autocomplete="off" spellcheck="false"><button type="button">Cerrar</button></div><div class="busca-res"></div><div class="busca-tip">Busca sin tildes · ↑ ↓ para moverte · Enter para ir · Esc para cerrar</div></div>`;
     document.body.appendChild(ov);requestAnimationFrame(()=>ov.classList.add('on'));
