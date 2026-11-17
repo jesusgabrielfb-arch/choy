@@ -1424,7 +1424,7 @@ td .tp-chip{margin:0;width:100%;box-shadow:none;background:transparent;border-co
   <p>El método de tu cuaderno:</p>
   <ol class="steps">
     <li><div>El <b>día 1</b> es el primer día de la menstruación.</div></li>
-    <li><div><b>Ovulación</b> ≈ la <mark>mitad del ciclo</mark>: duración ÷ 2 = el <b>día número</b> del ciclo, contando el <b>primer día de la regla como día 1</b> (fecha + mitad − 1). Ej. del examen de la profe: regla el 6 sep, ciclo de 18 días → día 9 = <b>14 sep</b>.</div></li>
+    <li><div><b>Ovulación</b> ≈ la <mark>mitad del ciclo</mark>: duración ÷ 2, y ese número de días <b>se le suma a la fecha del primer día</b>. Ej.: 19 nov + 12 = <b>1 de dic</b>.</div></li>
     <li><div><b>Duración del ciclo</b> = días entre una regla y la siguiente (24 sep − 6 sep = <b>18 días</b>). <b>Fin del ciclo</b> = el día <b>antes</b> de la siguiente regla (23 sep).</div></li>
     <li><div><b>Días fértiles</b> = <mark class="g">2 días antes y 2 días después</mark> de la ovulación.</div></li>
     <li><div><b>Próxima menstruación</b> = día 1 + duración del ciclo.</div></li>
@@ -1433,7 +1433,7 @@ td .tp-chip{margin:0;width:100%;box-shadow:none;background:transparent;border-co
     <form id="calcform" onsubmit="return false">
       <div class="field"><label for="cstart">Primer día de la menstruación</label><input id="cstart" type="date" value="2026-11-19"></div>
       <div class="field"><label for="clen">Duración del ciclo (días)</label><input id="clen" type="number" min="15" max="45" value="24"></div>
-      <p class="scribble">ejemplo del cuaderno: joven de 25 años, día 1 = 19 nov, ciclo de 24 días → mitad = 12 → día 12 = 30 nov</p>
+      <p class="scribble">ejemplo del cuaderno: joven de 25 años, día 1 = 19 nov, ciclo de 24 días → mitad = 12 → 19 + 12 = 1 dic</p>
     </form>
     <div>
       <div class="results" id="cres"></div>
@@ -1446,7 +1446,7 @@ td .tp-chip{margin:0;width:100%;box-shadow:none;background:transparent;border-co
       </div>
     </div>
   </div>
-  <div class="sticky"><span class="t">así lo corrige la profe (examen 2025)</span>En el parcial del año pasado: la regla vino el <b>6 de septiembre</b> y la siguiente el <b>24 de septiembre</b>. Respuestas con 5/5: duración <b>18 días</b> (24 − 6) · ovulación en septiembre <b>14</b> (día 9, contando el 6 como día 1) · fin del ciclo en septiembre <b>23</b> · ovulación en octubre <b>2</b> · fin del ciclo en octubre <b>11</b>. <b>El primer día de la regla cuenta como día 1.</b></div>
+  <div class="sticky"><span class="t">así se hace en clase</span>La mitad del ciclo se <b>suma directo</b> a la fecha del primer día de la regla: 19 de nov + 12 días = <b>1 de dic</b>. Si el ciclo dura 34 días: 26 de mayo + 17 días = <b>12 de junio</b>.</div>
   <div class="calc-prac" id="calc-prac">
     <h3>Practica el cálculo <span class="chip c-hot">Muy probable</span></h3>
     <div class="cp-card">
@@ -1697,7 +1697,7 @@ td .tp-chip{margin:0;width:100%;box-shadow:none;background:transparent;border-co
   <h3>III y V Parte</h3>
   <div class="vs">
     <div><h4>III. Ventajas (5 pts)</h4><p><b>Parto natural:</b> el bebé entra en contacto con las bacterias buenas (microbiota) del canal vaginal de la madre; la recuperación posparto es menos dolorosa y más rápida; facilita la lactancia; contacto piel con piel inmediato.<br><b>Cesárea:</b> no se siente dolor durante el parto (anestesia); se puede programar con anticipación.</p></div>
-    <div><h4>V. Calendario (5 pts)</h4><p>Regla el <b>6 sep</b> y la siguiente el <b>24 sep</b>: duración <b>18 días</b> · ovulación en septiembre <b>14</b> · fin del ciclo en septiembre <b>23</b> · ovulación en octubre <b>2</b> · fin del ciclo en octubre <b>11</b>. El primer día de la regla cuenta como día 1. Practícalo en la sección <a href="#calculo">Cálculo</a>.</p></div>
+    <div><h4>V. Calendario (5 pts)</h4><p>Regla el <b>6 sep</b> y la siguiente el <b>24 sep</b>: duración <b>18 días</b> (24 − 6) · fin del ciclo en septiembre <b>23</b> (el día antes de la siguiente regla) · fin del ciclo en octubre <b>11</b>. Las ovulaciones se calculan con el método de la sección <a href="#calculo">Cálculo</a>.</p></div>
   </div>
   <div class="done-row"><button class="btn small tprac" type="button" data-prac="examen">Practicar preguntas del examen</button></div>
 </section>
@@ -2260,8 +2260,8 @@ function calc(){
   const res=document.getElementById('cres'),cal=document.getElementById('ccal');
   if(!s||!(L>=15&&L<=45)){res.innerHTML='<div class="res">Escribe una fecha y una duración entre 15 y 45 días.</div>';cal.innerHTML='';return}
   const [y,m,d]=s.split('-').map(Number),start=Date.UTC(y,m-1,d),mid=Math.round(L/2);
-  const ov=start+(mid-1)*DAY,f0=ov-2*DAY,f1=ov+2*DAY,next=start+L*DAY;
-  res.innerHTML=`<div class="res"><span>Mitad del ciclo</span><b>${L} ÷ 2 ≈ día ${mid} del ciclo</b></div><div class="res key bump"><span>Ovulación</span><b>${fmt(ov,{weekday:'long'})}</b></div><div class="res"><span>Días fértiles (±2)</span><b>${fmt(f0)} – ${fmt(f1)}</b></div><div class="res"><span>Fin del ciclo</span><b>${fmt(next-DAY)}</b></div><div class="res"><span>Próxima menstruación</span><b>${fmt(next)}</b></div>`;
+  const ov=start+mid*DAY,f0=ov-2*DAY,f1=ov+2*DAY,next=start+L*DAY;
+  res.innerHTML=`<div class="res"><span>Mitad del ciclo</span><b>${L} ÷ 2 ≈ ${mid} días → se suman a la fecha</b></div><div class="res key bump"><span>Ovulación</span><b>${fmt(ov,{weekday:'long'})}</b></div><div class="res"><span>Días fértiles (±2)</span><b>${fmt(f0)} – ${fmt(f1)}</b></div><div class="res"><span>Fin del ciclo</span><b>${fmt(next-DAY)}</b></div><div class="res"><span>Próxima menstruación</span><b>${fmt(next)}</b></div>`;
   const dow=(new Date(start).getUTCDay()+6)%7;let html=['L','M','M','J','V','S','D'].map(x=>`<div class="h">${x}</div>`).join(''),k=0;
   for(let i=0;i<dow;i++)html+='<div style="visibility:hidden;animation:none"></div>';
   for(let t=start;t<=next;t+=DAY){const dd=new Date(t).getUTCDate();let c='';
@@ -2280,19 +2280,19 @@ function calc(){
   let ex=null,ok=0,tot=0,streak=0;
   const PH={all:[BOTH+'¡Las cuatro bien! Eres una calculadora humana.',SP+'Perfecto. Ni el reloj biológico es tan exacto.',OV+'¡Bravo! Así se lo explicas a la profe Yaisel.'],
     some:[OV+'Vas bien, revisa las que salieron en rojo.',SP+'Casi todo. Mira la solución paso a paso.'],
-    none:[SP+'Uy… ninguna. ¿Contaste el primer día de la regla como día 1?',OV+'Tranqui: mitad del ciclo, ±2 días, y día 1 + duración. ¡Otra vez!'],
+    none:[SP+'Uy… ninguna. ¿Sumaste la mitad del ciclo a la fecha?',OV+'Tranqui: mitad del ciclo, ±2 días, y día 1 + duración. ¡Otra vez!'],
     yai:[SP+'Tres seguidos mal… la profe Yaisel se va a molestar. ¡Mira la solución!',OV+'Si sigues así te quedas en Biología. Lee los pasos de abajo.']};
   function gen(){
     const y=new Date().getFullYear(),start=Date.UTC(y,Math.floor(Math.random()*11),1+Math.floor(Math.random()*27));
-    const L=[24,26,28,30,32,34][Math.floor(Math.random()*6)],mid=L/2,ov=start+(mid-1)*DAY;
+    const L=[24,26,28,30,32,34][Math.floor(Math.random()*6)],mid=L/2,ov=start+mid*DAY;
     ex={start,L,mid,ov,f0:ov-2*DAY,f1:ov+2*DAY,next:start+L*DAY,name:pick(NAMES),age:14+Math.floor(Math.random()*16)};
     $('cp-q').innerHTML=`<b>${ex.name}</b> tiene ${ex.age} años. Su menstruación empezó el <b>${F(start,{weekday:'long'})}</b> y su ciclo dura <b>${L} días</b>. Calcula la ovulación, los días fértiles y la próxima menstruación.`;
     ['ov','f0','f1','nx'].forEach(k=>{const i=$('cp-'+k);i.value='';i.className='';i.min=iso(start);i.max=iso(start+60*DAY);$('cp-'+k+'-a').textContent='';$('cp-'+k+'-a').className='cp-ans'});
-    $('cp-steps').hidden=true;react('stage-calc','idle',pick([OV+'Nuevo ejercicio. Primero saca la mitad del ciclo.',SP+'Va otro. Recuerda: el primer día de la regla es el día 1.',OV+'Tú puedes, es como el ejemplo del cuaderno.']));
+    $('cp-steps').hidden=true;react('stage-calc','idle',pick([OV+'Nuevo ejercicio. Primero saca la mitad del ciclo.',SP+'Va otro. Recuerda: la mitad se suma a la fecha.',OV+'Tú puedes, es como el ejemplo del cuaderno.']));
   }
   function steps(){const e=ex;$('cp-steps').innerHTML=`<b>Solución paso a paso</b><ol>
     <li>Mitad del ciclo: ${e.L} ÷ 2 = <b>día ${e.mid}</b>.</li>
-    <li>El día 1 es el ${F(e.start)}, así que el día ${e.mid} es ${F(e.start)} + ${e.mid-1} días = <b>${F(e.ov)}</b> (ovulación).</li>
+    <li>Se suma la mitad a la fecha del primer día: ${F(e.start)} + ${e.mid} días = <b>${F(e.ov)}</b> (ovulación).</li>
     <li>Días fértiles: 2 antes y 2 después → <b>${F(e.f0)} al ${F(e.f1)}</b>.</li>
     <li>Próxima menstruación: ${F(e.start)} + ${e.L} días = <b>${F(e.next)}</b>.</li></ol>`;$('cp-steps').hidden=false}
   $('cp-check').onclick=()=>{
@@ -2614,30 +2614,40 @@ const BANK=[
 ["match","ciclo","Une cada hormona con su tipo o función.",[["FSH","Hipofisaria; sube en la fase folicular"],["LH","Hipofisaria; pico en la ovulación"],["Progesterona","Ovárica; hormona del embarazo"],["Estrógeno","Ovárica; sube en la fase folicular y baja en la ovulación"]]],
 
 /* ===== CÁLCULO ===== */
-["mc", "calc", "Ciclo de 28 días que empieza el 1 de marzo. ¿Cuáles son los días fértiles?", ["12 al 16 de marzo", "13 al 17 de marzo", "14 al 20 de marzo", "26 al 28 de marzo"], "Ovulación: día 14 contando el 1 de marzo como día 1 = 14 de marzo. Fértiles: 2 antes y 2 después."],
 ["fill", "calc", "Examen de la profe: la regla vino el 6 de septiembre y la siguiente el 24 de septiembre. El ciclo dura ___ días.", [["18", "dieciocho"]], "24 − 6 = 18 días."],
-["fill", "calc", "Mismo caso (6 sep y 24 sep): la ovulación en septiembre es el ___ de septiembre.", [["14", "catorce"]], "18 ÷ 2 = 9 → día 9 contando el 6 como día 1 = 14 de septiembre."],
+["fill", "calc", "Mismo caso (6 sep y 24 sep): la ovulación en septiembre es el ___ de septiembre.", [["15", "quince"]], "18 ÷ 2 = 9 → 6 + 9 = 15 de septiembre."],
 ["fill", "calc", "Mismo caso (6 sep y 24 sep): el ciclo de septiembre termina el ___ de septiembre.", [["23"]], "Termina el día antes de la siguiente regla (24 − 1 = 23)."],
-["fill", "calc", "Mismo caso: la ovulación en octubre es el ___ de octubre.", [["2", "dos"]], "El nuevo ciclo empieza el 24 sep: día 9 = 2 de octubre."],
+["fill", "calc", "Mismo caso: la ovulación en octubre es el ___ de octubre.", [["3", "tres"]], "El nuevo ciclo empieza el 24 sep: 24 + 9 = 3 de octubre."],
 ["fill", "calc", "Mismo caso: el ciclo de octubre termina el ___ de octubre.", [["11", "once"]], "La siguiente regla sería el 12 oct (24 sep + 18), así que el ciclo termina el 11 oct."],
 ["mc", "calc", "Si la regla vino el 3 de marzo y la siguiente el 31 de marzo, ¿cuánto dura el ciclo?", ["28 días", "31 días", "3 días", "30 días"], "31 − 3 = 28 días."],
 ["mc", "calc", "¿Qué día termina un ciclo?", ["El día antes de que empiece la siguiente regla", "El día de la ovulación", "El último día de sangrado", "El día 14 siempre"], "Ej.: si la siguiente regla es el 24, el ciclo termina el 23."],
+["mc", "calc", "Ciclo de 28 días que empieza el 1 de marzo. ¿Cuáles son los días fértiles?", ["13 al 17 de marzo", "12 al 16 de marzo", "14 al 20 de marzo", "26 al 28 de marzo"], "Ovulación: 1 de marzo + 14 días = 15 de marzo. Fértiles: 2 antes y 2 después."],
 ["mc","calc","Un ciclo de 30 días empieza el 5 de abril. ¿Cuándo es la próxima menstruación?",["5 de mayo","4 de mayo","20 de abril","19 de abril"],"5 de abril + 30 días = 5 de mayo."],
-["mc", "calc", "Ciclo de 24 días que empieza el 19 de noviembre. ¿Qué día es la ovulación?", ["30 de noviembre", "1 de diciembre", "12 de noviembre", "13 de diciembre"], "Mitad = 12 → el día 12 contando el 19 nov como día 1 = 30 de noviembre."],
-["mc", "calc", "En un ciclo de 32 días, ¿qué día del ciclo es la ovulación?", ["Día 16", "Día 14", "Día 32", "Día 8"], "32 ÷ 2 = 16: el día 16, contando el primer día de la regla como día 1."],
+["mc", "calc", "Ciclo de 24 días que empieza el 19 de noviembre. ¿Qué día es la ovulación?", ["1 de diciembre", "30 de noviembre", "12 de noviembre", "13 de diciembre"], "Mitad = 12 → 19 de noviembre + 12 días = 1 de diciembre."],
+["mc", "calc", "En un ciclo de 32 días, ¿cuántos días se le suman a la fecha del primer día para saber la ovulación?", ["16 días", "14 días", "32 días", "8 días"], "32 ÷ 2 = 16: se suman 16 días a la fecha del primer día de la regla."],
 ["mc","calc","Si la ovulación es el 10 de junio, ¿cuáles son los días fértiles?",["8 al 12 de junio","10 al 14 de junio","6 al 10 de junio","1 al 5 de junio"],"2 días antes y 2 después."],
 ["mc","calc","Un ciclo de 28 días empieza el 10 de enero. ¿Cuándo es la próxima menstruación?",["7 de febrero","10 de febrero","8 de febrero","28 de enero"],"10 de enero + 28 días = 7 de febrero (enero tiene 31 días)."],
-["mc", "calc", "Un ciclo de 26 días empieza el 1 de mayo. ¿Qué día es la ovulación?", ["13 de mayo", "14 de mayo", "26 de mayo", "12 de mayo"], "26 ÷ 2 = 13 → día 13 = 1 de mayo + 12 días = 13 de mayo."],
-["mc", "calc", "Un ciclo de 34 días empieza el 3 de agosto. ¿Qué día es la ovulación?", ["19 de agosto", "20 de agosto", "17 de agosto", "3 de septiembre"], "34 ÷ 2 = 17 → día 17 = 3 de agosto + 16 días = 19 de agosto."],
+["mc", "calc", "Un ciclo de 26 días empieza el 1 de mayo. ¿Qué día es la ovulación?", ["14 de mayo", "13 de mayo", "26 de mayo", "12 de mayo"], "26 ÷ 2 = 13 → 1 de mayo + 13 días = 14 de mayo."],
+["mc", "calc", "Un ciclo de 34 días empieza el 3 de agosto. ¿Qué día es la ovulación?", ["20 de agosto", "19 de agosto", "17 de agosto", "3 de septiembre"], "34 ÷ 2 = 17 → 3 de agosto + 17 días = 20 de agosto."],
 ["mc","calc","Los días fértiles son…",["2 días antes y 2 días después de la ovulación","solo el día de la ovulación","toda la menstruación","10 días después de la regla"],"Método de tu cuaderno."],
 ["mc","calc","Para calcular la próxima menstruación…",["se suma la duración del ciclo al día 1","se resta 14 días","se divide entre 2","se suman 5 días"],"Día 1 + duración del ciclo."],
-["mc", "calc", "Un ciclo de 30 días empieza el 2 de octubre. ¿Qué día es la ovulación?", ["16 de octubre", "17 de octubre", "15 de octubre", "1 de noviembre"], "30 ÷ 2 = 15 → día 15 = 2 de octubre + 14 días = 16 de octubre."],
+["mc", "calc", "Un ciclo de 30 días empieza el 2 de octubre. ¿Qué día es la ovulación?", ["17 de octubre", "16 de octubre", "15 de octubre", "1 de noviembre"], "30 ÷ 2 = 15 → 2 de octubre + 15 días = 17 de octubre."],
 ["tf","calc","Para calcular la ovulación se divide la duración del ciclo entre 2.",true,"Ovulación ≈ mitad del ciclo."],
 ["tf","calc","Los días fértiles son solo los 2 días antes de la ovulación.",false,"Son 2 antes y 2 después."],
 ["tf","calc","El día 1 del ciclo es el primer día de la menstruación.",true,"Desde ahí se cuenta."],
-["open","calc","Explica el método para calcular la ovulación y los días fértiles.","El día 1 es el primer día de la menstruación. La ovulación es aproximadamente la mitad del ciclo (duración ÷ 2): ese es el día del ciclo, contando el primer día de la regla como día 1. Los días fértiles son 2 días antes y 2 días después de la ovulación. La próxima menstruación es el día 1 más la duración del ciclo.",["dia 1|primer dia","mitad|entre 2|÷ 2|/2","2 dias|dos dias","antes","despues"]],
-["order","calc","Ordena los pasos para calcular los días fértiles.",["Identificar el día 1 (primer día de la regla)","Dividir la duración del ciclo entre 2","Contar hasta ese día, con el primer día de la regla como día 1: ovulación","Restar y sumar 2 días: días fértiles","Sumar la duración al día 1: próxima regla"],"Así lo hiciste en el ejemplo del cuaderno."],
-["match","calc","Ciclo de 28 días que empieza el 1 de marzo. Une cada dato con su fecha.",[["Día 1","1 de marzo"],["Ovulación","14 de marzo"],["Primer día fértil","12 de marzo"],["Último día fértil","16 de marzo"],["Próxima menstruación","29 de marzo"]]],
+["open","calc","Explica el método para calcular la ovulación y los días fértiles.","El día 1 es el primer día de la menstruación. La ovulación es aproximadamente la mitad del ciclo (duración ÷ 2): ese número de días se suma a la fecha del día 1. Los días fértiles son 2 días antes y 2 días después de la ovulación. La próxima menstruación es el día 1 más la duración del ciclo.",["dia 1|primer dia","mitad|entre 2|÷ 2|/2","2 dias|dos dias","antes","despues"]],
+["order","calc","Ordena los pasos para calcular los días fértiles.",["Identificar el día 1 (primer día de la regla)","Dividir la duración del ciclo entre 2","Sumar ese número de días a la fecha del día 1: ovulación","Restar y sumar 2 días: días fértiles","Sumar la duración al día 1: próxima regla"],"Así lo hiciste en el ejemplo del cuaderno."],
+["match","calc","Ciclo de 28 días que empieza el 1 de marzo. Une cada dato con su fecha.",[["Día 1","1 de marzo"],["Ovulación","15 de marzo"],["Primer día fértil","13 de marzo"],["Último día fértil","17 de marzo"],["Próxima menstruación","29 de marzo"]]],
+["fill", "calc", "Ciclo de 28 días que empieza el 1 de marzo: la ovulación es el ___ de marzo.", [["15", "quince"]], "1 de marzo + 14 días = 15 de marzo."],
+["fill", "calc", "Ciclo de 30 días que empieza el 10 de abril: la próxima menstruación es el ___ de mayo.", [["10", "diez"]], "10 de abril + 30 días = 10 de mayo."],
+["fill", "calc", "Los días fértiles son ___ días antes y ___ días después de la ovulación.", [["2", "dos"], ["2", "dos"]], "Ovulación ± 2."],
+["fill", "calc", "Ciclo de 32 días que empieza el 2 de junio: la ovulación es el ___ de junio.", [["18", "dieciocho"]], "32 ÷ 2 = 16 → 2 + 16 = 18 de junio."],
+["fill", "calc", "Si la ovulación es el 20 de agosto, los días fértiles van del ___ al ___ de agosto.", [["18"], ["22"]], "2 antes y 2 después."],
+["fill", "calc", "Para saber la ovulación se divide el ciclo entre ___ y se suma a la fecha del primer día.", [["2", "dos"]], "Mitad del ciclo."],
+["match", "calc", "Ciclo de 26 días que empieza el 5 de enero. Une cada dato con su fecha.", [["Día 1", "5 de enero"], ["Ovulación", "18 de enero"], ["Primer día fértil", "16 de enero"], ["Último día fértil", "20 de enero"], ["Próxima menstruación", "31 de enero"]]],
+["mc", "calc", "Un ciclo de 30 días empieza el 20 de enero. ¿Qué día es la ovulación?", ["4 de febrero", "3 de febrero", "5 de febrero", "19 de febrero"], "30 ÷ 2 = 15 → 20 de enero + 15 días = 4 de febrero (enero tiene 31 días)."],
+["mc", "calc", "Un ciclo de 28 días empieza el 25 de marzo. ¿Cuándo es la próxima menstruación?", ["22 de abril", "25 de abril", "21 de abril", "8 de abril"], "25 de marzo + 28 días = 22 de abril (marzo tiene 31 días)."],
+["tf", "calc", "Para calcular la ovulación se suma la mitad del ciclo a la fecha del primer día de la regla.", true, "Ej.: 19 nov + 12 = 1 dic."],
 
 /* ===== FECUNDACIÓN Y GESTACIÓN ===== */
 ["mc", "fec", "Si el ovocito II SÍ es fecundado, ¿qué pasa con el cuerpo lúteo?", ["Se mantiene y sigue produciendo progesterona", "Se degrada enseguida", "Se convierte en folículo de Graaf", "Produce FSH"], "Así el endometrio no se desprende y no hay menstruación: empieza el embarazo."],
@@ -2899,16 +2909,6 @@ const BANK=[
 ["fill", "ciclo", "En la menarquia se pierden en promedio unos ___ mL de sangre.", [["35"]], "Lo normal: de 10 a 80 mL."],
 ["fill", "ciclo", "El folículo maduro que contiene al ovocito II se llama folículo de ___.", [["graaf"]], "Se rompe en la ovulación."],
 ["match", "ciclo", "Une cada fase con sus días (PPT).", [["Fase menstrual", "Días 1–5"], ["Fase folicular (proliferativa)", "Días 1–13"], ["Ovulación", "Días 14–15"], ["Fase lútea (secretora)", "Días 15–28"]]],
-["fill", "calc", "Ciclo de 28 días que empieza el 1 de marzo: la ovulación es el ___ de marzo.", [["14", "catorce"]], "Día 14 contando el 1 de marzo como día 1 = 14 de marzo."],
-["fill", "calc", "Ciclo de 30 días que empieza el 10 de abril: la próxima menstruación es el ___ de mayo.", [["10", "diez"]], "10 de abril + 30 días = 10 de mayo."],
-["fill", "calc", "Los días fértiles son ___ días antes y ___ días después de la ovulación.", [["2", "dos"], ["2", "dos"]], "Ovulación ± 2."],
-["fill", "calc", "Ciclo de 32 días que empieza el 2 de junio: la ovulación es el ___ de junio.", [["17", "diecisiete"]], "32 ÷ 2 = 16 → día 16 = 2 + 15 = 17 de junio."],
-["fill", "calc", "Si la ovulación es el 20 de agosto, los días fértiles van del ___ al ___ de agosto.", [["18"], ["22"]], "2 antes y 2 después."],
-["fill", "calc", "Para saber la ovulación se divide el ciclo entre ___ y se cuenta desde el primer día de la regla, que es el día ___.", [["2", "dos"], ["1", "uno"]], "Fecha + mitad − 1."],
-["match", "calc", "Ciclo de 26 días que empieza el 5 de enero. Une cada dato con su fecha.", [["Día 1", "5 de enero"], ["Ovulación", "17 de enero"], ["Primer día fértil", "15 de enero"], ["Último día fértil", "19 de enero"], ["Próxima menstruación", "31 de enero"]]],
-["mc", "calc", "Un ciclo de 30 días empieza el 20 de enero. ¿Qué día es la ovulación?", ["3 de febrero", "4 de febrero", "5 de febrero", "19 de febrero"], "30 ÷ 2 = 15 → día 15 = 20 de enero + 14 días = 3 de febrero (enero tiene 31 días)."],
-["mc", "calc", "Un ciclo de 28 días empieza el 25 de marzo. ¿Cuándo es la próxima menstruación?", ["22 de abril", "25 de abril", "21 de abril", "8 de abril"], "25 de marzo + 28 días = 22 de abril (marzo tiene 31 días)."],
-["tf", "calc", "Para calcular la ovulación, el primer día de la regla cuenta como día 1.", true, "Ej. del examen de la profe: regla el 6 sep, ciclo de 18 días → día 9 = 14 sep."],
 ["fill", "fec", "La fecundación forma un ___ diploide.", [["cigoto"]], "Fusión de los núcleos."],
 ["fill", "fec", "La fecundación ocurre en la ___ de la trompa de Falopio.", [["ampula"]], "Es interna."],
 ["fill", "fec", "El sexo del bebé depende de si el espermatozoide lleva el cromosoma ___ o el ___.", [["x"], ["y"]], "XX = mujer; XY = hombre.", {"any": true}],
@@ -2995,7 +2995,7 @@ const CARDS=[
  ['Fases del ciclo','Menstruación → folicular → ovulación → lútea.','ciclo'],
  ['FSH y LH','Hormonas hipofisarias; LH tiene su pico en la ovulación.','ciclo'],
  ['Días fértiles','2 días antes y 2 días después de la ovulación.','calc'],
- ['¿Cómo se calcula la ovulación?','Duración ÷ 2 = día del ciclo, contando el primer día de la regla como día 1 (6 sep, ciclo de 18 → 14 sep).','calc'],
+ ['¿Cómo se calcula la ovulación?','Duración del ciclo ÷ 2, y se suma a la fecha del primer día de la regla (19 nov + 12 = 1 dic).','calc'],
  ['Próxima menstruación','Día 1 + duración del ciclo.','calc'],
  ['¿Qué par de cromosomas define el sexo?','El par 23: XX mujer, XY hombre.','fec'],
  ['Univitelinos vs. bivitelinos','Univitelinos: idénticos, un óvulo que se divide en 2. Bivitelinos: mellizos, la mujer ovula varios.','fec'],
@@ -3484,7 +3484,7 @@ fill:[
 ],
 /* casos clínicos */
 cases:[
- {id:'calc',make:r=>{const y=new Date().getFullYear(),start=Date.UTC(y,Math.floor(r()*11),1+Math.floor(r()*26)),L=[26,28,30,32][Math.floor(r()*4)],mid=L/2,ov=start+(mid-1)*DAY;
+ {id:'calc',make:r=>{const y=new Date().getFullYear(),start=Date.UTC(y,Math.floor(r()*11),1+Math.floor(r()*26)),L=[26,28,30,32][Math.floor(r()*4)],mid=L/2,ov=start+mid*DAY;
    const name=['María','Valeria','Andrea','Paula','Elena'][Math.floor(r()*5)];
    return {title:'Calculando el ciclo',text:`${name} tiene 24 años y quiere conocer su ciclo. Su última menstruación empezó el <b>${fmt(start,{weekday:'long'})}</b> y sus ciclos duran <b>${L} días</b>. Además, toma su temperatura cada mañana y nota que un día sube de 36 °C a 37 °C.`,
    qs:[{q:'¿Qué día ovula (método del cuaderno)?',type:'date',ans:new Date(ov).toISOString().slice(0,10),show:fmt(ov)},

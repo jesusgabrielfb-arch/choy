@@ -53,7 +53,7 @@ Si el usuario manda fotos de **exámenes pasados**, pídeselos si no los mandó:
 - **Imita su formato en el simulacro:** partes, puntos, tipo de preguntas y forma de calificar.
 - **Agrega una sección "Así preguntó la profe":** la estructura del examen, el cuadro de preguntas con sus respuestas (practicable con `data-practica`) y las relaciones (por ejemplo, frases ↔ ITS).
 - **Crea un tema `examen` en `TOPICS`** con esas preguntas y un botón "Practicar preguntas del examen".
-- **Úsalos para confirmar métodos:** en el reproductor, el examen calificado mostró que la ovulación se cuenta con el **primer día de la regla como día 1** (6 sep + ciclo de 18 → 14 sep). Lo que corrigió el profe vale más que lo que se recuerda de clase.
+- **Úsalos para revisar los métodos:** muéstrale al usuario lo que dice el examen calificado, pero **la decisión final es suya**. En el reproductor el examen contaba el primer día como día 1, y aun así el usuario prefirió sumar la mitad del ciclo directo a la fecha.
 - Marca las respuestas que el estudiante tuvo mal y pon la correcta.
 
 ## Paso 2 — Construir la página (copiando la referencia)
@@ -192,7 +192,7 @@ Los scripts de `scripts/pruebas/` se corren con node y reciben la ruta absoluta 
 - La lupa para buscar términos en toda la página.
 - Todos los cuadros de comparación se pueden practicar (llenar el cuadro con un banco de respuestas).
 - Las explicaciones de los procesos, con imágenes y animaciones que se puedan practicar ahí mismo.
-- Si el tema tiene cálculos, el método **exacto de la clase**. En el reproductor: la ovulación es la fecha del primer día **+** la mitad del ciclo, sin restar 1. Pregúntalo si no está claro.
+- Si el tema tiene cálculos, el método **exacto que diga el usuario**. En el reproductor: ovulación = fecha del primer día **+** la mitad del ciclo (26 de mayo + 17 = 12 de junio). Pregúntalo si no está claro.
 
 ## Usar la skill en otro chat
 
