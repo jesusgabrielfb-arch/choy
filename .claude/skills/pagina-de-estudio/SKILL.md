@@ -48,6 +48,14 @@ Si el usuario manda archivos sin contestar, lee el material igual y deduce lo qu
 - Lo que no esté en el material y agregues porque ayuda (por ejemplo, la criptorquidia), márcalo como **"Dato extra (no está en el PPT)"**.
 - Arma la lista de **temas** del índice y, para cada uno, sus **subtemas**. Los vas a necesitar para `TOPICS` y `SUBT`.
 
+### Exámenes viejos del profe (lo más valioso)
+Si el usuario manda fotos de **exámenes pasados**, pídeselos si no los mandó:
+- **Imita su formato en el simulacro:** partes, puntos, tipo de preguntas y forma de calificar.
+- **Agrega una sección "Así preguntó la profe":** la estructura del examen, el cuadro de preguntas con sus respuestas (practicable con `data-practica`) y las relaciones (por ejemplo, frases ↔ ITS).
+- **Crea un tema `examen` en `TOPICS`** con esas preguntas y un botón "Practicar preguntas del examen".
+- **Úsalos para confirmar métodos:** en el reproductor, el examen calificado mostró que la ovulación se cuenta con el **primer día de la regla como día 1** (6 sep + ciclo de 18 → 14 sep). Lo que corrigió el profe vale más que lo que se recuerda de clase.
+- Marca las respuestas que el estudiante tuvo mal y pon la correcta.
+
 ## Paso 2 — Construir la página (copiando la referencia)
 
 Trabaja en el scratchpad: copia `fuente/sistema-reproductor.html` a `<scratchpad>/<tema>/<tema>.html` y guarda un backup antes de cada cambio grande (`backup_pre_X.html`). Haz los cambios con scripts de Python que reemplazan texto y comprueban que el original aparece exactamente una vez (`assert s.count(a)==1`). Así nunca rompes algo sin darte cuenta.
