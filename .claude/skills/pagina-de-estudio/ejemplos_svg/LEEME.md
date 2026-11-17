@@ -3,7 +3,7 @@
 Son los scripts reales que dibujaron los esquemas del reproductor. Úsalos como **modelo**:
 - copia el que se parezca a lo que necesitas,
 - cambia figuras, textos y rutas de entrada y salida (apuntan a carpetas del scratchpad de aquella sesión),
-- renderiza una vista previa con `node ../scripts/pruebas/render_svg.js archivo.svg salida.png ANCHO ALTO` y mírala antes de meterla en la página.
+- renderiza una vista previa con `node ../scripts/pruebas/render_svg.cjs archivo.svg salida.png ANCHO ALTO` y mírala antes de meterla en la página.
 
 | Archivo | Qué dibuja | Tipo |
 |---|---|---|
@@ -12,4 +12,4 @@ Son los scripts reales que dibujaron los esquemas del reproductor. Úsalos como 
 | proceso_espermatogenesis.py | Tubo seminífero + espermatogonia → 4 espermatozoides | Proceso animado (makeProc) |
 | proceso_ovogenesis.py / ovogenesis_flow.py | Ovogonia → cigoto + línea de tiempo | Proceso animado (makeProc) |
 | fecundacion_caminos.py | Sí o no hay fecundación (dos caminos) | Figura animada |
-| icono.svg + icono_render.js | Ícono de la pantalla de inicio | PNG de 512/192/180/32 px |
+| icono.svg + icono_render.cjs | Ícono de la pantalla de inicio | PNG de 512/192/180/32 px |
