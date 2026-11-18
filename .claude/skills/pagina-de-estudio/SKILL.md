@@ -25,6 +25,7 @@ Habla siempre en español, en tono cercano. El usuario es estudiante y la nota v
 - Si el usuario manda el material y pide que lo hagas sin contestar las preguntas del Paso 0, **no preguntes**: usa los valores por defecto y entrega todo completo.
 - La firma por defecto es **"by: Jesús Fuentes"** (nunca otro nombre sacado del correo), con el easter egg de la foto.
 - **Los colores de toda la página salen de las mascotas**: la paleta (`--coral`, `--blue`, `--hl…`, cintas, fondos), los dibujos, el test Daypo y la guía PDF usan los mismos colores que los personajes, para que todo se vea ordenado. Primero diseña a las mascotas y después crea la paleta con sus colores.
+- **Al terminar, SIEMPRE manda los links** en el último mensaje: página de Vercel, `#modelos`/ejercicios, `#practica`, `#simulacro`, `#test`, guía PDF y artefacto. Aunque sea un cambio pequeño, termina con los links.
 - La portada tiene que verse muy bonita: fórmula o símbolo del tema en grande, animación propia del tema en el canvas del hero y las mascotas.
 
 ## Paso 0 — Preguntas al empezar (siempre)
