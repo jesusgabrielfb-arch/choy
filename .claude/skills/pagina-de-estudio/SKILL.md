@@ -55,6 +55,7 @@ Si el usuario manda fotos de **exámenes pasados**, pídeselos si no los mandó:
 - **Crea un tema `examen` en `TOPICS`** con esas preguntas y un botón "Practicar preguntas del examen".
 - **Úsalos para revisar los métodos:** muéstrale al usuario lo que dice el examen calificado, pero **la decisión final es suya**. En el reproductor el examen contaba el primer día como día 1, y aun así el usuario prefirió sumar la mitad del ciclo directo a la fecha.
 - Marca las respuestas que el estudiante tuvo mal y pon la correcta.
+- **Examen real para hacerlo en la página:** pasa el examen tal cual a datos (`plantilla/examen-ejemplo-datos.json` es el Parcial #3 2024 del reproductor). Usa `plantilla/examen-interactivo.js` y `.css` con la sección `<section id="parcial-2024">` de la página de referencia. Tiene selección, completar (acepta sinónimos y respuestas en cualquier orden con `any:true`) y definiciones, más cronómetro, guardado, "Corregir" con nota del 1 al 5 y "Ver todas las respuestas".
 
 ## Paso 2 — Construir la página (copiando la referencia)
 
