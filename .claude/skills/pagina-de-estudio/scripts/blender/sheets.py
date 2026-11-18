@@ -6,7 +6,7 @@ OUT = sys.argv[1]
 DEST = sys.argv[2]
 SIZE = 200
 os.makedirs(DEST, exist_ok=True)
-for char in ('spermi', 'ovulina'):
+for char in (sys.argv[3].split(',') if len(sys.argv) > 3 else ('spermi', 'ovulina')):
     for anim in ('idle', 'happy', 'sad', 'dance', 'spin', 'love', 'angry'):
         frames = sorted(glob.glob(os.path.join(OUT, f"{char}_{anim}", "f_*.png")))
         assert len(frames) == 48, (char, anim, len(frames))

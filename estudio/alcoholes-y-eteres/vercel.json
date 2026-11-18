@@ -1,0 +1,5 @@
+{
+  "buildCommand": "echo pagina estatica",
+  "installCommand": "echo sin dependencias",
+  "outputDirectory": "."
+}

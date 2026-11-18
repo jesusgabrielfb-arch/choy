@@ -1,0 +1,292 @@
+<canvas id="confetti" aria-hidden="true"></canvas>
+
+<nav class="nav" aria-label="Secciones">
+  <div class="wrap nav-row" id="navrow">
+    <a class="brand" href="#" aria-label="Alcoholes y Éteres, by Jesús Fuentes. Ir al inicio"><span class="b1">Alcoholes y Éteres ⌬</span><span class="b2">by: Jesús Fuentes</span></a>
+    <a href="#derivados" data-sec="derivados"><span class="tick">✓</span>Derivados</a>
+    <a href="#alcoholes" data-sec="alcoholes"><span class="tick">✓</span>Clasificación</a>
+    <a href="#nomenclatura" data-sec="nomenclatura"><span class="tick">✓</span>Nombrar alcoholes</a>
+    <a href="#etanol" data-sec="etanol"><span class="tick">✓</span>Etanol</a>
+    <a href="#eteres" data-sec="eteres"><span class="tick">✓</span>Éteres</a>
+    <a href="#modelos" data-sec="modelos"><span class="tick">✓</span>Ejercicios resueltos</a>
+    <a href="#confusiones" data-sec="confusiones"><span class="tick">✓</span>No te confundas</a>
+    <a href="#practica" class="practice">Practicar →</a>
+    <a href="#simulacro" class="practice sim-nav">Simulacro</a>
+    <a href="#test" class="practice dp-nav">Test</a>
+  </div>
+  <div class="progress" aria-hidden="true"><i id="progbar"></i></div>
+</nav>
+
+<div class="wrap">
+<header class="hero">
+  <div class="hero-card">
+    <canvas id="swim" aria-hidden="true"></canvas>
+    <div class="hero-inner">
+      <div>
+        <span class="eyebrow">mi guía de química orgánica ~</span>
+        <h1><span class="w">Alcoholes</span><br><span class="w"><em>y Éteres</em></span></h1>
+        <p class="hero-formula" aria-label="R–OH y R–O–R'"><span class="fo">R–<b>OH</b></span><span class="fo2">R–<b>O</b>–R'</span></p>
+        <p class="lede">La Guía N.° 2 del IV bimestre (Prof. Yanin Navarro Lee) y <b>todos los ejercicios de la práctica de derivados resueltos</b> (531–539 y 564–574): estructura desarrollada, cadena principal, numeración, radicales y nombre. Marca cada tema cuando lo domines y termina con la práctica, el simulacro y el test.</p>
+        <div class="cta">
+          <a class="btn primary" href="#derivados">Empezar a estudiar</a>
+          <a class="btn" href="#modelos">Ver ejercicios resueltos</a>
+          <a class="btn" href="guia-de-estudio.pdf" target="_blank" rel="noopener" id="pdf-link">Guía en PDF</a>
+        </div>
+        <div class="stats">
+          <span><b>7</b>temas</span>
+          <span><b>24</b>ejercicios</span>
+          <span><b id="st-q">300+</b>preguntas</span>
+          <span><b>~50</b>min</span>
+        </div>
+      </div>
+      <div class="hero-side">
+      <div class="stage" id="stage-hero">
+        <div class="bubble" id="bubble-hero" aria-live="polite"><b class="sp">Hidroxi:</b>¡Hola! Yo soy Hidroxi, un –OH con lentes, y ella es Etérea, un puente de oxígeno. ¡Vamos a sacar 5!</div>
+        <figure class="mfig"><div class="mascot" data-who="hidroxi" data-state="idle" role="img" aria-label="Hidroxi, el grupo hidroxilo"></div><figcaption>Hidroxi</figcaption></figure>
+        <figure class="mfig"><div class="mascot" data-who="eterea" data-state="idle" role="img" aria-label="Etérea, el éter"></div><figcaption>Etérea</figcaption></figure>
+      </div>
+      <div class="ring-card" aria-live="polite">
+        <h4>mi avance</h4>
+        <div class="ring">
+          <svg viewBox="0 0 84 84" aria-hidden="true">
+            <circle class="bg" cx="42" cy="42" r="34" fill="none" stroke-width="9"/>
+            <circle class="fg" id="ringfg" cx="42" cy="42" r="34" fill="none" stroke-width="9" stroke-linecap="round" transform="rotate(-90 42 42)" stroke-dasharray="213.6" stroke-dashoffset="213.6"/>
+            <text id="ringtxt" x="42" y="48" text-anchor="middle">0/7</text>
+          </svg>
+          <p id="ringmsg">Marca "Lo tengo" al final de cada tema.</p>
+        </div>
+        <div class="legend">
+          <div><span class="chip c-hot">Muy probable</span> pinta para examen</div>
+          <div><span class="chip c-ok">Seguro</span> lo básico</div>
+          <div><span class="chip c-extra">Extra</span> si te sobra tiempo</div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- 1 DERIVADOS -->
+<section class="topic reveal" id="derivados" data-fondo="hexagonos">
+  <span class="stamp">¡dominado!</span>
+  <div class="topic-head"><span class="num">1</span><h2>Derivados de hidrocarburos</h2><span class="chip c-ok">Seguro</span></div>
+  <div class="cols">
+    <div>
+      <div class="def"><b>Derivados de hidrocarburos:</b> compuestos que en su estructura tienen, además de carbono e hidrógeno, átomos de <mark>nitrógeno, oxígeno y azufre</mark>. <span class="chip c-ppt">Guía</span></div>
+      <div class="def"><b>¿Cómo se originan?</b> Cuando se <mark>sustituyen uno o más hidrógenos</mark> de un hidrocarburo por un <b>grupo funcional</b> que contiene oxígeno.</div>
+      <ul class="dots">
+        <li>Los compuestos oxigenados se clasifican según su <b>estructura y grupo funcional</b>.</li>
+        <li>En esta guía se estudian dos familias: los <b>alcoholes</b> y los <b>éteres</b> (Cap. 17, págs. 607–614 del libro).</li>
+      </ul>
+    </div>
+    <div>
+      <h3 style="margin-top:0">Las dos familias de la guía <span class="chip c-hot">Muy probable</span></h3>
+      <div class="tbl" data-practica="celdas"><table><thead><tr><th>Familia</th><th>Fórmula general</th><th>Grupo funcional</th><th>Terminación IUPAC</th></tr></thead><tbody>
+      <tr><td>Alcohol</td><td>R–OH</td><td>Hidroxilo (–OH)</td><td>-ol</td></tr>
+      <tr><td>Éter</td><td>R–O–R'</td><td>Puente de oxígeno (–O–)</td><td>-oxi + -ano/-eno/-ino</td></tr>
+      </tbody></table></div>
+    </div>
+  </div>
+  <ul class="flow" aria-label="De hidrocarburo a alcohol">
+    <li>CH₃–CH₃<small>etano (hidrocarburo)</small></li><li class="arr" aria-hidden="true">→</li>
+    <li>quito un H<small>sustitución</small></li><li class="arr" aria-hidden="true">→</li>
+    <li>CH₃–CH₂–OH<small>etanol (alcohol)</small></li>
+  </ul>
+  <p class="sticky"><span class="t">truco</span>El alcohol tiene el O "colgando" con su H (–OH). El éter tiene el O "en medio" de dos carbonos (C–O–C).</p>
+  <div class="done-row"><button class="btn small tprac" type="button" data-prac="deriv">Practicar este tema</button><button class="donebtn" data-done="derivados"><span class="box"></span>Lo tengo</button></div>
+</section>
+
+<!-- 2 CLASIFICACION -->
+<section class="topic reveal" id="alcoholes" data-fondo="rayado" data-acento="alt">
+  <span class="stamp">¡dominado!</span>
+  <div class="topic-head"><span class="num">2</span><h2>Alcoholes y su clasificación</h2><span class="chip c-hot">Muy probable</span></div>
+  <div class="def"><b>Alcohol:</b> forma general <b>R–OH</b>, donde <b>R</b> es un hidrocarburo normal o ramificado y <b>OH</b> es el <mark>grupo hidroxilo</mark>.</div>
+  <h3>a) Según el tipo de carbono unido al –OH</h3>
+  <p>Cuenta cuántos <b>carbonos</b> están pegados al carbono que tiene el –OH: <b>1 → primario</b>, <b>2 → secundario</b>, <b>3 → terciario</b>.</p>
+  <div class="vs vs3">
+    <div><h4>Primario</h4><div class="mol" data-m="ex_prim"></div><p>–OH en un carbono primario. Ej.: <b>1-propanol</b>.</p></div>
+    <div><h4>Secundario</h4><div class="mol" data-m="ex_sec"></div><p>–OH en un carbono secundario. Ej.: <b>2-propanol</b>.</p></div>
+    <div><h4>Terciario</h4><div class="mol" data-m="ex_ter"></div><p>–OH en un carbono terciario. Ej.: <b>terbutanol</b> o <b>2-metil-2-propanol</b>.</p></div>
+  </div>
+  <div class="anat" id="anat-tipos">
+    <div class="proc-h"><h3 style="margin:0">Dibujo para practicar: los tres tipos en una molécula</h3></div>
+    <div class="anat-tabs" role="group" aria-label="Modo del dibujo"><button type="button" data-mode="ver" aria-pressed="true">Ver</button><button type="button" data-mode="tapar" aria-pressed="false">Tapar nombres</button><button type="button" data-mode="juego" aria-pressed="false">Juego: toca la parte</button></div>
+    <div class="chem-slot"></div>
+    <div class="anat-row"><div class="anat-info" aria-live="polite">Toca una parte del dibujo para ver qué es.</div><div class="stage mini-stage" id="stage-tipos"><figure class="mfig"><div class="mascot" data-who="hidroxi" data-state="idle" role="img" aria-label="Hidroxi"></div></figure><figure class="mfig"><div class="mascot" data-who="eterea" data-state="idle" role="img" aria-label="Etérea"></div></figure></div></div>
+    <div class="anat-foot"></div>
+    <p class="anat-cap">3-metil-1,2,3-butanotriol: tiene un –OH en cada tipo de carbono. <span class="chip c-extra">Ejemplo extra para practicar</span></p>
+  </div>
+  <h3>b) Según el número de grupos –OH</h3>
+  <div class="tbl" data-practica="celdas"><table><thead><tr><th>Tipo</th><th>N.° de –OH</th><th>Terminación</th><th>Ejemplo</th></tr></thead><tbody>
+  <tr><td>Monohidroxilado</td><td>Uno</td><td>-ol</td><td>Etanol</td></tr>
+  <tr><td>Dihidroxilado (diol)</td><td>Dos</td><td>-diol</td><td>1,2-etanodiol (etilenglicol)</td></tr>
+  <tr><td>Trihidroxilado (triol)</td><td>Tres o más</td><td>-triol</td><td>1,2,3-propanotriol (glicerol o glicerina)</td></tr>
+  </tbody></table></div>
+  <p class="scribble">ALCANO + PREFIJO (di, tri) + OL → propano + tri + ol = 1,2,3-propanotriol</p>
+  <div class="cols">
+    <div><div class="mol" data-m="glicerol"></div></div>
+    <div><div class="tbl"><table><tbody><tr><th>Nombre IUPAC</th><td>1,2,3-propanotriol</td></tr><tr><th>Nombre común</th><td>Glicerol o glicerina</td></tr><tr><th>Fórmula molecular</th><td>C₃H₈O₃</td></tr><tr><th>Usos</th><td>Cremas, jabones, cosméticos, jarabes y la nitroglicerina. <span class="chip c-extra">Extra</span></td></tr></tbody></table></div></div>
+  </div>
+  <div class="done-row"><button class="btn small tprac" type="button" data-prac="clasif">Practicar este tema</button><button class="donebtn" data-done="alcoholes"><span class="box"></span>Lo tengo</button></div>
+</section>
+
+<!-- 3 NOMENCLATURA -->
+<section class="topic reveal" id="nomenclatura" data-fondo="cuadricula">
+  <span class="stamp">¡dominado!</span>
+  <div class="topic-head"><span class="num">3</span><h2>Cómo se nombran los alcoholes</h2><span class="chip c-hot">Muy probable</span></div>
+  <p>Un alcohol puede tener <b>tres nombres</b>: <b>1)</b> IUPAC, <b>2)</b> radico funcional (RF) y <b>3)</b> vulgar o común (NV o NC).</p>
+  <div class="cols">
+    <div>
+      <h3 style="margin-top:0">Sistema IUPAC: los 5 pasos de la práctica</h3>
+      <ol class="steps">
+        <li><span><b>Escribe la estructura</b> con sus ramificaciones (abre los paréntesis: C₂H₅ = CH₂–CH₃, C₃H₇ = CH₂–CH₂–CH₃).</span></li>
+        <li><span><b>Cadena principal:</b> la <mark>más larga que contenga el o los carbonos con –OH</mark>. Remárcala con color.</span></li>
+        <li><span><b>Enumera</b> desde el extremo <mark>más cercano al carbono con –OH</mark>.</span></li>
+        <li><span><b>Reconoce los radicales</b> que quedan como ramas.</span></li>
+        <li><span><b>Nombra:</b> radicales en orden alfabético → cadena (-en/-in si hay enlace múltiple) → número del –OH → <b>-ol / -diol / -triol</b>.</span></li>
+      </ol>
+    </div>
+    <div>
+      <h3 style="margin-top:0">Radico funcional (RF)</h3>
+      <div class="def">Se empieza con la palabra <b>ALCOHOL</b> y luego la cadena cambiando <b>-ANO</b> por <b>-ÍLICO</b>: alcohol metílico, alcohol etílico, alcohol isopropílico.</div>
+      <div class="fix"><b class="t">desempates (regla IUPAC)</b>1) Número más bajo para los –OH (2,3,5 gana a 2,4,5). 2) Más bajo para el doble o triple enlace. 3) Más bajo para los radicales. 4) Si todo empata, el número menor va al radical que está primero en el alfabeto. 5) Con dos cadenas igual de largas, la que tenga <b>más ramificaciones</b>. Al ordenar no cuentan <b>di-, tri-, sec-, ter-</b>; <b>iso sí</b>.</div>
+    </div>
+  </div>
+  <div class="anat proc" id="anat-pasos">
+    <div class="proc-h"><h3 style="margin:0">Los 5 pasos, animados</h3></div>
+    <div class="anat-tabs" role="group" aria-label="Modo de la animación"><button type="button" data-mode="paso" aria-pressed="true">▶ Paso a paso</button><button type="button" data-mode="tapar" aria-pressed="false">Tapar nombres</button><button type="button" data-mode="juego" aria-pressed="false">Juego: toca la etapa</button><button type="button" data-mode="ordena" aria-pressed="false">Ordena el proceso</button></div>
+    <div class="chem-slot"></div>
+    <p class="proc-swipe">Desliza el dibujo para verlo completo →</p>
+    <div class="proc-ctrl"><button class="btn small" type="button" data-act="prev" aria-label="Paso anterior">◀</button><div class="proc-dots"></div><button class="btn small" type="button" data-act="next" aria-label="Paso siguiente">▶</button><button class="btn small primary" type="button" data-act="play">▶ Reproducir</button></div>
+    <div class="anat-row"><div class="anat-info" aria-live="polite">Dale a ▶ o toca un paso para ver qué pasa.</div><div class="stage mini-stage" id="stage-pasos"><figure class="mfig"><div class="mascot" data-who="hidroxi" data-state="idle" role="img" aria-label="Hidroxi"></div></figure><figure class="mfig"><div class="mascot" data-who="eterea" data-state="idle" role="img" aria-label="Etérea"></div></figure></div></div>
+    <div class="anat-foot"></div>
+  </div>
+  <div class="anat" id="anat-alc">
+    <div class="proc-h"><h3 style="margin:0">Dibujo para practicar: las partes del nombre</h3></div>
+    <div class="anat-tabs" role="group" aria-label="Modo del dibujo"><button type="button" data-mode="ver" aria-pressed="true">Ver</button><button type="button" data-mode="tapar" aria-pressed="false">Tapar nombres</button><button type="button" data-mode="juego" aria-pressed="false">Juego: toca la parte</button></div>
+    <div class="chem-slot"></div>
+    <div class="anat-row"><div class="anat-info" aria-live="polite">Toca una parte del dibujo para ver qué es.</div><div class="stage mini-stage" id="stage-alc"><figure class="mfig"><div class="mascot" data-who="hidroxi" data-state="idle" role="img" aria-label="Hidroxi"></div></figure><figure class="mfig"><div class="mascot" data-who="eterea" data-state="idle" role="img" aria-label="Etérea"></div></figure></div></div>
+    <div class="anat-foot"></div>
+    <p class="anat-cap">Es el ejercicio 533: 4-etil-4-metil-5-hepten-2-ol.</p>
+  </div>
+  <h3>Tabla de la guía <span class="chip c-hot">Muy probable</span></h3>
+  <div class="tbl" data-practica="celdas"><table><thead><tr><th>Compuesto</th><th>IUPAC</th><th>RF</th><th>Nombre común</th></tr></thead><tbody>
+  <tr><td>CH₃–OH</td><td>Metanol</td><td>Alcohol metílico</td><td>Alcohol de madera</td></tr>
+  <tr><td>CH₃–CH₂–OH</td><td>(1-)Etanol</td><td>Alcohol etílico</td><td>Espíritu de vino</td></tr>
+  <tr><td>CH₃–CH₂–CH₂–OH</td><td>1-Propanol</td><td>Alcohol propílico</td><td>No tiene</td></tr>
+  <tr><td>CH₃–CH(OH)–CH₃</td><td>2-Propanol</td><td>Alcohol isopropílico</td><td>No aparece en la guía</td></tr>
+  </tbody></table></div>
+  <h3>Radicales que tienes que reconocer</h3>
+  <div class="tbl" data-practica="derecha"><table><thead><tr><th>Así se ve</th><th>Radical</th></tr></thead><tbody>
+  <tr><td>–CH₃</td><td>metil</td></tr><tr><td>–CH₂–CH₃ (–C₂H₅)</td><td>etil</td></tr><tr><td>–CH₂–CH₂–CH₃ (–C₃H₇)</td><td>propil</td></tr>
+  <tr><td>–CH(CH₃)₂</td><td>isopropil</td></tr><tr><td>–CH₂–CH₂–CH₂–CH₃ (–C₄H₉)</td><td>butil</td></tr><tr><td>–CH₂–CH(CH₃)₂</td><td>isobutil</td></tr>
+  <tr><td>–CH(CH₃)–CH₂–CH₃</td><td>secbutil</td></tr><tr><td>–C(CH₃)₃</td><td>terbutil</td></tr><tr><td>–CH=CH₂</td><td>vinil (etenil)</td></tr><tr><td>–C≡CH</td><td>etinil</td></tr>
+  </tbody></table></div>
+  <h3>Ejemplos de la guía, resueltos</h3>
+  <div class="mb-list" id="guiaEj"></div>
+  <div class="done-row"><button class="btn small tprac" type="button" data-prac="nomalc">Practicar este tema</button><button class="donebtn" data-done="nomenclatura"><span class="box"></span>Lo tengo</button></div>
+</section>
+
+<!-- 4 ETANOL -->
+<section class="topic reveal" id="etanol" data-fondo="puntos" data-acento="alt">
+  <span class="stamp">¡dominado!</span>
+  <div class="topic-head"><span class="num">4</span><h2>Utilidad y efectos del etanol</h2><span class="chip c-ok">Seguro</span></div>
+  <p>Los alcoholes tienen <b>mucha utilidad en la vida cotidiana</b>. Pero el consumo de uno de ellos, el <b>etanol</b>, tiene efectos en el cuerpo que van de <b>inmediatos</b> a <b>largo plazo</b>.</p>
+  <div class="vs">
+    <div><h4>A corto plazo</h4><ul class="dots"><li>Mareos</li><li>Náuseas</li><li>etc.</li></ul></div>
+    <div><h4>A largo plazo (consumo excesivo)</h4><ul class="dots"><li>Problemas de memoria</li><li>Aumento de lípidos hepáticos (<b>hígado graso</b>)</li><li>Aumento de <b>triglicéridos</b> en plasma</li><li>Gastritis</li><li>Pancreatitis, cetoacidosis</li><li>Hepatitis alcohólica</li><li>Aumento del riesgo de varios cánceres</li><li>Desnutrición</li><li>Daños al sistema reproductor</li><li>Perturbaciones psicológicas</li></ul></div>
+  </div>
+  <div class="tbl" data-practica="columna"><table><thead><tr><th>Corto plazo</th><th>Largo plazo</th></tr></thead><tbody>
+  <tr><td>Mareos</td><td>Hígado graso</td></tr><tr><td>Náuseas</td><td>Gastritis</td></tr><tr><td>Efecto inmediato</td><td>Hepatitis alcohólica</td></tr><tr><td>Aparece el mismo día</td><td>Desnutrición</td></tr>
+  </tbody></table></div>
+  <p class="sticky"><span class="t">para memorizar</span>Son 10 a largo plazo: Memoria · Hígado graso · Triglicéridos · Gastritis · Páncreas (pancreatitis y cetoacidosis) · Hepatitis · Cáncer · Desnutrición · Reproductor · Mente.</p>
+  <div class="done-row"><button class="btn small tprac" type="button" data-prac="etanol">Practicar este tema</button><button class="donebtn" data-done="etanol"><span class="box"></span>Lo tengo</button></div>
+</section>
+
+<!-- 5 ETERES -->
+<section class="topic reveal" id="eteres" data-fondo="milimetrado">
+  <span class="stamp">¡dominado!</span>
+  <div class="topic-head"><span class="num">5</span><h2>Éteres</h2><span class="chip c-hot">Muy probable</span></div>
+  <div class="def"><b>Éteres:</b> compuestos que resultan de la unión de <mark>dos radicales alquílicos separados por un puente de oxígeno</mark>. Forma general <b>R–O–R'</b>; R es un hidrocarburo saturado o insaturado, de cadena normal o ramificada.</div>
+  <div class="vs">
+    <div><h4>Simétricos</h4><p>Los dos grupos R son <b>iguales</b>.</p><div class="mol" data-m="ex_sim"></div></div>
+    <div><h4>Asimétricos</h4><p>Los dos grupos R son <b>distintos</b>.</p><div class="mol" data-m="ex_asim"></div></div>
+  </div>
+  <div class="cols">
+    <div><h3 style="margin-top:0">Nombre IUPAC</h3><ol class="steps"><li><span>El hidrocarburo con <b>menos carbonos</b> cambia -ANO por <b>-OXI</b>.</span></li><li><span>Va un <b>guion (-)</b>.</span></li><li><span>El otro hidrocarburo termina en <b>-ANO</b> (simple), <b>-ENO</b> (doble) o <b>-INO</b> (triple).</span></li><li><span>Si el radical es etenil se usa <b>ETENOXI</b>.</span></li></ol></div>
+    <div><h3 style="margin-top:0">Nombre radico funcional (RF)</h3><ol class="steps"><li><span>Se empieza con la palabra <b>ÉTER</b>.</span></li><li><span>Los grupos R van en <b>orden alfabético</b>, separados por guion.</span></li><li><span>El primero termina en <b>-IL</b> y el segundo en <b>-ÍLICO</b>.</span></li><li><span>Para CH₂=CH– se usa <b>VINIL</b>.</span></li></ol></div>
+  </div>
+  <div class="anat proc" id="anat-eterpasos">
+    <div class="proc-h"><h3 style="margin:0">Nombrar un éter, paso a paso</h3></div>
+    <div class="anat-tabs" role="group" aria-label="Modo de la animación"><button type="button" data-mode="paso" aria-pressed="true">▶ Paso a paso</button><button type="button" data-mode="tapar" aria-pressed="false">Tapar nombres</button><button type="button" data-mode="juego" aria-pressed="false">Juego: toca la etapa</button><button type="button" data-mode="ordena" aria-pressed="false">Ordena el proceso</button></div>
+    <div class="chem-slot"></div>
+    <p class="proc-swipe">Desliza el dibujo para verlo completo →</p>
+    <div class="proc-ctrl"><button class="btn small" type="button" data-act="prev" aria-label="Paso anterior">◀</button><div class="proc-dots"></div><button class="btn small" type="button" data-act="next" aria-label="Paso siguiente">▶</button><button class="btn small primary" type="button" data-act="play">▶ Reproducir</button></div>
+    <div class="anat-row"><div class="anat-info" aria-live="polite">Dale a ▶ o toca un paso para ver qué pasa.</div><div class="stage mini-stage" id="stage-eterpasos"><figure class="mfig"><div class="mascot" data-who="hidroxi" data-state="idle" role="img" aria-label="Hidroxi"></div></figure><figure class="mfig"><div class="mascot" data-who="eterea" data-state="idle" role="img" aria-label="Etérea"></div></figure></div></div>
+    <div class="anat-foot"></div>
+  </div>
+  <h3>Tabla de la guía</h3>
+  <div class="tbl" data-practica="celdas"><table><thead><tr><th>Compuesto</th><th>IUPAC</th><th>RF</th></tr></thead><tbody>
+  <tr><td>CH₃–O–CH₃</td><td>Metoxi-metano</td><td>Éter metil-metílico (éter dimetílico)</td></tr>
+  <tr><td>CH₃–O–C₂H₅</td><td>Metoxi-etano</td><td>Éter etil-metílico (etil-metil éter)</td></tr>
+  <tr><td>CH₃–CH₂–O–CH=CH₂</td><td>Etenoxi-etano</td><td>Éter etil-vinílico (etil-vinil éter)</td></tr>
+  <tr><td>(CH₃)₂CH–O–C₃H₇</td><td>Propoxi-isopropano</td><td>Éter propil-isopropílico</td></tr>
+  <tr><td>CH₂=CH–O–C≡CH</td><td>Etenoxi-etino</td><td>Éter etinil-vinílico (etinil-vinil éter)</td></tr>
+  </tbody></table></div>
+  <div class="fix"><b class="t">ojo con la guía</b>En propoxi-isopropano los dos lados tienen 3 carbonos (empate). La guía pone como -oxi el de cadena normal (propil) y en RF escribe "éter propil-isopropílico".</div>
+  <div class="anat" id="anat-eter">
+    <div class="proc-h"><h3 style="margin:0">Dibujo para practicar: el éter de la guía con ramificación</h3></div>
+    <div class="anat-tabs" role="group" aria-label="Modo del dibujo"><button type="button" data-mode="ver" aria-pressed="true">Ver</button><button type="button" data-mode="tapar" aria-pressed="false">Tapar nombres</button><button type="button" data-mode="juego" aria-pressed="false">Juego: toca la parte</button></div>
+    <div class="chem-slot"></div>
+    <div class="anat-row"><div class="anat-info" aria-live="polite">Toca una parte del dibujo para ver qué es.</div><div class="stage mini-stage" id="stage-eter"><figure class="mfig"><div class="mascot" data-who="hidroxi" data-state="idle" role="img" aria-label="Hidroxi"></div></figure><figure class="mfig"><div class="mascot" data-who="eterea" data-state="idle" role="img" aria-label="Etérea"></div></figure></div></div>
+    <div class="anat-foot"></div>
+    <p class="anat-cap">CH₃–CH(CH₃)–CH₂–CH₂–CH₂–O–CH₃ = metoxi-4-metil-pentano.</p>
+  </div>
+  <div class="mb-list" id="eterEj"></div>
+  <div class="done-row"><button class="btn small tprac" type="button" data-prac="eter">Practicar este tema</button><button class="donebtn" data-done="eteres"><span class="box"></span>Lo tengo</button></div>
+</section>
+
+<!-- 6 MODELOS -->
+<section class="topic reveal" id="modelos" data-fondo="isometrico" data-acento="alt">
+  <span class="stamp">¡dominado!</span>
+  <div class="topic-head"><span class="num">6</span><h2>Práctica de derivados: todos los ejercicios resueltos</h2><span class="chip c-hot">Muy probable</span></div>
+  <div class="cols">
+    <div>
+      <p>Son <b>los mismos ejercicios de tu hoja</b>. En cada uno toca los pasos como los pide la profe: <b>1 Estructura → 2 Cadena principal → 3 Enumerar → 4 Radicales → 5 Nombre</b>. Antes de ver el nombre, escribe el tuyo y comprueba.</p>
+      <p class="sticky"><span class="t">así lo copias en tu hoja</span>Dibuja la estructura desarrollada como aquí, encierra con color la cadena principal, pon los números sobre cada carbono y escribe el nombre abajo.</p>
+    </div>
+    <div class="stage" id="stage-ej">
+      <div class="bubble" aria-live="polite"><b class="ov">Etérea:</b>Intenta escribir el nombre antes de tocar "5 Nombre". ¡Así se aprende!</div>
+      <figure class="mfig"><div class="mascot" data-who="hidroxi" data-state="idle" role="img" aria-label="Hidroxi"></div><figcaption>Hidroxi</figcaption></figure>
+      <figure class="mfig"><div class="mascot" data-who="eterea" data-state="idle" role="img" aria-label="Etérea"></div><figcaption>Etérea</figcaption></figure>
+    </div>
+  </div>
+  <div class="fix"><b class="t">nota sobre el 534</b>En tu hoja no se ve el enlace entre los dos carbonos ("C  C"). Como un C sin hidrógenos en medio de la cadena solo puede tener triple enlace, se resolvió como <b>C≡C</b>.</div>
+  <h3>Parte I · Escribe el nombre (531–539)</h3>
+  <div class="mb-list" id="ejI"></div>
+  <h3>Parte II · Desarrolla la estructura, corrige el nombre y da otro nombre (564–574)</h3>
+  <div class="mb-list" id="ejII"></div>
+  <div class="done-row"><button class="btn small tprac" type="button" data-prac="ejer">Practicar este tema</button><button class="donebtn" data-done="modelos"><span class="box"></span>Lo tengo</button></div>
+</section>
+
+<!-- 7 CONFUSIONES -->
+<section class="topic reveal" id="confusiones" data-fondo="kraft">
+  <span class="stamp">¡dominado!</span>
+  <div class="topic-head"><span class="num">7</span><h2>No te confundas</h2><span class="chip c-hot">Muy probable</span></div>
+  <div class="tbl" data-practica="derecha"><table><thead><tr><th>Error típico</th><th>Lo correcto</th></tr></thead><tbody>
+  <tr><td>Tomar la cadena más larga aunque deje fuera un –OH</td><td>La cadena principal debe contener TODOS los carbonos con –OH</td></tr>
+  <tr><td>Numerar desde el doble enlace o desde un radical</td><td>Se numera desde el extremo más cercano al –OH</td></tr>
+  <tr><td>Leer C₂H₅ o C₃H₇ como un solo átomo</td><td>Desarróllalos: pueden alargar la cadena principal</td></tr>
+  <tr><td>Ordenar los radicales por número (di-, tri-)</td><td>Orden alfabético ignorando di-, tri-, sec- y ter-</td></tr>
+  <tr><td>En éteres, poner -oxi al grupo más grande</td><td>El -oxi es para el grupo con MENOS carbonos</td></tr>
+  <tr><td>Éter vinil-isobutílico</td><td>Éter isobutil-vinílico (orden alfabético)</td></tr>
+  <tr><td>Escribir hexantriol</td><td>Hexanotriol, octanodiol (con la "o")</td></tr>
+  <tr><td>Confundir alcohol secundario con dihidroxilado</td><td>Secundario habla del carbono; dihidroxilado, del número de –OH</td></tr>
+  </tbody></table></div>
+  <div class="vs">
+    <div><h4>Alcohol</h4><p>–OH unido a un carbono. Termina en <b>-ol</b>. RF: <b>alcohol …ílico</b>.</p></div>
+    <div><h4>Éter</h4><p>–O– entre dos carbonos. IUPAC: <b>…oxi-…ano</b>. RF: <b>éter …il-…ílico</b>.</p></div>
+  </div>
+  <div class="done-row"><button class="btn small tprac" type="button" data-prac="ejer">Practicar los ejercicios</button><button class="donebtn" data-done="confusiones"><span class="box"></span>Lo tengo</button></div>
+</section>
+

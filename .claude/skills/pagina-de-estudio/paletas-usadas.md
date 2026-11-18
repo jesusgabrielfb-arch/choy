@@ -6,4 +6,4 @@ Al terminar una página, **agrega una fila aquí** y haz commit.
 | Página | Carpeta | Paleta | Fondos de sección | Mascotas |
 |---|---|---|---|---|
 | Sistema Reproductor | estudio/sistema-reproductor | durazno (coral + verde salvia) | cuadrícula en todas | Spermi y Ovulina |
-| Alcoholes y Éteres | estudio/alcoholes-y-eteres | girasol (mostaza + celeste) | hexágonos, rayado, cuadrícula, puntos, milimetrado | sin mascotas |
+| Alcoholes y Éteres | estudio/alcoholes-y-eteres | molécula (rojo de Hidroxi + turquesa de Etérea + rosa del moño) | hexágonos, rayado, cuadrícula, puntos, milimetrado, isométrico, kraft | Hidroxi y Etérea |

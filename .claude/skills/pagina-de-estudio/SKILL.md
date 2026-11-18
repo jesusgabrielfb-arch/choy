@@ -19,6 +19,14 @@ La implementación de referencia, que funciona y está probada, está en **dos l
 
 Habla siempre en español, en tono cercano. El usuario es estudiante y la nota va **del 1 al 5**.
 
+## Reglas que el usuario pidió (obligatorias)
+
+- **Cumple TODOS los pasos de esta skill, sin saltarte ninguno y sin decidir por tu cuenta qué hacer y qué no.** Mascotas en Blender, dibujos interactivos, procesos animados, práctica, simulacro, test Daypo, lupa, cuadros para practicar, guía PDF, ícono, pruebas y publicación en Vercel: todo. Si algo de verdad no se puede, dilo claro antes de entregar.
+- Si el usuario manda el material y pide que lo hagas sin contestar las preguntas del Paso 0, **no preguntes**: usa los valores por defecto y entrega todo completo.
+- La firma por defecto es **"by: Jesús Fuentes"** (nunca otro nombre sacado del correo), con el easter egg de la foto.
+- **Los colores de toda la página salen de las mascotas**: la paleta (`--coral`, `--blue`, `--hl…`, cintas, fondos), los dibujos, el test Daypo y la guía PDF usan los mismos colores que los personajes, para que todo se vea ordenado. Primero diseña a las mascotas y después crea la paleta con sus colores.
+- La portada tiene que verse muy bonita: fórmula o símbolo del tema en grande, animación propia del tema en el canvas del hero y las mascotas.
+
 ## Paso 0 — Preguntas al empezar (siempre)
 
 Apenas se invoque la skill, **antes de hacer nada**, pregunta con `AskUserQuestion`: máximo 4 preguntas por llamada, cada una con 2 a 4 opciones; pon primero la recomendada, con "(Recomendado)" al final. Haz tres rondas cortas.
@@ -49,6 +57,8 @@ Si el usuario manda archivos sin contestar, lee el material igual y deduce lo qu
 - Arma la lista de **temas** del índice y, para cada uno, sus **subtemas**. Los vas a necesitar para `TOPICS` y `SUBT`.
 
 ## Paso 2 — Construir la página (copiando la referencia)
+
+**Temas de química orgánica:** la página `estudio/alcoholes-y-eteres/` tiene un motor que dibuja moléculas (estructura desarrollada) a partir de un texto como `C('CH3|CH{u:OH}|C={d:CH2,CH3}|CH3')`: `molDraw`/`molSVG`, `anatChem` (dibujo interactivo con etiquetas que se acomodan solas) y `procChem` (pasos animados), más los ejercicios resueltos con los pasos "1 Estructura → 5 Nombre". Las piezas están en `estudio/alcoholes-y-eteres/fuente/piezas/` y `assemble.py` las mete en la página de referencia.
 
 Trabaja en el scratchpad: copia `fuente/sistema-reproductor.html` a `<scratchpad>/<tema>/<tema>.html` y guarda un backup antes de cada cambio grande (`backup_pre_X.html`). Haz los cambios con scripts de Python que reemplazan texto y comprueban que el original aparece exactamente una vez (`assert s.count(a)==1`). Así nunca rompes algo sin darte cuenta.
 
@@ -83,6 +93,8 @@ Orden recomendado (detalle en `referencia.md`):
 - Ronda por defecto: **25 preguntas**.
 
 ## Paso 3 — Mascotas en Blender
+
+- Para química hay un modelo listo: `scripts/blender/build_quimica.py <hidroxi|eterea> <outdir>` (molécula con lentes y molécula con moño). Cópialo y cambia formas y colores para otros personajes. Para `sheets.py`, pásale los nombres: `python sheets.py <frames> <destino> nombre1,nombre2`.
 
 Si las mascotas son nuevas, usa `scripts/blender/build.py` como base (modela con primitivas y bmesh, materiales Principled, cámara, luces y 7 animaciones).
 
@@ -149,6 +161,10 @@ Para que el PDF no sea lento en el celular:
 Revisa las páginas con `pdftoppm -r 45` y una hoja de contacto.
 
 ## Paso 6 — Pruebas (siempre antes de publicar)
+
+- Si node dice `require is not defined in ES module scope`, copia los scripts como `.cjs` y córrelos con `NODE_PATH=$(npm root -g)`. Cambia en `ptest.js`, `dptest.js`, `proct.js` y `lupa.js` los temas, ids y palabras del reproductor por los del tema nuevo.
+- En los pareos y ordenar, ninguna respuesta debe estar contenida dentro de otra (ej. "–CH₃" dentro de "–CH₂–CH₃"): agrega una pista entre paréntesis.
+- En la guía PDF no uses emojis (❌ ✅): salen como fuente Type 3. `optimizar_pdf.py` necesita `pikepdf` (instálalo en el venv de Blender).
 
 Los scripts de `scripts/pruebas/` se corren con node y reciben la ruta absoluta de la página. Adapta los selectores si cambian los ids.
 

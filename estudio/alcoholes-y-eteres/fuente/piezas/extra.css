@@ -1,0 +1,40 @@
+/* ---------- química: portada, moléculas y ejercicios resueltos ---------- */
+.hero-formula{display:flex;gap:14px;flex-wrap:wrap;margin:-4px 0 12px;font:800 clamp(20px,3.2vw,28px)/1 var(--f-body);color:var(--ink)}
+.hero-formula span{background:var(--page);border:2px solid var(--line2);border-radius:14px;padding:8px 14px;box-shadow:0 3px 0 var(--line2);transform:rotate(-1.5deg)}
+.hero-formula .fo2{transform:rotate(1.5deg)}
+.hero-formula b{color:#C8443B}
+.hero-card{background:linear-gradient(135deg,color-mix(in srgb,var(--hl) 55%,var(--page)) 0%,var(--page) 45%,color-mix(in srgb,var(--hl2) 60%,var(--page)) 100%)}
+.hero-card::after{content:"";position:absolute;top:-10px;left:42%;width:120px;height:26px;background:var(--tape1);transform:rotate(-4deg);z-index:2}
+.vs3{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:760px){.vs3{grid-template-columns:minmax(0,1fr)}}
+.mol{overflow-x:auto;-webkit-overflow-scrolling:touch;padding:2px 0;max-width:100%}
+.mol svg{display:block;max-width:none;height:auto}
+.vs .mol svg{max-width:100%}
+.anat .proc-scroll svg{min-width:520px}
+.mb-list{display:grid;gap:16px;margin:12px 0}
+.molbox{background:var(--page);border:1.5px solid var(--line2);border-radius:16px;padding:14px 16px;box-shadow:var(--hard);min-width:0}
+.mb-q{font-weight:700;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.mb-id{font-family:var(--f-hand);font-size:22px;color:var(--coral);line-height:1}
+.molbox .cond{font:600 14.5px ui-monospace,Menlo,Consolas,monospace;background:var(--blue-soft);padding:7px 11px;border-radius:9px;display:inline-block;margin:8px 0;overflow-wrap:anywhere;max-width:100%}
+.mb-steps{margin:6px 0 8px}
+.molbox .chain-hl,.molbox .nums{opacity:0;transition:opacity .45s}
+.molbox:not([data-s="1"]) .chain-hl{opacity:1}
+.molbox[data-s="3"] .nums,.molbox[data-s="4"] .nums,.molbox[data-s="5"] .nums{opacity:1}
+.molbox .br text{transition:fill .4s}
+.molbox[data-s="4"] .br text,.molbox[data-s="5"] .br text{fill:var(--blue)}
+.mb-try{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
+.mb-try input{flex:1;min-width:0;width:100%;max-width:440px;padding:9px 12px;border:1.5px solid var(--line2);border-radius:10px;font:15px var(--f-body);color:var(--ink);background:var(--page)}
+.mb-fb{font-weight:700;font-size:14.5px}.mb-fb.ok{color:var(--ok)}.mb-fb.no{color:var(--bad)}
+.mb-ans{display:none;margin-top:10px;border-top:1.5px dashed var(--line2);padding-top:10px}
+.molbox[data-s="5"] .mb-ans{display:block;animation:bubblePop .35s cubic-bezier(.2,1.5,.4,1)}
+.mb-nm{font-family:var(--f-display);font-size:clamp(24px,4vw,32px);line-height:1.1;color:var(--coral)}
+.mb-extra{font-weight:700;margin:4px 0}
+.mb-ex{font-size:15px;background:var(--extra-soft);border-radius:10px;padding:10px 12px}
+.mb-ex b{color:var(--coral)}
+#stage-ej{align-self:end}
+/* paleta "molécula": los colores de Hidroxi (rojo oxígeno), Etérea (turquesa) y su moño (rosa) */
+body.paleta-molecula{--desk:#F6F9FA;--page:#FFFFFF;--grid:#E5F0F4;--margin:#F3B3AD;--ink:#3A3940;--muted:#7C7F88;--line:#E3EBEE;--line2:#CDDCE2;
+  --hl:#FFD9D4;--hl2:#CDEEF8;--hl3:#FCDDEE;--coral:#D8473E;--blue:#2A8FB8;--blue-soft:#E7F5FA;--sticky:#FFE4F0;--sticky-ink:#6B2445;
+  --extra:#C2477F;--extra-soft:#FDE8F2;
+  --tape1:rgba(216,71,62,.24);--tape2:rgba(42,143,184,.24);--tape3:rgba(242,92,159,.24);
+  --desk-art:radial-gradient(circle at 10% 6%,#FFE3DF 0,transparent 40%),radial-gradient(circle at 92% 60%,#DDF2FA 0,transparent 34%),radial-gradient(circle at 40% 100%,#FCE4F1 0,transparent 30%)}
