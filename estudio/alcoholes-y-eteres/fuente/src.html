@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Alcoholes y Éteres</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;800&family=Gochi+Hand&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--desk:#FBF8EF;--page:#fff;--grid:#F3EEDD;--margin:#F3D27E;--ink:#47402F;--muted:#8B8270;--line:#EDE6D2;--line2:#DDD3B8;--hl:#FFEAA6;--hl2:#D2EEF3;--hl3:#F9DCD0;--coral:#D9901A;--blue:#3C8DA0;--blue-soft:#EAF5F8;--sticky:#FFE4D6;--sticky-ink:#6A3B22;--ok:#2E8B57;--bad:#C8443B;--tape1:rgba(217,144,26,.28);--tape2:rgba(60,141,160,.25);--tape3:rgba(230,120,90,.28)}
+*{box-sizing:border-box}html,body{overflow-x:clip}
+body{margin:0;font-family:Figtree,system-ui,sans-serif;color:var(--ink);background:var(--desk);line-height:1.55;font-size:16.5px}
+h1,h2,h3{font-family:"Instrument Serif",serif;font-weight:400;line-height:1.1;margin:.2em 0 .4em}
+h2{font-size:clamp(30px,5vw,44px)}h3{font-size:26px;margin-top:1.1em}
+.hand{font-family:"Gochi Hand",cursive}
+a{color:var(--blue)}
+.nav{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--desk) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav .row{max-width:1100px;margin:auto;display:flex;gap:6px;align-items:center;padding:8px 16px;overflow-x:auto;scrollbar-width:none}
+.nav .brand{font-family:"Instrument Serif";font-size:22px;white-space:nowrap;margin-right:8px}
+.nav .brand small{display:block;font-size:12px;color:var(--muted);margin-top:-4px}
+.nav a{white-space:nowrap;text-decoration:none;color:var(--ink);font-weight:600;font-size:14px;padding:6px 10px;border-radius:99px}
+.nav a:hover{background:var(--hl)}
+.nav a.cta{background:var(--coral);color:#fff}
+.hero{max-width:1100px;margin:auto;padding:56px 16px 30px;display:grid;grid-template-columns:1.2fr .8fr;gap:30px;align-items:center}
+.hero h1{font-size:clamp(46px,9vw,92px)}
+.hero h1 em{color:var(--coral)}
+.hero p{font-size:18px;max-width:560px}
+.sig{font-family:"Instrument Serif";font-style:italic;color:var(--muted);font-size:18px}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.btn{border:0;cursor:pointer;font:600 15px Figtree;padding:11px 18px;border-radius:12px;background:var(--ink);color:#fff;text-decoration:none;display:inline-block}
+.btn.alt{background:#fff;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line2)}
+.btn.sm{padding:7px 12px;font-size:14px;border-radius:10px}
+.hero-mol{background:#fff;border-radius:22px;padding:18px;box-shadow:0 10px 30px rgba(80,60,20,.1);transform:rotate(-1.5deg);position:relative}
+.hero-mol:before{content:"";position:absolute;top:-12px;left:40%;width:90px;height:24px;background:var(--tape1);transform:rotate(3deg)}
+main{max-width:1100px;margin:auto;padding:0 16px 60px}
+section.topic{position:relative;background:var(--page);border-radius:18px;padding:34px clamp(18px,4vw,48px) 34px clamp(40px,8vw,92px);margin:34px 0;box-shadow:0 2px 0 var(--line),0 14px 34px rgba(80,60,20,.07)}
+section.topic:before{content:"";position:absolute;top:-11px;right:12%;width:110px;height:24px;background:var(--tape2);transform:rotate(-3deg)}
+.num{font-family:"Gochi Hand";font-size:20px;color:var(--coral)}
+.def{border-left:4px solid var(--coral);background:color-mix(in srgb,var(--hl) 35%,#fff);padding:12px 16px;border-radius:0 12px 12px 0;margin:12px 0}
+.sticky{background:var(--sticky);color:var(--sticky-ink);font-family:"Gochi Hand";font-size:19px;padding:14px 18px;border-radius:4px;box-shadow:0 6px 14px rgba(0,0,0,.08);transform:rotate(-.6deg);margin:16px 0;max-width:640px}
+.fix{background:#FFF4E5;border:1.5px dashed var(--coral);padding:10px 14px;border-radius:12px;margin:12px 0;font-size:15px}
+mark{background:linear-gradient(transparent 55%,var(--hl) 55%);color:inherit;padding:0 2px}
+.chip{display:inline-block;font-size:12px;font-weight:800;padding:2px 9px;border-radius:99px;vertical-align:middle;margin-left:6px}
+.c-seg{background:#FBE3E0;color:#A33}.c-prob{background:#FFF0C2;color:#7A5A00}.c-extra{background:#E3F1F5;color:#2B6878}
+.tbl{overflow-x:auto;margin:14px 0}
+table{border-collapse:collapse;width:100%;font-size:15px;background:#fff}
+th,td{border:1px solid var(--line2);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--hl);font-weight:800}
+.mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14.5px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.card{background:#fff;border:1.5px solid var(--line2);border-radius:14px;padding:14px 16px}
+.card h4{margin:0 0 6px;font-size:17px}
+.steps{counter-reset:s;list-style:none;padding:0}
+.steps li{counter-increment:s;position:relative;padding:6px 0 6px 40px}
+.steps li:before{content:counter(s);position:absolute;left:0;top:5px;width:28px;height:28px;border-radius:50%;background:var(--coral);color:#fff;font-weight:800;display:grid;place-items:center;font-size:14px}
+.done-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px;border-top:1px dashed var(--line2);padding-top:16px}
+/* ----- estructuras ----- */
+.mol{overflow-x:auto;padding:4px 0}
+.mol svg{display:block;max-width:none}
+.mol text{font-family:Figtree;font-weight:600}
+.molbox{border:1.5px solid var(--line2);border-radius:16px;padding:14px;margin:18px 0;background:#fff}
+.molbox .q{font-weight:800}
+.molbox .cond{font-family:ui-monospace,Menlo,monospace;background:var(--blue-soft);padding:6px 10px;border-radius:8px;display:inline-block;margin:6px 0;font-size:14.5px;overflow-wrap:anywhere}
+.stepbar{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.stepbar button{border:1.5px solid var(--line2);background:#fff;border-radius:99px;padding:5px 12px;font:600 13.5px Figtree;cursor:pointer;color:var(--ink)}
+.stepbar button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.molbox .chain-hl{opacity:0;transition:opacity .4s}
+.molbox .nums{opacity:0;transition:opacity .4s}
+.molbox .subs{transition:fill .4s}
+.molbox[data-s="2"] .chain-hl,.molbox[data-s="3"] .chain-hl,.molbox[data-s="4"] .chain-hl,.molbox[data-s="5"] .chain-hl{opacity:1}
+.molbox[data-s="3"] .nums,.molbox[data-s="4"] .nums,.molbox[data-s="5"] .nums{opacity:1}
+.molbox[data-s="4"] .br text,.molbox[data-s="5"] .br text{fill:var(--blue)}
+.molbox .ans{display:none;margin-top:8px}
+.molbox[data-s="5"] .ans{display:block}
+.ans .nm{font-family:"Instrument Serif";font-size:26px;color:var(--coral)}
+.expl{font-size:15px;color:var(--ink);background:#FAF7EE;border-radius:10px;padding:10px 12px;margin-top:6px}
+.expl b{color:var(--coral)}
+.try{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.try input{flex:1;min-width:200px;padding:9px 12px;border:1.5px solid var(--line2);border-radius:10px;font:15px Figtree}
+.fb{font-weight:700;font-size:14.5px}
+.fb.ok{color:var(--ok)}.fb.no{color:var(--bad)}
+/* ----- práctica ----- */
+.pr-set{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:10px 0}
+.pr-set select{padding:8px 10px;border-radius:10px;border:1.5px solid var(--line2);font:15px Figtree;background:#fff}
+.qbox{background:#fff;border:1.5px solid var(--line2);border-radius:16px;padding:18px;margin:14px 0}
+.qbox .meta{font-size:12.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.qbox .qt{font-size:18px;font-weight:600;margin:6px 0 12px}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;border:1.5px solid var(--line2);background:#fff;border-radius:12px;padding:10px 14px;font:15.5px Figtree;cursor:pointer;color:var(--ink)}
+.opt:hover{background:var(--hl)}
+.opt.ok{background:#E3F4EA;border-color:var(--ok)}.opt.no{background:#FBE6E3;border-color:var(--bad)}
+.ord{display:grid;gap:6px}
+.ord div{display:flex;gap:8px;align-items:center;background:#FAF7EE;border-radius:10px;padding:6px 10px}
+.ord button{border:0;background:var(--line);border-radius:6px;cursor:pointer;padding:2px 8px;font-size:14px}
+.mt{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mt select{width:100%;padding:7px;border-radius:8px;border:1.5px solid var(--line2);font:14px Figtree}
+.score{font-family:"Instrument Serif";font-size:54px;color:var(--coral)}
+.bar{height:8px;background:var(--line);border-radius:9px;overflow:hidden;margin:8px 0}.bar i{display:block;height:100%;background:var(--coral);transition:width .3s}
+.flash{perspective:900px;height:180px;cursor:pointer;max-width:520px}
+.flash .in{position:relative;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.flash.f .in{transform:rotateY(180deg)}
+.flash .fc{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;display:grid;place-items:center;text-align:center;padding:18px;font-size:19px;font-weight:600;background:var(--sticky);box-shadow:0 8px 20px rgba(0,0,0,.08)}
+.flash .pback{transform:rotateY(180deg);background:var(--blue-soft)}
+/* ----- simulacro ----- */
+.exam{background:#fff;border:1.5px solid var(--line2);border-radius:14px;padding:22px;margin-top:14px}
+.exam h3{font-size:22px;border-bottom:1.5px solid var(--line2);padding-bottom:4px}
+.exam ol>li{margin:10px 0}
+.exam .line{display:inline-block;min-width:260px;border-bottom:1.5px solid var(--ink)}
+.exam .key{display:none;color:var(--ok);font-weight:700}
+.exam.showkey .key{display:block}
+.exam .space{height:110px;border:1px dashed var(--line2);border-radius:8px;margin:6px 0}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s,transform .6s}.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.flash .in{transition:none}}
+@media (max-width:760px){.hero{grid-template-columns:1fr}.grid2,.mt{grid-template-columns:1fr}section.topic{padding:26px 16px 26px 34px}}
+@media print{.nav,.hero,section.topic:not(#simulacro),.no-print,.lupa-btn{display:none!important}body{background:#fff}section.topic{box-shadow:none;padding:0;margin:0;background:#fff!important}section.topic:before{display:none}.exam{border:0;padding:0}}
+/*PLANTCSS*/
+</style></head>
+<body class="paleta-girasol">
+<nav class="nav"><div class="row">
+<div class="brand">Alcoholes ⌬ Éteres<small>by: Gabriel</small></div>
+<a href="#derivados">Derivados</a><a href="#alcoholes">Alcoholes</a><a href="#nomenclatura">Nombrar alcoholes</a><a href="#etanol">Etanol</a><a href="#eteres">Éteres</a><a href="#modelos">Ejercicios resueltos</a><a href="#errores">No te confundas</a><a class="cta" href="#practica">Practicar</a><a class="cta" href="#simulacro">Simulacro</a>
+</div></nav>
+
+<header class="hero">
+<div>
+<div class="hand" style="color:var(--blue);font-size:20px">Química orgánica · 12.° · IV bimestre · Prof. Yanin Navarro Lee</div>
+<h1>Alcoholes <em>y</em> Éteres</h1>
+<p>Todo lo de la <b>Guía N.° 2</b> y la <b>práctica de derivados</b> (ejercicios 531–539 y 564–574) resuelto paso a paso, con la estructura dibujada, la cadena principal marcada y la numeración. Después, practica hasta sacar <b>5</b>.</p>
+<div class="btns"><a class="btn" href="#modelos">Ver ejercicios resueltos</a><a class="btn alt" href="#practica">Practicar</a><a class="btn alt" href="#simulacro">Simulacro imprimible</a></div>
+<p class="sig">by: Gabriel</p>
+</div>
+<div class="hero-mol"><div class="mol" id="heroMol"></div><div class="hand" style="text-align:center;font-size:19px">R–OH (alcohol) &nbsp;·&nbsp; R–O–R' (éter)</div></div>
+</header>
+
+<main>
+<!-- 1 DERIVADOS -->
+<section class="topic reveal" id="derivados" data-fondo="hexagonos">
+<div class="num">Tema 1</div>
+<h2>Derivados de hidrocarburos</h2>
+<div class="def"><b>Derivados de hidrocarburos:</b> compuestos que en su estructura tienen, además de carbono e hidrógeno, átomos de <b>nitrógeno, oxígeno o azufre</b>. Se originan cuando se <mark>sustituyen uno o más hidrógenos</mark> de un hidrocarburo por un <b>grupo funcional</b> (en esta guía, uno que contiene oxígeno).</div>
+<p>Los <b>compuestos oxigenados</b> se clasifican según su grupo funcional. En esta guía solo se estudian dos:</p>
+<div class="tbl" data-practica="celdas"><table><thead><tr><th>Familia</th><th>Fórmula general</th><th>Grupo funcional</th><th>Terminación IUPAC</th></tr></thead><tbody>
+<tr><td>Alcohol</td><td>R–OH</td><td>Hidroxilo (–OH)</td><td>-OL</td></tr>
+<tr><td>Éter</td><td>R–O–R'</td><td>Puente de oxígeno (–O–)</td><td>-OXI + -ANO</td></tr>
+</tbody></table></div>
+<div class="sticky">Truco: el alcohol tiene el O "colgando" con un H (–OH). El éter tiene el O "en medio" de dos carbonos (C–O–C).</div>
+<div class="done-row"><a class="btn sm" href="#practica" data-prac="deriv">Practicar este tema</a></div>
+</section>
+
+<!-- 2 ALCOHOLES -->
+<section class="topic reveal" id="alcoholes" data-fondo="rayado" data-acento="alt">
+<div class="num">Tema 2</div>
+<h2>Alcoholes: qué son y cómo se clasifican</h2>
+<div class="def"><b>Alcohol:</b> forma general <b>R–OH</b>, donde <b>R</b> es un hidrocarburo normal o ramificado y <b>OH</b> es el <b>grupo hidroxilo</b>.</div>
+<h3>a) Según el tipo de carbono unido al –OH <span class="chip c-seg">Seguro</span></h3>
+<div class="sticky" style="max-width:none">Primero cuenta cuántos carbonos están pegados al carbono que tiene el –OH: <b>1 → primario</b>, <b>2 → secundario</b>, <b>3 → terciario</b>.</div>
+<div class="grid2" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
+<div class="card"><h4>Primario (1°)</h4>El –OH está en un <b>carbono primario</b> (unido a 1 carbono).<div class="mol" data-m="ex_prim"></div>Ej.: 1-propanol</div>
+<div class="card"><h4>Secundario (2°)</h4>El –OH está en un <b>carbono secundario</b> (unido a 2 carbonos).<div class="mol" data-m="ex_sec"></div>Ej.: 2-propanol</div>
+<div class="card"><h4>Terciario (3°)</h4>El –OH está en un <b>carbono terciario</b> (unido a 3 carbonos).<div class="mol" data-m="ex_ter"></div>Ej.: <b>terbutanol</b> o <b>2-metil-2-propanol</b></div>
+</div>
+<h3>b) Según el número de grupos –OH <span class="chip c-seg">Seguro</span></h3>
+<div class="tbl" data-practica="celdas"><table><thead><tr><th>Tipo</th><th>N.° de –OH</th><th>Terminación</th><th>Ejemplo</th></tr></thead><tbody>
+<tr><td>Monohidroxilado</td><td>Uno</td><td>-ol</td><td>Etanol</td></tr>
+<tr><td>Dihidroxilado (diol)</td><td>Dos</td><td>-diol</td><td>1,2-etanodiol (etilenglicol)</td></tr>
+<tr><td>Trihidroxilado (triol)</td><td>Tres o más</td><td>-triol</td><td>1,2,3-propanotriol (glicerol o glicerina)</td></tr>
+</tbody></table></div>
+<p>Regla de la guía: <b>ALCANO + PREFIJO (di, tri) + OL</b>. Ej.: propano + triol → <b>1,2,3-propanotriol</b>. Fíjate que se escribe <b>propano</b>triol (se queda la "o" porque sigue consonante).</p>
+<div class="card"><h4>Glicerol (glicerina)</h4>
+<div class="mol" data-m="glicerol"></div>
+Nombre IUPAC: <b>1,2,3-propanotriol</b> · Nombre común: <b>glicerol o glicerina</b> · Fórmula molecular: <b>C₃H₈O₃</b> · Usos: cosméticos, jabones, cremas, jarabes, explosivos (nitroglicerina). <span class="chip c-extra">Dato extra: la fórmula y los usos</span></div>
+<div class="done-row"><a class="btn sm" href="#practica" data-prac="clasif">Practicar este tema</a></div>
+</section>
+
+<!-- 3 NOMENCLATURA -->
+<section class="topic reveal" id="nomenclatura" data-fondo="cuadricula">
+<div class="num">Tema 3</div>
+<h2>Cómo se nombran los alcoholes</h2>
+<p>Un alcohol puede tener <b>tres nombres</b>: 1) <b>IUPAC</b>, 2) <b>radico funcional (RF)</b> y 3) <b>vulgar o común (NV/NC)</b>.</p>
+<h3>Sistema IUPAC (los pasos de la práctica) <span class="chip c-seg">Seguro</span></h3>
+<ol class="steps">
+<li><b>Escribe la estructura</b> con todas sus ramificaciones (desarrolla los paréntesis: C₂H₅ = CH₂–CH₃, C₃H₇ = CH₂–CH₂–CH₃).</li>
+<li><b>Encuentra la cadena principal:</b> la cadena de carbonos <mark>más larga que contenga el o los carbonos con –OH</mark>. Remárcala con color. (Si hay doble o triple enlace, también debe quedar dentro.)</li>
+<li><b>Enumera</b> la cadena empezando por el extremo <mark>más cercano al carbono con –OH</mark>. El –OH manda sobre el doble enlace, el triple enlace y los radicales.</li>
+<li><b>Reconoce los radicales</b> que quedan como ramificaciones (metil, etil, propil, isopropil, butil, isobutil, secbutil, terbutil).</li>
+<li><b>Escribe el nombre:</b> radicales en orden alfabético con su número → cadena (con -en/-in si hay enlace múltiple) → números de los –OH → <b>ol / diol / triol</b>.</li>
+</ol>
+<div class="sticky" style="max-width:none">Fórmula del nombre: <b>posición-radicales + (posición-)alcano/alqueno/alquino + posiciones-OH + ol</b><br>Ej.: 4-etil-4-metil-<b>5-hepten</b>-<b>2-ol</b></div>
+<div class="fix"><b>Desempates al numerar</b> <span class="chip c-extra">Regla IUPAC, ayuda en los ejercicios</span><br>1) Gana el número más bajo para los –OH (compara el conjunto: 2,3,5 es menor que 2,4,5 porque en el primer punto donde difieren, 3 &lt; 4).<br>2) Si empatan, gana el más bajo para el doble/triple enlace.<br>3) Si siguen empatados, el más bajo para los radicales.<br>4) Si todavía empatan, el número más bajo se lo lleva el radical que va primero en el alfabeto.<br>5) Si hay dos cadenas igual de largas, se toma la que tiene <b>más ramificaciones</b>.<br>Al ordenar alfabéticamente <b>no cuentan</b> di-, tri-, sec- ni ter-, pero <b>iso sí</b> (isopropil va en la "i"; terbutil y secbutil van en la "b").</div>
+<h3>Nombre radico funcional (RF)</h3>
+<div class="def">Se empieza con la palabra <b>ALCOHOL</b> y luego el nombre de la cadena cambiando <b>-ANO</b> por <b>-ÍLICO</b>. Ej.: alcohol metílico, alcohol etílico, alcohol isopropílico.</div>
+<div class="tbl" data-practica="celdas"><table><thead><tr><th>Compuesto</th><th>IUPAC</th><th>RF</th><th>Nombre común</th></tr></thead><tbody>
+<tr><td class="mono">CH₃–OH</td><td>Metanol</td><td>Alcohol metílico</td><td>Alcohol de madera</td></tr>
+<tr><td class="mono">CH₃–CH₂–OH</td><td>(1-)Etanol</td><td>Alcohol etílico</td><td>Espíritu de vino</td></tr>
+<tr><td class="mono">CH₃–CH₂–CH₂–OH</td><td>1-Propanol</td><td>Alcohol propílico</td><td>— (no tiene)</td></tr>
+<tr><td class="mono">CH₃–CH(OH)–CH₃</td><td>2-Propanol</td><td>Alcohol isopropílico</td><td>— (no tiene en la guía)</td></tr>
+</tbody></table></div>
+<h3>Radicales que tienes que reconocer</h3>
+<div class="tbl" data-practica="derecha"><table><thead><tr><th>Así se ve</th><th>Radical</th></tr></thead><tbody>
+<tr><td class="mono">–CH₃</td><td>metil</td></tr>
+<tr><td class="mono">–CH₂–CH₃ (–C₂H₅)</td><td>etil</td></tr>
+<tr><td class="mono">–CH₂–CH₂–CH₃ (–C₃H₇)</td><td>propil</td></tr>
+<tr><td class="mono">–CH(CH₃)₂</td><td>isopropil</td></tr>
+<tr><td class="mono">–CH₂–CH₂–CH₂–CH₃</td><td>butil</td></tr>
+<tr><td class="mono">–CH₂–CH(CH₃)₂</td><td>isobutil</td></tr>
+<tr><td class="mono">–CH(CH₃)–CH₂–CH₃</td><td>secbutil</td></tr>
+<tr><td class="mono">–C(CH₃)₃</td><td>terbutil</td></tr>
+<tr><td class="mono">–CH=CH₂</td><td>vinil (etenil)</td></tr>
+<tr><td class="mono">–C≡CH</td><td>etinil</td></tr>
+</tbody></table></div>
+<h3>Ejemplos de la guía, resueltos</h3>
+<div id="guiaEj"></div>
+<div class="done-row"><a class="btn sm" href="#practica" data-prac="nomalc">Practicar este tema</a></div>
+</section>
+
+<!-- 4 ETANOL -->
+<section class="topic reveal" id="etanol" data-fondo="puntos" data-acento="alt">
+<div class="num">Tema 4</div>
+<h2>Utilidad y efectos del etanol</h2>
+<p>Los alcoholes tienen mucha utilidad en la vida cotidiana (desinfectantes, solventes, combustibles, bebidas, cosméticos). Pero el consumo de <b>etanol</b> tiene efectos en el cuerpo, de inmediatos a largo plazo.</p>
+<div class="grid2">
+<div class="card"><h4>A corto plazo</h4><ul><li>Mareos</li><li>Náuseas</li><li>etc. (vómito, falta de coordinación) <span class="chip c-extra">Extra</span></li></ul></div>
+<div class="card"><h4>A largo plazo (consumo excesivo)</h4><ul><li>Problemas de memoria</li><li>Aumento de lípidos hepáticos (<b>hígado graso</b>)</li><li>Aumento de <b>triglicéridos</b> en plasma</li><li>Gastritis</li><li>Pancreatitis, cetoacidosis</li><li>Hepatitis alcohólica</li><li>Aumento del riesgo de varios cánceres</li><li>Desnutrición</li><li>Daños al sistema reproductor</li><li>Perturbaciones psicológicas</li></ul></div>
+</div>
+<div class="sticky">Hay 10 efectos a largo plazo en la guía. Truco: "Memoria, Hígado (graso y hepatitis), Triglicéridos, Estómago (gastritis), Páncreas, Cáncer, Desnutrición, Reproductor, Mente".</div>
+<div class="done-row"><a class="btn sm" href="#practica" data-prac="etanol">Practicar este tema</a></div>
+</section>
+
+<!-- 5 ETERES -->
+<section class="topic reveal" id="eteres" data-fondo="milimetrado">
+<div class="num">Tema 5</div>
+<h2>Éteres</h2>
+<div class="def"><b>Éteres:</b> compuestos que resultan de la unión de <b>dos radicales alquílicos separados por un puente de oxígeno</b>. Forma general <b>R–O–R'</b>, donde R es un hidrocarburo saturado o insaturado, de cadena normal o ramificada.</div>
+<div class="grid2">
+<div class="card"><h4>Simétricos</h4>Los dos grupos R son <b>iguales</b>.<div class="mono">CH₃–O–CH₃</div></div>
+<div class="card"><h4>Asimétricos</h4>Los dos grupos R son <b>distintos</b>.<div class="mono">CH₃–O–C₂H₅</div></div>
+</div>
+<h3>Nomenclatura IUPAC <span class="chip c-seg">Seguro</span></h3>
+<ol class="steps">
+<li>El hidrocarburo con <b>menos carbonos</b> se nombra cambiando <b>-ANO</b> por <b>-OXI</b> (metoxi, etoxi, propoxi, isopropoxi, butoxi…).</li>
+<li>Va un <b>guion (-)</b>.</li>
+<li>Luego se nombra el otro hidrocarburo (el más grande) terminando en <b>-ANO</b> (simple), <b>-ENO</b> (doble) o <b>-INO</b> (triple).</li>
+<li>Si el radical es <b>etenil</b> (vinilo, CH₂=CH–), se usa <b>ETENOXI</b>.</li>
+</ol>
+<h3>Nombre radico funcional (RF)</h3>
+<ol class="steps">
+<li>Se empieza con la palabra <b>ÉTER</b>.</li>
+<li>Los grupos R se nombran en <b>orden alfabético</b>, separados por guion.</li>
+<li>El primero termina en <b>-IL</b> (como radical) y el segundo cambia -ano por <b>-ÍLICO</b>.</li>
+<li>Para CH₂=CH– se usa <b>VINIL</b>. Si los dos R son iguales: éter di…ílico (éter dimetílico).</li>
+</ol>
+<div class="tbl" data-practica="celdas"><table><thead><tr><th>Compuesto</th><th>IUPAC</th><th>RF</th></tr></thead><tbody>
+<tr><td class="mono">CH₃–O–CH₃</td><td>Metoxi-metano</td><td>Éter metil-metílico / éter dimetílico</td></tr>
+<tr><td class="mono">CH₃–O–C₂H₅</td><td>Metoxi-etano</td><td>Éter etil-metílico / etil-metil éter</td></tr>
+<tr><td class="mono">CH₃–CH₂–O–CH=CH₂</td><td>Etenoxi-etano</td><td>Éter etil-vinílico / etil-vinil éter</td></tr>
+<tr><td class="mono">(CH₃)₂CH–O–C₃H₇</td><td>Propoxi-isopropano</td><td>Éter propil-isopropílico</td></tr>
+<tr><td class="mono">CH₂=CH–O–C≡CH</td><td>Etenoxi-etino</td><td>Éter etinil-vinílico / etinil-vinil éter</td></tr>
+</tbody></table></div>
+<div class="fix">Ojo con la guía: en <b>propoxi-isopropano</b> los dos lados tienen 3 carbonos (empate); en ese caso la guía pone el grupo de cadena normal (propil) como -oxi. En el RF la guía escribe "éter propil-isopropílico".</div>
+<h3>Ejemplo de éter con ramificación (de la guía)</h3>
+<div id="eterEj"></div>
+<div class="done-row"><a class="btn sm" href="#practica" data-prac="eter">Practicar este tema</a></div>
+</section>
+
+<!-- 6 MODELOS -->
+<section class="topic reveal" id="modelos" data-fondo="cuadricula" data-acento="alt">
+<div class="num">Tema 6</div>
+<h2>Práctica de derivados: todos los ejercicios resueltos</h2>
+<p>Estos son <b>los mismos ejercicios de tu hoja</b>. Para cada uno, toca los pasos como lo pide la profe: <b>1 Estructura → 2 Cadena principal → 3 Enumerar → 4 Radicales → 5 Nombre</b>. Antes de ver el nombre, intenta escribirlo tú.</p>
+<div class="sticky" style="max-width:none">Así lo copias en tu hoja de rayas: dibujas la estructura desarrollada como aquí, encierras con color la cadena principal, pones los números encima de cada carbono y escribes el nombre abajo.</div>
+<h3>Parte I · Escribe el nombre (531–539)</h3>
+<div id="ejI"></div>
+<h3>Parte II · Desarrolla la estructura y corrige el nombre (564–574)</h3>
+<div id="ejII"></div>
+<div class="done-row"><a class="btn sm" href="#practica" data-prac="ejer">Practicar nombrar</a></div>
+</section>
+
+<!-- 7 ERRORES -->
+<section class="topic reveal" id="errores" data-fondo="rayado">
+<div class="num">Tema 7</div>
+<h2>No te confundas</h2>
+<div class="tbl" data-practica="derecha"><table><thead><tr><th>Error típico</th><th>Lo correcto</th></tr></thead><tbody>
+<tr><td>Tomar la cadena más larga aunque deje fuera un –OH</td><td>La cadena principal debe contener TODOS los carbonos con –OH</td></tr>
+<tr><td>Numerar desde el doble enlace o desde un radical</td><td>Se numera desde el extremo más cercano al –OH</td></tr>
+<tr><td>Leer C₂H₅ o C₃H₇ como un solo átomo</td><td>Desarróllalos: son cadenas que pueden alargar la cadena principal</td></tr>
+<tr><td>Ordenar radicales por número (di-, tri-)</td><td>Se ordenan alfabéticamente ignorando di-, tri-, sec- y ter-</td></tr>
+<tr><td>En éteres, poner -oxi al grupo más grande</td><td>El -oxi es para el grupo con MENOS carbonos</td></tr>
+<tr><td>Éter RF con radicales sin orden: éter vinil-isobutílico</td><td>Orden alfabético: éter isobutil-vinílico</td></tr>
+<tr><td>Escribir hexantriol</td><td>Se escribe hexanotriol, octanodiol (con la "o")</td></tr>
+</tbody></table></div>
+</section>
+
+<!-- PRACTICA -->
+<section class="topic" id="practica" data-fondo="puntos" data-acento="alt">
+<div class="num">Práctica</div>
+<h2>Practica hasta sacar 5</h2>
+<div class="pr-set no-print">
+<label>Tema: <select id="pTopic"></select></label>
+<label>Preguntas: <select id="pN"><option>10</option><option selected>25</option><option>40</option><option value="999">Todas</option></select></label>
+<button class="btn" id="pGo">Empezar ronda</button>
+<button class="btn alt" id="fGo">Tarjetas</button>
+</div>
+<div id="pArea"><p class="hand" style="font-size:20px">Elige el tema y toca "Empezar ronda". Hay selección múltiple, verdadero/falso, llenar espacios, pareo, ordenar pasos y nombrar compuestos.</p></div>
+</section>
+
+<!-- SIMULACRO -->
+<section class="topic" id="simulacro" data-fondo="milimetrado">
+<div class="num no-print">Simulacro</div>
+<h2 class="no-print">Simulacro de examen</h2>
+<div class="pr-set no-print"><button class="btn" id="sNew">Generar simulacro nuevo</button><button class="btn alt" id="sKey">Mostrar / ocultar respuestas</button><button class="btn alt" onclick="print()">Imprimir</button></div>
+<div id="sArea"></div>
+</section>
+</main>
+<script>
+/* ======== dibujo de estructuras ======== */
+const SUB=s=>s.replace(/(\d)/g,'<tspan baseline-shift="sub" font-size="70%">$1</tspan>');
+function W(t){return t.replace(/<[^>]+>/g,'').length*9.2+10}
+// chain: [{g:'CH3',u:['OH'],d:['CH2','CH3'],b:'-'|'='|'#'}], opts:{num:true, hl:[from,to] indexes in main chain to highlight}
+function molSVG(chain,o={}){
+  const GAP=34,H=46;let x=10;const pos=[];
+  chain.forEach(a=>{const w=Math.max(W(a.g),30);pos.push({x,w,c:x+w/2});x+=w+GAP});
+  const width=x-GAP+10;
+  const up=Math.max(0,...chain.map(a=>(a.u||[]).length)),dn=Math.max(0,...chain.map(a=>(a.d||[]).length));
+  const y0=22+up*H, height=y0+34+dn*H+6;
+  let s=`<svg viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" role="img">`;
+  const hl=o.hl||[0,chain.length-1];
+  const p1=pos[hl[0]],p2=pos[hl[1]];
+  s+=`<rect class="chain-hl" x="${p1.x-6}" y="${y0-17}" width="${p2.x+p2.w-p1.x+12}" height="34" rx="14" fill="var(--hl)" stroke="var(--coral)" stroke-width="2"/>`;
+  chain.forEach((a,i)=>{const p=pos[i];
+    if(i<chain.length-1){const q=pos[i+1],x1=p.x+p.w+3,x2=q.x-3,b=a.b||'-';
+      const ys=b==='='?[-3,3]:b==='#'?[-5,0,5]:[0];
+      ys.forEach(dy=>s+=`<line x1="${x1}" y1="${y0+dy}" x2="${x2}" y2="${y0+dy}" stroke="#47402F" stroke-width="1.8"/>`)}
+    s+=`<text x="${p.c}" y="${y0+6}" text-anchor="middle" font-size="16" fill="#47402F">${SUB(a.g)}</text>`;
+    if(o.num!==false&&i>=hl[0]&&i<=hl[1])s+=`<g class="nums"><circle cx="${p.x}" cy="${y0+17}" r="9" fill="var(--coral)"/><text x="${p.x}" y="${y0+21}" text-anchor="middle" font-size="11" fill="#fff" font-weight="800">${i-hl[0]+1}</text></g>`;
+    [['u',-1],['d',1]].forEach(([k,dir])=>{(a[k]||[]).forEach((g,j)=>{
+      const yt=y0+dir*H*(j+1), yl1=y0+dir*(j===0?(dir<0?15:12):H*j+12), yl2=yt+(dir<0?12:-14);
+      const isOH=g==='OH';
+      s+=`<line x1="${p.c}" y1="${yl1}" x2="${p.c}" y2="${yl2}" stroke="#47402F" stroke-width="1.8"/>`;
+      s+=`<g class="${isOH?'oh':'br'}"><text x="${p.c}" y="${yt+6}" text-anchor="middle" font-size="16" fill="${isOH?'#C8443B':'#47402F'}" font-weight="${isOH?800:600}">${SUB(g)}</text></g>`})});
+  });
+  return s+'</svg>';
+}
+// atajos para escribir cadenas: "CH3|CH(u:OH)|CH2" etc.
+function C(str){return str.split('|').map(t=>{const m=t.match(/^([^({]+)(?:\{(.*)\})?$/);const a={g:m[1].replace(/[=#]$/,''),b:/=$/.test(m[1])?'=':/#$/.test(m[1])?'#':'-'};
+  if(m[2])m[2].split(';').forEach(kv=>{const[k,v]=kv.split(':');a[k]=v.split(',')});return a})}
+const MOLS={
+ ex_prim:[C('CH3|CH2|CH2{u:OH}'),{num:false}],
+ ex_sec:[C('CH3|CH{u:OH}|CH3'),{num:false}],
+ ex_ter:[C('CH3|C{u:OH;d:CH3}|CH3'),{num:false}],
+ glicerol:[C('CH2{u:OH}|CH{u:OH}|CH2{u:OH}')],
+ hero:[C('CH3|CH2{u:OH}'),{num:false}],
+};
+/* ======== ejercicios ======== */
+// [id, enunciado, condensada, cadena, hl, nombreIUPAC, otros nombres, explicación, aceptadas(regex-free alternates)]
+const EJ_GUIA=[
+ ['Guía 1','Nombra:','CH₃–CH₂–C(OH)(C₂H₅)–CH₂–CH₃',C('CH3|CH2|C{u:OH;d:CH2,CH3}|CH2|CH3'),null,'3-etil-3-pentanol','Alcohol terciario (el C3 está unido a 3 carbonos).','Cadena de 5 C (las tres ramas miden 2 C, cualquiera sirve). El –OH queda en el C3 desde cualquier lado. Radical: etil en C3.',['3-etil-3-pentanol','3-etilpentan-3-ol']],
+ ['Guía 2','Nombra:','CH₃–CH(CH₃)–CH₂–CH(OH)–CH(C₂H₅)–CH(CH₃)–CH₃',C('CH3|CH{d:CH3}|CH{d:CH2,CH3}|CH{u:OH}|CH2|CH{d:CH3}|CH3'),null,'3-etil-2,6-dimetil-4-heptanol','Alcohol secundario.','Cadena de 7 C. El –OH queda en C4 desde los dos lados (empate). Desempata el radical más cercano: numerando desde la derecha de la fórmula, los radicales quedan en 2,3,6 (y no 2,5,6). Radicales: etil (C3), metil (C2 y C6).',['3-etil-2,6-dimetil-4-heptanol','3-etil-2,6-dimetilheptan-4-ol']],
+ ['Guía 3','Nombra:','CH₃–CH₂–CH₂–CH(CH₂–OH)–CH(CH₃)–CH₂–CH₃',C('CH2{u:OH}|CH{d:CH2,CH2,CH3}|CH{u:CH3}|CH2|CH3'),null,'3-metil-2-propil-1-pentanol','Alcohol primario (el –OH está en un CH₂ del extremo).','¡El –OH está en la rama! La cadena principal tiene que empezar en ese CH₂–OH. Hay dos caminos de 5 C; se elige el que tiene más ramificaciones: propil en C2 y metil en C3.',['3-metil-2-propil-1-pentanol','3-metil-2-propilpentan-1-ol']],
+ ['Guía 4','Nombra:','CH₃–CH=CH–CH₂–OH',C('CH2{u:OH}|CH=|CH|CH3'),null,'2-buten-1-ol','Alcohol primario e insaturado.','Se numera desde el –OH (C1), aunque el doble enlace quede en 2.',['2-buten-1-ol','but-2-en-1-ol']],
+];
+const EJ_I=[
+ ['531','Escribe el nombre:','CH₃–CHOH–CH₂–CHOH–CHOH–CH₃',C('CH3|CH{u:OH}|CH{u:OH}|CH2|CH{u:OH}|CH3'),null,'2,3,5-hexanotriol','Trihidroxilado; los tres –OH en carbonos secundarios.','Cadena de 6 C. Desde la izquierda de la fórmula los –OH quedan en 2,4,5; desde la derecha en <b>2,3,5</b>. Se comparan término a término: 2=2 y luego 3&lt;4, así que gana <b>2,3,5</b>. (Aquí se dibuja ya numerada desde la derecha de la fórmula.)',['2,3,5-hexanotriol','hexano-2,3,5-triol','2,3,5-hexantriol']],
+ ['532','Escribe el nombre:','CH(CH₃)₂–C(C₃H₇)OH–CH₂–CH(C₂H₅)–CH[CH₂OH]–CH(CH₃)₂',C('CH2{u:OH}|CH{d:CH—CH3,CH3}|CH{u:CH2,CH3}|CH2|C{u:OH;d:CH—CH3,CH3}|CH2|CH2|CH3'),null,'3-etil-2,5-diisopropil-1,5-octanodiol','Diol: un –OH primario (C1) y uno terciario (C5).','Hay dos –OH: uno en el C unido al propil y otro en el CH₂OH de la rama. La cadena más larga que contiene <b>los dos</b> va del CH₂OH, pasa por todo el centro y sigue por el <b>propil</b> (3 C): 8 C → octano. Desde el CH₂OH los –OH quedan en <b>1,5</b> (desde el otro lado serían 4,8). Radicales: isopropil en C2 y C5, etil en C3. Orden alfabético: etil (e) antes que isopropil (i); "di" no cuenta.',['3-etil-2,5-diisopropil-1,5-octanodiol','3-etil-2,5-di(propan-2-il)octano-1,5-diol','3-etil-2,5-diisopropiloctano-1,5-diol']],
+ ['533','Escribe el nombre:','CH₃–CH=CH–C(CH₃)(C₂H₅)–CH₂–CH(CH₃)OH',C('CH3|CH{u:OH}|CH2|C{u:CH3;d:CH2,CH3}|CH=|CH|CH3'),null,'4-etil-4-metil-5-hepten-2-ol','Alcohol secundario e insaturado (alqueno).','El CH(CH₃)OH aporta un CH₃ más a la cadena: 7 C con el doble enlace → hepteno. Se numera desde el –OH: OH en C2, doble enlace entre C5 y C6 → 5-hepten. En C4 hay etil y metil.',['4-etil-4-metil-5-hepten-2-ol','4-etil-4-metilhept-5-en-2-ol']],
+ ['534','Escribe el nombre (el enlace C≡C es triple):','CH₃–CHOH–C≡C–CH(C₂H₅)–CHOH–CH₃',C('CH3|CH{u:OH}|C#|C|CH{d:CH2,CH3}|CH{u:OH}|CH3'),null,'5-etil-3-heptin-2,6-diol','Diol secundario con triple enlace (alquino).','7 C (incluye los dos –OH). Los –OH quedan en 2,6 desde los dos lados (empate) → desempata el triple enlace: desde la izquierda queda en 3 (desde la derecha en 4). Etil en C5.',['5-etil-3-heptin-2,6-diol','5-etilhept-3-ino-2,6-diol','5-etil-3-heptino-2,6-diol']],
+ ['535','Escribe el nombre:','CH₃–CH(CH₃)–CH₂–C(C₂H₅)[CH₂–CH₂OH]–CHOH–CH[CH₂–CH₂–CH₂OH]–C(CH₃)₃',C('CH2{u:OH}|CH2|C{u:CH2,CH—CH3,CH3;d:CH2,CH3}|CH{u:OH}|CH{d:C(CH3)3}|CH2|CH2|CH2{u:OH}'),null,'5-terbutil-3-etil-3-isobutil-1,4,8-octanotriol','Triol: dos –OH primarios (C1 y C8) y uno secundario (C4).','Tres –OH: dos están en ramas (CH₂–CH₂OH y CH₂–CH₂–CH₂OH). La única cadena que los tiene a los tres va de un CH₂OH al otro: 8 C → octano. Desde el CH₂–CH₂OH quedan en <b>1,4,8</b> (del otro lado 1,5,8). Radicales: etil e isobutil en C3, terbutil en C5. Orden: terbutil (b), etil (e), isobutil (i).',['5-terbutil-3-etil-3-isobutil-1,4,8-octanotriol','5-tert-butil-3-etil-3-isobutil-1,4,8-octanotriol','5-terc-butil-3-etil-3-isobutil-1,4,8-octanotriol','5-terbutil-3-etil-3-isobutiloctano-1,4,8-triol']],
+ ['536','Escribe los nombres:','CH₃–CH₂–O–CH₂–CH₂–CH₃',C('CH3|CH2|O|CH2|CH2|CH3'),[3,5],'Etoxi-propano','RF: éter etil-propílico. Asimétrico.','Grupo menor: etil (2 C) → <b>etoxi</b>. Grupo mayor: propil (3 C) → <b>propano</b>. RF en orden alfabético: etil, propil → éter etil-propílico.',['etoxi-propano','etoxipropano','1-etoxipropano','1-etoxi-propano']],
+ ['537','Escribe los nombres:','CH₂=CH–O–CH₂–CH(CH₃)₂',C('CH2=|CH|O|CH2|CH{u:CH3}|CH3'),[3,5],'Etenoxi-isobutano','RF: éter isobutil-vinílico. Asimétrico.','Grupo menor: vinilo/etenil (2 C) → la guía dice que se usa <b>etenoxi</b>. Grupo mayor: isobutil → <b>isobutano</b> (nombre formal: 1-etenoxi-2-metilpropano). RF: isobutil (i) va antes que vinil (v) → éter isobutil-vinílico.',['etenoxi-isobutano','etenoxiisobutano','1-etenoxi-2-metilpropano']],
+ ['538','Escribe los nombres:','CH₃–(CH₂)₃–O–CH(CH₃)₂',C('CH3|CH2|CH2|CH2|O|CH{u:CH3}|CH3'),[0,3],'Isopropoxi-butano','RF: éter butil-isopropílico. Asimétrico.','(CH₂)₃ son tres CH₂ seguidos: con el CH₃ forman un butil (4 C). El otro lado es isopropil (3 C) → el menor → <b>isopropoxi</b>. RF: butil (b) antes que isopropil (i).',['isopropoxi-butano','isopropoxibutano','1-isopropoxibutano']],
+ ['539','Escribe los nombres:','CH₃–CH(CH₃)–O–C(CH₃)₃',C('CH3|CH{u:CH3}|O|C{u:CH3;d:CH3}|CH3'),[3,4],'Isopropoxi-terbutano','RF: éter terbutil-isopropílico. Asimétrico.','Isopropil (3 C) es el menor → <b>isopropoxi</b>; terbutil (4 C) → <b>terbutano</b> (formal: 2-isopropoxi-2-metilpropano). RF: terbutil se ordena por la "b", así que va antes que isopropil.',['isopropoxi-terbutano','isopropoxiterbutano','2-isopropoxi-2-metilpropano','isopropoxi-tert-butano']],
+];
+const EJ_II=[
+ ['564','Corrige: 2,4,5-HEXANOTRIOL','CH₃–CH(OH)–CH₂–CH(OH)–CH(OH)–CH₃',C('CH3|CH{u:OH}|CH{u:OH}|CH2|CH{u:OH}|CH3'),null,'2,3,5-hexanotriol','❌ Estaba mal numerado.','Si numeras al revés, los –OH quedan en 2,3,5, que es más bajo que 2,4,5. (¡Es el mismo compuesto del 531!)',['2,3,5-hexanotriol','hexano-2,3,5-triol']],
+ ['565','Corrige: 3,7-NONADIEN-5,6-DIOL','CH₃–CH₂–CH=CH–CH(OH)–CH(OH)–CH=CH–CH₃',C('CH3|CH=|CH|CH{u:OH}|CH{u:OH}|CH=|CH|CH2|CH3'),null,'2,6-nonadien-4,5-diol','❌ Estaba numerado desde el lado equivocado.','Desde el otro extremo los –OH quedan en <b>4,5</b> (en vez de 5,6). Los dobles enlaces pasan de 3 y 7 a <b>2 y 6</b>.',['2,6-nonadien-4,5-diol','nona-2,6-dieno-4,5-diol','2,6-nonadieno-4,5-diol']],
+ ['566','Corrige: 1-PENTIN-3,4-DIOL','HC≡C–CH(OH)–CH(OH)–CH₃',C('CH3|CH{u:OH}|CH{u:OH}|C#|CH'),null,'4-pentin-2,3-diol','❌ Se numeró desde el triple enlace.','El –OH manda sobre el triple enlace. Desde el CH₃ los –OH quedan en <b>2,3</b> y el triple en <b>4</b>.',['4-pentin-2,3-diol','pent-4-ino-2,3-diol','4-pentino-2,3-diol']],
+ ['567','Corrige: 5-BUTIL-2,3-DIETIL-6-METIL-4-HEPTEN-3,4-DIOL','CH₃–CH(C₂H₅)–C(OH)(C₂H₅)–C(OH)=C(C₄H₉)–CH(CH₃)–CH₃',C('CH3|CH2|CH{d:CH3}|C{u:OH;d:CH2,CH3}|C={u:OH}|C{d:CH—CH3,CH3}|CH2|CH2|CH2|CH3'),null,'4-etil-6-isopropil-3-metil-5-decen-4,5-diol','❌ No se tomó la cadena más larga.','Dibuja primero el nombre malo (heptano con sus ramas). La cadena más larga que contiene los dos –OH va por el <b>etil del C2</b> y sigue por el <b>butil del C5</b>: 2+4+4 = <b>10 C → deceno</b>. Desde el lado del etil, –OH en 4,5 y doble enlace en 5. Ramas que quedan: metil (C3), etil (C4), isopropil (C6, era el C6–C7 con su metil).',['4-etil-6-isopropil-3-metil-5-decen-4,5-diol','4-etil-6-isopropil-3-metildec-5-eno-4,5-diol','4-etil-6-isopropil-3-metil-5-deceno-4,5-diol']],
+ ['568','Corrige: 2,3-DIETIL-3-METIL-4-HEXEN-2,6-DIOL','CH₃–C(OH)(C₂H₅)–C(CH₃)(C₂H₅)–CH=CH–CH₂OH',C('CH2{u:OH}|CH=|CH|C{u:CH3;d:CH2,CH3}|C{u:OH;d:CH3}|CH2|CH3'),null,'4-etil-4,5-dimetil-2-hepten-1,5-diol','❌ Cadena corta y mal numerada.','El etil del C2 alarga la cadena: 7 C → hepteno. Se numera desde el CH₂OH: –OH en <b>1,5</b>, doble enlace en <b>2</b>. Ramas: etil y metil en C4, metil en C5.',['4-etil-4,5-dimetil-2-hepten-1,5-diol','4-etil-4,5-dimetilhept-2-eno-1,5-diol','4-etil-4,5-dimetil-2-hepteno-1,5-diol']],
+ ['569','Corrige: 5-ETIL-3-PROPIL-2,4,6-HEPTANOTRIOL','CH₃–CH(OH)–CH(C₃H₇)–CH(OH)–CH(C₂H₅)–CH(OH)–CH₃',C('CH3|CH{u:OH}|CH{d:CH2,CH3}|CH{u:OH}|CH{d:CH2,CH2,CH3}|CH{u:OH}|CH3'),null,'3-etil-5-propil-2,4,6-heptanotriol','❌ Los números estaban bien, pero el orden no.','La cadena sí es la correcta (si usas el propil, dejas fuera un –OH). –OH en 2,4,6 desde los dos lados y los radicales en 3,5 desde los dos lados: empate total → el número menor es para el que va primero en el alfabeto: <b>etil = 3</b>.',['3-etil-5-propil-2,4,6-heptanotriol','3-etil-5-propilheptano-2,4,6-triol']],
+ ['570','Corrige: 2,7-DIETIL-2-PROPIL-5,6-NONADIEN-3,4,8-TRIOL','CH₃–C(C₂H₅)(C₃H₇)–CH(OH)–CH(OH)–CH=C=C(C₂H₅)–CH(OH)–CH₃',C('CH3|CH{u:OH}|C={d:CH2,CH3}|C=|CH|CH{u:OH}|CH{u:OH}|C{u:CH3;d:CH2,CH3}|CH2|CH2|CH3'),null,'3,8-dietil-8-metil-3,4-undecadien-2,6,7-triol','❌ No se tomó la cadena más larga.','El propil del C2 alarga la cadena: 3+8 = <b>11 C → undecano</b>. Desde el CH₃ del extremo opuesto los –OH quedan en <b>2,6,7</b> (del otro lado 5,6,10). Dobles enlaces en 3 y 4 (C3=C4=C5). Ramas: etil en C3, etil y metil en C8.',['3,8-dietil-8-metil-3,4-undecadien-2,6,7-triol','3,8-dietil-8-metilundeca-3,4-dieno-2,6,7-triol','3,8-dietil-8-metil-3,4-undecadieno-2,6,7-triol']],
+ ['571','Revisa: METOXI-ETANO','CH₃–O–CH₂–CH₃',C('CH3|O|CH2|CH3'),[2,3],'Metoxi-etano','✅ Está bien. Otro nombre (RF): éter etil-metílico.','Metil (1 C) es el menor → metoxi; etil → etano. RF en orden alfabético: etil, metil.',['metoxi-etano','metoxietano']],
+ ['572','Revisa: ÉTER VINIL-ISOBUTÍLICO','CH₂=CH–O–CH₂–CH(CH₃)₂',C('CH2=|CH|O|CH2|CH{u:CH3}|CH3'),[3,5],'Éter isobutil-vinílico','❌ El orden alfabético estaba mal. IUPAC: etenoxi-isobutano.','Isobutil (i) va antes que vinil (v). Es el mismo compuesto del 537.',['eter isobutil-vinilico','eter isobutilvinilico','isobutil-vinil eter']],
+ ['573','Revisa: SECBUTOXI-ISOPROPANO','CH₃–CH(CH₃)–O–CH(CH₃)–CH₂–CH₃',C('CH3|CH{u:CH3}|O|CH{u:CH3}|CH2|CH3'),[3,5],'Isopropoxi-secbutano','❌ El -oxi va en el grupo menor. RF: éter secbutil-isopropílico.','Isopropil (3 C) es más pequeño que secbutil (4 C), así que el isopropil es el "oxi". Nombre formal: 2-isopropoxibutano.',['isopropoxi-secbutano','isopropoxisecbutano','2-isopropoxibutano','isopropoxi-sec-butano']],
+ ['574','Revisa: ÉTER BUTIL-ETÍLICO','CH₃–CH₂–CH₂–CH₂–O–CH₂–CH₃',C('CH3|CH2|CH2|CH2|O|CH2|CH3'),[0,3],'Etoxi-butano','✅ El RF está bien (butil antes que etil). Otro nombre (IUPAC): etoxi-butano.','Etil (2 C) es el menor → etoxi; butil → butano.',['etoxi-butano','etoxibutano','1-etoxibutano']],
+];
+const NRM=t=>(t||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[\s\-–—()]/g,'').replace(/^eter/,'eter');
+function ejHTML(e,k){
+  const [id,q,cond,ch,hl,name,extra,ex]=e;
+  return `<div class="molbox" data-s="1" data-k="${k}"><div class="q">${id}. ${q}</div><div class="cond">${cond}</div>
+  <div class="stepbar">${['1 Estructura','2 Cadena principal','3 Enumerar','4 Radicales','5 Nombre'].map((t,i)=>`<button data-st="${i+1}" class="${i?'':'on'}">${t}</button>`).join('')}</div>
+  <div class="mol">${molSVG(ch,{hl:hl||undefined,num:!hl})}</div>
+  <div class="try"><input placeholder="Escribe tu nombre aquí y comprueba…" aria-label="Tu respuesta"><button class="btn sm">Comprobar</button><span class="fb"></span></div>
+  <div class="ans"><div class="nm">${name}</div><div><b>${extra}</b></div><div class="expl">${ex}</div></div></div>`;
+}
+const ALLEJ={};
+[['guiaEj',EJ_GUIA],['ejI',EJ_I],['ejII',EJ_II]].forEach(([el,L])=>{document.getElementById(el).innerHTML=L.map(e=>{ALLEJ[e[0]]=e;return ejHTML(e,e[0])}).join('')});
+document.getElementById('eterEj').innerHTML=ejHTML(['Guía éter','Nombra:','CH₃–CH(CH₃)–CH₂–CH₂–CH₂–O–CH₃',C('CH3|O|CH2|CH2|CH2|CH{u:CH3}|CH3'),[2,6],'Metoxi-4-metil-pentano','Nombre formal: 1-metoxi-4-metilpentano.','Grupo menor: metil → metoxi. El otro lado es una cadena de 5 C (pentano) con un metil: se numera desde el carbono pegado al oxígeno, así que el metil queda en C4.',['metoxi-4-metil-pentano','metoxi-4-metilpentano','1-metoxi-4-metilpentano']],'eter');
+ALLEJ['Guía éter']=null;
+document.querySelectorAll('.mol[data-m]').forEach(d=>{const m=MOLS[d.dataset.m];d.innerHTML=molSVG(m[0],m[1]||{});d.closest('.card')&&d.querySelector('svg').classList.add('x')});
+document.getElementById('heroMol').innerHTML=molSVG(C('CH3|CH{u:OH}|CH2|O|CH2|CH3'),{num:false,hl:[0,1]}).replace('class="chain-hl"','');
+document.querySelectorAll('.card .chain-hl').forEach(r=>r.remove());
+document.addEventListener('click',ev=>{
+  const b=ev.target.closest('.stepbar button');if(b){const box=b.closest('.molbox');box.dataset.s=b.dataset.st;box.querySelectorAll('.stepbar button').forEach(x=>x.classList.toggle('on',+x.dataset.st<=+b.dataset.st));return}
+  const t=ev.target.closest('.try .btn');if(t){const box=t.closest('.molbox'),inp=box.querySelector('input'),fb=box.querySelector('.fb');
+    const e=ALLEJ[box.dataset.k]||null;const acc=e?e[8]:['metoxi-4-metil-pentano','1-metoxi-4-metilpentano','metoxi-4-metilpentano'];
+    const ok=acc.some(a=>NRM(a)===NRM(inp.value));fb.className='fb '+(ok?'ok':'no');fb.textContent=ok?'¡Correcto! 🎉':'Todavía no. Revisa los pasos y vuelve a intentar (o toca "5 Nombre").';
+    if(ok){box.dataset.s=5;box.querySelectorAll('.stepbar button').forEach(x=>x.classList.add('on'))}}
+});
+
+/* ======== banco de preguntas ======== */
+const TOPICS={deriv:['Derivados','#derivados'],clasif:['Clasificación de alcoholes','#alcoholes'],nomalc:['Nomenclatura de alcoholes','#nomenclatura'],etanol:['Etanol y sus efectos','#etanol'],eter:['Éteres','#eteres'],ejer:['Nombrar compuestos (práctica)','#modelos']};
+const BANK=[
+["mc","deriv","Los derivados de hidrocarburos tienen, además de C e H, átomos de:",["N, O o S","Solo metales","Solo halógenos","Gases nobles"],"Nitrógeno, oxígeno o azufre."],
+["mc","deriv","Los derivados oxigenados se originan cuando en un hidrocarburo se sustituye:",["Uno o más H por un grupo funcional con oxígeno","Un carbono por un oxígeno","Todos los carbonos","Un enlace simple por uno doble"],"Se sustituyen hidrógenos por un grupo funcional."],
+["tf","deriv","Un alcohol y un éter son compuestos oxigenados.",true,"Ambos tienen oxígeno en su grupo funcional."],
+["fill","deriv","La fórmula general de un alcohol es ___ y la de un éter es ___.",[["R-OH","ROH","R–OH"],["R-O-R","ROR","R-O-R'","R–O–R'","R–O–R"]],"Alcohol R–OH; éter R–O–R'."],
+["match","deriv","Une cada familia con su grupo funcional:",[["Alcohol","Hidroxilo (–OH)"],["Éter","Puente de oxígeno (–O–)"],["Terminación de alcohol","-ol"],["Terminación del grupo menor en éter","-oxi"]]],
+["mc","deriv","¿Cuál es un éter?",["CH₃–O–CH₃","CH₃–OH","CH₃–CH₃","CH₃–CH₂–OH"],"Tiene el O entre dos carbonos."],
+["mc","deriv","¿Cuál es un alcohol?",["CH₃–CH₂–OH","CH₃–O–CH₃","CH₄","CH₂=CH₂"],"Tiene el grupo –OH."],
+["tf","deriv","El grupo –OH se llama grupo carbonilo.",false,"Se llama grupo hidroxilo."],
+["mc","clasif","Un alcohol es primario cuando el –OH está unido a un carbono:",["Primario (unido a 1 carbono)","Secundario","Terciario","Cualquiera"],"Primario = carbono unido a 1 solo carbono."],
+["mc","clasif","El 2-propanol es un alcohol:",["Secundario","Primario","Terciario","Trihidroxilado"],"El C2 está unido a 2 carbonos."],
+["mc","clasif","El terbutanol (2-metil-2-propanol) es un alcohol:",["Terciario","Primario","Secundario","Dihidroxilado"],"El C del –OH está unido a 3 carbonos."],
+["mc","clasif","El 1-propanol es un alcohol:",["Primario","Secundario","Terciario","Dihidroxilado"],"El –OH está en el C del extremo."],
+["mc","clasif","El 3-etil-3-pentanol es un alcohol:",["Terciario","Secundario","Primario","Dihidroxilado"],"El C3 está unido a 3 carbonos."],
+["tf","clasif","El metanol se considera alcohol primario (por convención).",true,"Su carbono no tiene otros carbonos, pero se agrupa con los primarios."],
+["mc","clasif","Un alcohol con dos grupos –OH es:",["Dihidroxilado (diol)","Monohidroxilado","Trihidroxilado","Un éter"],"Di = dos."],
+["mc","clasif","El glicerol o glicerina se llama en IUPAC:",["1,2,3-propanotriol","1,2-etanodiol","2-propanol","Propanol"],"Tres –OH en una cadena de 3 C."],
+["fill","clasif","El glicerol es un alcohol ___ porque tiene ___ grupos –OH.",[["trihidroxilado","triol"],["tres","3"]],"Trihidroxilado: tres o más –OH."],
+["fill","clasif","Para nombrar polialcoholes se usa: alcano + prefijo + ___.",[["ol"]],"ALCANO + PREFIJO + OL (ej. propanotriol)."],
+["match","clasif","Une cada alcohol con su clasificación:",[["1-propanol","Primario"],["2-propanol","Secundario"],["2-metil-2-propanol","Terciario"],["1,2,3-propanotriol","Trihidroxilado"]]],
+["tf","clasif","Un alcohol terciario tiene el –OH en un carbono unido a tres carbonos.",true,"Así se define."],
+["mc","clasif","¿Cuántos –OH tiene un compuesto terminado en -triol?",["3","2","1","4"],"Tri = tres."],
+["fill","clasif","La fórmula molecular del glicerol es ___.",[["C3H8O3","c3h8o3"]],"C₃H₈O₃."],
+["mc","nomalc","En IUPAC, a un alcohol se le cambia la terminación -ano por:",["-ol","-ílico","-oxi","-al"],"Metano → metanol."],
+["mc","nomalc","En el nombre radico funcional, el alcohol empieza con la palabra:",["Alcohol","Éter","Hidroxi","Ácido"],"Ej.: alcohol etílico."],
+["mc","nomalc","En el nombre RF de un alcohol, la terminación -ano cambia a:",["-ílico","-ol","-oxi","-eno"],"Ej.: alcohol metílico."],
+["mc","nomalc","El nombre común del metanol es:",["Alcohol de madera","Espíritu de vino","Glicerina","Alcohol isopropílico"],"Metanol = alcohol de madera."],
+["mc","nomalc","El nombre común del etanol es:",["Espíritu de vino","Alcohol de madera","Glicerina","Éter"],"Etanol = espíritu de vino."],
+["mc","nomalc","El nombre RF del 2-propanol es:",["Alcohol isopropílico","Alcohol propílico","Alcohol metílico","Éter isopropílico"],"El –OH en el carbono central → isopropílico."],
+["mc","nomalc","La cadena principal de un alcohol debe ser:",["La más larga que contenga el/los carbonos con –OH","La más larga, aunque no tenga el –OH","La más corta","La que tenga más radicales siempre"],"Debe contener los C con –OH."],
+["mc","nomalc","La cadena principal se enumera desde el extremo más cercano:",["Al carbono con –OH","Al doble enlace","Al radical más grande","A la izquierda siempre"],"El –OH manda."],
+["mc","nomalc","Nombre de CH₃–CH₂–C(OH)(C₂H₅)–CH₂–CH₃:",["3-etil-3-pentanol","3-etil-3-hexanol","3-pentanol","2-etil-2-pentanol"],"5 C, OH en C3, etil en C3."],
+["mc","nomalc","Nombre de CH₃–CH=CH–CH₂–OH:",["2-buten-1-ol","2-buten-4-ol","1-buten-3-ol","Butanol"],"Se numera desde el –OH."],
+["mc","nomalc","Nombre de CH₃–CH₂–CH₂–CH(CH₂OH)–CH(CH₃)–CH₂–CH₃:",["3-metil-2-propil-1-pentanol","4-hidroximetil-3-metilheptano","3-metil-2-propil-1-butanol","2-propil-3-metil-1-hexanol"],"La cadena empieza en el CH₂OH."],
+["mc","nomalc","Nombre de CH₃–CH(CH₃)–CH₂–CH(OH)–CH(C₂H₅)–CH(CH₃)–CH₃:",["3-etil-2,6-dimetil-4-heptanol","5-etil-2,6-dimetil-4-heptanol","3-etil-2,6-dimetil-4-hexanol","2,6-dimetil-3-etil-4-heptanol"],"Desempate por radicales y orden alfabético."],
+["fill","nomalc","CH₃–OH se llama en IUPAC ___ y en RF alcohol ___.",[["metanol"],["metilico"]],"Metanol / alcohol metílico."],
+["fill","nomalc","CH₃–CH₂–CH₂–OH se llama ___ (IUPAC).",[["1-propanol","propanol","propan-1-ol"]],"1-propanol."],
+["fill","nomalc","C₂H₅ se desarrolla como CH₂–___ y se llama ___.",[["CH3"],["etil"]],"Etil."],
+["fill","nomalc","–C(CH₃)₃ es el radical ___ y –CH(CH₃)₂ es el radical ___.",[["terbutil","tert-butil","terc-butil"],["isopropil"]],"Terbutil e isopropil."],
+["fill","nomalc","–CH₂–CH(CH₃)₂ es el radical ___.",[["isobutil"]],"Isobutil."],
+["tf","nomalc","Al ordenar alfabéticamente los radicales se ignoran los prefijos di- y tri-.",true,"Dimetil se ordena en la m."],
+["tf","nomalc","Isopropil se ordena alfabéticamente en la letra 'p'.",false,"Iso sí cuenta: va en la 'i'."],
+["tf","nomalc","Terbutil se ordena alfabéticamente en la letra 'b'.",true,"Ter- no cuenta."],
+["tf","nomalc","Si hay un doble enlace, se numera desde él aunque el –OH quede lejos.",false,"El –OH tiene prioridad."],
+["order","nomalc","Ordena los pasos para nombrar un alcohol (IUPAC):",["Escribir la estructura con sus ramificaciones","Encontrar la cadena más larga que contenga los C con –OH","Enumerar desde el extremo más cercano al –OH","Reconocer los radicales","Escribir el nombre"],"Los 5 pasos de la práctica."],
+["order","nomalc","Ordena las partes del nombre 4-etil-4-metil-5-hepten-2-ol:",["4-etil","4-metil","5-hepten","2-ol"],"Radicales (alfabético) → cadena con enlace → posición del OH + ol."],
+["match","nomalc","Une cada fórmula con su nombre RF:",[["CH₃–OH","Alcohol metílico"],["CH₃–CH₂–OH","Alcohol etílico"],["CH₃–CH₂–CH₂–OH","Alcohol propílico"],["CH₃–CH(OH)–CH₃","Alcohol isopropílico"]]],
+["match","nomalc","Une cada radical con su fórmula:",[["Metil","–CH₃"],["Etil","–CH₂–CH₃"],["Propil","–CH₂–CH₂–CH₃"],["Isopropil","–CH(CH₃)₂"],["Terbutil","–C(CH₃)₃"]]],
+["open","nomalc","Explica cómo se elige la cadena principal y cómo se enumera en un alcohol.",["La cadena principal es la más larga que contiene el o los carbonos con –OH; se enumera desde el extremo más cercano al –OH para que tenga el número más bajo."],["larga","oh|hidroxilo","cercan|bajo"]],
+["mc","etanol","Un efecto a corto plazo del consumo de etanol es:",["Mareos y náuseas","Hígado graso","Pancreatitis","Desnutrición"],"Corto plazo: mareos, náuseas."],
+["mc","etanol","El aumento de lípidos hepáticos por consumo excesivo de alcohol se conoce como:",["Hígado graso","Gastritis","Cetoacidosis","Pancreatitis"],"Lípidos en el hígado = hígado graso."],
+["tf","etanol","La gastritis es un efecto a largo plazo del consumo excesivo de etanol.",true,"Está en la lista de la guía."],
+["tf","etanol","El consumo excesivo de etanol disminuye los triglicéridos en plasma.",false,"Los aumenta."],
+["fill","etanol","A largo plazo, el etanol puede causar hepatitis ___ y aumento del riesgo de varios ___.",[["alcoholica"],["cancer","canceres"]],"Hepatitis alcohólica; cáncer."],
+["mc","etanol","¿Cuál NO está en la lista de efectos a largo plazo de la guía?",["Mejora de la memoria","Desnutrición","Daños al sistema reproductor","Perturbaciones psicológicas"],"Causa problemas de memoria, no mejora."],
+["open","etanol","Menciona 5 efectos a largo plazo del consumo excesivo de etanol.",["Problemas de memoria, hígado graso, aumento de triglicéridos, gastritis, pancreatitis/cetoacidosis, hepatitis alcohólica, cáncer, desnutrición, daños al sistema reproductor, perturbaciones psicológicas."],["memoria|higado|hepatitis","gastritis|pancrea|trigli","cancer|desnutri|reproduc|psicol"]],
+["match","etanol","Une cada efecto con el órgano o sistema:",[["Hígado graso","Hígado"],["Gastritis","Estómago"],["Pancreatitis","Páncreas"],["Problemas de memoria","Cerebro"]]],
+["mc","eter","Un éter resulta de la unión de dos radicales separados por:",["Un puente de oxígeno","Un grupo –OH","Un doble enlace","Un nitrógeno"],"R–O–R'."],
+["mc","eter","Un éter simétrico es aquel en que:",["Los dos grupos R son iguales","Los grupos R son distintos","Tiene dos oxígenos","Tiene un –OH"],"Ej.: CH₃–O–CH₃."],
+["mc","eter","CH₃–O–C₂H₅ es un éter:",["Asimétrico","Simétrico","Terciario","Dihidroxilado"],"Metil y etil son distintos."],
+["mc","eter","En IUPAC, el grupo con menos carbonos del éter termina en:",["-oxi","-ano","-ílico","-ol"],"Metoxi, etoxi…"],
+["mc","eter","En el nombre RF de un éter, los grupos R se nombran:",["En orden alfabético","Del más grande al más chico","Del más chico al más grande","Sin orden"],"Orden alfabético."],
+["mc","eter","Nombre IUPAC de CH₃–O–CH₃:",["Metoxi-metano","Etoxi-metano","Dimetanol","Metanol"],"Metoxi-metano (RF: éter dimetílico)."],
+["mc","eter","Nombre IUPAC de CH₃–CH₂–O–CH=CH₂:",["Etenoxi-etano","Etoxi-eteno","Vinoxi-etano","Etoxi-etano"],"La guía usa etenoxi para el vinilo."],
+["mc","eter","Nombre RF de CH₂=CH–O–C≡CH:",["Éter etinil-vinílico","Éter vinil-etinílico","Etenoxi-etino","Éter divinílico"],"Etinil (e) antes que vinil (v)."],
+["mc","eter","Nombre IUPAC de CH₃–O–CH₂–CH₃:",["Metoxi-etano","Etoxi-metano","Éter etil-metílico","Metil-etanol"],"El menor (metil) es el -oxi."],
+["mc","eter","CH₃–CH(CH₃)–CH₂–CH₂–CH₂–O–CH₃ se llama:",["Metoxi-4-metil-pentano","Metoxi-2-metil-pentano","Metoxi-hexano","Éter metil-isohexílico"],"Se numera desde el C pegado al O."],
+["fill","eter","El éter CH₃–O–CH₃ se llama metoxi-___ (IUPAC) y éter ___ (RF).",[["metano"],["dimetilico","metil-metilico","metilmetilico"]],"Metoxi-metano / éter dimetílico."],
+["fill","eter","En IUPAC, el otro grupo del éter termina en -ano (simple), -___ (doble) o -___ (triple).",[["eno"],["ino"]],"-ano, -eno, -ino."],
+["fill","eter","Para el radical etenil en IUPAC se usa ___ y en RF se usa ___.",[["etenoxi"],["vinil"]],"Etenoxi / vinil."],
+["tf","eter","En el nombre RF, el primer grupo termina en -il y el segundo en -ílico.",true,"Ej.: éter etil-metílico."],
+["tf","eter","En IUPAC, el grupo con más carbonos se nombra con -oxi.",false,"El de menos carbonos."],
+["order","eter","Ordena los pasos para nombrar un éter en IUPAC:",["Identificar el grupo con menos carbonos","Cambiar su -ano por -oxi","Escribir un guion","Nombrar el otro hidrocarburo terminando en -ano, -eno o -ino"],"Pasos de la guía."],
+["order","eter","Ordena el nombre RF: Éter / etil / metílico",["Éter","etil-","metílico"],"Éter etil-metílico."],
+["match","eter","Une cada éter con su nombre IUPAC:",[["CH₃–O–CH₃","Metoxi-metano"],["CH₃–O–C₂H₅","Metoxi-etano"],["CH₃–CH₂–O–CH=CH₂","Etenoxi-etano"],["CH₂=CH–O–C≡CH","Etenoxi-etino"]]],
+["match","eter","Une cada éter con su nombre RF:",[["CH₃–O–CH₃","Éter dimetílico"],["CH₃–O–C₂H₅","Éter etil-metílico"],["CH₃–CH₂–O–CH=CH₂","Éter etil-vinílico"],["CH₂=CH–O–C≡CH","Éter etinil-vinílico"]]],
+["open","eter","¿Qué diferencia hay entre un éter simétrico y uno asimétrico? Da un ejemplo de cada uno.",["Simétrico: los dos R son iguales (CH₃–O–CH₃). Asimétrico: los R son distintos (CH₃–O–C₂H₅)."],["igual","distint|diferent","ch3"]],
+];
+// ejercicios de nombrar -> preguntas
+[...EJ_GUIA,...EJ_I,...EJ_II].forEach(e=>{BANK.push(["fill","ejer",`${e[0]}. ${e[1].replace(/^(Corrige|Revisa): /,'Escribe el nombre correcto. Nombre dado: ')} ${e[2]} → ___`,[e[8]],e[7].replace(/<[^>]+>/g,'')])});
+const mcFrom=(e,wr)=>["mc","ejer",`Nombre correcto de ${e[2]}:`,[e[5],...wr],e[7].replace(/<[^>]+>/g,'')];
+const E_=id=>[...EJ_GUIA,...EJ_I,...EJ_II].find(e=>e[0]===id);
+BANK.push(mcFrom(E_('531'),['2,4,5-hexanotriol','2,3,5-hexanol','1,3,4-hexanotriol']),mcFrom(E_('533'),['4-etil-4-metil-2-hepten-6-ol','4-etil-4-metil-5-hexen-2-ol','4-metil-4-etil-5-hepten-2-ol']),mcFrom(E_('534'),['3-etil-4-heptin-2,6-diol','5-etil-4-heptin-2,6-diol','5-etil-3-heptin-1,6-diol']),mcFrom(E_('536'),['Propoxi-etano','Éter propil-etílico','Etoxi-etano']),mcFrom(E_('538'),['Butoxi-isopropano','Isopropoxi-propano','Éter isopropil-butílico']),mcFrom(E_('566'),['1-pentin-3,4-diol','4-pentin-1,2-diol','2-pentin-3,4-diol']),mcFrom(E_('569'),['5-etil-3-propil-2,4,6-heptanotriol','3-etil-5-propil-2,4,6-octanotriol','4-etil-3-propil-2,4,6-heptanotriol']),mcFrom(E_('573'),['Secbutoxi-isopropano','Isopropoxi-butano','Propoxi-secbutano']),mcFrom(E_('565'),['3,7-nonadien-5,6-diol','2,6-nonadien-5,6-diol','3,7-nonadien-4,5-diol']));
+BANK.push(["order","ejer","Ordena cómo resolver el 532:",["Desarrollar C₃H₇, C₂H₅, CH(CH₃)₂ y CH₂OH","Marcar la cadena de 8 C que contiene los dos –OH","Numerar desde el CH₂OH (OH en 1 y 5)","Reconocer etil en C3 e isopropil en C2 y C5","Escribir 3-etil-2,5-diisopropil-1,5-octanodiol"],"Pasos aplicados."]);
+BANK.push(["match","ejer","Une el nombre incorrecto con el correcto:",[["2,4,5-hexanotriol","2,3,5-hexanotriol"],["1-pentin-3,4-diol","4-pentin-2,3-diol"],["Secbutoxi-isopropano","Isopropoxi-secbutano"],["Éter vinil-isobutílico","Éter isobutil-vinílico"]]]);
+BANK.push(["tf","ejer","El 2,4,5-hexanotriol (564) y el compuesto del 531 son el mismo compuesto.",true,"Ambos son 2,3,5-hexanotriol."]);
+BANK.push(["tf","ejer","El nombre 'metoxi-etano' (571) está correcto.",true,"Metil es el menor → metoxi."]);
+BANK.push(["tf","ejer","El nombre '5-etil-3-propil-2,4,6-heptanotriol' está correcto.",false,"Empate total: etil (alfabéticamente primero) se lleva el 3 → 3-etil-5-propil."]);
+const CARDS=BANK.filter(q=>q[0]==='mc'||q[0]==='tf').map(q=>[q[2],q[0]==='mc'?q[3][0]:(q[3]?'Verdadero':'Falso')+' — '+q[4],q[1]]);
+const REV=[["Grupo hidroxilo","–OH, grupo funcional de los alcoholes","clasif"],["Puente de oxígeno","–O– entre dos radicales: éteres","eter"],["Alcohol primario","–OH en carbono unido a 1 carbono","clasif"],["Alcohol secundario","–OH en carbono unido a 2 carbonos","clasif"],["Alcohol terciario","–OH en carbono unido a 3 carbonos","clasif"],["Glicerol","1,2,3-propanotriol, glicerina","clasif"],["Radico funcional","Alcohol …ílico / Éter …il-…ílico","nomalc"],["Metanol","Alcohol metílico, alcohol de madera","nomalc"],["Etanol","Alcohol etílico, espíritu de vino","nomalc"],["Éter simétrico","Dos R iguales","eter"],["Éter asimétrico","Dos R distintos","eter"],["Etenoxi","IUPAC del vinilo como -oxi","eter"]];
+
+/* ======== práctica ======== */
+const SH=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const NF=t=>(t||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[₀-₉]/g,c=>'0123456789'[c.charCodeAt(0)-8320]).replace(/[\s\-–—()']/g,'');
+const sel=document.getElementById('pTopic');sel.innerHTML='<option value="all">Todos los temas</option>'+Object.entries(TOPICS).map(([k,v])=>`<option value="${k}">${v[0]}</option>`).join('');
+document.querySelectorAll('[data-prac]').forEach(a=>a.addEventListener('click',()=>{sel.value=a.dataset.prac;setTimeout(start,50)}));
+let R=null;
+function balanced(pool,n){const by={};pool.forEach(q=>(by[q[0]]=by[q[0]]||[]).push(q));Object.keys(by).forEach(k=>by[k]=SH(by[k]));const out=[];const ks=Object.keys(by);let i=0;while(out.length<Math.min(n,pool.length)){const k=ks[i++%ks.length];if(by[k].length)out.push(by[k].pop())}return SH(out)}
+function start(){const t=sel.value,n=+document.getElementById('pN').value;const pool=BANK.filter(q=>t==='all'||q[1]===t);R={qs:balanced(pool,n),i:0,pts:0,streak:0};show()}
+document.getElementById('pGo').onclick=start;
+const A=document.getElementById('pArea');
+const TN={mc:'Selección múltiple',tf:'Verdadero o falso',fill:'Llena los espacios',match:'Pareo',order:'Ordena',open:'Desarrollo'};
+function show(){const q=R.qs[R.i];if(!q)return end();
+  let h=`<div class="bar"><i style="width:${R.i/R.qs.length*100}%"></i></div><div class="qbox"><div class="meta">${R.i+1}/${R.qs.length} · ${TN[q[0]]} · ${TOPICS[q[1]][0]}</div><div class="qt">${q[2]}</div>`;
+  if(q[0]==='mc'){h+='<div class="opts">'+SH(q[3]).map(o=>`<button class="opt" data-v="${o===q[3][0]?1:0}">${o}</button>`).join('')+'</div>'}
+  else if(q[0]==='tf'){h+='<div class="opts"><button class="opt" data-v="'+(q[3]?1:0)+'">Verdadero</button><button class="opt" data-v="'+(q[3]?0:1)+'">Falso</button></div>'}
+  else if(q[0]==='fill'){h+=q[3].map((_,i)=>`<div class="try"><input data-i="${i}" placeholder="Espacio ${i+1}"></div>`).join('')+'<div class="btns"><button class="btn sm" id="chk">Comprobar</button></div>'}
+  else if(q[0]==='match'){const R2=SH(q[3].map(p=>p[1]));h+='<div class="mt">'+q[3].map((p,i)=>`<div>${p[0]}</div><select data-i="${i}"><option value="">— elige —</option>${R2.map(r=>`<option>${r}</option>`).join('')}</select>`).join('')+'</div><div class="btns"><button class="btn sm" id="chk">Comprobar</button></div>'}
+  else if(q[0]==='order'){let o=SH(q[3]);if(o.join()===q[3].join())o=o.reverse();h+='<div class="ord">'+o.map(x=>`<div><button data-u>▲</button><button data-d>▼</button><span>${x}</span></div>`).join('')+'</div><div class="btns"><button class="btn sm" id="chk">Comprobar</button></div>'}
+  else if(q[0]==='open'){h+='<textarea style="width:100%;min-height:90px;border-radius:10px;border:1.5px solid var(--line2);padding:10px;font:15px Figtree"></textarea><div class="btns"><button class="btn sm" id="chk">Comprobar</button></div>'}
+  h+='<div id="qfb"></div></div>';A.innerHTML=h;
+  A.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(A.dataset.lock)return;A.dataset.lock=1;const ok=b.dataset.v==='1';A.querySelectorAll('.opt').forEach(x=>{if(x.dataset.v==='1')x.classList.add('ok')}); if(!ok)b.classList.add('no');grade(ok?1:0,q[4])});
+  A.querySelectorAll('.ord button').forEach(b=>b.onclick=()=>{const d=b.parentNode;if(b.hasAttribute('data-u')&&d.previousElementSibling)d.parentNode.insertBefore(d,d.previousElementSibling);if(b.hasAttribute('data-d')&&d.nextElementSibling)d.parentNode.insertBefore(d.nextElementSibling,d)});
+  const c=document.getElementById('chk');if(c)c.onclick=()=>{if(A.dataset.lock)return;A.dataset.lock=1;let sc=0,ex='';
+    if(q[0]==='fill'){let k=0;A.querySelectorAll('input').forEach((inp,i)=>{const ok=q[3][i].some(a=>NF(a)===NF(inp.value));inp.style.borderColor=ok?'var(--ok)':'var(--bad)';if(ok)k++});sc=k/q[3].length;ex='Respuesta: '+q[3].map(a=>a[0]).join(' · ')+'. '+q[4]}
+    if(q[0]==='match'){let k=0;A.querySelectorAll('.mt select').forEach((s,i)=>{const ok=s.value===q[3][i][1];s.style.borderColor=ok?'var(--ok)':'var(--bad)';if(ok)k++});sc=k/q[3].length;ex=q[3].map(p=>p[0]+' → '+p[1]).join('<br>')}
+    if(q[0]==='order'){const got=[...A.querySelectorAll('.ord span')].map(s=>s.textContent);let k=got.filter((g,i)=>g===q[3][i]).length;sc=k/q[3].length;ex='Orden correcto:<br>'+q[3].map((x,i)=>(i+1)+'. '+x).join('<br>')}
+    if(q[0]==='open'){const v=NF(A.querySelector('textarea').value);const k=q[4].filter(kw=>kw.split('|').some(w=>v.includes(NF(w)))).length;sc=k/q[4].length;ex='Respuesta modelo: '+q[3][0]}
+    grade(sc,ex)};
+}
+function grade(sc,ex){R.pts+=sc;const ok=sc>=.99;R.streak=ok?0:R.streak+1;
+  const msg=ok?SH(['¡Bien! 🎉','¡Exacto!','¡Eso es! Vas por el 5.','¡Perfecto!'])[0]:R.streak>=3?'Tres seguidas mal… repasa la teoría de este tema antes de seguir, que la profe Yanin no perdona 😅':sc>0?'Casi: parte correcta.':'No era esa.';
+  document.getElementById('qfb').innerHTML=`<p class="fb ${ok?'ok':'no'}">${msg}</p><div class="expl">${typeof ex==='string'?ex:''}</div><div class="btns"><button class="btn sm" id="nx">Siguiente →</button></div>`;
+  document.getElementById('nx').onclick=()=>{delete A.dataset.lock;R.i++;show()}}
+function end(){const p=R.pts/R.qs.length,nota=(1+4*p).toFixed(1);A.innerHTML=`<div class="qbox" style="text-align:center"><div class="meta">Tu nota</div><div class="score">${nota}</div><p>${Math.round(R.pts*10)/10} de ${R.qs.length} correctas. ${nota>=4.5?'¡Vas por el 5! 🎓':'Repite la ronda: cada vez salen preguntas distintas.'}</p><button class="btn" onclick="start()">Otra ronda</button></div>`;try{localStorage.setItem('alcoholes-best',Math.max(+localStorage.getItem('alcoholes-best')||0,+nota))}catch(e){}}
+document.getElementById('fGo').onclick=()=>{const t=sel.value;let cs=SH(CARDS.filter(c=>t==='all'||c[2]===t)),i=0;
+  const draw=()=>{const c=cs[i%cs.length];A.innerHTML=`<p class="meta" style="color:var(--muted)">Tarjeta ${i%cs.length+1}/${cs.length} · toca para voltear</p><div class="flash"><div class="in"><div class="fc">${c[0]}</div><div class="fc pback">${c[1]}</div></div></div><div class="btns"><button class="btn sm" id="fn">Siguiente →</button></div>`;
+  A.querySelector('.flash').onclick=e=>e.currentTarget.classList.toggle('f');document.getElementById('fn').onclick=()=>{i++;draw()}};draw()};
+
+/* ======== simulacro ======== */
+const S=document.getElementById('sArea');
+function newExam(){
+  const pick=(t,ty,n)=>SH(BANK.filter(q=>(!t||q[1]===t)&&q[0]===ty)).slice(0,n);
+  const mcs=[...pick('clasif','mc',2),...pick('nomalc','mc',3),...pick('eter','mc',3),...pick('deriv','mc',1),...pick('etanol','mc',1)];
+  const tfs=SH(BANK.filter(q=>q[0]==='tf')).slice(0,6);
+  const fills=SH(BANK.filter(q=>q[0]==='fill'&&q[1]!=='ejer')).slice(0,5);
+  const parI=SH(EJ_I.filter(e=>+e[0]<536)).slice(0,3).concat(SH(EJ_I.filter(e=>+e[0]>=536)).slice(0,2));
+  const parII=SH(EJ_II.slice(0,7)).slice(0,3).concat(SH(EJ_II.slice(7)).slice(0,2));
+  const terms=[["Hidroxilo","Grupo funcional –OH"],["Éter","R–O–R'"],["Primario","–OH en C unido a 1 C"],["Secundario","–OH en C unido a 2 C"],["Terciario","–OH en C unido a 3 C"],["Glicerina","1,2,3-propanotriol"],["Alcohol de madera","Metanol"],["Espíritu de vino","Etanol"],["Simétrico","Éter con R iguales"],["Asimétrico","Éter con R distintos"],["-oxi","Terminación del grupo menor en éter (IUPAC)"],["-ílico","Terminación en nombre RF"],["Vinil","CH₂=CH– en RF"],["Terbutil","–C(CH₃)₃"],["Isopropil","–CH(CH₃)₂"]];
+  const T=SH(terms).slice(0,10),L='ABCDEFGHIJKL',defs=SH(T.map(t=>t[1]));
+  let h=`<div class="exam"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px"><b>Colegio San Agustín · Química 12.° · Simulacro: Alcoholes y Éteres</b><span>Nombre: <span class="line"></span></span></div><p style="font-size:14px">Nota del 1 al 5. Desarrolla las estructuras en hojas de rayas como en la práctica.</p>`;
+  h+='<h3>I. Selección múltiple</h3><ol>'+mcs.map(q=>`<li>${q[2]}<br>${SH(q[3]).map((o,i)=>`${'abcd'[i]}) ${o}`).join(' &nbsp; ')}<div class="key">✔ ${q[3][0]}</div></li>`).join('')+'</ol>';
+  h+='<h3>II. Verdadero (V) o falso (F)</h3><ol>'+tfs.map(q=>`<li>____ ${q[2]}<div class="key">✔ ${q[3]?'V':'F'} — ${q[4]}</div></li>`).join('')+'</ol>';
+  h+='<h3>III. Pareo (escribe la letra)</h3><div class="grid2"><ol>'+T.map(t=>`<li>____ ${t[0]}</li>`).join('')+'</ol><div>'+defs.map((d,i)=>`<div>${L[i]}. ${d}</div>`).join('')+'</div></div><div class="key">✔ '+T.map((t,i)=>(i+1)+'-'+L[defs.indexOf(t[1])]).join(', ')+'</div>';
+  h+='<h3>IV. Completa</h3><ol>'+fills.map(q=>`<li>${q[2].replace(/___/g,'<span class="line" style="min-width:120px"></span>')}<div class="key">✔ ${q[3].map(a=>a[0]).join(' · ')}</div></li>`).join('')+'</ol>';
+  h+='<h3>V. Desarrolla la estructura y escribe el nombre IUPAC (o RF)</h3><ol>'+parI.map(e=>`<li><span class="mono">${e[2]}</span><div class="space"></div><div class="key">✔ ${e[5]} · ${e[6]}</div></li>`).join('')+'</ol>';
+  h+='<h3>VI. Desarrolla la estructura, corrige el nombre si es necesario y da otro nombre</h3><ol>'+parII.map(e=>`<li>${e[1].replace(/^(Corrige|Revisa): /,'')}<div class="space"></div><div class="key">✔ ${e[5]} · ${e[6]}<br><span class="mono">${e[2]}</span></div></li>`).join('')+'</ol>';
+  h+='<h3>VII. Desarrollo</h3><ol><li>Explica los 5 pasos para nombrar un alcohol en IUPAC.<div class="space"></div><div class="key">✔ Estructura → cadena más larga con los C del –OH → numerar desde el extremo más cercano al –OH → reconocer radicales → nombre (radicales alfabéticos + cadena + posiciones + ol).</div></li><li>Menciona 5 efectos a largo plazo del consumo excesivo de etanol.<div class="space"></div><div class="key">✔ Problemas de memoria, hígado graso, aumento de triglicéridos, gastritis, pancreatitis, hepatitis alcohólica, cáncer, desnutrición, daños al sistema reproductor, perturbaciones psicológicas.</div></li><li><b>Nivel alto:</b> ¿Por qué el compuesto "2,4,5-hexanotriol" está mal nombrado y cuál es el nombre correcto?<div class="space"></div><div class="key">✔ Al numerar desde el otro extremo los –OH quedan en 2,3,5, que es menor que 2,4,5 (primer punto de diferencia 3&lt;4). Correcto: 2,3,5-hexanotriol.</div></li></ol></div>';
+  S.innerHTML=h;try{localStorage.setItem('alcoholes-sim',h)}catch(e){}
+}
+document.getElementById('sNew').onclick=newExam;
+document.getElementById('sKey').onclick=()=>S.querySelector('.exam')&&S.querySelector('.exam').classList.toggle('showkey');
+try{const sv=localStorage.getItem('alcoholes-sim');if(sv)S.innerHTML=sv;else newExam()}catch(e){newExam()}
+
+/* reveal */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.05});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+<script>
+/*PLANTJS*/
+</script>
+</body></html>
