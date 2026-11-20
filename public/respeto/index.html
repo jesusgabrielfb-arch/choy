@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Respeto en la escuela</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#fff4ea; --ink:#2a0a10; --red:#e5172f; --red-deep:#a3001b; --pink:#ff8fa3;
+  --blush:#ffd9df; --yellow:#ffc93c; --muted:#7a4a52;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#1c0609; --ink:#fff1f3; --red:#ff3149; --red-deep:#ff6b7d; --pink:#ff8fa3;
+  --blush:#3a0e16; --yellow:#ffc93c; --muted:#d9a3ac;
+}}
+:root[data-theme="dark"]{
+  --paper:#1c0609; --ink:#fff1f3; --red:#ff3149; --red-deep:#ff6b7d; --pink:#ff8fa3;
+  --blush:#3a0e16; --yellow:#ffc93c; --muted:#d9a3ac;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{background:var(--paper);color:var(--ink);font-family:"Bricolage Grotesque",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+canvas#bg{position:fixed;inset:0;z-index:3;pointer-events:none}
+.grain{position:fixed;inset:-50%;z-index:4;pointer-events:none;opacity:.07;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 1.2s steps(4) infinite}
+@keyframes grain{25%{transform:translate(-3%,2%)}50%{transform:translate(2%,-3%)}75%{transform:translate(-1%,3%)}}
+
+.deck{position:fixed;inset:0;z-index:2}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(24px,6vw,96px);visibility:hidden;clip-path:circle(0% at var(--cx,50%) var(--cy,50%));
+  transition:clip-path .9s cubic-bezier(.77,0,.18,1),visibility 0s .9s}
+.slide.on{visibility:visible;clip-path:circle(150% at var(--cx,50%) var(--cy,50%));transition:clip-path .9s cubic-bezier(.77,0,.18,1),visibility 0s 0s;z-index:2}
+.slide.leaving{visibility:visible;clip-path:circle(150% at 50% 50%);z-index:1;transition:none}
+.slide.red{background:var(--red);color:#fff4ea}
+.slide.paper{background:var(--paper)}
+.slide.blush{background:var(--blush)}
+.slide.inkbg{background:#2a0a10;color:#fff4ea}
+
+/* reveal choreography */
+.r{opacity:0;transform:translateY(40px) rotate(var(--rot,0deg));transition:opacity .7s, transform .9s cubic-bezier(.2,.9,.2,1.2)}
+.on .r{opacity:1;transform:none;transition-delay:calc(.45s + var(--d,0) * .13s)}
+.on .r.tilt{transform:rotate(var(--rot,0deg))}
+
+.who{position:absolute;top:clamp(16px,3vw,36px);left:clamp(24px,6vw,96px);font-family:Caveat,cursive;font-size:clamp(20px,2.4vw,30px);opacity:.75}
+.num{position:absolute;bottom:clamp(16px,3vw,32px);right:clamp(24px,6vw,96px);font-weight:800;font-size:14px;letter-spacing:.2em;opacity:.5}
+h1{font-size:clamp(56px,12vw,190px);line-height:.85;font-weight:800;letter-spacing:-.04em}
+h2{font-size:clamp(40px,7vw,110px);line-height:.9;font-weight:800;letter-spacing:-.035em;max-width:14ch}
+p.lead{font-size:clamp(18px,2.2vw,30px);line-height:1.3;max-width:34ch;margin-top:.8em}
+.hand{font-family:Caveat,cursive;font-weight:700;color:var(--red);font-size:clamp(26px,3.4vw,48px)}
+.red .hand,.inkbg .hand{color:var(--yellow)}
+mark{background:linear-gradient(transparent 55%,var(--yellow) 55%);color:inherit;padding:0 .08em;background-size:0% 100%;background-repeat:no-repeat;transition:background-size 1s .9s ease}
+.on mark{background-size:100% 100%}
+.red mark,.inkbg mark{background-image:linear-gradient(transparent 60%,rgba(255,201,60,.55) 60%)}
+
+/* cover */
+.cover h1 span{display:inline-block}
+.cover .heart-big{position:absolute;right:6vw;top:50%;width:min(38vw,520px);margin-top:calc(min(38vw,520px) * -.45);}
+.beat{animation:beat 1.4s ease-in-out infinite;transform-origin:center}
+@keyframes beat{0%,100%{transform:scale(1)}14%{transform:scale(1.08)}28%{transform:scale(.98)}42%{transform:scale(1.05)}}
+.names{display:flex;gap:clamp(10px,2vw,22px);flex-wrap:wrap;margin-top:2em}
+.tag{border:2px solid currentColor;border-radius:999px;padding:.35em .9em;font-weight:600;font-size:clamp(14px,1.5vw,20px)}
+
+/* cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:clamp(12px,2vw,24px);margin-top:clamp(20px,4vh,48px);max-width:1200px}
+.card{background:var(--paper);color:var(--ink);border:2.5px solid var(--ink);border-radius:18px;padding:22px 22px 26px;box-shadow:6px 6px 0 var(--ink);font-size:clamp(16px,1.6vw,21px);line-height:1.3}
+.card b{display:block;font-size:1.25em;margin-bottom:.3em}
+.card .ic{font-size:30px;line-height:1;margin-bottom:12px;display:block;color:var(--red)}
+.card:hover{transform:translate(-3px,-3px) rotate(-1deg)!important;box-shadow:9px 9px 0 var(--ink);transition:.2s}
+
+.split{display:grid;grid-template-columns:1.1fr .9fr;gap:5vw;align-items:center}
+@media (max-width:760px){.split{grid-template-columns:1fr}.cover .heart-big{opacity:.25;right:-10vw}}
+
+/* big stat */
+.stat{font-size:clamp(90px,20vw,300px);font-weight:800;line-height:.8;letter-spacing:-.05em;color:var(--red)}
+.eq{font-size:clamp(20px,2.6vw,36px);font-weight:600}
+.clock{display:flex;gap:6px;flex-wrap:wrap;max-width:560px;margin-top:20px}
+.clock i{width:16px;height:16px;border-radius:50%;background:var(--ink);opacity:.15;transition:.3s}
+.on .clock i.lost{background:var(--red);opacity:1}
+
+/* filters */
+.filters{display:flex;flex-direction:column;gap:14px;margin-top:30px}
+.filter{display:flex;align-items:center;gap:18px;font-size:clamp(22px,3.2vw,46px);font-weight:800}
+.filter .q{width:1.4em;height:1.4em;border-radius:50%;background:var(--yellow);color:var(--ink);display:grid;place-items:center;font-size:.6em;flex:none}
+
+/* quiz */
+.case{background:#fff4ea;color:#2a0a10;border-radius:20px;padding:22px 24px;cursor:pointer;position:relative;overflow:hidden;font-size:clamp(17px,1.7vw,22px);line-height:1.3;border:2.5px solid #2a0a10}
+.case .ans{max-height:0;overflow:hidden;transition:max-height .5s, margin .5s;color:var(--red-deep);font-weight:600}
+.case.open .ans{max-height:200px;margin-top:12px}
+.case small{display:block;font-family:Caveat,cursive;font-size:22px;opacity:.6;margin-top:8px}
+.case.open small{display:none}
+
+/* promise */
+.promise{list-style:none;margin-top:30px;display:flex;flex-direction:column;gap:clamp(10px,2vh,20px)}
+.promise li{font-size:clamp(26px,4.4vw,64px);font-weight:800;letter-spacing:-.02em;display:flex;gap:.4em;align-items:center}
+.promise svg{width:.9em;height:.9em;flex:none}
+.promise path{stroke-dasharray:60;stroke-dashoffset:60;transition:stroke-dashoffset .6s}
+.on .promise li:nth-child(1) path{stroke-dashoffset:0;transition-delay:1s}
+.on .promise li:nth-child(2) path{stroke-dashoffset:0;transition-delay:1.5s}
+.on .promise li:nth-child(3) path{stroke-dashoffset:0;transition-delay:2s}
+
+.marquee{position:absolute;left:0;right:0;bottom:8vh;white-space:nowrap;overflow:hidden;font-size:clamp(40px,8vw,120px);font-weight:800;opacity:.12}
+.marquee div{display:inline-block;animation:mq 22s linear infinite}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+.sticker{position:absolute;font-family:Caveat,cursive;font-weight:700;font-size:clamp(20px,2.4vw,32px);background:var(--yellow);color:#2a0a10;padding:.2em .7em;border-radius:6px;box-shadow:3px 3px 0 #2a0a10}
+
+/* ui */
+.bar{position:fixed;left:0;top:0;height:5px;background:var(--yellow);z-index:5;transition:width .6s cubic-bezier(.77,0,.18,1)}
+.nav{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:5;display:flex;gap:8px;opacity:.0;transition:opacity .3s}
+body:hover .nav{opacity:.9}
+.nav button{all:unset;cursor:pointer;width:40px;height:40px;border-radius:50%;background:#2a0a10;color:#fff4ea;display:grid;place-items:center;font-size:18px}
+@media (hover:none){.nav{opacity:.8}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01s!important}}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<div class="grain"></div>
+<div class="bar" id="bar"></div>
+
+<main class="deck" id="deck">
+
+<!-- 1 PORTADA -->
+<section class="slide red cover">
+  <svg class="heart-big beat" viewBox="0 0 200 180" aria-hidden="true"><path d="M100 170C40 125 6 92 8 55 10 22 38 6 62 8c18 2 30 13 38 28 8-15 20-26 38-28 24-2 52 14 54 47 2 37-32 70-92 115z" fill="#fff4ea" opacity=".95"/><path d="M58 40c-12 4-20 14-20 28" stroke="#e5172f" stroke-width="7" fill="none" stroke-linecap="round"/></svg>
+  <p class="hand r" style="--d:0">un tema que nos toca a todos</p>
+  <h1 class="r" style="--d:1">El<br>respeto<br><span style="color:#2a0a10">se nota.</span></h1>
+  <div class="names r" style="--d:3"><span class="tag">Diego López</span><span class="tag">Isaac Spiegel</span><span class="tag">Jesús Fuentes</span></div>
+  <div class="num">01</div>
+</section>
+
+<!-- 2 PREGUNTA -->
+<section class="slide paper">
+  <div class="who">Diego</div>
+  <p class="hand r" style="--d:0">antes de empezar…</p>
+  <h2 class="r" style="--d:1">¿Alguna vez alguien te hizo sentir <mark>menos</mark>?</h2>
+  <p class="lead r" style="--d:3">Que se burlaran, que no te dejaran terminar de hablar, que te ignoraran. Esa sensación es justo lo contrario de lo que venimos a hablar.</p>
+  <div class="sticker r tilt" style="--d:5;--rot:-6deg;right:8vw;top:18vh">piénsalo 5 segundos</div>
+  <div class="num">02</div>
+</section>
+
+<!-- 3 QUÉ ES -->
+<section class="slide blush">
+  <div class="who">Diego</div>
+  <div class="split">
+    <div>
+      <p class="hand r" style="--d:0">del latín <i>respicere</i></p>
+      <h2 class="r" style="--d:1">Respetar es <mark>volver a mirar</mark>.</h2>
+      <p class="lead r" style="--d:3">Es reconocer que la otra persona vale lo mismo que yo, aunque piense distinto, se vista distinto o le guste otra cosa.</p>
+    </div>
+    <div class="grid" style="grid-template-columns:1fr;margin-top:0">
+      <div class="card r tilt" style="--d:4;--rot:2deg"><span class="ic">✗</span><b>No es tener miedo</b>ni obedecer sin pensar.</div>
+      <div class="card r tilt" style="--d:5;--rot:-2deg"><span class="ic">♥</span><b>Sí es consideración</b>tratar a los demás como personas.</div>
+    </div>
+  </div>
+  <div class="num">03</div>
+</section>
+
+<!-- 4 LO PEQUEÑO -->
+<section class="slide paper">
+  <div class="who">Diego</div>
+  <h2 class="r" style="--d:0">Se nota en lo <span style="color:var(--red)">pequeño</span>.</h2>
+  <div class="grid">
+    <div class="card r tilt" style="--d:1;--rot:-2deg"><span class="ic">👋</span><b>Saludar</b>y decir por favor y gracias.</div>
+    <div class="card r tilt" style="--d:2;--rot:1.5deg"><span class="ic">👂</span><b>Escuchar</b>cuando otro está hablando.</div>
+    <div class="card r tilt" style="--d:3;--rot:-1deg"><span class="ic">✋</span><b>Esperar tu turno</b>sin interrumpir.</div>
+    <div class="card r tilt" style="--d:4;--rot:2deg"><span class="ic">🏷️</span><b>Llamar por su nombre</b>a cada quien, sin apodos.</div>
+  </div>
+  <p class="hand r" style="--d:6;margin-top:28px">trata a los demás como te gustaría que te trataran ♥</p>
+  <div class="num">04</div>
+</section>
+
+<!-- 5 COMPAÑEROS -->
+<section class="slide red">
+  <div class="who">Isaac</div>
+  <p class="hand r" style="--d:0">con los compañeros</p>
+  <h2 class="r" style="--d:1">Una broma solo es broma si <mark>los dos</mark> se ríen.</h2>
+  <div class="grid">
+    <div class="card r tilt" style="--d:3;--rot:-1.5deg"><b>Incluir</b>que nadie se quede fuera del grupo.</div>
+    <div class="card r tilt" style="--d:4;--rot:1deg"><b>Cuidar lo ajeno</b>no esconder ni tomar sus cosas.</div>
+    <div class="card r tilt" style="--d:5;--rot:-1deg"><b>No quedarse callado</b>si molestan a alguien: apoyar o avisar.</div>
+  </div>
+  <div class="num">05</div>
+</section>
+
+<!-- 6 MAESTROS -->
+<section class="slide paper">
+  <div class="who">Isaac</div>
+  <div class="split">
+    <div>
+      <p class="hand r" style="--d:0">con los maestros y el personal</p>
+      <h2 class="r" style="--d:1">Ellos preparan cada clase <mark>para nosotros</mark>.</h2>
+      <p class="lead r" style="--d:3">Si no estás de acuerdo con algo, se vale decirlo. Con calma, con buen tono y en el momento adecuado.</p>
+    </div>
+    <ul class="promise" style="margin-top:0">
+      <li class="r" style="--d:3;font-size:clamp(22px,3vw,40px)">✋ Levantar la mano</li>
+      <li class="r" style="--d:4;font-size:clamp(22px,3vw,40px)">👀 Poner atención</li>
+      <li class="r" style="--d:5;font-size:clamp(22px,3vw,40px)">🗣️ Hablar con buen tono</li>
+      <li class="r" style="--d:6;font-size:clamp(22px,3vw,40px)">🧹 Valorar a limpieza, cooperativa y dirección</li>
+    </ul>
+  </div>
+  <div class="num">06</div>
+</section>
+
+<!-- 7 TIEMPO -->
+<section class="slide blush" data-clock>
+  <div class="who">Isaac</div>
+  <p class="hand r" style="--d:0">en clase, el tiempo es de todos</p>
+  <div class="split">
+    <div>
+      <div class="stat r" style="--d:1"><span data-count="150">0</span><small style="font-size:.3em;margin-left:.2em;letter-spacing:0"> min</small></div>
+      <p class="eq r" style="--d:2">30 alumnos × 5 minutos de desorden = 150 minutos perdidos en una sola clase.</p>
+    </div>
+    <div class="r" style="--d:3">
+      <p class="lead" style="margin-top:0">Distraer la clase no solo te afecta a ti. Portarse bien es dejar que todos aprovechen el tiempo, incluido tú.</p>
+      <div class="clock" id="clock"></div>
+    </div>
+  </div>
+  <div class="num">07</div>
+</section>
+
+<!-- 8 PALABRAS -->
+<section class="slide inkbg">
+  <div class="who">Isaac</div>
+  <h2 class="r" style="--d:0">Las palabras <span style="color:var(--pink)">se quedan</span>.</h2>
+  <p class="lead r" style="--d:1">Un insulto se dice en un segundo y se carga por mucho tiempo. Antes de hablar (o escribir en el chat):</p>
+  <div class="filters">
+    <div class="filter r" style="--d:2"><span class="q">1</span>¿Es verdad?</div>
+    <div class="filter r" style="--d:3"><span class="q">2</span>¿Es necesario?</div>
+    <div class="filter r" style="--d:4"><span class="q">3</span>¿Es amable?</div>
+  </div>
+  <div class="num">08</div>
+</section>
+
+<!-- 9 ESCUELA -->
+<section class="slide paper">
+  <div class="who">Jesús</div>
+  <p class="hand r" style="--d:0">la escuela también se respeta</p>
+  <h2 class="r" style="--d:1">No es "la escuela". Es <mark>nuestra</mark> escuela.</h2>
+  <div class="grid">
+    <div class="card r tilt" style="--d:3;--rot:-2deg"><span class="ic">🪑</span><b>Bancas y paredes</b>sin rayar: mañana las usa alguien más.</div>
+    <div class="card r tilt" style="--d:4;--rot:1deg"><span class="ic">🗑️</span><b>Basura en su lugar</b>alguien tendría que recogerla por ti.</div>
+    <div class="card r tilt" style="--d:5;--rot:-1deg"><span class="ic">🚻</span><b>Baños y material</b>cuidarlos es cuidar a todos.</div>
+  </div>
+  <div class="num">09</div>
+</section>
+
+<!-- 10 VALE LA PENA -->
+<section class="slide red">
+  <div class="who">Jesús</div>
+  <h2 class="r" style="--d:0">¿Por qué portarse bien <mark>vale la pena</mark>?</h2>
+  <div class="grid">
+    <div class="card r tilt" style="--d:2;--rot:1deg"><b>Aprendes más</b>sin distracciones.</div>
+    <div class="card r tilt" style="--d:3;--rot:-1.5deg"><b>Mejores amistades</b>la gente confía en ti.</div>
+    <div class="card r tilt" style="--d:4;--rot:1deg"><b>Más libertad</b>los maestros te dan más confianza.</div>
+    <div class="card r tilt" style="--d:5;--rot:-1deg"><b>Cero reportes</b>y cero problemas en casa.</div>
+  </div>
+  <p class="hand r" style="--d:7;margin-top:26px">cómo te portas hoy es cómo te van a recordar</p>
+  <div class="num">10</div>
+</section>
+
+<!-- 11 QUIZ -->
+<section class="slide inkbg">
+  <div class="who">Jesús</div>
+  <h2 class="r" style="--d:0">¿Tú qué harías?</h2>
+  <div class="grid">
+    <div class="case r" style="--d:2" onclick="this.classList.toggle('open');event.stopPropagation()">Un compañero se equivoca al leer en voz alta y todos se ríen.<small>toca para ver</small><div class="ans">No reírte, y si puedes, decirle que no pasa nada.</div></div>
+    <div class="case r" style="--d:3" onclick="this.classList.toggle('open');event.stopPropagation()">Tus amigos están platicando mientras el maestro explica.<small>toca para ver</small><div class="ans">No seguirles la plática; ya habrá tiempo en el recreo.</div></div>
+    <div class="case r" style="--d:4" onclick="this.classList.toggle('open');event.stopPropagation()">Ves a alguien rayando la pared del baño.<small>toca para ver</small><div class="ans">Pedirle que pare o avisar a un adulto. No es chismear, es cuidar.</div></div>
+  </div>
+  <div class="num">11</div>
+</section>
+
+<!-- 12 COMPROMISO -->
+<section class="slide paper">
+  <div class="who">Jesús</div>
+  <p class="hand r" style="--d:0">nuestro compromiso</p>
+  <ul class="promise">
+    <li class="r" style="--d:1"><svg viewBox="0 0 24 24"><path d="M4 13l5 5L20 6" stroke="#e5172f" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Escuchar antes de hablar.</li>
+    <li class="r" style="--d:2"><svg viewBox="0 0 24 24"><path d="M4 13l5 5L20 6" stroke="#e5172f" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Tratar a todos con amabilidad.</li>
+    <li class="r" style="--d:3"><svg viewBox="0 0 24 24"><path d="M4 13l5 5L20 6" stroke="#e5172f" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Cuidar nuestra escuela.</li>
+  </ul>
+  <p class="lead r" style="--d:5">No hay que ser perfectos. Solo intentarlo todos los días.</p>
+  <div class="num">12</div>
+</section>
+
+<!-- 13 GRACIAS -->
+<section class="slide red cover">
+  <svg class="heart-big beat" viewBox="0 0 200 180" aria-hidden="true"><path d="M100 170C40 125 6 92 8 55 10 22 38 6 62 8c18 2 30 13 38 28 8-15 20-26 38-28 24-2 52 14 54 47 2 37-32 70-92 115z" fill="#fff4ea" opacity=".95"/></svg>
+  <p class="hand r" style="--d:0">el respeto empieza en uno y se contagia</p>
+  <h1 class="r" style="--d:1">Gracias.</h1>
+  <p class="lead r" style="--d:2">¿Preguntas?</p>
+  <div class="names r" style="--d:3"><span class="tag">Diego López</span><span class="tag">Isaac Spiegel</span><span class="tag">Jesús Fuentes</span></div>
+  <div class="marquee"><div>respeto ♥ empatía ♥ escuchar ♥ cuidar ♥ incluir ♥ respeto ♥ empatía ♥ escuchar ♥ cuidar ♥ incluir ♥&nbsp;</div></div>
+  <div class="num">13</div>
+</section>
+
+</main>
+
+<div class="nav"><button id="prev" aria-label="Anterior">←</button><button id="full" aria-label="Pantalla completa">⤢</button><button id="next" aria-label="Siguiente">→</button></div>
+
+<script>
+(() => {
+  const slides=[...document.querySelectorAll('.slide')], bar=document.getElementById('bar');
+  let i=0, lastX=50, lastY=50;
+  const clock=document.getElementById('clock');
+  for(let k=0;k<30;k++){const d=document.createElement('i');clock.appendChild(d)}
+
+  function show(n,x,y){
+    n=Math.max(0,Math.min(slides.length-1,n)); if(n===i&&slides[i].classList.contains('on'))return;
+    const prev=slides[i]; slides.forEach(s=>s.classList.remove('leaving'));
+    if(prev!==slides[n]){prev.classList.remove('on');prev.classList.add('leaving');setTimeout(()=>prev.classList.remove('leaving'),950)}
+    const s=slides[n]; s.style.setProperty('--cx',(x??50)+'%'); s.style.setProperty('--cy',(y??50)+'%');
+    s.classList.add('on'); i=n;
+    bar.style.width=((n+1)/slides.length*100)+'%';
+    try{history.replaceState(null,'','#'+(n+1))}catch(e){}
+    s.querySelectorAll('.case.open').forEach(c=>c.classList.remove('open'));
+    if(s.hasAttribute('data-clock')) runClock(s);
+    burst(n);
+  }
+  function runClock(s){
+    const el=s.querySelector('[data-count]'); const dots=[...clock.children];
+    dots.forEach(d=>d.classList.remove('lost'));
+    let t0=null; const dur=1800;
+    function step(t){ if(!t0)t0=t; const p=Math.min(1,(t-t0-700)/dur); if(p<0){requestAnimationFrame(step);return}
+      const e=1-Math.pow(1-p,3); el.textContent=Math.round(150*e);
+      dots.forEach((d,k)=>d.classList.toggle('lost',k<Math.round(30*e)));
+      if(p<1)requestAnimationFrame(step)}
+    requestAnimationFrame(step);
+  }
+  const next=(x,y)=>show(i+1,x,y), prev=()=>show(i-1,50,50);
+  addEventListener('keydown',e=>{
+    if(['ArrowRight','PageDown',' ','Enter'].includes(e.key)){e.preventDefault();next(90,50)}
+    if(['ArrowLeft','PageUp','Backspace'].includes(e.key)){e.preventDefault();prev()}
+    if(e.key==='f'||e.key==='F')full();
+  });
+  document.getElementById('deck').addEventListener('click',e=>{
+    const x=e.clientX/innerWidth*100,y=e.clientY/innerHeight*100;
+    x<25?prev():next(x,y);
+  });
+  let tx=null; addEventListener('touchstart',e=>tx=e.touches[0].clientX,{passive:true});
+  addEventListener('touchend',e=>{if(tx==null)return;const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>50)dx<0?next(80,50):prev();tx=null},{passive:true});
+  document.getElementById('next').onclick=e=>{e.stopPropagation();next(90,50)};
+  document.getElementById('prev').onclick=e=>{e.stopPropagation();prev()};
+  function full(){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen?.().catch(()=>{})}
+  document.getElementById('full').onclick=e=>{e.stopPropagation();full()};
+
+  /* fondo: corazones flotando que reaccionan al mouse */
+  const c=document.getElementById('bg'),x=c.getContext('2d'); let W,H,dpr;
+  function size(){dpr=Math.min(2,devicePixelRatio||1);W=c.width=innerWidth*dpr;H=c.height=innerHeight*dpr;c.style.width=innerWidth+'px';c.style.height=innerHeight+'px'}
+  size(); addEventListener('resize',size);
+  const hearts=[]; const cols=['#e5172f','#ff8fa3','#ffc93c','#a3001b'];
+  function mk(burst,bx,by){return{x:burst?bx:Math.random()*W,y:burst?by:H+Math.random()*H,s:(6+Math.random()*16)*dpr,
+    vy:-(0.25+Math.random()*0.7)*dpr*(burst?4:1),vx:(Math.random()-.5)*dpr*(burst?6:0.4),r:Math.random()*6,vr:(Math.random()-.5)*.02,
+    c:cols[Math.random()*cols.length|0],a:burst?.9:.12+Math.random()*.2,life:burst?1:Infinity,b:burst}}
+  for(let k=0;k<38;k++){const h=mk();h.y=Math.random()*H;hearts.push(h)}
+  function burst(n){if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;for(let k=0;k<22;k++)hearts.push(mk(true,W*(n%2?.8:.2),H*.85))}
+  let mx=-1e4,my=-1e4; addEventListener('pointermove',e=>{mx=e.clientX*dpr;my=e.clientY*dpr});
+  function heart(h){x.save();x.translate(h.x,h.y);x.rotate(Math.sin(h.r)*.4);x.scale(h.s/16,h.s/16);x.beginPath();
+    x.moveTo(0,5);x.bezierCurveTo(-8,-1,-9,-7,-4.5,-8.5);x.bezierCurveTo(-2,-9.3,0,-7.5,0,-5.5);x.bezierCurveTo(0,-7.5,2,-9.3,4.5,-8.5);x.bezierCurveTo(9,-7,8,-1,0,5);
+    x.globalAlpha=h.a*Math.min(1,h.life);x.fillStyle=h.c;x.fill();x.restore()}
+  function loop(){x.clearRect(0,0,W,H);
+    for(let k=hearts.length-1;k>=0;k--){const h=hearts[k];
+      const dx=h.x-mx,dy=h.y-my,d=Math.hypot(dx,dy);if(d<140*dpr){h.x+=dx/d*2*dpr;h.y+=dy/d*2*dpr}
+      h.x+=h.vx;h.y+=h.vy;h.r+=h.vr+.01;
+      if(h.b){h.vy+=.05*dpr;h.vx*=.98;h.life-=.012;if(h.life<=0){hearts.splice(k,1);continue}}
+      else if(h.y<-40){Object.assign(h,mk());}
+      heart(h)}
+    requestAnimationFrame(loop)}
+  loop();
+
+  const start=parseInt(location.hash.slice(1))-1;
+  slides[0].classList.add('on'); i=0; bar.style.width=(1/slides.length*100)+'%';
+  if(start>0)show(start);
+})();
+</script>
+</body>
+</html>
