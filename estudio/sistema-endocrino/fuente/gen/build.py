@@ -53,7 +53,7 @@ EXTRA_CSS = r'''
 .cp-top{align-items:flex-start!important}.cp-top .cp-q{align-self:flex-start!important}
 '''
 i = s.index('</style>')
-s = s[:i] + open(SK + 'temas-visuales.css', encoding='utf8').read() + EXTRA_CSS + s[i:]
+s = s[:i] + open(SK + 'temas-visuales.css', encoding='utf8').read() + EXTRA_CSS + open(SK + 'rendimiento.css', encoding='utf8').read() + s[i:]
 
 # ---------------------------------------------------------------- piezas HTML
 def stage_mini(sid):
@@ -87,7 +87,11 @@ sec = re.sub(r'<!--PROC:(\w+)\|(.*?)-->', lambda m: proc_block(m.group(1), m.gro
 sec = re.sub(r'<!--STAGE:(\w+)\|(.*?)-->', lambda m: stage_full('stage-' + m.group(1), m.group(2)), sec)
 assert '<!--' not in sec.replace('<!-- ', '')
 # imagen real junto al cuadro exocrina/endocrina
-fig = lambda src, cap: f'<figure><img src="reales/{src}.webp" alt="{re.sub("<[^>]+>", "", cap)}" loading="lazy" decoding="async"><figcaption>{cap}</figcaption></figure>'
+from PIL import Image as _I
+def _wh(src):
+    w, h = _I.open(os.path.join(D, 'reales', src + '.webp')).size
+    return f'width="{w}" height="{h}"'
+fig = lambda src, cap: f'<figure><img src="reales/{src}.webp" {_wh(src)} alt="{re.sub("<[^>]+>", "", cap)}" loading="lazy" decoding="async"><figcaption>{cap}</figcaption></figure>'
 a = '<div class="sticky"><span class="t">glándula mixta</span>'
 assert sec.count(a) == 1
 sec = sec.replace(a, '<details class="real-inline"><summary>📷 Ver la imagen real del PPT</summary>' + fig('exo-endo', 'Glándula exocrina (arriba: secreta por un conducto) y endocrina (abajo: vierte hormonas al vaso sanguíneo). Lámina del PPT.') + '</details>\n  ' + a)
@@ -121,7 +125,7 @@ HERO = '''<div class="wrap">
     <canvas id="swim" aria-hidden="true"></canvas>
     <div class="hero-inner">
       <div>
-        <span class="eyebrow">mi guía de bio ~</span>
+        <a class="eyebrow" href="https://mis-guias-bio.vercel.app" style="text-decoration:none" title="Ver todas mis guías">← mis guías de bio ~</a>
         <h1><span class="w">Sistema</span><br><span class="w"><em>Endocrino</em></span></h1>
         <p class="lede">El PPT de clase y tus apuntes en un solo lugar (cuando no coinciden, manda el PPT): glándulas, eje hipotálamo-hipófisis, todas las hormonas, retroalimentación, pineal, tiroides, suprarrenales, páncreas, enfermedades y la relación con los otros sistemas. Marca cada tema cuando lo domines y termina con el simulacro.</p>
         <div class="cta">
@@ -176,7 +180,7 @@ TOPICS = {'base': ['El sistema endocrino', '#base'], 'eje': ['Hipotálamo e hip�
           'pineal': ['Glándula pineal', '#pineal'], 'tiro': ['Tiroides y paratiroides', '#tiroides'], 'supra': ['Glándulas suprarrenales', '#suprarrenales'], 'panc': ['Páncreas', '#pancreas'],
           'clasif': ['Clasificación y equilibrio', '#clasificacion'], 'enf': ['Enfermedades', '#enfermedades'], 'lab': ['Laboratorio (números)', '#laboratorio'], 'rel': ['Relación con otros sistemas', '#relacion']}
 s = re.sub(r'<select id="dp-topic">.*?</select>', '<select id="dp-topic"><option value="all">Todos los temas</option>' + ''.join(f'<option value="{k}">{v[0]}</option>' for k, v in TOPICS.items()) + '</select>', s, count=1, flags=re.S)
-s = re.sub(r'<footer>.*?</footer>', '<footer><span class="hand">¡tú puedes, vas por el 5! ✿</span><br>Guía hecha con el PPT de clase y tus apuntes. Lo que agregué o aclaré está marcado como "Extra".</footer>', s, count=1, flags=re.S)
+s = re.sub(r'<footer>.*?</footer>', '<footer><a href="https://mis-guias-bio.vercel.app" style="font-weight:700;color:var(--coral)">← Todas mis guías</a><br><span class="hand">¡tú puedes, vas por el 5! ✿</span><br>Guía hecha con el PPT de clase y tus apuntes. Lo que agregué o aclaré está marcado como "Extra".</footer>', s, count=1, flags=re.S)
 s = s.replace("'repro-", "'endo-")
 assert 'repro-' not in s.replace('sistema-reproductor', ''), [m.start() for m in re.finditer('repro-', s)][:3]
 
@@ -252,5 +256,6 @@ rep('<h4><span>V</span>Desarrollo: hombre y mujer</h4><p class="sim-inst">Respon
 region("const C={ink:'#45403F'", '/* ---------- datos y estado', rd('daypo.js') + '\n')
 # paleta
 rep('<script>\nconst RM=', "<script>\ndocument.body.classList.add('paleta-lavanda');\nconst RM=")
+s = s.rstrip() + '\n<script>\n' + open(SK + 'rendimiento.js', encoding='utf8').read() + '</script>\n'
 open(os.path.join(D, 'sistema-endocrino.html'), 'w', encoding='utf8').write(s)
 print('ok', len(s) // 1024, 'KB')
