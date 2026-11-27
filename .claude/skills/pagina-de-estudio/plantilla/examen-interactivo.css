@@ -1,0 +1,24 @@
+.ex24-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:14px 0}
+.ex24-timer{font:700 15px var(--f-body);color:var(--muted);background:var(--hl3,#F1ECFA);padding:6px 12px;border-radius:999px}
+.ex24 h3{margin-top:26px}
+.ex24 .p1q{display:grid;grid-template-columns:44px 1fr;gap:10px;padding:12px 0;border-bottom:1px dashed var(--line)}
+.ex24 .p1q .n{font:800 15px var(--f-body);color:var(--coral);padding-top:3px}
+.ex24 .p1q .opts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.ex24 .p1q label{display:flex;gap:6px;align-items:center;border:1.5px solid var(--line2);border-radius:999px;padding:5px 12px;cursor:pointer;background:var(--page);font-size:15px}
+.ex24 .p1q input{accent-color:var(--coral)}
+.ex24 .p1q label:has(input:checked){border-color:var(--coral);background:var(--hl)}
+.ex24 .p1q label.right{border-color:var(--ok);background:var(--ok-soft)}.ex24 .p1q label.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.ex24 .sol{display:none;margin-top:6px;font-size:14px;color:var(--ok)}.ex24 .sol.on{display:block}
+.ex24 .sol.bad{color:var(--bad)}
+.ex24 .p2{width:100%;border-collapse:collapse}.ex24 .p2 td{border-top:1px dashed var(--line);padding:10px 8px;vertical-align:top}
+.ex24 .p2 td:first-child{width:46%;font-weight:600}
+.ex24 .p2 input,.ex24 .p3 textarea{width:100%;font:inherit;font-size:15px;padding:6px 10px;border:1.5px solid var(--line2);border-radius:10px;background:var(--page);color:var(--ink);margin:3px 0}
+.ex24 .p2 input.ok,.ex24 .p3 textarea.ok{border-color:var(--ok);background:var(--ok-soft)}.ex24 .p2 input.bad,.ex24 .p3 textarea.bad{border-color:var(--bad);background:var(--bad-soft)}
+.ex24 .p2 input.half,.ex24 .p3 textarea.half{border-color:var(--extra);background:var(--extra-soft)}
+.ex24 .p3 .row{display:grid;grid-template-columns:140px 1fr;gap:10px;padding:10px 0;border-top:1px dashed var(--line)}
+.ex24 .p3 .row b{padding-top:6px}
+.ex24 .p3 textarea{min-height:58px;resize:vertical}
+@media (max-width:640px){.ex24 .p1q{grid-template-columns:26px 1fr}.ex24 .p2 td:first-child{width:auto}.ex24 .p2 tr{display:grid}.ex24 .p3 .row{grid-template-columns:1fr}}
+.ex24-res{margin-top:10px}
+.ex24-res .big{font:400 54px var(--f-display);line-height:1}
+.ex24-res .parts{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}.ex24-res .parts span{background:var(--hl3,#F1ECFA);border-radius:999px;padding:4px 12px;font-weight:700;font-size:14px}

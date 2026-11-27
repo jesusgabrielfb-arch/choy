@@ -1,0 +1,5 @@
+/* ---------- rendimiento: no dibujar lo que está fuera de pantalla ---------- */
+section.topic{content-visibility:auto;contain-intrinsic-block-size:auto 1800px}
+html.cv-off section.topic{content-visibility:visible}
+/* la textura de papel (feTurbulence) es carísima de pintar en celular */
+@media (hover:none),(max-width:820px){svg [filter$="Tx)"]{filter:none}}

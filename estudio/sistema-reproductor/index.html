@@ -52,6 +52,13 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .nav .brand .b1{font-size:21px}
 .nav .brand .b2{font-size:15px;color:var(--muted);margin-top:2px}
 .nav a.brand:hover{color:var(--coral)}
+.nav .nav-row{overflow:visible;gap:8px}
+.nav-links{display:flex;gap:2px;align-items:center;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 18px,#000 calc(100% - 18px),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 18px,#000 calc(100% - 18px),transparent 100%);padding:0 10px}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-btns{display:flex;gap:6px;align-items:center;flex:none}
+.nav .brand{flex:none}
+@media (max-width:700px){.nav .nav-row{overflow-x:auto}.nav-links{flex:none;overflow:visible;-webkit-mask-image:none;mask-image:none;padding:0}}
 .nav .brand .b2{cursor:pointer;transition:color .2s}.nav .brand .b2:hover{color:var(--coral)}
 .nav a{position:relative;white-space:nowrap;text-decoration:none;color:var(--muted);font-size:13.5px;font-weight:600;padding:6px 8px;border-radius:999px;transition:color .2s}
 .nav .nav-row{max-width:1240px}
@@ -109,7 +116,7 @@ h1 em{font-style:italic;color:var(--coral)}
 button{font:inherit;color:inherit}
 .btn{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--line2);background:var(--page);border-radius:14px;padding:9px 16px;font-weight:700;font-size:15px;cursor:pointer;text-decoration:none;color:var(--ink);
   box-shadow:var(--hard);transition:transform .15s,box-shadow .15s,background .15s}
-.btn:hover{transform:translateY(-2px);box-shadow:0 5px 0 var(--line2)}
+@media (hover:hover){.btn:hover{transform:translateY(-2px);box-shadow:0 5px 0 var(--line2)}}
 .btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--line2)}
 .btn.primary{background:var(--coral);color:#fff;border-color:#C9664D;box-shadow:0 3px 0 #C9664D}
 .btn.primary:hover{box-shadow:0 5px 0 #C9664D}
@@ -408,6 +415,30 @@ input[type=range]{width:100%;accent-color:var(--coral);margin-top:6px}
 .proc-dots button.cur{background:var(--coral);border-color:var(--coral);color:#fff}
 .proc .part{cursor:pointer}
 .proc .part.done{filter:drop-shadow(0 0 5px rgba(62,154,114,.9))}
+.ex24-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:14px 0}
+.ex24-timer{font:700 15px var(--f-body);color:var(--muted);background:var(--hl3,#F1ECFA);padding:6px 12px;border-radius:999px}
+.ex24 h3{margin-top:26px}
+.ex24 .p1q{display:grid;grid-template-columns:44px 1fr;gap:10px;padding:12px 0;border-bottom:1px dashed var(--line)}
+.ex24 .p1q .n{font:800 15px var(--f-body);color:var(--coral);padding-top:3px}
+.ex24 .p1q .opts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.ex24 .p1q label{display:flex;gap:6px;align-items:center;border:1.5px solid var(--line2);border-radius:999px;padding:5px 12px;cursor:pointer;background:var(--page);font-size:15px}
+.ex24 .p1q input{accent-color:var(--coral)}
+.ex24 .p1q label:has(input:checked){border-color:var(--coral);background:var(--hl)}
+.ex24 .p1q label.right{border-color:var(--ok);background:var(--ok-soft)}.ex24 .p1q label.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.ex24 .sol{display:none;margin-top:6px;font-size:14px;color:var(--ok)}.ex24 .sol.on{display:block}
+.ex24 .sol.bad{color:var(--bad)}
+.ex24 .p2{width:100%;border-collapse:collapse}.ex24 .p2 td{border-top:1px dashed var(--line);padding:10px 8px;vertical-align:top}
+.ex24 .p2 td:first-child{width:46%;font-weight:600}
+.ex24 .p2 input,.ex24 .p3 textarea{width:100%;font:inherit;font-size:15px;padding:6px 10px;border:1.5px solid var(--line2);border-radius:10px;background:var(--page);color:var(--ink);margin:3px 0}
+.ex24 .p2 input.ok,.ex24 .p3 textarea.ok{border-color:var(--ok);background:var(--ok-soft)}.ex24 .p2 input.bad,.ex24 .p3 textarea.bad{border-color:var(--bad);background:var(--bad-soft)}
+.ex24 .p2 input.half,.ex24 .p3 textarea.half{border-color:var(--extra);background:var(--extra-soft)}
+.ex24 .p3 .row{display:grid;grid-template-columns:140px 1fr;gap:10px;padding:10px 0;border-top:1px dashed var(--line)}
+.ex24 .p3 .row b{padding-top:6px}
+.ex24 .p3 textarea{min-height:58px;resize:vertical}
+@media (max-width:640px){.ex24 .p1q{grid-template-columns:26px 1fr}.ex24 .p2 td:first-child{width:auto}.ex24 .p2 tr{display:grid}.ex24 .p3 .row{grid-template-columns:1fr}}
+.ex24-res{margin-top:10px}
+.ex24-res .big{font:400 54px var(--f-display);line-height:1}
+.ex24-res .parts{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}.ex24-res .parts span{background:var(--hl3,#F1ECFA);border-radius:999px;padding:4px 12px;font-weight:700;font-size:14px}
 .anat-wide{max-width:760px;margin:0 auto 22px}.anat-cap{font-size:13px;color:var(--muted);margin:8px 0 0;text-align:center}
 .qpic{margin:0 auto 14px;max-width:520px}.qpic svg{display:block;width:100%;height:auto;border-radius:14px;background:var(--page);border:1.5px solid var(--line)}
 .qpic .pm{animation:pmPulse 1.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center}@keyframes pmPulse{50%{transform:scale(1.35);opacity:.55}}
@@ -707,6 +738,11 @@ td .tp-chip{margin:0;width:100%;box-shadow:none;background:transparent;border-co
 .tp-res{margin:8px 0 2px;font-weight:700}
 .tp-res .nota{display:inline-block;padding:3px 12px;border-radius:999px;background:var(--ok-soft);color:var(--ok);margin-left:6px}
 @media print{.tp-bar,.tp-bank,.tp-bank-h,.tp-res{display:none}}
+/* ---------- rendimiento: no dibujar lo que está fuera de pantalla ---------- */
+section.topic{content-visibility:auto;contain-intrinsic-block-size:auto 1800px}
+html.cv-off section.topic{content-visibility:visible}
+/* la textura de papel (feTurbulence) es carísima de pintar en celular */
+@media (hover:none),(max-width:820px){svg [filter$="Tx)"]{filter:none}}
 </style>
 </head>
 <body>
@@ -721,8 +757,9 @@ td .tp-chip{margin:0;width:100%;box-shadow:none;background:transparent;border-co
 </svg></div>
 
 <nav class="nav" aria-label="Secciones">
-  <div class="wrap nav-row" id="navrow">
+  <div class="wrap nav-row">
     <a class="brand" href="#" aria-label="Sistema Reproductor, by Jesús Fuentes. Ir al inicio"><span class="b1">Sistema Reproductor ✿</span><span class="b2">by: Jesús Fuentes</span></a>
+    <div class="nav-links" id="navrow">
     <a href="#base" data-sec="base"><span class="tick">✓</span>Base</a>
     <a href="#masculino" data-sec="masculino"><span class="tick">✓</span>Masculino</a>
     <a href="#espermatogenesis" data-sec="espermatogenesis"><span class="tick">✓</span>Espermatozoide</a>
@@ -731,10 +768,17 @@ td .tp-chip{margin:0;width:100%;box-shadow:none;background:transparent;border-co
     <a href="#ciclo" data-sec="ciclo"><span class="tick">✓</span>Ciclo</a>
     <a href="#calculo" data-sec="calculo"><span class="tick">✓</span>Cálculo</a>
     <a href="#fecundacion" data-sec="fecundacion"><span class="tick">✓</span>Fecundación</a>
-    
+    <a href="#its" data-sec="its"><span class="tick">✓</span>ITS</a>
+    <a href="#metodos" data-sec="metodos"><span class="tick">✓</span>Métodos</a>
+    <a href="#confusiones" data-sec="confusiones"><span class="tick">✓</span>No te confundas</a>
+    <a href="#examen-pasado">★ Examen 2025</a>
+    <a href="#parcial-2024">✎ Parcial 2024</a>
+    </div>
+    <div class="nav-btns">
     <a href="#practica" class="practice">Practicar →</a>
     <a href="#simulacro" class="practice sim-nav">Simulacro</a>
     <a href="#test" class="practice dp-nav">Test</a>
+    </div>
   </div>
   <div class="progress" aria-hidden="true"><i id="progbar"></i></div>
 </nav>
@@ -745,7 +789,7 @@ td .tp-chip{margin:0;width:100%;box-shadow:none;background:transparent;border-co
     <canvas id="swim" aria-hidden="true"></canvas>
     <div class="hero-inner">
       <div>
-        <span class="eyebrow">mi guía de bio ~</span>
+        <a class="eyebrow" href="https://mis-guias-bio.vercel.app" style="text-decoration:none" title="Ver todas mis guías">← mis guías de bio ~</a>
         <h1><span class="w">Sistema</span><br><span class="w"><em>Reproductor</em></span></h1>
         <p class="lede">Tus apuntes y el PPT de clase en un solo lugar (cuando no coinciden, manda el PPT): aparato masculino y femenino, gametos, ciclo menstrual, cálculo de la ovulación, fecundación, gestación y nacimiento, ITS y métodos anticonceptivos. Marca cada tema cuando lo domines y termina con el quiz.</p>
         <div class="cta">
@@ -755,9 +799,9 @@ td .tp-chip{margin:0;width:100%;box-shadow:none;background:transparent;border-co
         </div>
         <div class="stats">
           <span><b>11</b>temas</span>
-          <span><b>30</b>tarjetas</span>
-          <span><b>28</b>preguntas</span>
-          <span><b>~40</b>min</span>
+          <span><b id="hs-cards">74</b>tarjetas</span>
+          <span><b id="hs-q">540</b>preguntas</span>
+          <span><b>~90</b>min</span>
         </div>
       </div>
       <div class="hero-side">
@@ -1432,13 +1476,14 @@ td .tp-chip{margin:0;width:100%;box-shadow:none;background:transparent;border-co
   <ol class="steps">
     <li><div>El <b>día 1</b> es el primer día de la menstruación.</div></li>
     <li><div><b>Ovulación</b> ≈ la <mark>mitad del ciclo</mark>: duración ÷ 2, y ese número de días <b>se le suma a la fecha del primer día</b>. Ej.: 19 nov + 12 = <b>1 de dic</b>.</div></li>
+    <li><div><b>Duración del ciclo</b> = días entre una regla y la siguiente (24 sep − 6 sep = <b>18 días</b>). <b>Fin del ciclo</b> = el día <b>antes</b> de la siguiente regla (23 sep).</div></li>
     <li><div><b>Días fértiles</b> = <mark class="g">2 días antes y 2 días después</mark> de la ovulación.</div></li>
     <li><div><b>Próxima menstruación</b> = día 1 + duración del ciclo.</div></li>
   </ol>
   <div class="calc">
     <form id="calcform" onsubmit="return false">
       <div class="field"><label for="cstart">Primer día de la menstruación</label><input id="cstart" type="date" value="2026-11-19"></div>
-      <div class="field"><label for="clen">Duración del ciclo (días)</label><input id="clen" type="number" min="20" max="45" value="24"></div>
+      <div class="field"><label for="clen">Duración del ciclo (días)</label><input id="clen" type="number" min="15" max="45" value="24"></div>
       <p class="scribble">ejemplo del cuaderno: joven de 25 años, día 1 = 19 nov, ciclo de 24 días → mitad = 12 → 19 + 12 = 1 dic</p>
     </form>
     <div>
@@ -1558,7 +1603,7 @@ td .tp-chip{margin:0;width:100%;box-shadow:none;background:transparent;border-co
       <tr><td>Verrugas genitales (<b>condilomas</b>)</td><td><b>Virus</b> del papiloma humano (<b>VPH</b>)</td><td>Los síntomas aparecen entre <b>1 y 6 meses</b> después de tener relaciones: pequeñas <b>verrugas</b> en el epitelio de los órganos sexuales y el ano.</td></tr>
       <tr><td><b>Sífilis</b></td><td><b>Bacteria</b> <i>Treponema pallidum</i></td><td>Primero, una pequeña <b>úlcera</b> en los órganos sexuales <b>2 o 3 semanas</b> después del contacto. De <b>6 semanas a 6 meses</b> después (cuando la llaga ya desapareció) pueden salir <b>erupciones en la piel</b>. Etapas: 1) lesión, 2) sarpullido en el cuerpo, 3) afecta órganos internos (años después).</td></tr>
       <tr><td><b>Gonorrea</b></td><td><b>Bacteria</b> <i>Neisseria gonorrhoeae</i></td><td>Muy común. Sin tratamiento causa problemas <b>graves y permanentes</b> en hombres y mujeres: puede pasar a la <b>sangre y las articulaciones</b> y ser <b>potencialmente mortal</b>. Facilita infectarse con el virus que causa el <b>SIDA</b>. Se trata con <b>antibióticos</b>, pero existe una <mark>gonorrea resistente a los antibióticos</mark> (la llaman “superbacteria”): muchos antibióticos ya no le hacen efecto y es muy difícil de curar.</td></tr>
-      <tr><td><b>Herpes</b> genital</td><td><b>Virus</b> del herpes simple tipo 1 (<b>VHS-1</b>) y tipo 2 (<b>VHS-2</b>)</td><td>Ampollas o llagas en la zona genital.</td></tr>
+      <tr><td><b>Herpes</b> genital</td><td><b>Virus</b> del herpes simple tipo 1 (<b>VHS-1</b>) y tipo 2 (<b>VHS-2</b>)</td><td>Ampollas o llagas en la zona genital. Lo causa sobre todo el <b>tipo 2</b>; el <b>tipo 1</b> también puede causarlo por <b>sexo oral</b>. El virus <b>no se va</b>: queda dormido en los nervios y vuelve a salir con el estrés o las defensas bajas.</td></tr>
       <tr><td><b>Clamidia</b></td><td><b>Bacteria</b> <i>Chlamydia trachomatis</i></td><td>Más frecuente en jóvenes de <b>15 a 24 años</b>. Muchas personas <b>no tienen síntomas</b> (≈50 % de los hombres y ≈70 % de las mujeres). Hombres: dolor al orinar, secreción del pene, dolor testicular. Mujeres: dolor al orinar, flujo, dolor en el sexo, sangrado entre periodos. Sin tratar: <b>infertilidad</b> (mujeres) y complicaciones uretrales (hombres). Se trata con <b>antibióticos</b>.</td></tr>
       <tr><td><b>Candidiasis</b> vaginal</td><td><b>Hongo</b> <i>Candida albicans</i></td><td>Aumento del hongo por cambios del <b>pH</b> vaginal, humedad, uso de <b>antibióticos</b> o mucha glucosa (diabetes, carbohidratos, alcohol). Síntomas: ardor y picor, dolor al orinar y en las relaciones, flujo espeso y blanquecino. Prevención: zona seca, ropa no ajustada, limpiarse de adelante hacia atrás.</td></tr>
     </tbody>
@@ -1568,6 +1613,21 @@ td .tp-chip{margin:0;width:100%;box-shadow:none;background:transparent;border-co
     <div><h4>Por bacterias y hongos</h4><p>Bacterias: sífilis, gonorrea y clamidia. Hongo: candidiasis.</p></div>
   </div>
   <p class="scribble">factores de riesgo: promiscuidad y no usar métodos de barrera (condón)</p>
+  <h3>Los dos tipos de herpes <span class="chip c-hot">Muy probable</span></h3>
+  <div class="tbl" data-practica="celdas"><table>
+    <thead><tr><th></th><th>Herpes tipo 1 (VHS-1)</th><th>Herpes tipo 2 (VHS-2)</th></tr></thead>
+    <tbody>
+      <tr><td>¿Cuál es?</td><td>El herpes <b>"normal"</b>: herpes <b>labial</b> ("fuegos" o ampollas en los labios)</td><td>El herpes <b>genital</b></td></tr>
+      <tr><td>¿Cómo se contagia?</td><td>Por <b>saliva o contacto con la piel</b> (un beso, compartir vasos o cubiertos); muchos se contagian de niños</td><td>Por <b>contacto sexual</b></td></tr>
+      <tr><td>¿Es ITS?</td><td><b>No necesariamente</b>; le puede dar a cualquiera</td><td><b>Sí</b>, es una infección de transmisión sexual</td></tr>
+      <tr><td>¿Dónde salen las llagas?</td><td>Labios y alrededor de la boca</td><td>Órganos genitales y ano</td></tr>
+    </tbody>
+  </table></div>
+  <div class="vs">
+    <div><h4>¿Por qué sale con el estrés?</h4><p>El virus del herpes <b>nunca se va del cuerpo</b>: después de la primera infección se queda <b>dormido en los nervios</b>. Cuando bajan las defensas (<b>estrés</b>, fiebre, gripe, mucho sol, menstruación) se despierta y vuelven las llagas. Se controla con medicamentos, pero <b>no se cura</b>.</p></div>
+    <div><h4>Ojo</h4><p>El <b>tipo 1</b> también puede causar <b>herpes genital</b> si se transmite por <b>sexo oral</b>. Por eso el PPT dice que el herpes genital lo causan el VHS-1 y el VHS-2.</p></div>
+  </div>
+  <p class="scribble">tipo 1 = boca (labial) · tipo 2 = genital (ITS)</p>
   <div class="done-row"><button class="btn small tprac" type="button" data-prac="its">Practicar este tema</button><button class="donebtn" data-done="its"><span class="box"></span>Lo tengo</button></div>
 </section>
 
@@ -1576,15 +1636,60 @@ td .tp-chip{margin:0;width:100%;box-shadow:none;background:transparent;border-co
   <span class="stamp">¡dominado!</span>
   <div class="topic-head"><span class="num">10</span><h2>Métodos anticonceptivos</h2><span class="chip c-ppt">PPT</span><span class="chip c-hot">Muy probable</span></div>
   <div class="def"><b>Métodos anticonceptivos:</b> métodos o procedimientos que <b>previenen un embarazo</b> en mujeres sexualmente activas, ya sean ellas o sus parejas quienes los usen. Pueden ser <b>hormonales o no hormonales</b>, <b>transitorios o definitivos</b>, y basados en tecnología o en conductas.</div>
-  <div class="tbl"><table>
-    <thead><tr><th>Clasificación</th><th>Cuáles son</th></tr></thead>
+  <div class="fix"><b class="t">la respuesta del examen (PPT)</b>Según el PPT, los métodos anticonceptivos se clasifican en <b>3 tipos</b>:
+    <ol style="margin:8px 0 2px;padding-left:22px">
+      <li><b>Métodos hormonales</b></li>
+      <li><b>Métodos no hormonales reversibles</b></li>
+      <li><b>Métodos no hormonales permanentes</b></li>
+    </ol>
+    Si preguntan <i>"¿cuáles son los tipos de métodos anticonceptivos?"</i>, escribe esos 3 nombres y da ejemplos de cada uno.<br><br><b>Ojo, así salió en el examen de la profe (2025):</b> <i>"Los métodos anticonceptivos se clasifican en: a. ___ b. ___ c. ___"</i>. Ahí la respuesta es:
+    <ol type="a" style="margin:6px 0 2px;padding-left:22px"><li><b>hormonales y no hormonales</b></li><li><b>transitorios (temporales) y definitivos</b></li><li><b>basados en conductas y en tecnología</b></li></ol>
+    Apréndete las dos formas: los <b>3 tipos</b> de la lámina de clasificación y estos <b>3 pares</b> de la definición.</div>
+  <h3>Clasificación (tal cual el PPT) <span class="chip c-ppt">PPT</span> <span class="chip c-hot">Muy probable</span></h3>
+  <div class="cols">
+    <div>
+      <div class="def"><b>1. Métodos hormonales:</b> métodos <b>combinados</b> que contienen <mark>estrógeno y progestágeno</mark> y que se pueden administrar como:
+        <ul class="dots"><li>píldoras</li><li>inyecciones</li><li>anillo vaginal</li><li>parche transdérmico</li><li>implantes</li><li>dispositivo intrauterino (DIU hormonal)</li></ul></div>
+      <div class="def"><b>3. Métodos no hormonales permanentes:</b> anticoncepción <b>quirúrgica voluntaria</b> (esterilización):
+        <ul class="dots"><li><b>femenina</b> (en el PPT: histerectomía)</li><li><b>masculina</b>: <mark>vasectomía</mark></li></ul></div>
+    </div>
+    <div>
+      <div class="def"><b>2. Métodos no hormonales reversibles:</b> son 4 grupos:
+        <ul class="dots">
+          <li><b>Dispositivos intrauterinos</b> (DIU).</li>
+          <li><b>Anticonceptivos de barrera</b>: masculinos (<b>condón</b>) y femeninos (<b>condón femenino</b>, <b>diafragma</b>); <b>espermicidas</b>.</li>
+          <li><b>Método de la amenorrea de lactancia</b>.</li>
+          <li><b>Métodos de abstinencia periódica</b>: moco cervical (<b>Billings</b>), <b>calendario</b>, <b>temperatura basal</b> y <b>sintotérmico</b>.</li>
+        </ul></div>
+    </div>
+  </div>
+  <div class="tbl" data-practica="derecha"><table>
+    <thead><tr><th>Tipo (PPT)</th><th>Ejemplos</th></tr></thead>
     <tbody>
-      <tr><td><b>Hormonales</b></td><td>Combinan <b>estrógeno y progestágeno</b>: píldoras, inyecciones, anillo vaginal, parche transdérmico, implantes o dispositivo intrauterino (DIU) hormonal.</td></tr>
-      <tr><td><b>No hormonales reversibles</b></td><td>Dispositivos intrauterinos (<b>DIU</b>). <b>De barrera</b>: condón masculino y femenino, diafragma y espermicidas. Método de la <b>amenorrea de lactancia</b>. <b>Abstinencia periódica</b>: moco cervical (Billings), calendario, temperatura basal y sintotérmico.</td></tr>
-      <tr><td><b>No hormonales permanentes</b></td><td>Anticoncepción quirúrgica voluntaria (esterilización): <b>femenina</b> (en el PPT: histerectomía) y <b>masculina</b> (<b>vasectomía</b>).</td></tr>
+      <tr><td><b>Hormonales</b></td><td>Píldoras, inyecciones, anillo vaginal, parche, implantes, DIU hormonal</td></tr>
+      <tr><td><b>No hormonales reversibles</b></td><td>DIU, condón masculino y femenino, diafragma, espermicidas, amenorrea de lactancia, Billings, calendario, temperatura basal, sintotérmico</td></tr>
+      <tr><td><b>No hormonales permanentes</b></td><td>Esterilización femenina y vasectomía</td></tr>
     </tbody>
   </table></div>
+  <div class="sticky"><span class="t">cómo responderlo en el examen</span>"Los métodos anticonceptivos son los métodos o procedimientos que previenen un embarazo. Se clasifican en <b>hormonales</b> (píldoras, inyecciones, anillo, parche, implantes), <b>no hormonales reversibles</b> (DIU, condón, diafragma, espermicidas, amenorrea de lactancia y abstinencia periódica: Billings, calendario, temperatura basal) y <b>no hormonales permanentes</b> (esterilización femenina y vasectomía)."</div>
   <p>Ejemplos de la lámina: condón masculino, condón femenino, píldoras anticonceptivas, anillo hormonal, inyección anticonceptiva, cirugía esterilizadora, implante, calendario de días fértiles, parche anticonceptivo y DIU.</p>
+  <h3>Transitorios o definitivos, tecnología o conducta <span class="chip c-hot">Muy probable</span></h3>
+  <div class="vs">
+    <div><h4>Transitorios (reversibles)</h4><p>Funcionan <b>mientras se usan</b>: si se dejan, la persona puede volver a tener hijos. Son <b>todos los hormonales</b> y los <b>no hormonales reversibles</b>.</p></div>
+    <div><h4>Definitivos (permanentes)</h4><p>Son una <b>cirugía</b> y en general <b>no se pueden revertir</b>: la <b>esterilización femenina</b> y la <b>vasectomía</b>.</p></div>
+  </div>
+  <p><b>Basados en tecnología</b> = usan un objeto, una hormona o una cirugía (píldora, condón, DIU, vasectomía…). <b>Basados en conductas</b> = solo cambian el comportamiento, sin usar nada (calendario, Billings, temperatura basal, lactancia).</p>
+  <div class="tbl" data-practica="celdas"><table>
+    <thead><tr><th>Método</th><th>¿Transitorio o definitivo?</th><th>¿Tecnología o conducta?</th><th>¿Hormonal?</th></tr></thead>
+    <tbody>
+      <tr><td>Píldora, inyección, anillo, parche o implante</td><td>Transitorio</td><td>Tecnología</td><td>Hormonal</td></tr>
+      <tr><td>DIU de cobre</td><td>Transitorio</td><td>Tecnología</td><td>No hormonal</td></tr>
+      <tr><td>Condón, diafragma o espermicidas (barrera)</td><td>Transitorio</td><td>Tecnología</td><td>No hormonal</td></tr>
+      <tr><td>Calendario, Billings o temperatura basal</td><td>Transitorio</td><td>Conducta</td><td>No hormonal</td></tr>
+      <tr><td>Amenorrea de lactancia</td><td>Transitorio</td><td>Conducta</td><td>No hormonal</td></tr>
+      <tr><td>Vasectomía o esterilización femenina</td><td>Definitivo</td><td>Tecnología (cirugía)</td><td>No hormonal</td></tr>
+    </tbody>
+  </table></div>
   <div class="sticky"><span class="t">dato</span>El <b>condón</b> es el único método de la lista que además protege de las <b>ITS</b>. El método del <b>calendario</b> usa justo el cálculo de días fértiles que practicaste.</div>
   <div class="done-row"><button class="btn small tprac" type="button" data-prac="metodos">Practicar este tema</button><button class="donebtn" data-done="metodos"><span class="box"></span>Lo tengo</button></div>
 </section>
@@ -1614,6 +1719,48 @@ td .tp-chip{margin:0;width:100%;box-shadow:none;background:transparent;border-co
   <div class="done-row"><button class="donebtn" data-done="confusiones"><span class="box"></span>Lo tengo</button></div>
 </section>
 
+<!-- EXAMEN 2025 -->
+<section class="topic reveal" id="examen-pasado">
+  <div class="topic-head"><span class="num">★</span><h2>Así preguntó la profe</h2><span class="chip c-hot">Parcial #2 · 2025</span></div>
+  <p>Este es el formato real del <b>Parcial #2 – Sistema reproductor</b> de la profe <b>Yaisel Castañeda</b> del año pasado (80 puntos). Las respuestas son las que ella calificó como buenas; donde la respuesta del estudiante estaba mal, aquí está la correcta.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Parte</th><th>Qué es</th><th>Puntos</th></tr></thead>
+    <tbody>
+      <tr><td>I</td><td><b>Selección múltiple</b> (resaltar la letra y escribirla a la izquierda; si no la resaltas te quitan 5 puntos). Preguntas largas, algunas con casos: la pareja con poca FSH, la fase secretora, etc.</td><td>20</td></tr>
+      <tr><td>II</td><td><b>Completar</b>: un cuadro con preguntas cortas, muchas con incisos a, b, c… (el cuadro de abajo)</td><td>40</td></tr>
+      <tr><td>III</td><td><b>Desarrollo</b>: dos ventajas del parto natural y dos de la cesárea</td><td>5</td></tr>
+      <tr><td>IV</td><td><b>Relacionar</b>: 6 ITS numeradas con 10 frases (las opciones se pueden repetir)</td><td>10</td></tr>
+      <tr><td>V</td><td><b>Análisis</b>: un calendario con dos reglas → duración, ovulaciones y fin del ciclo de dos meses</td><td>5</td></tr>
+    </tbody>
+  </table></div>
+  <h3>II Parte: las preguntas del cuadro <span class="chip c-hot">Muy probable</span></h3>
+  <div class="tbl" data-practica="derecha"><table>
+    <thead><tr><th>Pregunta del examen</th><th>Respuesta</th></tr></thead>
+    <tbody><tr><td>¿Qué células apoyan la formación de los espermatozoides?</td><td>Células de Sertoli</td></tr><tr><td>¿Qué células sintetizan la testosterona?</td><td>Células de Leydig</td></tr><tr><td>Nombre de las primeras heces del recién nacido</td><td>Meconio</td></tr><tr><td>¿Cómo se forma el meconio?</td><td>Con lo que el feto traga del líquido amniótico (células, vello y vérnix caseoso), más moco y bilis</td></tr><tr><td>Capa protectora del feto contra el líquido amniótico</td><td>Vérnix caseoso (capa grasosa blanca sobre la piel)</td></tr><tr><td>Primera menstruación</td><td>Menarquia</td></tr><tr><td>Ausencia de menstruación</td><td>Amenorrea</td></tr><tr><td>Ovogénesis: etapa de la vida en que inicia</td><td>Etapa embrionaria</td></tr><tr><td>Ovogénesis: estado celular en que se detiene</td><td>Ovocito primario (en la profase I)</td></tr><tr><td>Ovogénesis: etapa en que se retoma</td><td>Pubertad (adolescencia)</td></tr><tr><td>¿Cuándo podemos llamar óvulo a la célula?</td><td>Cuando ocurre la fecundación</td></tr><tr><td>Tipo de aborto legal en Panamá</td><td>Aborto terapéutico</td></tr><tr><td>Razones que permiten ese aborto</td><td>Cuando el embarazo pone en riesgo la vida o la salud de la madre, o el bebé tiene malformaciones graves</td></tr><tr><td>Importancia del escroto</td><td>Protege los testículos y los mantiene a una temperatura menor que la del cuerpo, necesaria para producir espermatozoides</td></tr><tr><td>Origen de los ovarios poliquísticos</td><td>Los folículos no maduran ni se liberan (alteración hormonal) y forman quistes</td></tr><tr><td>Componente permanente del útero que permite su expansión</td><td>Miometrio (tejido muscular)</td></tr><tr><td>Sitio de implantación del embrión</td><td>Endometrio</td></tr><tr><td>Embarazo por varios ovocitos fecundados por espermatozoides diferentes</td><td>Bivitelino</td></tr><tr><td>Embarazo por un cigoto que se divide</td><td>Univitelino</td></tr><tr><td>Los métodos anticonceptivos se clasifican en (3 pares)</td><td>Hormonales/no hormonales; transitorios/definitivos; basados en conductas/en tecnología</td></tr><tr><td>Zona pelúcida: ¿dónde se localiza?</td><td>Recubre por fuera al ovocito secundario</td></tr><tr><td>Zona pelúcida: ¿de qué está formada?</td><td>Células foliculares (glucoproteínas que ellas secretan)</td></tr><tr><td>Hormona que aumenta durante la proliferación del endometrio</td><td>Estrógeno</td></tr><tr><td>Glándulas accesorias del sistema femenino</td><td>Vestibulares mayores (Bartolino), vestibulares menores y parauretrales (Skene)</td></tr><tr><td>Componente del acrosoma</td><td>Enzimas hidrolíticas</td></tr><tr><td>Sección del espermatozoide relacionada con la energía</td><td>Pieza media (mitocondrias)</td></tr><tr><td>Lugar del espermatozoide donde está el núcleo</td><td>Cabeza</td></tr><tr><td>La espermatogénesis inicia en (etapa de la vida)</td><td>La pubertad (adolescencia)</td></tr></tbody>
+  </table></div>
+  <div class="sticky"><span class="t">ojo con estas</span>En el examen el estudiante confundió <b>Sertoli</b> (forma espermatozoides) con <b>Leydig</b> (testosterona) y puso "menopausia" en <b>ausencia de menstruación</b>: la respuesta es <b>amenorrea</b>. Para la proliferación del endometrio, la hormona que sube es el <b>estrógeno</b>.</div>
+  <h3>IV Parte: relaciona cada frase con su ITS <span class="chip c-hot">Muy probable</span></h3>
+  <p>Opciones: 1. Sífilis · 2. Papiloma · 3. Clamidiasis · 4. Gonorrea · 5. Candidiasis · 6. Herpes genital (se pueden repetir).</p>
+  <div class="tbl" data-practica="derecha"><table>
+    <thead><tr><th>Frase</th><th>ITS</th></tr></thead>
+    <tbody><tr><td>Genera condilomas</td><td>Papiloma (VPH)</td></tr><tr><td>Genera esterilidad femenina por obstrucción de las trompas de Falopio</td><td>Clamidiasis</td></tr><tr><td>Asociada con el VIH</td><td>Gonorrea</td></tr><tr><td>Posee cepas que generan cáncer cervicouterino</td><td>Papiloma (VPH)</td></tr><tr><td>Principalmente asintomática en las mujeres</td><td>Clamidiasis</td></tr><tr><td>Posee cepas resistentes a antibióticos</td><td>Gonorrea</td></tr><tr><td>Puede ser mortal en la tercera fase</td><td>Sífilis</td></tr><tr><td>El uso de productos de higiene íntima con pH básico la genera</td><td>Candidiasis</td></tr><tr><td>Produce salpullido y lesiones abiertas</td><td>Sífilis</td></tr><tr><td>Sus lesiones son similares a las de la varicela</td><td>Herpes genital</td></tr></tbody>
+  </table></div>
+  <h3>III y V Parte</h3>
+  <div class="vs">
+    <div><h4>III. Ventajas (5 pts)</h4><p><b>Parto natural:</b> el bebé entra en contacto con las bacterias buenas (microbiota) del canal vaginal de la madre; la recuperación posparto es menos dolorosa y más rápida; facilita la lactancia; contacto piel con piel inmediato.<br><b>Cesárea:</b> no se siente dolor durante el parto (anestesia); se puede programar con anticipación.</p></div>
+    <div><h4>V. Calendario (5 pts)</h4><p>Regla el <b>6 sep</b> y la siguiente el <b>24 sep</b>: duración <b>18 días</b> (24 − 6) · fin del ciclo en septiembre <b>23</b> (el día antes de la siguiente regla) · fin del ciclo en octubre <b>11</b>. Las ovulaciones se calculan con el método de la sección <a href="#calculo">Cálculo</a>.</p></div>
+  </div>
+  <div class="done-row"><button class="btn small tprac" type="button" data-prac="examen">Practicar preguntas del examen</button></div>
+</section>
+<!-- PARCIAL 2024 -->
+<section class="topic reveal" id="parcial-2024">
+  <div class="topic-head"><span class="num">✎</span><h2>Parcial #3 (2024): hazlo aquí</h2><span class="chip c-hot">Examen real</span></div>
+  <p>Es el <b>Parcial #3 – Reproducción humana</b> de la profe <b>Yaisel Castañeda</b> (2024), tal cual, con <b>85 puntos</b>: I. Selección (40) · II. Completar (35) · III. Definición de términos (10). Contéstalo como si fuera el examen y dale a <b>Corregir</b>: te dice qué tuviste bien, la respuesta correcta de lo que fallaste y tu nota del 1 al 5. Tus respuestas se guardan en este navegador.</p>
+  <div class="ex24-bar"><span class="ex24-timer" id="ex24-timer">⏱ 00:00</span><button class="btn small" type="button" id="ex24-reset">Borrar mis respuestas</button></div>
+  <div id="ex24"></div>
+  <div class="ex24-bar"><button class="btn primary" type="button" id="ex24-check">Corregir examen</button><button class="btn" type="button" id="ex24-show">Ver todas las respuestas</button></div>
+  <div id="ex24-res" class="ex24-res" aria-live="polite"></div>
+</section>
 <!-- PRACTICA -->
 <section class="practice-wrap" id="practica">
   <div class="topic-head"><span class="num">✎</span><h2>Hora de practicar</h2></div>
@@ -1752,7 +1899,7 @@ td .tp-chip{margin:0;width:100%;box-shadow:none;background:transparent;border-co
   <div class="dp-list" id="dp-list"></div>
 </section>
 
-<footer><span class="hand">¡tú puedes! ✿</span><br>Guía hecha con tus apuntes. Lo que agregué o aclaré está en los post-its amarillos.</footer>
+<footer><a href="https://mis-guias-bio.vercel.app" style="font-weight:700;color:var(--coral)">← Todas mis guías</a><br><span class="hand">¡tú puedes! ✿</span><br>Guía hecha con tus apuntes. Lo que agregué o aclaré está en los post-its amarillos.</footer>
 </div>
 
 <script>
@@ -1962,7 +2109,7 @@ paintProgress();
 (function(){
   const links=[...document.querySelectorAll('.nav a[data-sec]')];
   const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){links.forEach(a=>a.classList.toggle('active',a.dataset.sec===en.target.id));
-    const a=links.find(a=>a.dataset.sec===en.target.id);if(a){const row=document.getElementById('navrow');row.scrollTo({left:a.offsetLeft-row.clientWidth/2+a.offsetWidth/2,behavior:RM?'auto':'smooth'})}}}),{rootMargin:'-45% 0px -50% 0px'});
+    const a=links.find(a=>a.dataset.sec===en.target.id);if(a){let row=document.getElementById('navrow');if(row.scrollWidth<=row.clientWidth+2)row=row.parentElement;const rr=row.getBoundingClientRect(),ar=a.getBoundingClientRect();row.scrollTo({left:row.scrollLeft+(ar.left-rr.left)-row.clientWidth/2+ar.width/2,behavior:RM?'auto':'smooth'})}}}),{rootMargin:'-45% 0px -50% 0px'});
   SECS.forEach(s=>io.observe(document.getElementById(s)));
 })();
 
@@ -2171,10 +2318,10 @@ const DAY=864e5,fmt=(t,o)=>new Date(t).toLocaleDateString('es',Object.assign({da
 function calc(){
   const s=document.getElementById('cstart').value,L=parseInt(document.getElementById('clen').value,10);
   const res=document.getElementById('cres'),cal=document.getElementById('ccal');
-  if(!s||!(L>=20&&L<=45)){res.innerHTML='<div class="res">Escribe una fecha y una duración entre 20 y 45 días.</div>';cal.innerHTML='';return}
+  if(!s||!(L>=15&&L<=45)){res.innerHTML='<div class="res">Escribe una fecha y una duración entre 15 y 45 días.</div>';cal.innerHTML='';return}
   const [y,m,d]=s.split('-').map(Number),start=Date.UTC(y,m-1,d),mid=Math.round(L/2);
   const ov=start+mid*DAY,f0=ov-2*DAY,f1=ov+2*DAY,next=start+L*DAY;
-  res.innerHTML=`<div class="res"><span>Mitad del ciclo</span><b>${L} ÷ 2 ≈ ${mid} días → se suman a la fecha</b></div><div class="res key bump"><span>Ovulación</span><b>${fmt(ov,{weekday:'long'})}</b></div><div class="res"><span>Días fértiles (±2)</span><b>${fmt(f0)} – ${fmt(f1)}</b></div><div class="res"><span>Próxima menstruación</span><b>${fmt(next)}</b></div>`;
+  res.innerHTML=`<div class="res"><span>Mitad del ciclo</span><b>${L} ÷ 2 ≈ ${mid} días → se suman a la fecha</b></div><div class="res key bump"><span>Ovulación</span><b>${fmt(ov,{weekday:'long'})}</b></div><div class="res"><span>Días fértiles (±2)</span><b>${fmt(f0)} – ${fmt(f1)}</b></div><div class="res"><span>Fin del ciclo</span><b>${fmt(next-DAY)}</b></div><div class="res"><span>Próxima menstruación</span><b>${fmt(next)}</b></div>`;
   const dow=(new Date(start).getUTCDay()+6)%7;let html=['L','M','M','J','V','S','D'].map(x=>`<div class="h">${x}</div>`).join(''),k=0;
   for(let i=0;i<dow;i++)html+='<div style="visibility:hidden;animation:none"></div>';
   for(let t=start;t<=next;t+=DAY){const dd=new Date(t).getUTCDate();let c='';
@@ -2225,7 +2372,7 @@ function calc(){
 })();
 
 /* ---------- banco de preguntas por tema ---------- */
-const TOPICS={base:['Ideas base','#base'],masc:['Aparato masculino','#masculino'],esperm:['Espermatogénesis','#espermatogenesis'],fem:['Aparato femenino','#femenino'],ovo:['Ovogénesis','#ovogenesis'],ciclo:['Ciclo menstrual','#ciclo'],calc:['Cálculo de la ovulación','#calculo'],fec:['Fecundación','#fecundacion'],gest:['Gestación y nacimiento','#fecundacion'],its:['ITS','#its'],metodos:['Métodos anticonceptivos','#metodos']};
+const TOPICS={base:['Ideas base','#base'],masc:['Aparato masculino','#masculino'],esperm:['Espermatogénesis','#espermatogenesis'],fem:['Aparato femenino','#femenino'],ovo:['Ovogénesis','#ovogenesis'],ciclo:['Ciclo menstrual','#ciclo'],calc:['Cálculo de la ovulación','#calculo'],fec:['Fecundación','#fecundacion'],gest:['Gestación y nacimiento','#fecundacion'],its:['ITS','#its'],metodos:['Métodos anticonceptivos','#metodos'],examen:['Examen 2025 (estilo de la profe)','#examen-pasado']};
 const TYPES={mc:'Selección múltiple',tf:'Verdadero o falso',fill:'Llenar espacios',open:'Desarrollo',order:'Ordenar procesos',match:'Pareo'};
 /* mc: [tipo, tema, pregunta, [correcta, …incorrectas], explicación]
    tf: [tipo, tema, afirmación, verdadero?, explicación]
@@ -2240,6 +2387,51 @@ const BANK=[
 ["mc", "base", "¿Qué división convierte una célula diploide en haploide?", ["La meiosis", "La mitosis", "La fecundación", "La espermiogénesis"], "La meiosis reduce los cromosomas a la mitad."],
 ["tf", "base", "Una célula haploide tiene 46 cromosomas.", false, "Tiene 23 (un solo juego); la diploide tiene 46."],
 ["match", "base", "Une cada célula con su número de cromosomas.", [["Espermatogonia", "2n · 46"], ["Espermatozoide", "n · 23 (22 + X o 22 + Y)"], ["Ovocito II", "n · 23 (22 + X)"], ["Cigoto", "2n · 46, de la fecundación"]]],
+["fill", "examen", "Escriba el nombre de las células responsables de: a) originar espermatozoides ___ b) sintetizar testosterona ___", [["sertoli", "celulas de sertoli"], ["leydig", "celulas de leydig"]], "Sertoli = espermatozoides; Leydig = testosterona. ¡En el examen las invirtieron!"],
+["fill", "examen", "Nombre de las primeras heces del recién nacido: ___", [["meconio"]], "Se forma con lo que el feto traga del líquido amniótico."],
+["fill", "examen", "Capa protectora del feto, en contra del líquido amniótico: ___", [["vernix caseoso", "vernix", "vermix caseoso"]], "Es una capa grasosa blanca que cubre la piel del feto."],
+["fill", "examen", "Denominación de la primera menstruación: ___", [["menarquia"]], "Menarquia."],
+["fill", "examen", "Se le denomina a la ausencia de menstruación: ___", [["amenorrea"]], "Amenorrea (no confundir con menopausia, que es el último sangrado)."],
+["fill", "examen", "En la ovogénesis: etapa de vida en que inicia ___; estado celular en que se detiene ___; etapa en que se retoma ___.", [["embrionaria", "embrion", "etapa embrionaria"], ["ovocito primario", "ovocito i", "ovocito 1"], ["pubertad", "adolescencia"]], "Inicia en el embrión, se detiene como ovocito I (profase I) y se retoma en la pubertad."],
+["fill", "examen", "Momento en que podemos referirnos a la célula resultante de la ovogénesis como óvulo: ___", [["fecundacion", "la fecundacion"]], "Solo se llama óvulo si es fecundado."],
+["fill", "examen", "Tipo de aborto legalizado en Panamá: aborto ___", [["terapeutico"]], "Se permite cuando el embarazo pone en riesgo la vida o salud de la madre o hay malformaciones graves."],
+["fill", "examen", "Componente permanente del útero que permite su expansión durante la gestación: ___", [["miometrio", "tejido muscular"]], "El miometrio es la capa muscular."],
+["fill", "examen", "Sitio de implantación del embrión: ___", [["endometrio"]], "La capa interna del útero."],
+["fill", "examen", "Tipo de embarazo: ovulaciones múltiples fecundadas por diferentes espermatozoides ___; división del cigoto fecundado ___", [["bivitelino", "dicigotico"], ["univitelino", "monocigotico"]], "Bivitelinos = mellizos; univitelinos = gemelos idénticos."],
+["fill", "examen", "Los métodos anticonceptivos se clasifican en: a) hormonales y no ___ b) transitorios y ___ c) basados en conductas y en ___", [["hormonales"], ["definitivos"], ["tecnologia"]], "Así salió en el examen de la profe."],
+["fill", "examen", "En relación a la zona pelúcida: a) dónde se localiza: recubre por fuera al ___ secundario b) de qué está formada: células ___", [["ovocito"], ["foliculares"]], "Rodea al ovocito II; la forman las células foliculares."],
+["fill", "examen", "Durante la proliferación del endometrio se da el aumento de la hormona ___", [["estrogeno", "estrogenos"]], "Estrógeno (fase proliferativa = folicular)."],
+["fill", "examen", "Son las glándulas accesorias del sistema reproductor femenino: vestibulares ___, vestibulares ___ y ___ (Skene).", [["mayores"], ["menores"], ["parauretrales"]], "Bartolino = vestibulares mayores."],
+["fill", "examen", "En relación al espermatozoide: a) componente del acrosoma: enzimas ___ b) sección con la energía: pieza ___ c) lugar del núcleo: ___", [["hidroliticas"], ["media"], ["cabeza"]], "Acrosoma, pieza media (mitocondrias) y cabeza."],
+["fill", "examen", "La espermatogénesis inicia en la etapa de vida llamada ___", [["pubertad", "adolescencia"]], "Por la testosterona."],
+["mc", "examen", "Describe la importancia del escroto:", ["Protege a los testículos y los mantiene a una temperatura menor que la corporal para producir espermatozoides", "Produce la testosterona", "Produce el líquido seminal", "Madura los espermatozoides"], "Sin esa temperatura menor no se producen bien los espermatozoides."],
+["mc", "examen", "¿Cuál es el origen de los ovarios poliquísticos?", ["Los folículos no maduran ni se liberan (alteración hormonal) y forman quistes", "Una infección de transmisión sexual", "Exceso de ovulaciones", "La menopausia"], "Por eso hay ciclos irregulares e incluso infertilidad."],
+["mc", "examen", "¿Cómo se forma el meconio?", ["Con lo que el feto traga del líquido amniótico (células, vello, vérnix caseoso), más moco y bilis", "Con la leche materna", "Con la sangre del cordón", "Con el vérnix que se pega por fuera"], "Son las primeras heces del recién nacido."],
+["mc", "examen", "¿Qué razones permiten el aborto terapéutico?", ["El embarazo pone en riesgo la vida o salud de la madre, o el bebé tiene malformaciones graves", "Que la madre no quiera tenerlo", "Que sea un embarazo gemelar", "Que sea el primer embarazo"], "Aborto terapéutico: por la salud o vida de la madre o por malformaciones graves."],
+["mc", "examen", "Relaciona: «Genera condilomas». ¿Qué ITS es?", ["Papiloma (VPH)", "Sífilis", "Clamidiasis", "Gonorrea"], "Genera condilomas → Papiloma (VPH)."],
+["mc", "examen", "Relaciona: «Genera esterilidad femenina por obstrucción de las trompas de Falopio». ¿Qué ITS es?", ["Clamidiasis", "Sífilis", "Papiloma (VPH)", "Gonorrea"], "Genera esterilidad femenina por obstrucción de las trompas de Falopio → Clamidiasis."],
+["mc", "examen", "Relaciona: «Asociada con el VIH». ¿Qué ITS es?", ["Gonorrea", "Sífilis", "Papiloma (VPH)", "Clamidiasis"], "Asociada con el VIH → Gonorrea."],
+["mc", "examen", "Relaciona: «Posee cepas que generan cáncer cervicouterino». ¿Qué ITS es?", ["Papiloma (VPH)", "Sífilis", "Clamidiasis", "Gonorrea"], "Posee cepas que generan cáncer cervicouterino → Papiloma (VPH)."],
+["mc", "examen", "Relaciona: «Principalmente asintomática en las mujeres». ¿Qué ITS es?", ["Clamidiasis", "Sífilis", "Papiloma (VPH)", "Gonorrea"], "Principalmente asintomática en las mujeres → Clamidiasis."],
+["mc", "examen", "Relaciona: «Posee cepas resistentes a antibióticos». ¿Qué ITS es?", ["Gonorrea", "Sífilis", "Papiloma (VPH)", "Clamidiasis"], "Posee cepas resistentes a antibióticos → Gonorrea."],
+["mc", "examen", "Relaciona: «Puede ser mortal en la tercera fase». ¿Qué ITS es?", ["Sífilis", "Papiloma (VPH)", "Clamidiasis", "Gonorrea"], "Puede ser mortal en la tercera fase → Sífilis."],
+["mc", "examen", "Relaciona: «El uso de productos de higiene íntima con pH básico la genera». ¿Qué ITS es?", ["Candidiasis", "Sífilis", "Papiloma (VPH)", "Clamidiasis"], "El uso de productos de higiene íntima con pH básico la genera → Candidiasis."],
+["mc", "examen", "Relaciona: «Produce salpullido y lesiones abiertas». ¿Qué ITS es?", ["Sífilis", "Papiloma (VPH)", "Clamidiasis", "Gonorrea"], "Produce salpullido y lesiones abiertas → Sífilis."],
+["mc", "examen", "Relaciona: «Sus lesiones son similares a las de la varicela». ¿Qué ITS es?", ["Herpes genital", "Sífilis", "Papiloma (VPH)", "Clamidiasis"], "Sus lesiones son similares a las de la varicela → Herpes genital."],
+["mc", "examen", "Los cambios del ciclo menstrual están provocados por distintas hormonas, entre ellas la progesterona, cuya función es:", ["Ayudar a mantener el embarazo y, junto con los estrógenos, contribuir al desarrollo progresivo del endometrio si hubo fecundación", "Provocar la desintegración del óvulo el día 28", "Provocar la menstruación y estimular los estrógenos en los folículos de Graaf", "Ordenar al hipotálamo producir LH"], "Progesterona = la hormona del embarazo."],
+["mc", "examen", "Una pareja no puede tener hijos; se resolverá dándole FSH al hombre. ¿Cuál es el problema y el motivo?", ["Ausencia de espermatozoides maduros: la FSH estimula la maduración de los espermatozoides", "Déficit de testosterona: la FSH produce testosterona", "Obstrucción de los tubos seminíferos", "Ninguno: la FSH solo actúa en mujeres"], "En el hombre la FSH estimula la espermatogénesis."],
+["mc", "examen", "La fase secretora del ovario se caracteriza porque:", ["El folículo roto y vacío se transforma en el cuerpo lúteo, que produce progesterona y estrógeno", "El corpúsculo polar se vuelve cuerpo lúteo", "El folículo se vuelve corpúsculo polar", "El cuerpo lúteo deja de producir hormonas"], "Fase lútea = secretora."],
+["mc", "examen", "La movilización del óvulo se consigue gracias a:", ["Los cilios de las trompas de Falopio", "La lubricación de las glándulas anexas", "Las fimbrias de las trompas", "El flagelo del óvulo"], "Los cilios lo mueven; las fimbrias solo lo atrapan."],
+["mc", "examen", "Glándula que secreta un líquido rico en fructosa:", ["Vesícula seminal", "Skene", "Próstata", "Bulbouretral (de Cowper)"], "Fructosa = energía."],
+["mc", "examen", "Para que la espermatogénesis se desarrolle bien, la temperatura testicular debe ser ___ que la del resto del cuerpo:", ["menor", "mayor", "igual"], "Por eso los testículos están en el escroto."],
+["mc", "examen", "El implante es un ejemplo de método anticonceptivo:", ["Hormonal", "Natural", "De barrera", "Definitivo"], "Contiene hormonas."],
+["mc", "examen", "ITS que genera problemas en las articulaciones:", ["Gonorrea", "Sífilis", "Herpes"], "Puede pasar a la sangre y las articulaciones."],
+["mc", "examen", "La circuncisión masculina se encarga de retirar parte del:", ["Prepucio", "Epidídimo", "Escroto", "Glande"], "Se retira el prepucio."],
+["mc", "examen", "¿Cuál de estas relaciones órgano–función es correcta?", ["Útero – implantación del embrión", "Próstata – liberación del semen al exterior", "Epidídimo – producción de espermatozoides", "Ovario – unión del espermatozoide con el ovocito"], "La implantación ocurre en el útero (endometrio)."],
+["mc", "examen", "¿Qué pasaría con la fertilidad de un hombre sin epidídimo?", ["Disminuiría, porque los espermatozoides no madurarían", "No cambiaría", "Aumentaría", "Disminuiría por mayor temperatura"], "El epidídimo madura y almacena los espermatozoides."],
+["mc", "examen", "Seleccione lo que NO se relaciona con el sistema reproductor femenino:", ["Uretra", "Fimbrias", "Skene"], "La uretra es del sistema urinario (en la mujer son independientes)."],
+["mc", "examen", "Durante la espermatogénesis, una espermatogonia da lugar a:", ["Cuatro espermatozoides", "Tres espermatozoides", "Dos espermatozoides", "Un espermatozoide"], "Meiosis I y II → 4."],
+["open", "examen", "Mencione dos ventajas del parto natural y dos de la cesárea.", "Parto natural: el bebé entra en contacto con las bacterias buenas del canal vaginal; la recuperación es menos dolorosa y más rápida (también facilita la lactancia). Cesárea: no se siente dolor durante el parto (anestesia); se puede programar con anticipación.", ["bacteria|microbio|canal vaginal", "recuperacion", "dolor|anestesia", "program|agendar|anticipa"]],
 ["mc","base","¿Qué estructura es común al sistema urinario y al reproductor masculino?",["Uretra","Uréter","Conducto deferente","Epidídimo"],"La uretra lleva tanto la orina de la vejiga como el semen."],
 ["mc","base","El conjunto de órganos reproductores se llama…",["Genitales","Gametos","Hormonas","Glándulas anexas"],"Genitales = conjunto de órganos reproductores."],
 ["mc","base","¿Qué es un gameto?",["Una célula sexual","Un órgano reproductor","Una hormona","Una glándula"],"El gameto masculino es el espermatozoide y el femenino el ovocito."],
@@ -2482,6 +2674,13 @@ const BANK=[
 ["match","ciclo","Une cada hormona con su tipo o función.",[["FSH","Hipofisaria; sube en la fase folicular"],["LH","Hipofisaria; pico en la ovulación"],["Progesterona","Ovárica; hormona del embarazo"],["Estrógeno","Ovárica; sube en la fase folicular y baja en la ovulación"]]],
 
 /* ===== CÁLCULO ===== */
+["fill", "calc", "Examen de la profe: la regla vino el 6 de septiembre y la siguiente el 24 de septiembre. El ciclo dura ___ días.", [["18", "dieciocho"]], "24 − 6 = 18 días."],
+["fill", "calc", "Mismo caso (6 sep y 24 sep): la ovulación en septiembre es el ___ de septiembre.", [["15", "quince"]], "18 ÷ 2 = 9 → 6 + 9 = 15 de septiembre."],
+["fill", "calc", "Mismo caso (6 sep y 24 sep): el ciclo de septiembre termina el ___ de septiembre.", [["23"]], "Termina el día antes de la siguiente regla (24 − 1 = 23)."],
+["fill", "calc", "Mismo caso: la ovulación en octubre es el ___ de octubre.", [["3", "tres"]], "El nuevo ciclo empieza el 24 sep: 24 + 9 = 3 de octubre."],
+["fill", "calc", "Mismo caso: el ciclo de octubre termina el ___ de octubre.", [["11", "once"]], "La siguiente regla sería el 12 oct (24 sep + 18), así que el ciclo termina el 11 oct."],
+["mc", "calc", "Si la regla vino el 3 de marzo y la siguiente el 31 de marzo, ¿cuánto dura el ciclo?", ["28 días", "31 días", "3 días", "30 días"], "31 − 3 = 28 días."],
+["mc", "calc", "¿Qué día termina un ciclo?", ["El día antes de que empiece la siguiente regla", "El día de la ovulación", "El último día de sangrado", "El día 14 siempre"], "Ej.: si la siguiente regla es el 24, el ciclo termina el 23."],
 ["mc", "calc", "Ciclo de 28 días que empieza el 1 de marzo. ¿Cuáles son los días fértiles?", ["13 al 17 de marzo", "12 al 16 de marzo", "14 al 20 de marzo", "26 al 28 de marzo"], "Ovulación: 1 de marzo + 14 días = 15 de marzo. Fértiles: 2 antes y 2 después."],
 ["mc","calc","Un ciclo de 30 días empieza el 5 de abril. ¿Cuándo es la próxima menstruación?",["5 de mayo","4 de mayo","20 de abril","19 de abril"],"5 de abril + 30 días = 5 de mayo."],
 ["mc", "calc", "Ciclo de 24 días que empieza el 19 de noviembre. ¿Qué día es la ovulación?", ["1 de diciembre", "30 de noviembre", "12 de noviembre", "13 de diciembre"], "Mitad = 12 → 19 de noviembre + 12 días = 1 de diciembre."],
@@ -2499,6 +2698,16 @@ const BANK=[
 ["open","calc","Explica el método para calcular la ovulación y los días fértiles.","El día 1 es el primer día de la menstruación. La ovulación es aproximadamente la mitad del ciclo (duración ÷ 2): ese número de días se suma a la fecha del día 1. Los días fértiles son 2 días antes y 2 días después de la ovulación. La próxima menstruación es el día 1 más la duración del ciclo.",["dia 1|primer dia","mitad|entre 2|÷ 2|/2","2 dias|dos dias","antes","despues"]],
 ["order","calc","Ordena los pasos para calcular los días fértiles.",["Identificar el día 1 (primer día de la regla)","Dividir la duración del ciclo entre 2","Sumar ese número de días a la fecha del día 1: ovulación","Restar y sumar 2 días: días fértiles","Sumar la duración al día 1: próxima regla"],"Así lo hiciste en el ejemplo del cuaderno."],
 ["match","calc","Ciclo de 28 días que empieza el 1 de marzo. Une cada dato con su fecha.",[["Día 1","1 de marzo"],["Ovulación","15 de marzo"],["Primer día fértil","13 de marzo"],["Último día fértil","17 de marzo"],["Próxima menstruación","29 de marzo"]]],
+["fill", "calc", "Ciclo de 28 días que empieza el 1 de marzo: la ovulación es el ___ de marzo.", [["15", "quince"]], "1 de marzo + 14 días = 15 de marzo."],
+["fill", "calc", "Ciclo de 30 días que empieza el 10 de abril: la próxima menstruación es el ___ de mayo.", [["10", "diez"]], "10 de abril + 30 días = 10 de mayo."],
+["fill", "calc", "Los días fértiles son ___ días antes y ___ días después de la ovulación.", [["2", "dos"], ["2", "dos"]], "Ovulación ± 2."],
+["fill", "calc", "Ciclo de 32 días que empieza el 2 de junio: la ovulación es el ___ de junio.", [["18", "dieciocho"]], "32 ÷ 2 = 16 → 2 + 16 = 18 de junio."],
+["fill", "calc", "Si la ovulación es el 20 de agosto, los días fértiles van del ___ al ___ de agosto.", [["18"], ["22"]], "2 antes y 2 después."],
+["fill", "calc", "Para saber la ovulación se divide el ciclo entre ___ y se suma a la fecha del primer día.", [["2", "dos"]], "Mitad del ciclo."],
+["match", "calc", "Ciclo de 26 días que empieza el 5 de enero. Une cada dato con su fecha.", [["Día 1", "5 de enero"], ["Ovulación", "18 de enero"], ["Primer día fértil", "16 de enero"], ["Último día fértil", "20 de enero"], ["Próxima menstruación", "31 de enero"]]],
+["mc", "calc", "Un ciclo de 30 días empieza el 20 de enero. ¿Qué día es la ovulación?", ["4 de febrero", "3 de febrero", "5 de febrero", "19 de febrero"], "30 ÷ 2 = 15 → 20 de enero + 15 días = 4 de febrero (enero tiene 31 días)."],
+["mc", "calc", "Un ciclo de 28 días empieza el 25 de marzo. ¿Cuándo es la próxima menstruación?", ["22 de abril", "25 de abril", "21 de abril", "8 de abril"], "25 de marzo + 28 días = 22 de abril (marzo tiene 31 días)."],
+["tf", "calc", "Para calcular la ovulación se suma la mitad del ciclo a la fecha del primer día de la regla.", true, "Ej.: 19 nov + 12 = 1 dic."],
 
 /* ===== FECUNDACIÓN Y GESTACIÓN ===== */
 ["mc", "fec", "Si el ovocito II SÍ es fecundado, ¿qué pasa con el cuerpo lúteo?", ["Se mantiene y sigue produciendo progesterona", "Se degrada enseguida", "Se convierte en folículo de Graaf", "Produce FSH"], "Así el endometrio no se desprende y no hay menstruación: empieza el embarazo."],
@@ -2611,6 +2820,14 @@ const BANK=[
 ["open","gest","Explica qué es la gestación y sus etapas.","Es el periodo en que el cigoto (el óvulo fecundado) se desarrolla a embrión durante los tres primeros meses y después a feto desde el cuarto mes; dura unas 40 semanas.",["cigoto","embrion","feto","40"]],
 ["mc", "its", "¿Qué tiene de peligrosa la gonorrea resistente?", ["Muchos antibióticos ya no la curan", "La causa un hongo", "Solo afecta a los hombres", "Se cura sola en 2 días"], "La bacteria Neisseria gonorrhoeae se ha vuelto resistente a varios antibióticos: por eso es tan importante prevenir (condón)."],
 ["tf", "its", "Existe una gonorrea resistente a los antibióticos que es muy difícil de curar.", true, "Es la llamada “superbacteria”: varios antibióticos ya no le hacen efecto."],
+["mc", "its", "¿Qué tipo de herpes es el herpes labial (el de los labios que sale con el estrés)?", ["Tipo 1 (VHS-1)", "Tipo 2 (VHS-2)", "El VPH", "La sífilis"], "Tipo 1 = herpes labial; se contagia por saliva o contacto, no necesariamente sexual."],
+["mc", "its", "¿Qué tipo de herpes es el genital, que se transmite por contacto sexual?", ["Tipo 2 (VHS-2)", "Tipo 1 (VHS-1)", "El VPH", "La candidiasis"], "Tipo 2 = herpes genital (ITS). El tipo 1 también puede llegar a los genitales por sexo oral."],
+["mc", "its", "¿Por qué el herpes vuelve a salir con el estrés?", ["El virus queda dormido en los nervios y se despierta cuando bajan las defensas", "Porque se vuelve a contagiar cada vez", "Porque es una bacteria que crece con el estrés", "Porque el estrés produce el virus"], "El herpes no se va del cuerpo: se reactiva con estrés, fiebre, sol o defensas bajas."],
+["tf", "its", "El herpes labial (tipo 1) siempre se contagia por relaciones sexuales.", false, "No: se contagia por saliva o contacto (un beso, compartir vasos); le puede dar a cualquiera."],
+["tf", "its", "El tipo 1 del herpes también puede causar herpes genital por sexo oral.", true, "Por eso el herpes genital lo causan el VHS-1 y el VHS-2."],
+["tf", "its", "El herpes se cura por completo con antibióticos.", false, "Es un virus: no se cura con antibióticos; queda dormido en los nervios y se controla con medicamentos antivirales."],
+["fill", "its", "El herpes labial es el tipo ___ y el herpes genital es sobre todo el tipo ___.", [["1", "uno"], ["2", "dos"]], "Tipo 1 = boca; tipo 2 = genital (ITS)."],
+["match", "its", "Une cada tipo de herpes con lo que corresponde.", [["Herpes tipo 1 (VHS-1)", "Labial: saliva o contacto, no necesariamente sexual"], ["Herpes tipo 2 (VHS-2)", "Genital: infección de transmisión sexual"], ["Estrés o defensas bajas", "Despiertan el virus dormido en los nervios"], ["Sexo oral", "Puede llevar el tipo 1 a los genitales"]]],
 ["mc","its","¿Qué son las ITS?",["Las enfermedades que se transmiten por el contacto sexual","Enfermedades del sistema digestivo","Hormonas del ciclo","Métodos anticonceptivos"],"Infecciones de transmisión sexual."],
 ["mc","its","¿Qué causa las verrugas genitales (condilomas)?",["El virus del papiloma humano (VPH)","La bacteria Treponema pallidum","El hongo Candida albicans","La bacteria Neisseria gonorrhoeae"],"Aparecen entre 1 y 6 meses después."],
 ["mc","its","¿Cuándo aparecen los síntomas de las verrugas genitales?",["Entre 1 y 6 meses después de tener relaciones sexuales","Al día siguiente","Después de 10 años","Nunca aparecen"],"Pequeñas verrugas en el epitelio de los órganos sexuales y el ano."],
@@ -2640,6 +2857,21 @@ const BANK=[
 ["match","its","Une cada ITS con un dato clave.",[["Verrugas genitales","Síntomas entre 1 y 6 meses después"],["Sífilis","Úlcera 2–3 semanas después del contacto"],["Gonorrea","Puede pasar a la sangre y las articulaciones"],["Clamidia","Más común entre los 15 y 24 años"],["Candidiasis","Flujo espeso y blanquecino"]]],
 ["open","its","Clasifica las ITS que estudiaste según su causante (virus, bacteria u hongo).","Virus: verrugas genitales (VPH) y herpes (VHS-1 y VHS-2). Bacterias: sífilis (Treponema pallidum), gonorrea (Neisseria gonorrhoeae) y clamidia (Chlamydia trachomatis). Hongo: candidiasis (Candida albicans).",["vph","herpes","sifilis","gonorrea","clamidia","candid"]],
 ["open","its","Describe la sífilis: causante, primera manifestación y qué pasa después.","La causa la bacteria Treponema pallidum. Primero aparece una pequeña úlcera en los órganos sexuales 2 o 3 semanas después del contacto; de 6 semanas a 6 meses después pueden salir erupciones en la piel, y en la etapa 3 afecta órganos internos.",["treponema","ulcera","erupcion|sarpullido","organos internos"]],
+["mc", "metodos", "¿Qué significa que un método anticonceptivo sea transitorio?", ["Funciona mientras se usa; si se deja, se puede volver a tener hijos", "Es una cirugía que no se puede revertir", "Solo lo usan los hombres", "Protege de todas las ITS"], "Transitorio = reversible; definitivo = permanente."],
+["mc", "metodos", "¿Cuál de estos métodos es definitivo?", ["La vasectomía", "La píldora", "El DIU", "El condón"], "Los definitivos son la esterilización femenina y la vasectomía."],
+["mc", "metodos", "¿Cuál de estos métodos está basado en conductas (no usa nada)?", ["El calendario (días fértiles)", "El condón", "El implante", "El DIU"], "Basados en conductas: calendario, Billings, temperatura basal, lactancia."],
+["tf", "metodos", "Los métodos hormonales son transitorios.", true, "Si se dejan de usar, se puede volver a quedar embarazada."],
+["tf", "metodos", "La vasectomía es un método transitorio.", false, "Es definitivo (permanente): es una cirugía."],
+["fill", "metodos", "Los métodos que funcionan mientras se usan son ___ y los permanentes, como la vasectomía, son ___.", [["transitorios", "reversibles", "transitorio"], ["definitivos", "permanentes", "definitivo"]], "Transitorio = reversible; definitivo = permanente."],
+["match", "metodos", "Une cada método con su clasificación.", [["Píldora", "Transitorio, tecnología, hormonal"], ["Condón", "Transitorio, tecnología, de barrera"], ["Calendario", "Transitorio, basado en conducta"], ["Vasectomía", "Definitivo (cirugía)"]]],
+["open", "metodos", "¿Cuáles son los tipos de métodos anticonceptivos según el PPT? Da un ejemplo de cada uno.", ["Se clasifican en métodos hormonales (por ejemplo, píldoras), métodos no hormonales reversibles (por ejemplo, el condón o el DIU) y métodos no hormonales permanentes (por ejemplo, la vasectomía)."], ["hormonal", "no hormonales reversibles|reversible", "permanente|definitiv", "pildora|inyecc|anillo|parche|implante", "condon|diu|diafragma|calendario|billings", "vasectom|esteriliz"]],
+["order", "metodos", "Ordena los 3 tipos de métodos anticonceptivos como aparecen en el PPT.", ["Métodos hormonales", "Métodos no hormonales reversibles", "Métodos no hormonales permanentes"], "Así se clasifican en el PPT."],
+["mc", "metodos", "Según el PPT, ¿cuántos tipos de métodos anticonceptivos hay en la clasificación?", ["3: hormonales, no hormonales reversibles y no hormonales permanentes", "2: naturales y artificiales", "4: barrera, hormonales, quirúrgicos y naturales", "5: uno por cada método"], "Es la clasificación de la lámina 'Clasificación'."],
+["mc", "metodos", "El método de la amenorrea de lactancia es…", ["No hormonal reversible", "Hormonal", "No hormonal permanente", "De barrera"], "Según el PPT, está entre los no hormonales reversibles."],
+["mc", "metodos", "¿Qué contienen los métodos hormonales combinados?", ["Estrógeno y progestágeno", "Solo testosterona", "Espermicidas", "FSH y LH"], "Por eso se llaman combinados."],
+["fill", "metodos", "Los métodos anticonceptivos se clasifican en hormonales, no hormonales ___ y no hormonales ___.", [["reversibles", "reversible"], ["permanentes", "permanente"]], "Clasificación del PPT."],
+["fill", "metodos", "Los métodos de abstinencia periódica son: moco cervical (___), calendario, temperatura ___ y sintotérmico.", [["billings"], ["basal"]], "Son no hormonales reversibles."],
+["match", "metodos", "Une cada método con su tipo según el PPT.", [["Anillo vaginal", "Hormonal"], ["Diafragma", "No hormonal reversible (barrera)"], ["Billings", "No hormonal reversible (abstinencia periódica)"], ["Vasectomía", "No hormonal permanente"]]],
 ["mc","metodos","¿Qué son los métodos anticonceptivos?",["Métodos o procedimientos que previenen un embarazo","Medicamentos para las ITS","Hormonas del ciclo","Tipos de nacimiento"],"Los pueden usar las mujeres o sus parejas."],
 ["mc","metodos","Los métodos hormonales combinados contienen…",["estrógeno y progestágeno","testosterona","fructosa","FSH y LH"],"Se administran como píldoras, inyecciones, anillo, parche, implantes o DIU."],
 ["mc","metodos","¿Cuál de estos es un método hormonal?",["Píldoras anticonceptivas","Condón","Vasectomía","Calendario"],"También inyecciones, anillo vaginal y parche."],
@@ -2737,16 +2969,6 @@ const BANK=[
 ["fill", "ciclo", "En la menarquia se pierden en promedio unos ___ mL de sangre.", [["35"]], "Lo normal: de 10 a 80 mL."],
 ["fill", "ciclo", "El folículo maduro que contiene al ovocito II se llama folículo de ___.", [["graaf"]], "Se rompe en la ovulación."],
 ["match", "ciclo", "Une cada fase con sus días (PPT).", [["Fase menstrual", "Días 1–5"], ["Fase folicular (proliferativa)", "Días 1–13"], ["Ovulación", "Días 14–15"], ["Fase lútea (secretora)", "Días 15–28"]]],
-["fill", "calc", "Ciclo de 28 días que empieza el 1 de marzo: la ovulación es el ___ de marzo.", [["15", "quince"]], "1 de marzo + 14 días = 15 de marzo."],
-["fill", "calc", "Ciclo de 30 días que empieza el 10 de abril: la próxima menstruación es el ___ de mayo.", [["10", "diez"]], "10 de abril + 30 días = 10 de mayo."],
-["fill", "calc", "Los días fértiles son ___ días antes y ___ días después de la ovulación.", [["2", "dos"], ["2", "dos"]], "Ovulación ± 2."],
-["fill", "calc", "Ciclo de 32 días que empieza el 2 de junio: la ovulación es el ___ de junio.", [["18", "dieciocho"]], "32 ÷ 2 = 16 → 2 + 16 = 18 de junio."],
-["fill", "calc", "Si la ovulación es el 20 de agosto, los días fértiles van del ___ al ___ de agosto.", [["18"], ["22"]], "2 antes y 2 después."],
-["fill", "calc", "Para saber la ovulación se divide el ciclo entre ___ y se suma a la fecha del primer día.", [["2", "dos"]], "Mitad del ciclo."],
-["match", "calc", "Ciclo de 26 días que empieza el 5 de enero. Une cada dato con su fecha.", [["Día 1", "5 de enero"], ["Ovulación", "18 de enero"], ["Primer día fértil", "16 de enero"], ["Último día fértil", "20 de enero"], ["Próxima menstruación", "31 de enero"]]],
-["mc", "calc", "Un ciclo de 30 días empieza el 20 de enero. ¿Qué día es la ovulación?", ["4 de febrero", "3 de febrero", "5 de febrero", "19 de febrero"], "30 ÷ 2 = 15 → 20 de enero + 15 días = 4 de febrero (enero tiene 31 días)."],
-["mc", "calc", "Un ciclo de 28 días empieza el 25 de marzo. ¿Cuándo es la próxima menstruación?", ["22 de abril", "25 de abril", "21 de abril", "8 de abril"], "25 de marzo + 28 días = 22 de abril (marzo tiene 31 días)."],
-["tf", "calc", "Para calcular la ovulación se suma la mitad del ciclo a la fecha del primer día de la regla.", true, "Ej.: 19 nov + 12 = 1 dic."],
 ["fill", "fec", "La fecundación forma un ___ diploide.", [["cigoto"]], "Fusión de los núcleos."],
 ["fill", "fec", "La fecundación ocurre en la ___ de la trompa de Falopio.", [["ampula"]], "Es interna."],
 ["fill", "fec", "El sexo del bebé depende de si el espermatozoide lleva el cromosoma ___ o el ___.", [["x"], ["y"]], "XX = mujer; XY = hombre.", {"any": true}],
@@ -2855,6 +3077,7 @@ const CARDS=[
  ['Sífilis','Bacteria Treponema pallidum: úlcera a las 2–3 semanas, erupciones de 6 semanas a 6 meses.','its'],
  ['Gonorrea','Bacteria Neisseria gonorrhoeae: puede pasar a la sangre y articulaciones; facilita el VIH.','its'],
  ['Herpes genital','Virus del herpes simple tipo 1 y 2 (VHS-1 y VHS-2).','its'],
+ ['Herpes tipo 1 / tipo 2','Tipo 1 = labial (saliva, no necesariamente sexual); tipo 2 = genital (ITS).','its'],
  ['Clamidia','Bacteria Chlamydia trachomatis; 15–24 años; muchas veces sin síntomas; antibióticos.','its'],
  ['Candidiasis','Hongo Candida albicans: ardor, picor y flujo espeso blanquecino.','its'],
  ['Métodos hormonales','Estrógeno + progestágeno: píldora, inyección, anillo, parche, implante.','metodos'],
@@ -3001,7 +3224,7 @@ function prep(raw){const [t,topic,q]=raw,o={t,topic,q,raw};
   if(t==='match')o.pairs=raw[3],o.right=shuffle(raw[3].map((p,k)=>({t:p[1],k}))),o.link={},o.sel=null;
   if(t==='fill')o.ans=raw[3],o.ex=raw[4],o.any=!!(raw[5]&&raw[5].any);
   return o}
-const SUBT={"base": [["ploidia", "diploide|haploide|meiosis|cromosoma|2n"], ["urinario", "uretra|urinari|orina|orificio|independiente"], ["gametos", "gameto|espermatozoide|ovocito|gonada|testiculo|ovario"], ["def", "reproduc|perpetu|generacion|genital|sexual"]], "masc": [["dibujo", "@img"], ["glandulas", "vesicula|prostat|bulbouretral|cowper|fructosa|alcalin|semen|prostaglandin|anexa"], ["testiculo", "testicul|sertoli|leydig|testosteron|gonada"], ["escroto", "escroto|temperatura|desciend|bajan|baja |criptorquid"], ["conductos", "epididim|deferente|eyaculador|recorrido|gravedad|reabsorb"], ["uretra", "uretra|orina|vejiga"], ["pene", "pene|glande|prepucio|circuncis|ereccion|cavernoso|higiene"]], "esperm": [["dibujo", "@img"], ["etapas", "espermatogonia|espermatocito|espermatida|espermiogenesis|meiosis|mitosis|44|22"], ["partes", "acrosoma|cabeza|cuello|centriolo|pieza media|mitocondria|cola|flagelo|nucleo"], ["lugar", "seminifer|tubo|sertoli|pubertad|nunca|testosteron"], ["funcion", "movil|fecund|dias|vive"]], "fem": [["dibujo", "@img"], ["ovario", "ovario|gonada"], ["trompa", "trompa|fimbria|ampula|cilio|oviducto"], ["utero", "utero|miometrio|endometrio|cuello|cervix"], ["vulva", "vulva|labio|clitoris|meato|orificio|vagina"], ["glandulas", "bartolino|skene|vestibular|parauretral"]], "ovo": [["dibujo", "@img"], ["vs", "espermatogenesis"], ["ovocito2", "zona pelucida|voluminosa|inmovil|membrana|corona|haploide|flagelo|grande"], ["vida", "embrion|400|pubertad|menopausia|profase|recombinacion|nace|vida"], ["proceso", "ovogonia|primario|secundario|meiosis|cuerpo polar|cigoto|mitosis|ovulo|ovocito|ovarios"]], "ciclo": [["def", "28|35|dura"], ["menar", "menarquia|menopausia|perimenopausia|ml"], ["fases", "fase|folicular|lutea|proliferativa|secretora"], ["hormonas", "lh|fsh|estrogeno|progesterona|hormona"], ["temp", "temperatura|°c"], ["ovul", "ovulacion|graaf|cuerpo luteo"], ["sop", "poliquist|quiste"]], "calc": [["fert", "fertil"], ["prox", "proxima"], ["metodo", "mitad|suma|dia 1|divide|÷"], ["ovul", "ovulacion"]], "fec": [["gemelos", "gemelo|mellizo|vitelino|cigot"], ["sexo", "xx|xy|sexo|par 23|cromosoma"], ["sino", "implanta|no hay|si hay|cuerpo luteo|progesterona|menstruacion"], ["proceso", "ampula|zona|acrosoma|coito|eyacul|degradan|fecund|semen|trompa"]], "gest": [["inmune", "inmune"], ["etapas", "embrion|feto|cigoto|semanas|mes"], ["parto", "parto|cesarea|pitocina|epidural|lactancia|nacimiento|contracc"]], "its": [["vph", "vph|condiloma|papiloma"], ["sifilis", "sifilis|treponema"], ["gonorrea", "gonorrea|neisseria"], ["herpes", "herpes|vhs"], ["clamidia", "clamidia|chlamydia"], ["candida", "candid"], ["general", "its|condon|riesgo|transmision"]], "metodos": [["permanente", "vasectom|esteriliz|histerectom|permanente|ligadura"], ["natural", "billings|calendario|abstinencia|lactancia|moco|temperatura"], ["diu", "diu|intrauterino"], ["barrera", "condon|diafragma|espermicida|barrera"], ["hormonal", "hormonal|pildora|inyecc|parche|anillo|implante"]]};
+const SUBT={"examen": [["its", "relaciona"], ["calc", "calendario"], ["masc", "sertoli|leydig|escroto|epididimo|espermat|prepucio|circuncis|fructosa|testicul"], ["fem", "utero|endometrio|miometrio|ovario|glandulas accesorias|zona pelucida|ovogenesis|oviduct|trompa|uretra"], ["gest", "meconio|vernix|embarazo|aborto|parto|cesarea"], ["ciclo", "menstruacion|menarquia|amenorrea|progesterona|estrogeno|fase|fsh"]], "base": [["ploidia", "diploide|haploide|meiosis|cromosoma|2n"], ["urinario", "uretra|urinari|orina|orificio|independiente"], ["gametos", "gameto|espermatozoide|ovocito|gonada|testiculo|ovario"], ["def", "reproduc|perpetu|generacion|genital|sexual"]], "masc": [["dibujo", "@img"], ["glandulas", "vesicula|prostat|bulbouretral|cowper|fructosa|alcalin|semen|prostaglandin|anexa"], ["testiculo", "testicul|sertoli|leydig|testosteron|gonada"], ["escroto", "escroto|temperatura|desciend|bajan|baja |criptorquid"], ["conductos", "epididim|deferente|eyaculador|recorrido|gravedad|reabsorb"], ["uretra", "uretra|orina|vejiga"], ["pene", "pene|glande|prepucio|circuncis|ereccion|cavernoso|higiene"]], "esperm": [["dibujo", "@img"], ["etapas", "espermatogonia|espermatocito|espermatida|espermiogenesis|meiosis|mitosis|44|22"], ["partes", "acrosoma|cabeza|cuello|centriolo|pieza media|mitocondria|cola|flagelo|nucleo"], ["lugar", "seminifer|tubo|sertoli|pubertad|nunca|testosteron"], ["funcion", "movil|fecund|dias|vive"]], "fem": [["dibujo", "@img"], ["ovario", "ovario|gonada"], ["trompa", "trompa|fimbria|ampula|cilio|oviducto"], ["utero", "utero|miometrio|endometrio|cuello|cervix"], ["vulva", "vulva|labio|clitoris|meato|orificio|vagina"], ["glandulas", "bartolino|skene|vestibular|parauretral"]], "ovo": [["dibujo", "@img"], ["vs", "espermatogenesis"], ["ovocito2", "zona pelucida|voluminosa|inmovil|membrana|corona|haploide|flagelo|grande"], ["vida", "embrion|400|pubertad|menopausia|profase|recombinacion|nace|vida"], ["proceso", "ovogonia|primario|secundario|meiosis|cuerpo polar|cigoto|mitosis|ovulo|ovocito|ovarios"]], "ciclo": [["def", "28|35|dura"], ["menar", "menarquia|menopausia|perimenopausia|ml"], ["fases", "fase|folicular|lutea|proliferativa|secretora"], ["hormonas", "lh|fsh|estrogeno|progesterona|hormona"], ["temp", "temperatura|°c"], ["ovul", "ovulacion|graaf|cuerpo luteo"], ["sop", "poliquist|quiste"]], "calc": [["fert", "fertil"], ["prox", "proxima"], ["metodo", "mitad|suma|dia 1|divide|÷"], ["ovul", "ovulacion"]], "fec": [["gemelos", "gemelo|mellizo|vitelino|cigot"], ["sexo", "xx|xy|sexo|par 23|cromosoma"], ["sino", "implanta|no hay|si hay|cuerpo luteo|progesterona|menstruacion"], ["proceso", "ampula|zona|acrosoma|coito|eyacul|degradan|fecund|semen|trompa"]], "gest": [["inmune", "inmune"], ["etapas", "embrion|feto|cigoto|semanas|mes"], ["parto", "parto|cesarea|pitocina|epidural|lactancia|nacimiento|contracc"]], "its": [["vph", "vph|condiloma|papiloma"], ["sifilis", "sifilis|treponema"], ["gonorrea", "gonorrea|neisseria"], ["herpes", "herpes|vhs"], ["clamidia", "clamidia|chlamydia"], ["candida", "candid"], ["general", "its|condon|riesgo|transmision"]], "metodos": [["permanente", "vasectom|esteriliz|histerectom|permanente|ligadura"], ["natural", "billings|calendario|abstinencia|lactancia|moco|temperatura"], ["diu", "diu|intrauterino"], ["barrera", "condon|diafragma|espermicida|barrera"], ["hormonal", "hormonal|pildora|inyecc|parche|anillo|implante"]]};
 function subOf(q){if(q[5]&&q[5].img)return 'dibujo';const L=SUBT[q[1]]||[],t=norm(q[2]+' '+(q[0]==='mc'?q[3][0]:q[0]==='fill'?q[3].map(x=>x[0]).join(' '):'')+' '+(typeof q[4]==='string'?q[4]:''));
   for(const [k,r] of L){if(r==='@img')continue;if(new RegExp(r).test(t))return k}return 'otro'}
 const TW={mc:.38,tf:.15,fill:.17,match:.1,order:.1,open:.1};
@@ -3613,8 +3836,21 @@ document.getElementById('sim-new').onclick=newExam;
 function doPrint(withKey){
   if(!cur){newExam()}
   if(window.self!==window.top){const n=document.getElementById('sim-printnote');n.hidden=false;n.scrollIntoView({behavior:'smooth',block:'center'});return}
-  document.body.classList.add('print-sim');document.body.classList.toggle('print-key',!!withKey);
-  setTimeout(()=>{window.print();setTimeout(()=>document.body.classList.remove('print-sim','print-key'),400)},60);
+  const sheet=document.getElementById('sim-sheet');if(!sheet||!sheet.innerHTML.trim()){render(cur)}
+  const css=[...document.querySelectorAll('style')].map(x=>x.textContent).join('\n');
+  const fonts=[...document.querySelectorAll('link[rel="stylesheet"]')].map(l=>`<link rel="stylesheet" href="${l.href}">`).join('');
+  const html=`<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Simulacro ${withKey?'con respuestas':''}</title>${fonts}<style>${css}
+.imp-bar{position:sticky;top:0;z-index:5;display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:12px 16px;background:#FFF7F2;border-bottom:1.5px solid #E7E2DC;font:600 15px system-ui,sans-serif}
+.imp-bar button{font:700 16px system-ui,sans-serif;padding:10px 18px;border-radius:999px;border:0;background:#E07A5F;color:#fff;cursor:pointer}
+.imp-bar small{color:#8A8381}
+@media print{.imp-bar{display:none}}
+body{background:#fff}.sim-sheet{display:block!important;max-width:860px;margin:0 auto;padding:16px}
+</style></head><body class="print-sim${withKey?' print-key':''}"><div class="imp-bar"><button type="button" onclick="window.print()">🖨 Imprimir</button><small>Si no se abre la impresión, usa el botón <b>Compartir</b> del navegador → <b>Imprimir</b>.</small></div>
+<div class="sim-sheet">${document.getElementById('sim-sheet').innerHTML}</div>
+<script>window.addEventListener('load',()=>setTimeout(()=>{try{window.print()}catch(e){}},500))<\/script></body></html>`;
+  const w=window.open('','_blank');
+  if(w){w.document.open();w.document.write(html);w.document.close();return}
+  const url=URL.createObjectURL(new Blob([html],{type:'text/html'}));location.href=url;
 }
 document.getElementById('sim-print').onclick=()=>doPrint(false);
 document.getElementById('sim-printkey').onclick=()=>doPrint(true);
@@ -3963,6 +4199,77 @@ b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();open()});}
     bar.onclick=e=>{const b=e.target.closest('button');if(!b)return;bar.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));
       if(b.dataset.m==='prac')start();else restore()};
   });
+})();
+</script>
+<script>
+(function(){const a=document.getElementById('hs-cards'),b=document.getElementById('hs-q');if(a&&typeof CARDS!=='undefined')a.textContent=CARDS.length;if(b&&typeof BANK!=='undefined')b.textContent=BANK.length})();
+</script>
+<script>
+/* ---------- Parcial 2024 interactivo ---------- */
+(function(){const D={"p1": [["Sustancia que se aplica a la madre gestante y acelera el trabajo de parto:", ["epidural", "meconio", "pitocina"], 2, "La pitocina acelera el trabajo de parto."], ["Órgano afectado por la clamidiasis en la mujer:", ["útero", "vagina", "vulva"], 0, "La clamidia infecta el cuello del útero y puede subir a las trompas. (El estudiante puso vagina y estaba mal.)"], ["Hormona que consigue el mayor nivel durante la ovulación:", ["progesterona", "luteinizante", "folículo estimulante"], 1, "Pico de LH (hormona luteinizante)."], ["Si el día 1 del ciclo menstrual de una joven es el 23 de noviembre y el ciclo dura 24 días, ¿cuándo tendrá su ovulación?", ["4 de diciembre", "17 de diciembre", "23 de diciembre"], 0, "La opción del examen es el 4 de diciembre: la profe cuenta el 23 como día 1 (23 + 12 − 1). Sumando directo daría 5 de diciembre, que no aparece."], ["Glándula que sintetiza una sustancia alcalina que neutraliza el entorno de la uretra:", ["próstata", "Cowper", "vesícula seminal"], 1, "Bulbouretral (de Cowper)."], ["Nombre de las células que sintetizan testosterona:", ["Sertoli", "espermátidas", "Leydig"], 2, "Leydig = testosterona."], ["La zona pelúcida está conformada por:", ["células foliculares", "vérnix caseoso", "acrosoma"], 0, "Células foliculares."], ["En la especie humana, el género del bebé es determinado durante:", ["la ovogénesis", "la fecundación", "la gestación"], 1, "Depende del cromosoma X o Y del espermatozoide."], ["El conducto deferente conecta a:", ["próstata con testículos", "testículos con uretra", "epidídimo con testículos"], 1, "Comunica los testículos con la uretra."], ["ITS que se genera por cambios en el pH vaginal:", ["gonorrea", "candidiasis", "sífilis"], 1, "Candidiasis (hongo Candida albicans)."], ["Seleccione el hecho correcto:", ["Los gemelos univitelinos se generan por divisiones sucesivas del cigoto", "Los gemelos bivitelinos comparten la misma información genética", "Es imposible que los gemelos univitelinos generen gemelos univitelinos"], 0, "Univitelinos = un cigoto que se divide."], ["ITS que genera cicatrices en la ámpula, dificultando la fertilidad femenina:", ["herpes", "condiloma", "clamidiasis"], 2, "Clamidiasis. (El estudiante puso herpes y estaba mal.)"], ["Ocurre al iniciar la pubertad:", ["menarquia", "erección", "ciclo menstrual"], 0, "La primera menstruación."], ["Seleccione lo que NO se relaciona con el sistema reproductor femenino:", ["fimbrias", "Skene", "uretra"], 2, "La uretra es del sistema urinario."], ["El clítoris es análogo a:", ["prepucio", "glande", "pene"], 2, "Clítoris y pene son estructuras homólogas."], ["La degeneración del cuerpo lúteo es indicativo de:", ["que no hubo fecundación (se acerca la menstruación)", "un embarazo", "la ovulación"], 0, "Sin fecundación el cuerpo lúteo degenera y baja la progesterona. (Esta pregunta salió cortada en la foto; las opciones están reconstruidas.)"], ["El tiempo promedio de gestación humana es:", ["40 semanas", "9 meses", "35 semanas"], 0, "40 semanas."], ["Un endometrio que genera flujo abundante presentará un volumen de:", ["50 mL", "80 mL", "100 mL"], 1, "Lo normal es de 10 a 80 mL; 80 mL es el máximo, o sea, flujo abundante."], ["Contiene enzimas digestivas que degradan la zona pelúcida:", ["centriolo", "acrosoma", "cabeza"], 1, "Acrosoma (enzimas hidrolíticas)."], ["La circuncisión masculina se encarga de retirar parte del:", ["epidídimo", "escroto", "glande", "prepucio"], 3, "Prepucio."], ["Hormona sexual masculina:", ["Cowper", "luteinizante", "testosterona"], 2, "Testosterona."], ["En el par 23, un cigoto de género masculino será:", ["XX", "XY"], 1, "XY = hombre."], ["ITS asociada al SIDA:", ["herpes", "sífilis", "gonorrea"], 2, "La gonorrea facilita infectarse con el virus que causa el SIDA."]], "p2": [{"q": "Denominación del producto antes de los tres meses de gestación", "items": [{"acc": ["embrion"], "show": "Embrión"}], "ex": "Cigoto → embrión (meses 1–3) → feto. (El estudiante puso cigoto y estaba mal.)"}, {"q": "Los cambios durante el ciclo menstrual se evidencian en:", "any": true, "items": [{"acc": ["temperatura"], "show": "Temperatura"}, {"acc": ["hormona", "hormonal"], "show": "Hormonas"}, {"acc": ["utero", "endometrio"], "show": "Útero (endometrio)"}, {"acc": ["ovario", "ovocito", "foliculo"], "show": "Ovarios"}], "ex": "Los 4 niveles: ovarios, temperatura, hormonas y útero."}, {"q": "En la mujer, se da la producción de testosterona gracias a:", "items": [{"acc": ["ovario", "suprarrenal"], "show": "Los ovarios (y las glándulas suprarrenales)"}], "ex": "En la mujer, la producen en pequeñas cantidades los ovarios y las glándulas suprarrenales."}, {"q": "Se llenan de sangre, permitiendo la erección del pene", "items": [{"acc": ["cuerpo cavernoso", "cuerpos cavernosos", "cavernoso"], "show": "Cuerpos cavernosos"}]}, {"q": "Conducto común de los sistemas urinario y reproductor en los hombres", "items": [{"acc": ["uretra"], "show": "Uretra"}]}, {"q": "La ovogénesis inicia en: a. etapa de vida del producto · b. fase en que se detiene · c. etapa de vida en que se reinicia", "items": [{"acc": ["embrion", "embrionaria"], "show": "a. Embrión"}, {"acc": ["profase"], "show": "b. Profase I"}, {"acc": ["pubertad", "adolescencia"], "show": "c. Pubertad (adolescencia)"}], "ex": "(El estudiante puso 'nacimiento' en la b y estaba mal: es la profase I.)"}, {"q": "Nombre del aborto legalizado en Panamá", "items": [{"acc": ["terapeutico"], "show": "Aborto terapéutico"}]}, {"q": "La espermatogénesis inicia en qué etapa de la vida", "items": [{"acc": ["pubertad", "adolescencia"], "show": "Pubertad (adolescencia)"}]}, {"q": "Es la función del escroto", "items": [{"acc": ["temperatura"], "show": "Cubrir y proteger los testículos y mantenerlos a una temperatura menor (3 a 4 °C más baja que el cuerpo)"}]}, {"q": "Sitio de fecundación en la especie humana", "items": [{"acc": ["ampula", "trompa"], "show": "Ámpula de la trompa de Falopio"}]}, {"q": "Mencione ventajas del proceso del parto vaginal", "any": true, "items": [{"acc": ["recuperacion", "rapida"], "show": "Recuperación más rápida y menos dolorosa"}, {"acc": ["piel", "contacto"], "show": "Contacto piel con piel inmediato con el bebé"}], "ex": "Otras válidas: facilita la lactancia, bacterias buenas del canal vaginal."}, {"q": "Son indicativos (vistos en el video) del inicio del parto vaginal", "any": true, "items": [{"acc": ["fuente", "bolsa", "liquido amniotico"], "show": "Se rompe la fuente"}, {"acc": ["cuello", "cervix", "dilatacion"], "show": "Dilatación del cuello del útero"}, {"acc": ["contraccion"], "show": "Contracciones"}], "ex": "Ojo: se dilata el cuello del útero, no la vagina (el estudiante perdió ese punto)."}, {"q": "Mencione las glándulas accesorias femeninas", "any": true, "items": [{"acc": ["parauretral", "skene"], "show": "Parauretrales (Skene)"}, {"acc": ["mayor", "bartolino"], "show": "Vestibulares mayores (Bartolino)"}, {"acc": ["menor"], "show": "Vestibulares menores"}]}, {"q": "Son razones por las que se indica realizar una cesárea", "any": true, "items": [{"acc": ["posicion", "sentado", "atravesado"], "show": "El bebé no está en la posición correcta"}, {"acc": ["riesgo", "peligro", "sufrimiento"], "show": "Riesgo para la vida de la madre o del bebé"}, {"acc": ["grande", "multiple", "gemel", "placenta", "cesarea previa", "estrecha", "dilata"], "show": "Bebé muy grande, embarazo múltiple, placenta mal ubicada o el cuello no dilata"}], "ex": "(El estudiante puso 'nacimiento prematuro' y no se lo aceptaron.)"}, {"q": "Sinónimo de verrugas genitales", "items": [{"acc": ["condiloma", "condilomas"], "show": "Condilomas"}]}, {"q": "Son factores que promueven la aparición de candidiasis vaginal", "any": true, "items": [{"acc": ["jabon", "perfum", "ph"], "show": "Jabones con perfume (cambian el pH)"}, {"acc": ["protector", "humedad", "humed"], "show": "Humedad (usar protectores todos los días)"}, {"acc": ["ropa", "ajustad"], "show": "Ropa interior ajustada"}, {"acc": ["antibiotico", "azucar", "glucosa", "diabetes"], "show": "Antibióticos o mucha glucosa"}]}, {"q": "Los métodos anticonceptivos se clasifican como", "items": [{"acc": ["hormonal"], "show": "a. Hormonales"}, {"acc": ["reversible"], "show": "b. No hormonales reversibles"}, {"acc": ["permanente"], "show": "c. No hormonales permanentes"}], "ex": "La profe corrigió: 'no hormonales reversibles' y 'no hormonales permanentes'."}, {"q": "Capa de protección que desarrolla el feto, contra el líquido amniótico", "items": [{"acc": ["vernix", "caseoso"], "show": "Vérnix caseoso"}]}, {"q": "Nombre de las primeras heces del bebé", "items": [{"acc": ["meconio"], "show": "Meconio"}]}], "p3": [{"t": "Trivitelino", "model": "Embarazo de trillizos que vienen de tres óvulos distintos, fecundados por tres espermatozoides diferentes (no son idénticos).", "keys": ["tres|3|trilliz", "ovulo|ovocito|cigoto|saco"]}, {"t": "Menarquia", "model": "La primera menstruación de la mujer.", "keys": ["primer", "menstruacion|regla|sangrado"]}, {"t": "Espermátida", "model": "Célula haploide (n) que resulta de la meiosis II; todavía no funciona y por espermiogénesis se convierte en espermatozoide.", "keys": ["haploide|n\\b", "espermatozoide|espermiogenesis|meiosis"]}, {"t": "Vasectomía", "model": "Método anticonceptivo permanente (esterilización) del hombre: una cirugía que corta los conductos deferentes.", "keys": ["anticoncep|esteriliz|cirugia", "permanente|definitiv", "hombre|masculin|deferente"]}, {"t": "ITS", "model": "Infecciones de transmisión sexual: enfermedades que se transmiten por el contacto sexual (causadas por virus, bacterias u hongos).", "keys": ["infeccion", "transmision|transmite|contagi", "sexual"]}]};const box=document.getElementById('ex24');if(!box)return;
+  const N=t=>(t||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
+  const E=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const KEY='repro-ex24';let saved={};try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+  const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(saved))}catch(e){}};
+  let h='<div class="ex24"><h3>I Parte. Selección de respuestas <span class="chip c-ok">40 puntos</span></h3><p class="hint">Elige la respuesta correcta.</p>';
+  D.p1.forEach((q,i)=>{h+=`<div class="p1q" data-i="${i}"><span class="n">${i+1}.</span><div><div>${E(q[0])}</div><div class="opts">${q[1].map((o,k)=>`<label><input type="radio" name="ex24p1-${i}" value="${k}">${'abcd'[k]}. ${E(o)}</label>`).join('')}</div><div class="sol"></div></div></div>`});
+  h+='<h3>II Parte. Complete los espacios <span class="chip c-ok">35 puntos</span></h3><table class="p2"><tbody>';
+  D.p2.forEach((q,i)=>{h+=`<tr data-i="${i}"><td>${E(q.q)}</td><td>${q.items.map((it,k)=>`<input type="text" data-k="${k}" autocomplete="off" spellcheck="false" aria-label="${E(q.q)} ${k+1}" placeholder="${q.items.length>1?'abcd'[k]+'.':''}">`).join('')}<div class="sol"></div></td></tr>`});
+  h+='</tbody></table><h3>III Parte. Definición de términos <span class="chip c-ok">10 puntos</span></h3><div class="p3">';
+  D.p3.forEach((q,i)=>{h+=`<div class="row" data-i="${i}"><b>${E(q.t)}</b><div><textarea aria-label="Definición de ${E(q.t)}"></textarea><div class="sol"></div></div></div>`});
+  box.innerHTML=h+'</div></div>';
+  // restore + save
+  box.querySelectorAll('input[type=radio]').forEach(r=>{if(saved[r.name]===r.value)r.checked=true;r.addEventListener('change',()=>{saved[r.name]=r.value;save();tick()})});
+  box.querySelectorAll('.p2 input,.p3 textarea').forEach((el,j)=>{const k='t'+j;if(saved[k])el.value=saved[k];el.addEventListener('input',()=>{saved[k]=el.value;save();tick()})});
+  // timer (starts on first answer)
+  let t0=saved.t0||null,iv=null;const tm=document.getElementById('ex24-timer');
+  const fmt=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+  function tick(){if(!t0){t0=Date.now();saved.t0=t0;save()}if(!iv)iv=setInterval(()=>{tm.textContent='⏱ '+fmt(Math.floor((Date.now()-t0)/1000))},1000)}
+  if(t0)tick();
+  const hit=(v,acc)=>{const x=N(v);if(!x)return false;return acc.some(a=>{const y=N(a);return x.includes(y)||(typeof fillOk==='function'&&fillOk(v,[a]))})};
+  function grade(showAll){let p1=0,p2=0,p2n=0,p3=0;
+    D.p1.forEach((q,i)=>{const el=box.querySelector(`.p1q[data-i="${i}"]`),pick=el.querySelector('input:checked'),ok=pick&&+pick.value===q[2];if(ok)p1++;
+      el.querySelectorAll('label').forEach((l,k)=>{l.classList.toggle('right',k===q[2]);l.classList.toggle('wrong',!!pick&&k===+pick.value&&!ok)});
+      const sol=el.querySelector('.sol');sol.className='sol on'+(ok?'':' bad');sol.innerHTML=(ok?'✓ ':'✗ Respuesta: <b>'+'abcd'[q[2]]+'. '+E(q[1][q[2]])+'</b>. ')+E(q[3])});
+    D.p2.forEach((q,i)=>{const tr=box.querySelector(`tr[data-i="${i}"]`),ins=[...tr.querySelectorAll('input')];let used=new Set(),good=0;
+      ins.forEach((inp,k)=>{let ok=false;if(q.any){const j=q.items.findIndex((it,jj)=>!used.has(jj)&&hit(inp.value,it.acc));if(j>=0){used.add(j);ok=true}}else ok=hit(inp.value,q.items[k].acc);
+        inp.classList.remove('ok','bad','half');inp.classList.add(ok?'ok':'bad');if(ok)good++});
+      p2+=good;p2n+=q.items.length;const sol=tr.querySelector('.sol');sol.className='sol on'+(good===q.items.length?'':' bad');
+      sol.innerHTML=(good===q.items.length?'✓ ':'✗ ')+'Respuesta: <b>'+q.items.map(it=>E(it.show)).join(' · ')+'</b>'+(q.ex?'. '+E(q.ex):'')});
+    D.p3.forEach((q,i)=>{const row=box.querySelector(`.p3 .row[data-i="${i}"]`),ta=row.querySelector('textarea'),x=N(ta.value);
+      const k=q.keys.filter(r=>new RegExp(r).test(x)).length,sc=!x?0:k===q.keys.length?2:k>=Math.ceil(q.keys.length/2)?1:0;p3+=sc;
+      ta.classList.remove('ok','bad','half');ta.classList.add(sc===2?'ok':sc===1?'half':'bad');const sol=row.querySelector('.sol');sol.className='sol on'+(sc===2?'':' bad');
+      sol.innerHTML=(sc===2?'✓ ':sc===1?'½ ':'✗ ')+'Modelo: <b>'+E(q.model)+'</b>'});
+    const P1=40*p1/D.p1.length,P2=35*p2/p2n,P3=p3,T=P1+P2+P3,nota=(1+4*T/85).toFixed(1);
+    const r=document.getElementById('ex24-res');
+    if(showAll){r.innerHTML='<p class="hint">Estas son todas las respuestas correctas. Tu nota cuenta solo lo que escribiste.</p>'}
+    r.innerHTML=(showAll?r.innerHTML:'')+`<div class="big">${T.toFixed(1).replace('.',',')} <small style="font-size:20px">de 85</small></div><p><span class="chip ${nota>=4?'c-ok':nota>=3?'c-extra':'c-hot'}" style="font-size:16px;padding:5px 14px">Nota: ${nota} / 5</span></p><div class="parts"><span>I. ${P1.toFixed(1)} / 40 (${p1} de ${D.p1.length})</span><span>II. ${P2.toFixed(1)} / 35 (${p2} de ${p2n})</span><span>III. ${P3} / 10</span></div><p class="hint">En la III parte la corrección busca las ideas clave; compárala con el modelo.</p>`;
+    if(!showAll&&nota>=4.5&&typeof confetti==='function'){const b=r.getBoundingClientRect();confetti(b.left+b.width/2,b.top,140)}
+    r.scrollIntoView({behavior:'smooth',block:'center'})}
+  document.getElementById('ex24-check').onclick=()=>grade(false);
+  document.getElementById('ex24-show').onclick=()=>grade(true);
+  document.getElementById('ex24-reset').onclick=()=>{if(!confirm('¿Borrar todas tus respuestas del Parcial 2024?'))return;saved={};save();clearInterval(iv);iv=null;t0=null;tm.textContent='⏱ 00:00';
+    box.querySelectorAll('input[type=radio]').forEach(r=>r.checked=false);box.querySelectorAll('.p2 input,.p3 textarea').forEach(el=>{el.value='';el.classList.remove('ok','bad','half')});
+    box.querySelectorAll('.sol').forEach(x=>{x.className='sol';x.innerHTML=''});box.querySelectorAll('label').forEach(l=>l.classList.remove('right','wrong'));document.getElementById('ex24-res').innerHTML=''};
+})();
+</script>
+<script>
+/* ---------- rendimiento: saltos exactos aunque las secciones no estén dibujadas ----------
+   Con content-visibility las secciones fuera de pantalla tienen una altura estimada. Antes de cualquier salto
+   (menú, botones, lupa, #enlace al abrir) se dibuja todo para que el destino sea exacto; al terminar se vuelve a
+   ahorrar y se corrige el desplazamiento para que la sección de destino no se mueva. */
+(function(){
+  const H=document.documentElement,RMo=matchMedia('(prefers-reduced-motion: reduce)').matches;let t,last=null,endFn=null;
+  function off(){clearTimeout(t);if(endFn){removeEventListener('scrollend',endFn);endFn=null}
+    const el=last,b=el?el.getBoundingClientRect().top:0;H.classList.remove('cv-off');
+    if(el){const a=el.getBoundingClientRect().top;if(Math.abs(a-b)>1)scrollBy({top:a-b,behavior:'instant'})}last=null}
+  function on(el){last=el;H.classList.add('cv-off');void H.offsetHeight;clearTimeout(t);t=setTimeout(off,4000);
+    if(endFn)removeEventListener('scrollend',endFn);endFn=()=>{clearTimeout(t);t=setTimeout(off,500)};addEventListener('scrollend',endFn)}
+  const SI=Element.prototype.scrollIntoView;Element.prototype.scrollIntoView=function(o){on(this);return SI.call(this,o)};
+  function go(id,smooth){let el;try{el=document.getElementById(id)}catch(e){}if(!el)return false;el.scrollIntoView({behavior:smooth&&!RMo?'smooth':'auto',block:'start'});return true}
+  document.addEventListener('click',e=>{const a=e.target.closest('a[href^="#"]');if(!a||e.defaultPrevented)return;const h=a.getAttribute('href');if(h.length<2)return;
+    const id=decodeURIComponent(h.slice(1));if(go(id,true)){e.preventDefault();try{history.pushState(null,'','#'+id)}catch(_){}}});
+  addEventListener('load',()=>{if(location.hash.length>1)setTimeout(()=>go(decodeURIComponent(location.hash.slice(1)),false),60)});
 })();
 </script>
 

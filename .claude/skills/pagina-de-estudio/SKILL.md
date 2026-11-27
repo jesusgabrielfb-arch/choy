@@ -48,6 +48,15 @@ Si el usuario manda archivos sin contestar, lee el material igual y deduce lo qu
 - Lo que no esté en el material y agregues porque ayuda (por ejemplo, la criptorquidia), márcalo como **"Dato extra (no está en el PPT)"**.
 - Arma la lista de **temas** del índice y, para cada uno, sus **subtemas**. Los vas a necesitar para `TOPICS` y `SUBT`.
 
+### Exámenes viejos del profe (lo más valioso)
+Si el usuario manda fotos de **exámenes pasados**, pídeselos si no los mandó:
+- **Imita su formato en el simulacro:** partes, puntos, tipo de preguntas y forma de calificar.
+- **Agrega una sección "Así preguntó la profe":** la estructura del examen, el cuadro de preguntas con sus respuestas (practicable con `data-practica`) y las relaciones (por ejemplo, frases ↔ ITS).
+- **Crea un tema `examen` en `TOPICS`** con esas preguntas y un botón "Practicar preguntas del examen".
+- **Úsalos para revisar los métodos:** muéstrale al usuario lo que dice el examen calificado, pero **la decisión final es suya**. En el reproductor el examen contaba el primer día como día 1, y aun así el usuario prefirió sumar la mitad del ciclo directo a la fecha.
+- Marca las respuestas que el estudiante tuvo mal y pon la correcta.
+- **Examen real para hacerlo en la página:** pasa el examen tal cual a datos (`plantilla/examen-ejemplo-datos.json` es el Parcial #3 2024 del reproductor). Usa `plantilla/examen-interactivo.js` y `.css` con la sección `<section id="parcial-2024">` de la página de referencia. Tiene selección, completar (acepta sinónimos y respuestas en cualquier orden con `any:true`) y definiciones, más cronómetro, guardado, "Corregir" con nota del 1 al 5 y "Ver todas las respuestas".
+
 ## Paso 2 — Construir la página (copiando la referencia)
 
 Trabaja en el scratchpad: copia `fuente/sistema-reproductor.html` a `<scratchpad>/<tema>/<tema>.html` y guarda un backup antes de cada cambio grande (`backup_pre_X.html`). Haz los cambios con scripts de Python que reemplazan texto y comprueban que el original aparece exactamente una vez (`assert s.count(a)==1`). Así nunca rompes algo sin darte cuenta.
@@ -79,7 +88,7 @@ Orden recomendado (detalle en `referencia.md`):
 - **Tipos:** `mc` (selección múltiple, la correcta va **primero** en el arreglo), `tf`, `fill` (llenar espacios con `___`; respuestas como lista de alternativas; `{any:true}` si el orden de los espacios no importa), `match` (pareo; **las respuestas de la derecha deben ser todas distintas**), `order` y `open` (desarrollo, con palabras clave `"a|b"`).
 - **Preguntas con imagen:** `["mc",tema,"¿Qué parte está marcada…?",[correcta,…],explicación,{img:"<id del dibujo>",p:"<parte>"}]`. `picHTML` clona el dibujo, quita los nombres y pone un círculo que late sobre la parte. Agrega las coordenadas de esa parte en el mapa de anclas.
 - **Cantidad:** apunta a **40 o más por tema**, con todos los tipos: unas 8 de llenar espacios, 2 o 3 pareos, 2 órdenes y 2 de desarrollo por tema. Cubre **todos** los subtemas (al usuario le molestó que salieran pocas de glándulas anexas).
-- **`SUBT`:** expresiones regulares por subtema para cada tema, de la más específica a la más general. `balanced()` reparte tipos y subtemas al armar cada ronda. Revisa con `pruebas/fbal.js` que casi nada caiga en "otro".
+- **`SUBT`:** expresiones regulares por subtema para cada tema, de la más específica a la más general. `balanced()` reparte tipos y subtemas al armar cada ronda. Revisa con `pruebas/fbal.cjs` que casi nada caiga en "otro".
 - Ronda por defecto: **25 preguntas**.
 
 ## Paso 3 — Mascotas en Blender
@@ -100,7 +109,7 @@ Si las mascotas son nuevas, usa `scripts/blender/build.py` como base (modela con
   - los lentes oscuros se veían grises: usa `Specular IOR Level=0`, `coat=0`, `alpha=1` y un brillo diagonal emisivo;
   - el personaje desaparecía al terminar una animación: arréglalo con `spriteOnce` y `jump-none`;
   - lentes redondos rechazados: el usuario prefirió tipo wayfarer.
-- Haz también el **ícono** para la pantalla de inicio: un SVG con algo que tenga sentido para el tema (en el reproductor, un ovocito con espermatozoides llegando). Renderízalo a 512, 192, 180 y 32 px con `pruebas/render_svg.js` y guárdalo en `iconos/`.
+- Haz también el **ícono** para la pantalla de inicio: un SVG con algo que tenga sentido para el tema (en el reproductor, un ovocito con espermatozoides llegando). Renderízalo a 512, 192, 180 y 32 px con `pruebas/render_svg.cjs` y guárdalo en `iconos/`.
 
 ## Paso 4 — Diseño (no debe parecer hecho por IA)
 
@@ -130,12 +139,25 @@ Si las mascotas son nuevas, usa `scripts/blender/build.py` como base (modela con
 - **Nada debe tapar nada:** las etiquetas de los dibujos no se pisan, las líneas guía no cruzan nombres y los marcadores de flecha usan `markerUnits="userSpaceOnUse"`. Revisa siempre con capturas.
 - En celular: sin desplazamiento lateral (`html,body{overflow-x:clip}`); los diagramas anchos van dentro de un contenedor que se desliza, con el aviso "Desliza para verlo completo →".
 
+### Rendimiento (que nada se vea lagueado)
+
+Siempre, en toda página nueva:
+- Pega `plantilla/rendimiento.css` al final del primer `<style>` y `plantilla/rendimiento.js` en un `<script>` al final. Hacen que las secciones fuera de pantalla no se dibujen (`content-visibility`), quitan la textura `feTurbulence` en celular (es lo más caro de pintar) y corrigen los saltos del menú, los botones y la lupa para que caigan exactos.
+- Toda `<img>` lleva `width` y `height` reales (y `loading="lazy"`): si no, al cargar empujan la página y los saltos fallan.
+- Las animaciones solo mueven `transform`/`opacity`; las mascotas y canvas se pausan fuera de pantalla (ya viene en el motor).
+- Mide con `pruebas/perf.js` (computadora y celular con CPU ×4): en celular la mediana de cuadros debe quedar cerca de 16–20 ms. Y con `pruebas/saltos.js <página> id1,id2,…` comprueba que cada salto termine con `top` cerca de 0–100.
+- Ojo: el `package.json` del repo es `"type": "module"`; copia las pruebas al scratchpad como `.cjs` antes de correrlas.
+
+## Paso 4.5 — Imagen real
+
+Junto a cada dibujo y proceso, un botón "📷 Imagen real" con las imágenes del PPT de clase (sácalas del .pptx con `unzip ppt/media`, conviértelas a WebP de máx. 1000 px y pon el pie con las traducciones si están en otro idioma). Las de enfermedades o ejemplos van en una galería dentro de su sección.
+
 ## Paso 5 — Guía PDF
 
 Copia `fuente/guia.html` y adapta el contenido (portada, índice, secciones, repaso y autoevaluación con respuestas). Pega los mismos SVG de la página, pero sin la textura `feTurbulence`, sin el texto "?" y sin animaciones.
 
 ```bash
-node scripts/pdf.js "$PWD/guia.html" "$PWD/guia_tmp.pdf" "Tema · Guía de estudio"
+node scripts/pdf.cjs "$PWD/guia.html" "$PWD/guia_tmp.pdf" "Tema · Guía de estudio"
 python3 scripts/optimizar_pdf.py guia_tmp.pdf guia-de-estudio.pdf
 pdffonts guia-de-estudio.pdf   # NO debe haber "Type 3"
 ```
@@ -150,11 +172,13 @@ Revisa las páginas con `pdftoppm -r 45` y una hoja de contacto.
 
 ## Paso 6 — Pruebas (siempre antes de publicar)
 
+Los scripts de node usan la extensión `.cjs` para que funcionen aunque el proyecto tenga `"type": "module"` en su `package.json`. Si copias uno, conserva esa extensión.
+
 Los scripts de `scripts/pruebas/` se corren con node y reciben la ruta absoluta de la página. Adapta los selectores si cambian los ids.
 
-- `shot.js`: no hay errores de JS y `scrollWidth` es igual al ancho en computadora (1200) y en celular (400).
-- `ptest.js`: el banco es válido (`bad []`) y una ronda completa recorre los 6 tipos sin errores. Si el banco crece, sube el límite del bucle.
-- `dptest.js`: el test Daypo funciona. `simtest.js`: el simulacro tiene 30 líneas de pareo, 2 casos y 3 imágenes. `proct.js`: los procesos animados funcionan. `lupa.js`: el buscador abre, encuentra, lleva al lugar y se cierra con Esc. `fbal.js`: el reparto por tipo y subtema es bueno.
+- `shot.cjs`: no hay errores de JS y `scrollWidth` es igual al ancho en computadora (1200) y en celular (400).
+- `ptest.cjs`: el banco es válido (`bad []`) y una ronda completa recorre los 6 tipos sin errores. Si el banco crece, sube el límite del bucle.
+- `dptest.cjs`: el test Daypo funciona. `simtest.cjs`: el simulacro tiene 30 líneas de pareo, 2 casos y 3 imágenes. `proct.cjs`: los procesos animados funcionan. `lupa.cjs`: el buscador abre, encuentra, lleva al lugar y se cierra con Esc. `fbal.cjs`: el reparto por tipo y subtema es bueno.
 - Mira las capturas de los dibujos nuevos con Read, en computadora y en celular (390 px).
 
 ## Paso 7 — Publicar
@@ -167,7 +191,10 @@ Los scripts de `scripts/pruebas/` se corren con node y reciben la ruta absoluta 
    - Haz commit (con las líneas de atribución que pida el sistema), push a la rama asignada y despliega con `mcp__Vercel__create_deployment` usando `gitSource` (`org`, `repo`, `ref` y `sha` del commit) y `target: "production"`. Espera a que `get_deployment` diga `READY`.
 3. Anota la paleta y los fondos en `paletas-usadas.md` (de la skill).
 4. Guarda también la fuente en `estudio/<tema>/fuente/`, porque el scratchpad se borra.
-5. **Al terminar, pásale SIEMPRE los links al usuario:** página, `#simulacro`, `#test`, guía PDF y artefacto.
+5. **Página de inicio "Mis guías" (automático):** agrega la página nueva con
+   `python3 estudio/inicio/generar.py --agregar estudio/<tema> https://<proyecto>.vercel.app`
+   (detecta solo el título, los temas, las preguntas, las mascotas, la paleta y la guía PDF), haz commit y despliega el proyecto de Vercel **mis-guias-bio** (`rootDirectory` = `estudio/inicio`). Pon en el pie de la página nueva el enlace "← Todas mis guías".
+6. **Al terminar, pásale SIEMPRE los links al usuario:** página, `#simulacro`, `#test`, guía PDF y artefacto.
 
 ## Cosas que el usuario pidió en el reproductor (repítelas sin que las pida)
 
@@ -182,7 +209,7 @@ Los scripts de `scripts/pruebas/` se corren con node y reciben la ruta absoluta 
 - La lupa para buscar términos en toda la página.
 - Todos los cuadros de comparación se pueden practicar (llenar el cuadro con un banco de respuestas).
 - Las explicaciones de los procesos, con imágenes y animaciones que se puedan practicar ahí mismo.
-- Si el tema tiene cálculos, el método **exacto de la clase**. En el reproductor: la ovulación es la fecha del primer día **+** la mitad del ciclo, sin restar 1. Pregúntalo si no está claro.
+- Si el tema tiene cálculos, el método **exacto que diga el usuario**. En el reproductor: ovulación = fecha del primer día **+** la mitad del ciclo (26 de mayo + 17 = 12 de junio). Pregúntalo si no está claro.
 
 ## Usar la skill en otro chat
 
