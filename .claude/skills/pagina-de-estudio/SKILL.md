@@ -139,6 +139,19 @@ Si las mascotas son nuevas, usa `scripts/blender/build.py` como base (modela con
 - **Nada debe tapar nada:** las etiquetas de los dibujos no se pisan, las líneas guía no cruzan nombres y los marcadores de flecha usan `markerUnits="userSpaceOnUse"`. Revisa siempre con capturas.
 - En celular: sin desplazamiento lateral (`html,body{overflow-x:clip}`); los diagramas anchos van dentro de un contenedor que se desliza, con el aviso "Desliza para verlo completo →".
 
+### Rendimiento (que nada se vea lagueado)
+
+Siempre, en toda página nueva:
+- Pega `plantilla/rendimiento.css` al final del primer `<style>` y `plantilla/rendimiento.js` en un `<script>` al final. Hacen que las secciones fuera de pantalla no se dibujen (`content-visibility`), quitan la textura `feTurbulence` en celular (es lo más caro de pintar) y corrigen los saltos del menú, los botones y la lupa para que caigan exactos.
+- Toda `<img>` lleva `width` y `height` reales (y `loading="lazy"`): si no, al cargar empujan la página y los saltos fallan.
+- Las animaciones solo mueven `transform`/`opacity`; las mascotas y canvas se pausan fuera de pantalla (ya viene en el motor).
+- Mide con `pruebas/perf.js` (computadora y celular con CPU ×4): en celular la mediana de cuadros debe quedar cerca de 16–20 ms. Y con `pruebas/saltos.js <página> id1,id2,…` comprueba que cada salto termine con `top` cerca de 0–100.
+- Ojo: el `package.json` del repo es `"type": "module"`; copia las pruebas al scratchpad como `.cjs` antes de correrlas.
+
+## Paso 4.5 — Imagen real
+
+Junto a cada dibujo y proceso, un botón "📷 Imagen real" con las imágenes del PPT de clase (sácalas del .pptx con `unzip ppt/media`, conviértelas a WebP de máx. 1000 px y pon el pie con las traducciones si están en otro idioma). Las de enfermedades o ejemplos van en una galería dentro de su sección.
+
 ## Paso 5 — Guía PDF
 
 Copia `fuente/guia.html` y adapta el contenido (portada, índice, secciones, repaso y autoevaluación con respuestas). Pega los mismos SVG de la página, pero sin la textura `feTurbulence`, sin el texto "?" y sin animaciones.
@@ -178,7 +191,10 @@ Los scripts de `scripts/pruebas/` se corren con node y reciben la ruta absoluta 
    - Haz commit (con las líneas de atribución que pida el sistema), push a la rama asignada y despliega con `mcp__Vercel__create_deployment` usando `gitSource` (`org`, `repo`, `ref` y `sha` del commit) y `target: "production"`. Espera a que `get_deployment` diga `READY`.
 3. Anota la paleta y los fondos en `paletas-usadas.md` (de la skill).
 4. Guarda también la fuente en `estudio/<tema>/fuente/`, porque el scratchpad se borra.
-5. **Al terminar, pásale SIEMPRE los links al usuario:** página, `#simulacro`, `#test`, guía PDF y artefacto.
+5. **Página de inicio "Mis guías" (automático):** agrega la página nueva con
+   `python3 estudio/inicio/generar.py --agregar estudio/<tema> https://<proyecto>.vercel.app`
+   (detecta solo el título, los temas, las preguntas, las mascotas, la paleta y la guía PDF), haz commit y despliega el proyecto de Vercel **mis-guias-bio** (`rootDirectory` = `estudio/inicio`). Pon en el pie de la página nueva el enlace "← Todas mis guías".
+6. **Al terminar, pásale SIEMPRE los links al usuario:** página, `#simulacro`, `#test`, guía PDF y artefacto.
 
 ## Cosas que el usuario pidió en el reproductor (repítelas sin que las pida)
 

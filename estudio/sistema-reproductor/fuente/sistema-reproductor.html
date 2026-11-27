@@ -720,6 +720,11 @@ td .tp-chip{margin:0;width:100%;box-shadow:none;background:transparent;border-co
 .tp-res{margin:8px 0 2px;font-weight:700}
 .tp-res .nota{display:inline-block;padding:3px 12px;border-radius:999px;background:var(--ok-soft);color:var(--ok);margin-left:6px}
 @media print{.tp-bar,.tp-bank,.tp-bank-h,.tp-res{display:none}}
+/* ---------- rendimiento: no dibujar lo que está fuera de pantalla ---------- */
+section.topic{content-visibility:auto;contain-intrinsic-block-size:auto 1800px}
+html.cv-off section.topic{content-visibility:visible}
+/* la textura de papel (feTurbulence) es carísima de pintar en celular */
+@media (hover:none),(max-width:820px){svg [filter$="Tx)"]{filter:none}}
 </style>
 
 <canvas id="confetti" aria-hidden="true"></canvas>
@@ -764,7 +769,7 @@ td .tp-chip{margin:0;width:100%;box-shadow:none;background:transparent;border-co
     <canvas id="swim" aria-hidden="true"></canvas>
     <div class="hero-inner">
       <div>
-        <span class="eyebrow">mi guía de bio ~</span>
+        <a class="eyebrow" href="https://mis-guias-bio.vercel.app" style="text-decoration:none" title="Ver todas mis guías">← mis guías de bio ~</a>
         <h1><span class="w">Sistema</span><br><span class="w"><em>Reproductor</em></span></h1>
         <p class="lede">Tus apuntes y el PPT de clase en un solo lugar (cuando no coinciden, manda el PPT): aparato masculino y femenino, gametos, ciclo menstrual, cálculo de la ovulación, fecundación, gestación y nacimiento, ITS y métodos anticonceptivos. Marca cada tema cuando lo domines y termina con el quiz.</p>
         <div class="cta">
@@ -1873,7 +1878,7 @@ td .tp-chip{margin:0;width:100%;box-shadow:none;background:transparent;border-co
   <div class="dp-list" id="dp-list"></div>
 </section>
 
-<footer><span class="hand">¡tú puedes! ✿</span><br>Guía hecha con tus apuntes. Lo que agregué o aclaré está en los post-its amarillos.</footer>
+<footer><a href="https://mis-guias-bio.vercel.app" style="font-weight:700;color:var(--coral)">← Todas mis guías</a><br><span class="hand">¡tú puedes! ✿</span><br>Guía hecha con tus apuntes. Lo que agregué o aclaré está en los post-its amarillos.</footer>
 </div>
 
 <script>
@@ -4225,5 +4230,24 @@ b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();open()});}
   document.getElementById('ex24-reset').onclick=()=>{if(!confirm('¿Borrar todas tus respuestas del Parcial 2024?'))return;saved={};save();clearInterval(iv);iv=null;t0=null;tm.textContent='⏱ 00:00';
     box.querySelectorAll('input[type=radio]').forEach(r=>r.checked=false);box.querySelectorAll('.p2 input,.p3 textarea').forEach(el=>{el.value='';el.classList.remove('ok','bad','half')});
     box.querySelectorAll('.sol').forEach(x=>{x.className='sol';x.innerHTML=''});box.querySelectorAll('label').forEach(l=>l.classList.remove('right','wrong'));document.getElementById('ex24-res').innerHTML=''};
+})();
+</script>
+<script>
+/* ---------- rendimiento: saltos exactos aunque las secciones no estén dibujadas ----------
+   Con content-visibility las secciones fuera de pantalla tienen una altura estimada. Antes de cualquier salto
+   (menú, botones, lupa, #enlace al abrir) se dibuja todo para que el destino sea exacto; al terminar se vuelve a
+   ahorrar y se corrige el desplazamiento para que la sección de destino no se mueva. */
+(function(){
+  const H=document.documentElement,RMo=matchMedia('(prefers-reduced-motion: reduce)').matches;let t,last=null,endFn=null;
+  function off(){clearTimeout(t);if(endFn){removeEventListener('scrollend',endFn);endFn=null}
+    const el=last,b=el?el.getBoundingClientRect().top:0;H.classList.remove('cv-off');
+    if(el){const a=el.getBoundingClientRect().top;if(Math.abs(a-b)>1)scrollBy({top:a-b,behavior:'instant'})}last=null}
+  function on(el){last=el;H.classList.add('cv-off');void H.offsetHeight;clearTimeout(t);t=setTimeout(off,4000);
+    if(endFn)removeEventListener('scrollend',endFn);endFn=()=>{clearTimeout(t);t=setTimeout(off,500)};addEventListener('scrollend',endFn)}
+  const SI=Element.prototype.scrollIntoView;Element.prototype.scrollIntoView=function(o){on(this);return SI.call(this,o)};
+  function go(id,smooth){let el;try{el=document.getElementById(id)}catch(e){}if(!el)return false;el.scrollIntoView({behavior:smooth&&!RMo?'smooth':'auto',block:'start'});return true}
+  document.addEventListener('click',e=>{const a=e.target.closest('a[href^="#"]');if(!a||e.defaultPrevented)return;const h=a.getAttribute('href');if(h.length<2)return;
+    const id=decodeURIComponent(h.slice(1));if(go(id,true)){e.preventDefault();try{history.pushState(null,'','#'+id)}catch(_){}}});
+  addEventListener('load',()=>{if(location.hash.length>1)setTimeout(()=>go(decodeURIComponent(location.hash.slice(1)),false),60)});
 })();
 </script>
